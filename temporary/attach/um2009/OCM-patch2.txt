@@ -1,0 +1,290 @@
+diff -r 397b59b4697c VERSION
+--- a/VERSION	Wed Jun 17 13:12:31 2009 +0900
++++ b/VERSION	Mon Aug 31 03:55:04 2009 +0900
+@@ -1,4 +1,4 @@
+-3.11.1
++3.11.1+OCM-patch
+ 
+ # The version string is the first line of this file.
+ # It must be in the format described in stdlib/sys.mli
+diff -r 397b59b4697c bytecomp/translcore.ml
+--- a/bytecomp/translcore.ml	Wed Jun 17 13:12:31 2009 +0900
++++ b/bytecomp/translcore.ml	Mon Aug 31 03:55:04 2009 +0900
+@@ -583,6 +583,39 @@
+       raise(Error(e.exp_loc, Free_super_var))
+   | Texp_ident(path, {val_kind = Val_reg | Val_self _}) ->
+       transl_path path
++  | Texp_super_plus ->
++      let ty = 
++	match (Ctype.repr e.exp_type).desc with
++	| Tarrow (_, ty, _, _) -> Ctype.repr ty
++	| _ -> assert false
++      in
++      let ty = Ctype.expand_head e.exp_env ty in
++      let prim = 
++        match ty.desc with
++        | Tlink _ -> assert false
++        | Tvar -> fatal_error "(+)'s type is not instantiated"
++        | Tconstr (p, [], _) when Predef.path_int = p ->
++            (* copied from primitive.ml *)
++            { Primitive.prim_name = "%addint";
++              prim_arity = 2;
++              prim_alloc = true;
++              prim_native_name = "";
++              prim_native_float = false }
++        | Tconstr (p, [], _) when Predef.path_float = p -> 
++            { Primitive.prim_name = "%addfloat";
++              prim_arity = 2;
++              prim_alloc = true;
++              prim_native_name = "";
++              prim_native_float = false }
++        | _ -> 
++            (* This cannot happen since we have already checked the
++               instantiation at Typecore.Weak_variable.check () *)
++	    Format.eprintf "ERROR AT %a (type=%a)@." 
++	      Location.print_error e.exp_loc
++	      Printtyp.type_expr ty;
++	    fatal_error "(+)'s type must be int or float"
++      in
++      transl_primitive prim
+   | Texp_ident _ -> fatal_error "Translcore.transl_exp: bad Texp_ident"
+   | Texp_constant cst ->
+       Lconst(Const_base cst)
+diff -r 397b59b4697c otherlibs/labltk/browser/searchpos.ml
+--- a/otherlibs/labltk/browser/searchpos.ml	Wed Jun 17 13:12:31 2009 +0900
++++ b/otherlibs/labltk/browser/searchpos.ml	Mon Aug 31 03:55:04 2009 +0900
+@@ -733,6 +733,7 @@
+     Texp_ident (path, _) ->
+       add_found_str (`Exp(`Val path, exp.exp_type))
+         ~env:exp.exp_env ~loc:exp.exp_loc
++  | Texp_super_plus -> assert false (* Skipped for excersize *)
+   | Texp_constant v ->
+       add_found_str (`Exp(`Const, exp.exp_type))
+         ~env:exp.exp_env ~loc:exp.exp_loc
+diff -r 397b59b4697c parsing/parser.mly
+--- a/parsing/parser.mly	Wed Jun 17 13:12:31 2009 +0900
++++ b/parsing/parser.mly	Mon Aug 31 03:55:04 2009 +0900
+@@ -45,7 +45,10 @@
+ let reloc_exp x = { x with pexp_loc = symbol_rloc () };;
+ 
+ let mkoperator name pos =
+-  { pexp_desc = Pexp_ident(Lident name); pexp_loc = rhs_loc pos }
++  if name = "+" then
++    { pexp_desc = Pexp_super_plus; pexp_loc = rhs_loc pos }
++  else 
++    { pexp_desc = Pexp_ident(Lident name); pexp_loc = rhs_loc pos }
+ 
+ (*
+   Ghost expressions and patterns:
+diff -r 397b59b4697c parsing/parsetree.mli
+--- a/parsing/parsetree.mli	Wed Jun 17 13:12:31 2009 +0900
++++ b/parsing/parsetree.mli	Mon Aug 31 03:55:04 2009 +0900
+@@ -112,6 +112,7 @@
+   | Pexp_lazy of expression
+   | Pexp_poly of expression * core_type option
+   | Pexp_object of class_structure
++  | Pexp_super_plus
+ 
+ (* Value descriptions *)
+ 
+diff -r 397b59b4697c parsing/printast.ml
+--- a/parsing/printast.ml	Wed Jun 17 13:12:31 2009 +0900
++++ b/parsing/printast.ml	Mon Aug 31 03:55:04 2009 +0900
+@@ -202,6 +202,7 @@
+   let i = i+1 in
+   match x.pexp_desc with
+   | Pexp_ident (li) -> line i ppf "Pexp_ident %a\n" fmt_longident li;
++  | Pexp_super_plus -> line i ppf "Pexp_super_plus\n";
+   | Pexp_constant (c) -> line i ppf "Pexp_constant %a\n" fmt_constant c;
+   | Pexp_let (rf, l, e) ->
+       line i ppf "Pexp_let %a\n" fmt_rec_flag rf;
+diff -r 397b59b4697c tools/depend.ml
+--- a/tools/depend.ml	Wed Jun 17 13:12:31 2009 +0900
++++ b/tools/depend.ml	Mon Aug 31 03:55:04 2009 +0900
+@@ -117,6 +117,7 @@
+ let rec add_expr bv exp =
+   match exp.pexp_desc with
+     Pexp_ident l -> add bv l
++  | Pexp_super_plus -> ()
+   | Pexp_constant _ -> ()
+   | Pexp_let(_, pel, e) -> add_pat_expr_list bv pel; add_expr bv e
+   | Pexp_function (_, opte, pel) ->
+diff -r 397b59b4697c tools/ocamlprof.ml
+--- a/tools/ocamlprof.ml	Wed Jun 17 13:12:31 2009 +0900
++++ b/tools/ocamlprof.ml	Mon Aug 31 03:55:04 2009 +0900
+@@ -171,6 +171,7 @@
+ and rw_exp iflag sexp =
+   match sexp.pexp_desc with
+     Pexp_ident lid -> ()
++  | Pexp_super_plus -> ()
+   | Pexp_constant cst -> ()
+ 
+   | Pexp_let(_, spat_sexp_list, sbody) ->
+diff -r 397b59b4697c typing/ctype.ml
+--- a/typing/ctype.ml	Wed Jun 17 13:12:31 2009 +0900
++++ b/typing/ctype.ml	Mon Aug 31 03:55:04 2009 +0900
+@@ -97,9 +97,11 @@
+ 
+ (**** Type level management ****)
+ 
+-let current_level = ref 0
+-let nongen_level = ref 0
+-let global_level = ref 1
++(* Btype.lowest_level (=0) now has a special meaning as weak variables
++   and therefore the initial level must not be lowest_level. *)
++let current_level = ref 1
++let nongen_level = ref 1 (* init: equal to current_level *)
++let global_level = ref 2 (* init: current_level + 1 *)
+ let saved_level = ref []
+ 
+ let init_def level = current_level := level; nongen_level := level
+@@ -607,7 +609,11 @@
+   let ty = repr ty in
+   if ty.level > level then begin
+     begin match ty.desc with
+-      Tconstr(p, tl, abbrev)  when level < Path.binding_time p ->
++    | Tconstr(p, tl, abbrev)  when level = Btype.lowest_level -> 
++        (* We avoid lower the level of Tconstr type to lowest,
++           since it causes the "escape the scope" error. *)
++        ()
++    | Tconstr(p, tl, abbrev)  when level < Path.binding_time p ->
+         (* Try first to replace an abbreviation by its expansion. *)
+         begin try
+           link_type ty (!forward_try_expand_once env ty);
+diff -r 397b59b4697c typing/typecore.ml
+--- a/typing/typecore.ml	Wed Jun 17 13:12:31 2009 +0900
++++ b/typing/typecore.ml	Mon Aug 31 03:55:04 2009 +0900
+@@ -60,6 +60,7 @@
+   | Not_a_variant_type of Longident.t
+   | Incoherent_label_order
+   | Less_general of string * (type_expr * type_expr) list
++  | Super_plus_illegal_instance of type_expr
+ 
+ exception Error of Location.t * error
+ 
+@@ -90,6 +91,26 @@
+   node
+ ;;
+ 
++module Weak_variable = struct
++  let var_exps = ref []
++  let add var exp = var_exps := (var,exp) :: !var_exps
++  let check () =
++    List.iter (fun (var, e) ->
++      let ty = Ctype.expand_head e.exp_env var in
++      match ty.desc with
++      | Tlink _ -> assert false
++      | Tvar -> 
++	  (* defaulting to int *)
++	  unify e.exp_env ty (instance Predef.type_int)
++      | Tconstr (p, [], _) 
++	  when p = Predef.path_int || p = Predef.path_float -> 
++	  ()
++      | _ -> 
++	  raise (Error (e.exp_loc, 
++		       Super_plus_illegal_instance ty))
++    ) !var_exps;
++    var_exps := []
++end
+ 
+ (* Typing of constants *)
+ 
+@@ -602,6 +623,7 @@
+ let reset_delayed_checks () = delayed_checks := []
+ let add_delayed_check f = delayed_checks := f :: !delayed_checks
+ let force_delayed_checks () =
++  Weak_variable.check();
+   (* checks may change type levels *)
+   let snap = Btype.snapshot () in
+   List.iter (fun f -> f ()) (List.rev !delayed_checks);
+@@ -930,7 +952,39 @@
+ 
+ let rec type_exp env sexp =
+   match sexp.pexp_desc with
+-    Pexp_ident lid ->
++  | Pexp_super_plus ->
++      (* type of super plus is 'a -> 'a -> 'a 
++  	 where 
++  	 - 'a is fresh 
++  	 - 'a cannot be generalized
++      *)
++      let tvar = Btype.newty2 Btype.lowest_level Tvar in
++      let typ = 
++  	(* lowest_level <= !current_level, therefore variables with
++  	   lowest_level cannot be generalized 
++  	   
++  	   But lowest_level is too low. The level of the variable
++  	   should be same or larger than Path.binding_time <int/float>
++	   Otherwise the type system complains about escaping
++  	   int/float from their scopes.
++
++           Therefore, we have to change the meaning of lowest_level a
++           little bit. See ctype.ml, update_level.
++  	*)
++  	  Ctype.newty (Tarrow ("", 
++  			      tvar,
++  			      Ctype.newty (Tarrow("", tvar, tvar, Cok)),
++  			      Cok))
++        in
++        let exp = 
++	  { exp_desc = Texp_super_plus;
++  	    exp_loc = sexp.pexp_loc;
++  	    exp_type = typ;
++  	    exp_env = env }
++	in
++	Weak_variable.add tvar exp; 
++	re exp
++  | Pexp_ident lid ->
+       begin try
+         if !Clflags.annotations then begin
+           try let (path, annot) = Env.lookup_annot lid env in
+@@ -2247,3 +2301,5 @@
+       report_unification_error ppf trace
+         (fun ppf -> fprintf ppf "This %s has type" kind)
+         (fun ppf -> fprintf ppf "which is less general than")
++  | Super_plus_illegal_instance ty ->
++      fprintf ppf "Super (+) cannot be used for type %a" type_expr ty
+diff -r 397b59b4697c typing/typecore.mli
+--- a/typing/typecore.mli	Wed Jun 17 13:12:31 2009 +0900
++++ b/typing/typecore.mli	Mon Aug 31 03:55:04 2009 +0900
+@@ -100,6 +100,7 @@
+   | Not_a_variant_type of Longident.t
+   | Incoherent_label_order
+   | Less_general of string * (type_expr * type_expr) list
++  | Super_plus_illegal_instance of type_expr
+ 
+ exception Error of Location.t * error
+ 
+diff -r 397b59b4697c typing/typedtree.ml
+--- a/typing/typedtree.ml	Wed Jun 17 13:12:31 2009 +0900
++++ b/typing/typedtree.ml	Mon Aug 31 03:55:04 2009 +0900
+@@ -79,6 +79,7 @@
+   | Texp_assertfalse
+   | Texp_lazy of expression
+   | Texp_object of class_structure * class_signature * string list
++  | Texp_super_plus
+ 
+ and meth =
+     Tmeth_name of string
+diff -r 397b59b4697c typing/typedtree.mli
+--- a/typing/typedtree.mli	Wed Jun 17 13:12:31 2009 +0900
++++ b/typing/typedtree.mli	Mon Aug 31 03:55:04 2009 +0900
+@@ -78,6 +78,7 @@
+   | Texp_assertfalse
+   | Texp_lazy of expression
+   | Texp_object of class_structure * class_signature * string list
++  | Texp_super_plus
+ 
+ and meth =
+     Tmeth_name of string
+diff -r 397b59b4697c typing/unused_var.ml
+--- a/typing/unused_var.ml	Wed Jun 17 13:12:31 2009 +0900
++++ b/typing/unused_var.ml	Mon Aug 31 03:55:04 2009 +0900
+@@ -113,6 +113,7 @@
+       begin try (Hashtbl.find tbl id) := true;
+       with Not_found -> ()
+       end;
++  | Pexp_super_plus -> ()
+   | Pexp_ident _ -> ()
+   | Pexp_constant _ -> ()
+   | Pexp_let (recflag, pel, e) ->
