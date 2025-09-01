@@ -1,0 +1,43 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.2&nbsp;直接生成されたオブジェクト</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s01.html" title="3.1&nbsp;クラスとオブジェクト"><link rel="next" href="ch03s03.html" title="3.3&nbsp;自分自身への参照"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.2&nbsp;直接生成されたオブジェクト</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.2&nbsp;直接生成されたオブジェクト"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Immediate objects"></a>3.2&nbsp;直接生成されたオブジェクト</h2></div></div></div>
+    
+    <p>
+      クラスを作らずに、直接的にオブジェクトを生成する方法もあります。
+    </p>
+    <p>
+文法はクラス定義とまったく同じですが、結果はクラスではなくオブジェクトになります。このあとの節で述べることは、この直接生成されたオブジェクトにも適用することができます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let p =
+   object 
+     val mutable x = 0
+     method get_x = x
+     method move d = x &lt;- x + d
+   end;;</code></strong>
+<code class="computeroutput">val p : &lt; get_x : int; move : int -&gt; unit &gt; = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>p#get_x;;</code></strong>
+<code class="computeroutput">- : int = 0</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>p#move 3;;</code></strong>
+<code class="computeroutput">- : unit = ()</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>p#get_x;;</code></strong>
+<code class="computeroutput">- : int = 3</code>
+    </pre>
+    <p>
+      クラスは式中で定義することはできませんが、直接生成されたオブジェクトはどこでも用いることができます。さらに、その環境で定義された変数も参照できます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let minmax x y =
+   if x &lt; y then object method min = x method max = y end
+   else object method min = y method max = x end;;</code></strong>
+<code class="computeroutput">val minmax : 'a -&gt; 'a -&gt; &lt; max : 'a; min : 'a &gt; = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      直接生成されたオブジェクトはクラスと比べると2つの欠点があります。
+      型が略記されないことと、継承できないことです。
+      <a class="xref" href="ch03s03.html" title="3.3&nbsp;自分自身への参照"> 3.3 節「自分自身への参照」</a>や<a class="xref" href="ch03s11.html" title="3.11&nbsp;多相メソッド"> 3.11 節「多相メソッド」</a>で説明するように、この欠点が有用であることもあります。
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.1&nbsp;クラスとオブジェクト&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.3&nbsp;自分自身への参照</td></tr></table></div></body></html>

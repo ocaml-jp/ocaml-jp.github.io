@@ -1,0 +1,187 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>8.4&nbsp;よくあるエラー</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch08.html" title="8.&nbsp;バッチコンパイル（ocamlc）"><link rel="prev" href="ch08s03.html" title="8.3&nbsp;モジュールとファイルシステム"><link rel="next" href="ch09.html" title="9.&nbsp;トップレベルシステム（ocaml）"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">8.4&nbsp;よくあるエラー</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08s03.html">前のページ</a>&nbsp;</td><th width="60%" align="center">8.&nbsp;バッチコンパイル（<span class="command"><strong>ocamlc</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch09.html">次のページ</a></td></tr></table><hr></div><div class="section" title="8.4&nbsp;よくあるエラー"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:ocamlc:Common errors"></a>8.4&nbsp;よくあるエラー</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch08s04.html#d4e10293">8.4.1. Cannot find file <em class="replaceable"><code>filename</code></em></a></span></dt><dt><span class="section"><a href="ch08s04.html#d4e10318">8.4.2. Corrupted compiled interface filename</a></span></dt><dt><span class="section"><a href="ch08s04.html#d4e10325">8.4.3. This expression has type <em class="replaceable"><code>t<sub>1</sub></code></em>, but is used with type <em class="replaceable"><code>t<sub>2</sub></code></em></a></span></dt><dt><span class="section"><a href="ch08s04.html#d4e10352">8.4.4. The type of this expression, <em class="replaceable"><code>t</code></em>, contains type variables that cannot be generalized</a></span></dt><dt><span class="section"><a href="ch08s04.html#d4e10394">8.4.5. Reference to undefined global <em class="replaceable"><code>mod</code></em></a></span></dt><dt><span class="section"><a href="ch08s04.html#d4e10427">8.4.6. The external function <em class="replaceable"><code>f</code></em> is not available</a></span></dt></dl></div>
+      
+      <p>
+        この節ではよく遭遇するエラーメッセージについて説明します。
+        
+      </p>
+      <div class="section" title="8.4.1&nbsp;Cannot find file filename"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10293"></a>8.4.1&nbsp;Cannot find file <em class="replaceable"><code>filename</code></em></h3></div></div></div>
+        
+        <p>
+          ファイルをカレントディレクトリまたは探索パス上のディレクトリから見つけることができませんでした。
+          <em class="replaceable"><code>filename</code></em> はコンパイル済みインタフェースファイル（<code class="filename">.cmi</code> ファイル）ないしはコンパイル済みバイトコードファイル（<code class="filename">.cmo</code> ファイル）のいずれかです。
+          <em class="replaceable"><code>filename</code></em> が <code class="filename"><em class="replaceable"><code>mod</code></em>.cmi</code> の形式の場合、このエラーは、モジュール <em class="replaceable"><code>mod</code></em> 中の識別子を参照するファイルをコンパイルしようとしたものの、そのモジュールのインタフェースがまだコンパイルされていなかったことを意味します。
+          解決策としては、まず、 <code class="filename"><em class="replaceable"><code>mod</code></em>.mli</code> ないしは <code class="filename"><em class="replaceable"><code>mod</code></em>.ml</code> をコンパイルし、コンパイル済みインタフェース <code class="filename"><em class="replaceable"><code>mod</code></em>.cmi</code> を作成してください。
+          
+        </p>
+        <p>
+          <em class="replaceable"><code>filename</code></em> が <code class="filename"><em class="replaceable"><code>mod</code></em>.cmo</code> の形式の場合には、存在しないバイトコードオブジェクトをリンクしようとしていることを意味します。
+          解決策としては、 <code class="filename"><em class="replaceable"><code>mod</code></em>.ml</code> を先にコンパイルしてください。
+          
+        </p>
+        <p>
+          プログラムを構成するファイルが複数のディレクトリにわたる場合は、ファイルを探索するディレクトリを指定していなかったことによりこのエラーが起こることもあります。
+          この場合は、コマンドラインに <code class="option">-I</code> オプションを追加してください。
+          
+        </p>
+      </div>
+      <div class="section" title="8.4.2&nbsp;Corrupted compiled interface filename"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10318"></a>8.4.2&nbsp;Corrupted compiled interface filename</h3></div></div></div>
+        
+        <p>
+          コンパイラが誤った構造のコンパイル済みインタフェースファイル（<code class="filename">.cmi</code> ファイル）を読み込もうとするとこのエラーになります。
+          これは、この <code class="filename">.cmi</code> ファイルを書き込む際に何らかの問題が起こったことを意味します（ディスクが満杯であった、ファイルの作成中にコンパイラが中断された、など）。 <code class="filename">.cmi</code> ファイルがコンパイラにより作成されたあとに修正された場合にもこのエラーが起こることがあります。
+          解決策としては、破損した <code class="filename">.cmi</code> ファイルを破棄してビルドしなおしてください。
+          
+        </p>
+      </div>
+      <div class="section" title="8.4.3&nbsp;This expression has type t1, but is used with type t2"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10325"></a>8.4.3&nbsp;This expression has type <em class="replaceable"><code>t<sub>1</sub></code></em>, but is used with type <em class="replaceable"><code>t<sub>2</sub></code></em></h3></div></div></div>
+        
+        <p>
+          これはプログラム中でもっともよく現れる型エラーです。
+          型 <em class="replaceable"><code>t<sub>1</sub></code></em> はその式（エラーメッセージに表示されている部分）だけを見て推論された型です。
+          型 <em class="replaceable"><code>t<sub>2</sub></code></em> はその式の文脈からその式に期待される型で、この式の値がプログラムの残りの部分でどのように使われるか観察することにより推論されます。
+          ふたつの型 <em class="replaceable"><code>t<sub>1</sub></code></em> と <em class="replaceable"><code>t<sub>2</sub></code></em> に互換性がない場合、上のエラーが起こります。
+          
+        </p>
+        <p>
+          ふたつの型 <em class="replaceable"><code>t<sub>1</sub></code></em> と <em class="replaceable"><code>t<sub>2</sub></code></em> に互換性がない理由を理解するのが困難な場合もあります。
+          例えば、コンパイラが <code class="computeroutput">"expression of type <em class="replaceable"><code>foo</code></em> cannot be used with type <em class="replaceable"><code>foo</code></em>"</code> と報告し、ふたつの <em class="replaceable"><code>foo</code></em> 型にはどう見ても互換性があるように見えることがあります。
+          これは常に正しいとは限りません。
+          ふたつの型構成子は同一の名前かもしれませんが、実際には別の型を表現しているのです。
+          これは型構成子が再定義された場合に起こります。
+          例を示しましょう。
+          
+        </p>
+        <pre class="programlisting">
+type foo = A | B
+let f = function A -&gt; 0 | B -&gt; 1
+type foo = C | D
+f C</pre>
+        <p>
+          これをコンパイルすると <code class="computeroutput">"expression C of type foo cannot be used with type foo"</code> というエラーメッセージを表示します。
+          
+        </p>
+      </div>
+      <div class="section" title="8.4.4&nbsp;The type of this expression, t, contains type variables that cannot be generalized"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10352"></a>8.4.4&nbsp;The type of this expression, <em class="replaceable"><code>t</code></em>, contains type variables that cannot be generalized</h3></div></div></div>
+        
+        <p>
+          型 <em class="replaceable"><code>t</code></em> 中の型変数 <code class="code">'a</code>, <code class="code">'b</code>, <code class="code">'c</code>, ... には一般化された状態と一般化されない状態のふたつの状態があります。
+          一般化された状態は、型 <em class="replaceable"><code>t</code></em> が型変数の任意のインスタンスに対して適合する状態を言い、一般化されない状態は、型 <em class="replaceable"><code>t</code></em> が型変数のただひとつのインスタンスにだけ適合する状態を言います。
+          <code class="code">let</code> 束縛 <code class="code">let <em class="replaceable"><code>name</code></em> = <em class="replaceable"><code>expr</code></em></code> では、型検査器は通常 <em class="replaceable"><code>expr</code></em> の型に応じて、型変数を最大限一般化しようとします。
+          ただし、これを変更可能な多相データ構造と組み合わせると不健全性が発生します（正しく型付けされたプログラムがクラッシュします）。
+          これを避けるために、 <code class="code">let</code> 束縛での一般化は、束縛式 <em class="replaceable"><code>expr</code></em> が「構文上の値」のクラスに属している場合にだけ行なわれます。
+          構文上の値には、定数、識別子、関数、構文上の値のタプルなどが含まれます。
+          それ以外の場合はすべて（例えば、関数適用の場合）には、変更可能な多相データ構造が作成された可能性があるため、この型の反変または非変部分として現れた型変数をすべて無効にします。
+          例えば、構文上の値でない式の型が <span class="type">'a list</span> の場合、この型変数は一般化することができます（<span class="type">list</span> は共変な型構成子です）が、 <span class="type">'a list -&gt; 'a list</span> や <span class="type">'a ref</span> は一般化されません（<span class="type">-&gt;</span> の左側は反変で、 <span class="type">ref</span> は非変です）。
+          
+        </p>
+        <p>
+          一般化されない型変数はそのストラクチャや翻訳単位（<code class="filename">.ml</code> ファイルまは対話式セッション）では何の問題もありせんが、シグネチャやコンパイル済みインタフェース（<code class="filename">.cmi</code> ファイル）内では使用すると矛盾を起こすことがあるため、使用できません。
+          
+        </p>
+        <p>
+          そのため、一般化されない型変数を含むような型を持つ値をストラクチャや翻訳単位内で定義するとコンパイラはエラーを報告します。
+          
+        </p>
+        <p>
+          このエラーを修正する方法はふたつあります。
+          
+        </p>
+        <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+            <p>
+              型制約を追加するか、 <code class="filename">.mli</code> ファイルでその名前に型変数のない単相型を指定する。
+              例えば、
+              
+            </p>
+            <pre class="programlisting">let sort_int_list = Sort.list (&lt;)
+(* 推論された型 'a list -&gt; 'a list は一般化されない *)</pre>
+              
+            <p>
+              の代わりに
+              
+            </p>
+            <pre class="programlisting">let sort_int_list = (Sort.list (&lt;) : int list -&gt; int list);;</pre>
+            <p>
+              と書きます。
+            </p>
+          </li><li class="listitem">
+            <p>
+              実際に多相型である必要がある場合には、その定義している式に追加の引数を追加して関数にします。
+              例えば、
+              
+            </p>
+            <pre class="programlisting">let map_length = List.map Array.length
+(* 推論された型 'a array list -&gt; int list の 'a は一般化されない *)</pre>
+              
+            <p>
+              の代わりに
+              
+            </p>
+            <pre class="programlisting">let map_length lv = List.map Array.length lv</pre>
+            <p>
+              と書きます。
+            </p>
+          </li></ul></div>
+      </div>
+      <div class="section" title="8.4.5&nbsp;Reference to undefined global mod"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10394"></a>8.4.5&nbsp;Reference to undefined global <em class="replaceable"><code>mod</code></em></h3></div></div></div>
+        
+        <p>
+          このエラーはリンク時に与えたファイルの順序が不完全であったり間違っていた場合に発生します。
+          また、コマンドラインで <em class="replaceable"><code>mod</code></em> という翻訳単位の実装（典型的には <code class="filename"><em class="replaceable"><code>mod</code></em>.cmo</code> というファイル、またはそのファイルを格納したライブラリ）を与え忘れた場合にも発生します。
+          解決策としては、不足していた <code class="filename">.ml</code> ファイルや <code class="filename">.cmo</code> ファイルをコマンドラインに追加します。
+          もしくは、モジュール <em class="replaceable"><code>mod</code></em> の実装は与えていたものの、その順番が後でありすぎた場合には、 <em class="replaceable"><code>mod</code></em> を参照するすべてのバイトコードよりも前に <em class="replaceable"><code>mod</code></em> の実装を指定しなければなりません。
+          この場合の解決策は、コマンドライン中の <code class="filename">.ml</code> ファイルと <code class="filename">.cmo</code> ファイルの順番を変更することです。
+          
+        </p>
+        <p>
+          もちろん、モジュールをまたいで相互再帰するような関数があるとこのエラーは常に発生します。
+          すなわち、関数 <code class="code">Mod1.f</code> が <code class="code">Mod2.g</code> を呼び出し、
+          <code class="code">Mod2.g</code> が <code class="code">Mod1.f</code> を呼び出すような場合です。
+          この場合、コマンドラインでどのような順番を試しても、リンク時にエラーが発生します。
+          解決策としては次のようなものがあります。
+          
+        </p>
+        <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+            <p>
+              <code class="code">f</code> と <code class="code">g</code> を同じモジュールに置く。
+              
+            </p>
+          </li><li class="listitem">
+            <p>
+              片方をもう一方の引数として渡す。すなわち、
+              </p><pre class="literallayout">
+mod1.ml:    let f x = ... Mod2.g ...
+mod2.ml:    let g y = ... Mod1.f ...
+</pre><p>
+              とする代わりに、
+              </p><pre class="literallayout">
+mod1.ml:    let f g x = ... g ...
+mod2.ml:    let rec g y = ... Mod1.f g ...
+              </pre><p>
+              と定義し、 <code class="filename">mod1.cmo</code> を <code class="filename">mod2.cmo</code> より前に指定してリンクします。
+            </p>
+          </li><li class="listitem">
+            <p>
+              次のように、一方を保持するリファレンスを使います。
+              </p><pre class="literallayout">
+mod1.ml:    let forward_g =
+                ref((fun x -&gt; failwith "forward_g") : &lt;type&gt;)
+            let f x = ... !forward_g ...
+mod2.ml:    let g y = ... Mod1.f ...
+            let _ = Mod1.forward_g := g
+              </pre><p>
+            </p>
+          </li></ul></div>
+      </div>
+      <div class="section" title="8.4.6&nbsp;The external function f is not available"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10427"></a>8.4.6&nbsp;The external function <em class="replaceable"><code>f</code></em> is not available</h3></div></div></div>
+        
+        <p>
+          この関数は C で書かれた外部関数を呼び出すコードをリンクしようとするときに発生します。
+          <a class="xref" href="ch18.html" title="18.&nbsp;C と Objective Caml のインタフェース"> 18 章「<i>C と Objective Caml のインタフェース</i>」</a> で述べるように、そのようなコードは必要な C の関数 <em class="replaceable"><code>f</code></em> を実装した C ライブラリとリンクしなければなりません。
+          問題の C ライブラリが共有ライブラリ（DLL）でない場合には、コードはカスタムランタイムモードでリンクしなければなりません。
+          解決策としては、必要な C ライブラリをコマンドラインに追加し、必要であれば <code class="option">-custom</code> オプションを追加してください。
+          
+        </p>
+      </div>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08s03.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch08.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch09.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">8.3&nbsp;モジュールとファイルシステム&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;9.&nbsp;トップレベルシステム（<span class="command"><strong>ocaml</strong></span>）</td></tr></table></div></body></html>

@@ -1,0 +1,67 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>1.7&nbsp;数式の記号処理</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch01.html" title="1.&nbsp;The core language"><link rel="prev" href="ch01s06.html" title="1.6&nbsp;例外"><link rel="next" href="ch01s08.html" title="1.8&nbsp;pretty-print と構文解析"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">1.7&nbsp;数式の記号処理 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01s06.html">前のページ</a>&nbsp;</td><th width="60%" align="center">1.&nbsp;The core language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch01s08.html">次のページ</a></td></tr></table><hr></div><div class="section" title="1.7&nbsp;数式の記号処理"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Symbolic processing of expressions"></a>1.7&nbsp;数式の記号処理 </h2></div></div></div>
+    
+    <p>
+      このチュートリアルの最後に、Caml の記号処理の使い方を代表するようなもっと完全な例として、変数を含む算術式の処理を示します。以下のようなバリアント型で処理する式を表します。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type expression =
+     Const of float
+   | Var of string
+   | Sum of expression * expression    (* e1 + e2 *)
+   | Diff of expression * expression   (* e1 - e2 *)
+   | Prod of expression * expression   (* e1 * e2 *)
+   | Quot of expression * expression   (* e1 / e2 *)
+ ;;</code></strong>
+<code class="computeroutput">type expression =
+    Const of float
+  | Var of string
+  | Sum of expression * expression
+  | Diff of expression * expression
+  | Prod of expression * expression
+  | Quot of expression * expression</code>
+    </pre>
+    <p>
+      まず最初に変数と値を対応づける環境を与えて式を評価する関数を定義します。簡単のために、環境は連想リストで表すことにします。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>exception Unbound_variable of string;;</code></strong>
+<code class="computeroutput">exception Unbound_variable of string</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let rec eval env exp =
+   match exp with
+     Const c -&gt; c
+   | Var v -&gt;
+       (try List.assoc v env with Not_found -&gt; raise(Unbound_variable v))
+   | Sum(f, g) -&gt; eval env f +. eval env g
+   | Diff(f, g) -&gt; eval env f -. eval env g
+   | Prod(f, g) -&gt; eval env f *. eval env g
+   | Quot(f, g) -&gt; eval env f /. eval env g;;</code></strong>
+<code class="computeroutput">val eval : (string * float) list -&gt; expression -&gt; float = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>eval [("x", 1.0); ("y", 3.14)] (Prod(Sum(Var "x", Const 2.0), Var "y"));;</code></strong>
+<code class="computeroutput">- : float = 9.42</code>
+    </pre>
+    <p>
+      次に、本当の記号処理として、変数 <code class="code">dv</code> に関する式の微分を定義します。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let rec deriv exp dv =
+   match exp with
+     Const c -&gt; Const 0.0
+   | Var v -&gt; if v = dv then Const 1.0 else Const 0.0
+   | Sum(f, g) -&gt; Sum(deriv f dv, deriv g dv)
+   | Diff(f, g) -&gt; Diff(deriv f dv, deriv g dv)
+   | Prod(f, g) -&gt; Sum(Prod(f, deriv g dv), Prod(deriv f dv, g))
+   | Quot(f, g) -&gt; Quot(Diff(Prod(deriv f dv, g), Prod(f, deriv g dv)),
+                        Prod(g, g))
+ ;;</code></strong>
+<code class="computeroutput">val deriv : expression -&gt; string -&gt; expression = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>deriv (Quot(Const 1.0, Var "x")) "x";;</code></strong>
+<code class="computeroutput">- : expression =
+Quot (Diff (Prod (Const 0., Var "x"), Prod (Const 1., Const 1.)),
+ Prod (Var "x", Var "x"))</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch01s06.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch01.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch01s08.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">1.6&nbsp;例外 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;1.8&nbsp;pretty-print と構文解析 </td></tr></table></div></body></html>

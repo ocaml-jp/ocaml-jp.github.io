@@ -1,0 +1,41 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>14.1&nbsp;Invocation</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch14.html" title="14.&nbsp;ブラウザ・エディタ（ocamlbrowser）"><link rel="prev" href="ch14.html" title="14.&nbsp;ブラウザ・エディタ（ocamlbrowser）"><link rel="next" href="ch14s02.html" title="14.2&nbsp;Viewer"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">14.1&nbsp;Invocation</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch14.html">前のページ</a>&nbsp;</td><th width="60%" align="center">14.&nbsp;ブラウザ・エディタ（<span class="command"><strong>ocamlbrowser</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="14.1&nbsp;Invocation"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e11936"></a>14.1&nbsp;Invocation</h2></div></div></div>
+    
+    <p>
+      ブラウザは以下のような <span class="command"><strong>ocamlbrowser</strong></span> コマンドで起動します。
+    </p>
+    <pre class="programlisting">ocamlbrowser options</pre>
+    <p>
+      <span class="command"><strong>ocamlbrowser</strong></span> は以下のコマンドラインオプションを認識します。
+    </p>
+    <div class="variablelist"><dl><dt><span class="term"><code class="option">-I</code> <em class="parameter"><code>directory</code></em></span></dt><dd>
+          <p>
+            ソースファイルやコンパイル済みファイルを検索するディレクトリのリストに与えられたディレクトリを追加します。デフォルトでは、標準ライブラリディレクトリしか検索しません。標準ライブラリのパスも環境変数 <code class="envar">OCAMLLIB</code> を設定することで変更できます。
+          </p>
+        </dd><dt><span class="term"><code class="option">-nolabels</code></span></dt><dd>
+          <p>
+            型の中でオプションではないラベルを無視します。適用にラベルは使用できません。パラメータの順序が絶対になります。
+          </p>
+        </dd><dt><span class="term"><code class="option">-oldui</code></span></dt><dd>
+          <p>
+            旧式のマルチウィンドウインターフェイスです。現在のデフォルトは Smalltalk のクラスブラウザ風です。
+          </p>
+        </dd><dt><span class="term"><code class="option">-rectypes</code></span></dt><dd>
+          <p>
+            型チェックの際、任意の再帰的な型を許します。デフォルトでは、オブジェクト型を経由する再帰による再帰的な型しかサポートされません。
+          </p>
+        </dd><dt><span class="term"><code class="option">-version</code></span></dt><dd>
+          <p>
+            バージョンを出力して終了します。
+          </p>
+        </dd><dt><span class="term"><code class="option">-w</code> <em class="parameter"><code>warning-list</code></em></span></dt><dd>
+          <p>
+            引数 <em class="parameter"><code>warning-list</code></em> を見て警告を有効/無効にします。
+          </p>
+        </dd></dl></div>
+    <p>
+      オプションの大半はアプリケーションの内部でも変更できます。
+      コマンド <span class="guimenu">Modules</span> - <span class="guimenuitem">Path editor</span> や <span class="guimenu">Compiler</span> - <span class="guimenuitem">Preferences</span> を使ってください。これらの設定はトップレベルシェルから継承されます。
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch14.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch14.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">14.&nbsp;ブラウザ・エディタ（<span class="command"><strong>ocamlbrowser</strong></span>）&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;14.2&nbsp;Viewer</td></tr></table></div></body></html>

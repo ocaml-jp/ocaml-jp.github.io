@@ -1,0 +1,274 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>6.1&nbsp;字句</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch06.html" title="6.&nbsp;The Objective Caml language"><link rel="prev" href="ch06.html" title="6.&nbsp;The Objective Caml language"><link rel="next" href="ch06s02.html" title="6.2&nbsp;値"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.1&nbsp;字句 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06.html">前のページ</a>&nbsp;</td><th width="60%" align="center">6.&nbsp;The Objective Caml language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="6.1&nbsp;字句"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e2433"></a>6.1&nbsp;字句 </h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch06s01.html#d4e2435">6.1.1. ブランク </a></span></dt><dt><span class="section"><a href="ch06s01.html#d4e2438">6.1.2. コメント </a></span></dt><dt><span class="section"><a href="ch06s01.html#d4e2443">6.1.3. 識別子 </a></span></dt><dt><span class="section"><a href="ch06s01.html#d4e2473">6.1.4. 整数リテラル </a></span></dt><dt><span class="section"><a href="ch06s01.html#d4e2538">6.1.5. 浮動小数点数リテラル </a></span></dt><dt><span class="section"><a href="ch06s01.html#d4e2571">6.1.6. 文字リテラル </a></span></dt><dt><span class="section"><a href="ch06s01.html#d4e2661">6.1.7. 文字列リテラル </a></span></dt><dt><span class="section"><a href="ch06s01.html#d4e2694">6.1.8. 名前ラベル </a></span></dt><dt><span class="section"><a href="ch06s01.html#d4e2739">6.1.9. 前置演算子と中置演算子 </a></span></dt><dt><span class="section"><a href="ch06s01.html#d4e2803">6.1.10. 予約語 </a></span></dt><dt><span class="section"><a href="ch06s01.html#d4e2811">6.1.11. 曖昧性 </a></span></dt><dt><span class="section"><a href="ch06s01.html#d4e2814">6.1.12. 行番号指示子 </a></span></dt></dl></div>
+  
+  <div class="section" title="6.1.1&nbsp;ブランク"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2435"></a>6.1.1&nbsp;ブランク </h3></div></div></div>
+    
+    <p>
+      空白、改行、水平タブ、キャリッジリターン、ラインフィード、フォームフィードはブランクと見なされます。ブランクは基本的に無視されますが、識別子、リテラル、キーワードを区切るために使われます（間にブランクがないと複数の識別子が 1 つの識別子と見なされてしまいます）。
+    </p>
+  </div>
+  <div class="section" title="6.1.2&nbsp;コメント"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2438"></a>6.1.2&nbsp;コメント </h3></div></div></div>
+    
+    <p>
+      コメントは <code class="code">(*</code> で始まり <code class="code">*)</code> で終わります。
+      (* や *) の間にブランクを挟んではいけません。
+      コメントはブランクとして扱われます。
+      文字列や文字リテラルの中にコメントは入れられません。
+      コメントは入れ子にすることも可能です。
+    </p>
+  </div>
+  <div class="section" title="6.1.3&nbsp;識別子"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2443"></a>6.1.3&nbsp;識別子 </h3></div></div></div>
+    
+    <table id="d4e2445">
+      <tbody>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--ident"></a>ident</span></td>
+          <td>::=</td>
+          <td>( <a class="link" href="ch06s01.html#bnf--letter"><span class="bnf-non-terminal">letter</span></a> | <span class="bnf-terminal">_</span> ) { <a class="link" href="ch06s01.html#bnf--letter"><span class="bnf-non-terminal">letter</span></a> | <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> | <span class="bnf-terminal">_</span> | <span class="bnf-terminal">'</span> }</td>
+        </tr>
+        <tr><td><span class="bnf-non-terminal"><a name="bnf--letter"></a>letter</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">A</span>...<span class="bnf-terminal">Z</span> | <span class="bnf-terminal">a</span>...<span class="bnf-terminal">z</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      識別子は英文字、数字、<code class="code">_</code>（アンダースコア）、 <code class="code">'</code>（シングルクォート）の列です。ただし最初の文字には英文字かアンダースコアしか使えません。英文字は少なくとも ASCII 文字集合の大文字と小文字をあわせた 52 文字が使えます。現在の実装では（MacOS 以外では） ISO 8859-1 （ISO Latin 1）文字集合のアクセント付き文字も英文字として認識します。識別子の文字はすべて意味を持ち、現在の実装では 16000000 文字までの識別子を受け付けます。
+    </p>
+  </div>
+  <div class="section" title="6.1.4&nbsp;整数リテラル"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2473"></a>6.1.4&nbsp;整数リテラル </h3></div></div></div>
+    
+    <table id="d4e2475">
+      <tbody>
+        <tr>
+          <td rowspan="4" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--integer-literal"></a>integer-literal</span></td>
+          <td>::=</td>
+          <td>[<span class="bnf-terminal">-</span>] { <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> }<sup>+</sup></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td>[<span class="bnf-terminal">-</span>] (<span class="bnf-terminal">0x</span> | <span class="bnf-terminal">0X</span>) { <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> | <span class="bnf-terminal">A</span>...<span class="bnf-terminal">F</span> | <span class="bnf-terminal">a</span>...<span class="bnf-terminal">f</span> }<sup>+</sup></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td>[<span class="bnf-terminal">-</span>] (<span class="bnf-terminal">0o</span> | <span class="bnf-terminal">0O</span>) { <span class="bnf-terminal">0</span>...<span class="bnf-terminal">7</span> }<sup>+</sup></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td>[<span class="bnf-terminal">-</span>] (<span class="bnf-terminal">0b</span> | <span class="bnf-terminal">0X</span>) { <span class="bnf-terminal">0</span>...<span class="bnf-terminal">1</span> }<sup>+</sup></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      整数リテラルは 1 つ以上の数字の列です。先頭にマイナス符号をつけることもできます。デフォルトでは整数リテラルは 10 進数ですが、以下の接頭辞を付けることで別の基数を指定することもできます。
+    </p>
+    <table id="d4e2518">
+      <tbody>
+        <tr><th>接頭辞</th><th>基数</th></tr>
+        <tr><td>0x, 0X</td><td>16 進数</td></tr>
+        <tr><td>0o, 0O</td><td>8 進数</td></tr>
+        <tr><td>0b, 0B</td><td>2 進数</td></tr>
+      </tbody>
+    </table>
+    <p>
+      （先頭の <code class="code">0</code> は数字のゼロで、8 進数の <code class="code">O</code> は英文字の <code class="code">O</code> です）整数で表せる範囲を外れた整数リテラルをどのように解釈するかは未定義です。
+    </p>
+    <p>
+      読み易さと便利のために、整数リテラルにはアンダースコア文字（<code class="code">_</code>）を入れることができます（単純に無視されます）。
+    </p>
+  </div>
+  <div class="section" title="6.1.5&nbsp;浮動小数点数リテラル"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2538"></a>6.1.5&nbsp;浮動小数点数リテラル </h3></div></div></div>
+    
+    <table id="d4e2540">
+      <tbody>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--float-literal"></a>float-literal</span></td>
+          <td>::=</td>
+          <td>[ <span class="bnf-terminal">-</span> ] ( <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> ) { <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> | <span class="bnf-terminal">_</span> } [ <span class="bnf-terminal">.</span> { <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> | <span class="bnf-terminal">_</span> } ] [ ( <span class="bnf-terminal">e</span> | <span class="bnf-terminal">E</span> ) [ <span class="bnf-terminal">+</span> | <span class="bnf-terminal">-</span> ] ( <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> ) { <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> | <span class="bnf-terminal">_</span> } ]</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      浮動小数点数は整数部、小数部、指数部の 3 つに分かれます。整数部は 1 つ以上の数字の列でマイナス符号がつけることもできます。小数部は小数点に 0 個以上の数値を続けたものです。指数部はまず文字 <code class="code">e</code> か <code class="code">E</code> があり、その後に省略可能な <code class="code">+</code> か <code class="code">-</code> が続き、最後に数字が 1 つ以上続きます。小数部や指数部は省略可能ですが、整数リテラルと区別がつかないものは許されません。浮動小数点数が表せる範囲を外れた浮動小数点数リテラルをどのように解釈するかは未定義です。
+    </p>
+  </div>
+  <div class="section" title="6.1.6&nbsp;文字リテラル"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2571"></a>6.1.6&nbsp;文字リテラル </h3></div></div></div>
+    
+    <table id="d4e2573">
+      <tbody>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--char-literal"></a>char-literal</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">'</span> <span class="bnf-non-terminal">regular-char</span> <span class="bnf-terminal">'</span></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">'</span> <span class="bnf-non-terminal">escape-sequence</span> <span class="bnf-terminal">'</span></td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--escape-sequence"></a>escape-sequence</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">\</span> ( <span class="bnf-terminal">\</span> | <span class="bnf-terminal">"</span> | <span class="bnf-terminal">'</span> | <span class="bnf-terminal">n</span> | <span class="bnf-terminal">t</span> | <span class="bnf-terminal">b</span> | <span class="bnf-terminal">r</span> )</td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">\</span> ( <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> ) ( <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> ) ( <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> )</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      文字リテラルは <code class="code">'</code>（シングルクォート）文字で区切ります。
+      2 つのシングルクォートで、 <code class="code">'</code> や <code class="code">\</code> 以外の文字、もしくは以下のエスケープシーケンスのいずれかを囲みます。
+    </p>
+    <table id="d4e2616">
+      <tbody>
+        <tr><th>エスケープシーケンス</th><th>表される文字</th></tr>
+        <tr><td><code class="code">\\</code></td><td>バックスラッシュ（\）</td></tr>
+        <tr><td><code class="code">\"</code></td><td>ダブルクォート（"）</td></tr>
+        <tr><td><code class="code">\'</code></td><td>シングルクォート（'）</td></tr>
+        <tr><td><code class="code">\n</code></td><td>ラインフィード（LF）</td></tr>
+        <tr><td><code class="code">\r</code></td><td>キャリッジリターン（CR）</td></tr>
+        <tr><td><code class="code">\t</code></td><td>水平タブ（TAB）</td></tr>
+        <tr><td><code class="code">\b</code></td><td>バックスペース（BS）</td></tr>
+        <tr><td><code class="code">\</code><em class="parameter"><code>ddd</code></em></td><td>ASCII コード <em class="parameter"><code>ddd</code></em>（10 進数）で表される文字</td></tr>
+        <tr><td><code class="code">\x</code><em class="parameter"><code>hh</code></em></td><td>ASCII コード <em class="parameter"><code>hh</code></em>（16 進数）で表される文字</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section" title="6.1.7&nbsp;文字列リテラル"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2661"></a>6.1.7&nbsp;文字列リテラル </h3></div></div></div>
+    
+    <table id="d4e2663">
+      <tbody>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--string-literal"></a>string-literal</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">"</span> { <span class="bnf-non-terminal">string-character</span> } <span class="bnf-terminal">"</span></td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--string-character"></a>string-character</span></td>
+          <td>::=</td>
+          <td><a class="link" href=""><span class="bnf-non-terminal">regular-char</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s01.html#bnf--escape-sequence"><span class="bnf-non-terminal">escape-sequence</span></a></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      文字列リテラルは " （ダブルクォート）で区切られます。
+      2 つのダブルクォートで、 <code class="code">"</code> や <code class="code">\</code> 以外の文字か、上の文字リテラルの条の表のエスケープシーケンスのいずれかを並べたものを囲みます。
+    </p>
+    <p>
+      複数行にまたがるような長い文字列リテラルを書けるよう、文字列リテラル中では <code class="code">\<em class="parameter"><code>newline</code></em> <em class="parameter"><code>blanks</code></em></code> （行末に <code class="code">\</code>、それに続いて次の行頭に任意個のブランク）という並びは無視されます。
+    </p>
+    <p>
+      現在の実装では、実際上文字列リテラルの長さに制限はありません。
+    </p>
+  </div>
+  <div class="section" title="6.1.8&nbsp;名前ラベル"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2694"></a>6.1.8&nbsp;名前ラベル </h3></div></div></div>
+    
+    <p>
+      名前付きラベルは <code class="code">~</code>、<a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a>、<code class="code">:</code> の 3 つのトークン列と文法を定義すると曖昧性が生じるため、字句解析レベルで定義されています。
+    </p>
+    <table id="d4e2701">
+      <tr>
+        <td><span class="bnf-non-terminal"><a name="bnf--label"></a>label</span></td>
+        <td>::=</td>
+        <td><span class="bnf-terminal">~</span> ( <span class="bnf-terminal">a</span>...<span class="bnf-terminal">z</span> ) { <a class="link" href="ch06s01.html#bnf--letter"><span class="bnf-non-terminal">letter</span></a> | <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> | <span class="bnf-terminal">_</span> | <span class="bnf-terminal">'</span> } <span class="bnf-terminal">:</span></td>
+      </tr>
+      <tr>
+        <td><span class="bnf-non-terminal"><a name="bnf--optlabel"></a>optlabel</span></td>
+        <td>::=</td>
+        <td><span class="bnf-terminal">?</span> ( <span class="bnf-terminal">a</span>...<span class="bnf-terminal">z</span> ) { <a class="link" href="ch06s01.html#bnf--letter"><span class="bnf-non-terminal">letter</span></a> | <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> | <span class="bnf-terminal">_</span> | <span class="bnf-terminal">'</span> } <span class="bnf-terminal">:</span></td>
+      </tr>
+    </table>
+    <p>
+      名前付きラベルには、通常の引数用の <a class="link" href="ch06s01.html#bnf--label"><span class="bnf-non-terminal">label</span></a> と、省略可能引数用の <a class="link" href="ch06s01.html#bnf--optlabel"><span class="bnf-non-terminal">optlabel</span></a> の 2 種類があります。これは単純に最初の文字が <code class="code">~</code> であるか <code class="code">?</code> であるかで区別されます。
+    </p>
+  </div>
+  <div class="section" title="6.1.9&nbsp;前置演算子と中置演算子"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2739"></a>6.1.9&nbsp;前置演算子と中置演算子 </h3></div></div></div>
+    
+    <table id="d4e2741">
+      <tbody>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--infix-symbol"></a>infix-symbol</span></td>
+          <td>::=</td>
+          <td>( <span class="bnf-terminal">=</span> | <span class="bnf-terminal">&lt;</span> | <span class="bnf-terminal">&gt;</span> | <span class="bnf-terminal">@</span> | <span class="bnf-terminal">^</span> | <span class="bnf-terminal">|</span> | <span class="bnf-terminal">&amp;</span> | <span class="bnf-terminal">+</span> | <span class="bnf-terminal">-</span> | <span class="bnf-terminal">*</span> | <span class="bnf-terminal">/</span> | <span class="bnf-terminal">$</span> | <span class="bnf-terminal">%</span> ) { <a class="link" href="ch06s01.html#bnf--operator-char"><span class="bnf-non-terminal">operator-char</span></a> }</td>
+        </tr>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--prefix-symbol"></a>prefix-symbol</span></td>
+          <td>::=</td>
+          <td>( <span class="bnf-terminal">!</span> | <span class="bnf-terminal">?</span> | <span class="bnf-terminal">~</span> ) { <a class="link" href="ch06s01.html#bnf--operator-char"><span class="bnf-non-terminal">operator-char</span></a> }</td>
+        </tr>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--operator-char"></a>operator-char</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">!</span> | <span class="bnf-terminal">$</span> | <span class="bnf-terminal">%</span> | <span class="bnf-terminal">&amp;</span> | <span class="bnf-terminal">*</span> | <span class="bnf-terminal">+</span> | <span class="bnf-terminal">-</span> | <span class="bnf-terminal">.</span> | <span class="bnf-terminal">/</span> | <span class="bnf-terminal"></span> | <span class="bnf-terminal">&lt;</span> | <span class="bnf-terminal">=</span> | <span class="bnf-terminal">&gt;</span> | <span class="bnf-terminal">?</span> | <span class="bnf-terminal">@</span> | <span class="bnf-terminal">^</span> | <span class="bnf-terminal">|</span> | <span class="bnf-terminal">~</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <code class="code">&lt;=&gt;</code> や <code class="code">!!</code> のような演算子文字の列は <a class="link" href="ch06s01.html#bnf--infix-symbol"><span class="bnf-non-terminal">infix-symbol</span></a> や <a class="link" href="ch06s01.html#bnf--prefix-symbol"><span class="bnf-non-terminal">prefix-symbol</span></a> クラスの 1 つのトークンとみなされます。これらのシンボルは式中では前置演算子や中置演算子として構文解析されますが、一方で識別子のようにも振る舞います。 
+    </p>
+  </div>
+  <div class="section" title="6.1.10&nbsp;予約語"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2803"></a>6.1.10&nbsp;予約語 </h3></div></div></div>
+    
+    <p>
+      以下の識別子はキーワードとして予約されているため、その他の用途には利用できません。
+    </p>
+    <pre class="literallayout">
+      and         as          assert      asr         begin       class
+      constraint  do          done        downto      else        end
+      exception   external    false       for         fun         function
+      functor     if          in          include     inherit     initializer
+      land        lazy        let         lor         lsl         lsr
+      lxor        match       method      mod         module      mutable
+      new         object      of          open        or          private
+      rec         sig         struct      then        to          true
+      try         type        val         virtual     when        while
+      with        
+    </pre>
+    <p>
+      以下の文字の並びもキーワードです。
+    </p>
+    <pre class="literallayout">
+    !=    #     &amp;     &amp;&amp;    '     (     )     *     +     ,     -
+    -.    -&gt;    .     ..    :     ::    :=    :&gt;    ;     ;;    &lt;
+    &lt;-    =     &gt;     &gt;]    &gt;}    ?     ??    [     [&lt;    [&gt;    [|
+    ]     _     `     {     {&lt;    |     |]    }     ~
+    </pre>
+    <p>
+      また、次の識別子は Camlp4 拡張の予約語であり、互換性の理由から避けるべきであることにも注意してください。
+    </p>
+    <pre class="literallayout">
+    parser    &lt;&lt;    &lt;:    &gt;&gt;    $     $$    $:
+    </pre>
+  </div>
+  <div class="section" title="6.1.11&nbsp;曖昧性"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2811"></a>6.1.11&nbsp;曖昧性 </h3></div></div></div>
+    
+    <p>
+      字句解析の曖昧性は「最長マッチング」規則に従って解決されます。例えばある文字列を 2 つのトークンに分ける方法が複数ある場合、1 つ目のトークンが最長になる分け方が採用されます。
+    </p>
+  </div>
+  <div class="section" title="6.1.12&nbsp;行番号指示子"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2814"></a>6.1.12&nbsp;行番号指示子 </h3></div></div></div>
+    
+    <table id="d4e2816">
+      <tbody>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--linenum-directive"></a>linenum-directive</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">#</span> { <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> }<sup>+</sup></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">#</span> { <span class="bnf-terminal">0</span>...<span class="bnf-terminal">9</span> }<sup>+</sup> <span class="bnf-terminal">"</span> { <a class="link" href="ch06s01.html#bnf--string-character"><span class="bnf-non-terminal">string-character</span></a> } <span class="bnf-terminal">"</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Caml のソースコードのプリプロセッサで出力に行番号指示語を加えるようにすると、エラーメッセージ中の行番号とソースファイル名を前処理前のものにすることが出来ます。行番号指示子は <code class="code">#</code> （シャープ）で始まり、整数（行番号）、それに続く省略可能な文字列（ソースファイル名）で構成されます。行番号指示子は字句解析中ではブランクとして扱われます。
+    </p>
+  </div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">6.&nbsp;The Objective Caml language&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;6.2&nbsp;値 </td></tr></table></div></body></html>

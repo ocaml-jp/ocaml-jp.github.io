@@ -1,0 +1,16 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>11.4&nbsp;Running executables produced by ocamlopt</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch11.html" title="11.&nbsp;ネイティブコードコンパイル（ocamlopt）"><link rel="prev" href="ch11s03.html" title="11.3&nbsp;Common errors"><link rel="next" href="ch11s05.html" title="11.5&nbsp;Compatibility with the bytecode compiler"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">11.4&nbsp;Running executables produced by ocamlopt</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s03.html">前のページ</a>&nbsp;</td><th width="60%" align="center">11.&nbsp;ネイティブコードコンパイル（<span class="command"><strong>ocamlopt</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch11s05.html">次のページ</a></td></tr></table><hr></div><div class="section" title="11.4&nbsp;Running executables produced by ocamlopt"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e11498"></a>11.4&nbsp;Running executables produced by ocamlopt</h2></div></div></div>
+    
+    <p>
+      ocamloptで生成された実行ファイルは、ネイティブで静的リンクされており、直接起動が可能です。ocamlrunのバイトコードの実行システムに依存していません。
+    </p>
+    <p>
+      ocamloptで生成された実行ファイルは、実行時に以下の環境変数を読みます。
+    </p>
+    <div class="variablelist"><dl><dt><span class="term">OCAMLRUNPARAM</span></dt><dd>
+          <p>
+            ocamlrun(10.2参照)と同様の使い方です。ただし、Iが無視される点(OSのスタックサイズが変わりに用いられます)と、bが無視される点(catchされない例外が発生された場合も、スタックとレースが表示されません)が異なります。
+          </p>
+        </dd><dt><span class="term">CAMLRUNPARAM</span></dt><dd><p>OCAMLRUNPARAMが見つからない場合、CAMLRUNPARAMが代わりに使われます。CAMLRUNPARAMも見つからない場合、デフォルト値が用いられます。</p></dd></dl></div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch11s03.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch11.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch11s05.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">11.3&nbsp;Common errors&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;11.5&nbsp;Compatibility with the bytecode compiler</td></tr></table></div></body></html>

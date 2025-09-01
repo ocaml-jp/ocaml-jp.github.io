@@ -1,0 +1,119 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>16.8&nbsp;Controlling the debugger</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch16.html" title="16.&nbsp;デバッガ（ocamldebug）"><link rel="prev" href="ch16s07.html" title="16.7&nbsp;Examining variable values"><link rel="next" href="ch16s09.html" title="16.9&nbsp;Miscellaneous commands"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">16.8&nbsp;Controlling the debugger</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch16s07.html">前のページ</a>&nbsp;</td><th width="60%" align="center">16.&nbsp;デバッガ（<span class="command"><strong>ocamldebug</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch16s09.html">次のページ</a></td></tr></table><hr></div><div class="section" title="16.8&nbsp;Controlling the debugger"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e13035"></a>16.8&nbsp;Controlling the debugger</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch16s08.html#d4e13037">16.8.1. Setting the program name and arguments</a></span></dt><dt><span class="section"><a href="ch16s08.html#d4e13050">16.8.2. How programs are loaded</a></span></dt><dt><span class="section"><a href="ch16s08.html#d4e13066">16.8.3. Search path for files</a></span></dt><dt><span class="section"><a href="ch16s08.html#d4e13079">16.8.4. Working directory</a></span></dt><dt><span class="section"><a href="ch16s08.html#d4e13091">16.8.5. Turning reverse execution on and off</a></span></dt><dt><span class="section"><a href="ch16s08.html#d4e13100">16.8.6. Communication between the debugger and the program</a></span></dt><dt><span class="section"><a href="ch16s08.html#d4e13109">16.8.7. Fine-tuning the debugger</a></span></dt><dt><span class="section"><a href="ch16s08.html#d4e13137">16.8.8. User-defined printers</a></span></dt></dl></div>
+    
+    <div class="section" title="16.8.1&nbsp;Setting the program name and arguments"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13037"></a>16.8.1&nbsp;Setting the program name and arguments</h3></div></div></div>
+      
+      <div class="variablelist"><dl><dt><span class="term"> set program file </span></dt><dd><p> Set the program name to file. </p></dd><dt><span class="term"> set arguments arguments </span></dt><dd><p> Give arguments as command-line arguments for the</p></dd></dl></div>
+      <p>
+        program. 
+      </p>
+      <p>
+        A shell is used to pass the arguments to the debugged program. You can
+        therefore use wildcards, shell variables, and file redirections inside the
+        arguments. To debug programs that read from standard input, it is recommended
+        to redirect their input from a file (using set arguments &lt; input-file),
+        otherwise input to the program and input to the debugger are not properly
+        separated, and inputs are not properly replayed when running the program
+        backwards.
+      </p>
+    </div>
+    <div class="section" title="16.8.2&nbsp;How programs are loaded"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13050"></a>16.8.2&nbsp;How programs are loaded</h3></div></div></div>
+      
+      <p>
+        The loadingmode variable controls how the program is executed.
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> set loadingmode direct </span></dt><dd><p> The program is run directly by the debugger. This is the default mode. </p></dd><dt><span class="term"> set loadingmode runtime </span></dt><dd><p> The debugger execute the Objective Caml runtime ocamlrun on the program. Rarely useful; moreover it prevents the debugging of programs compiled in "custom runtime" mode. </p></dd><dt><span class="term"> set loadingmode manual </span></dt><dd><p> The user starts manually the program, when asked by the debugger. Allows remote debugging (see section 16.8.6). </p></dd></dl></div>
+    </div>
+    <div class="section" title="16.8.3&nbsp;Search path for files"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13066"></a>16.8.3&nbsp;Search path for files</h3></div></div></div>
+      
+      <p>
+        The debugger searches for source files and compiled interface files in a list
+        of directories, the search path. The search path initially contains the current
+        directory . and the standard library directory. The directory command adds
+        directories to the path.
+      </p>
+      <p>
+        Whenever the search path is modified, the debugger will clear any information
+        it may have cached about the files.
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> directory directorynames </span></dt><dd><p> Add the given directories to the search path. These directories are added at the front, and will therefore be searched first.</p></dd><dt><span class="term"> directory </span></dt><dd><p> Reset the search path. This requires confirmation. </p></dd></dl></div>
+    </div>
+    <div class="section" title="16.8.4&nbsp;Working directory"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13079"></a>16.8.4&nbsp;Working directory</h3></div></div></div>
+      
+      <p>
+        Each time a program is started in the debugger, it inherits its working
+        directory from the current working directory of the debugger. This working
+        directory is initially whatever it inherited from its parent process (typically
+        the shell), but you can specify a new working directory in the debugger with
+        the cd command or the -cd command-line option.
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> cd directory </span></dt><dd><p> Set the working directory for camldebug to directory.</p></dd><dt><span class="term"> pwd </span></dt><dd><p> Print the working directory for camldebug. </p></dd></dl></div>
+    </div>
+    <div class="section" title="16.8.5&nbsp;Turning reverse execution on and off"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13091"></a>16.8.5&nbsp;Turning reverse execution on and off</h3></div></div></div>
+      
+      <p>
+        In some cases, you may want to turn reverse execution off. This speeds up the
+        program execution, and is also sometimes useful for interactive programs. 
+      </p>
+      <p>
+        Normally, the debugger takes checkpoints of the program state from time to
+        time. That is, it makes a copy of the current state of the program (using the
+        Unix system call fork). If the variable checkpoints is set to off, the debugger
+        will not take any checkpoints.
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> set checkpoints on/off </span></dt><dd><p> Select whether the debugger makes checkpoints or not. </p></dd></dl></div>
+    </div>
+    <div class="section" title="16.8.6&nbsp;Communication between the debugger and the program"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13100"></a>16.8.6&nbsp;Communication between the debugger and the program</h3></div></div></div>
+      
+      <p>
+        The debugger communicate with the program being debugged through a Unix
+        socket. You may need to change the socket name, for example if you need to run
+        the debugger on a machine and your program on another.
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> set socket socket </span></dt><dd><p> Use socket for communication with the program. socket can be either a file name, or an Internet port specification host:port, where host is a host name or an Internet address in dot notation, and port is a port number on the host. </p></dd></dl></div>
+      <p>
+        On the debugged program side, the socket name is passed through the CAML_DEBUG_SOCKET environment variable.
+      </p>
+    </div>
+    <div class="section" title="16.8.7&nbsp;Fine-tuning the debugger"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13109"></a>16.8.7&nbsp;Fine-tuning the debugger</h3></div></div></div>
+      
+      <p>
+        Several variables enables to fine-tune the debugger. Reasonable defaults are
+        provided, and you should normally not have to change them.
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> set processcount count </span></dt><dd><p> Set the maximum number of checkpoints to count. More checkpoints facilitate going far back in time, but use more memory and create more Unix processes. </p></dd></dl></div>
+      <p>
+        As checkpointing is quite expensive, it must not be done too often. On the
+        other hand, backward execution is faster when checkpoints are taken more often.
+        In particular, backward single-stepping is more responsive when many
+        checkpoints have been taken just before the current time. To fine-tune the
+        checkpointing strategy, the debugger does not take checkpoints at the same
+        frequency for long displacements (e.g. run) and small ones (e.g. step). The two
+        variables bigstep and smallstep contain the number of events between two
+        checkpoints in each case.
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> set bigstep count </span></dt><dd><p> Set the number of events between two checkpoints for long displacements. </p></dd><dt><span class="term"> set smallstep count </span></dt><dd><p> Set the number of events between two checkpoints for small displacements. </p></dd></dl></div>
+      <p>
+        The following commands display information on checkpoints and events:
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> info checkpoints </span></dt><dd><p> Print a list of checkpoints. </p></dd><dt><span class="term"> info events [module] </span></dt><dd><p> Print the list of events in the given module (the current module, by default). </p></dd></dl></div>
+    </div>
+    <div class="section" title="16.8.8&nbsp;User-defined printers"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13137"></a>16.8.8&nbsp;User-defined printers</h3></div></div></div>
+      
+      <p>
+        Just as in the toplevel system (section 9.2), the user can register functions
+        for printing values of certain types. For technical reasons, the debugger
+        cannot call printing functions that reside in the program being debugged. The
+        code for the printing functions must therefore be loaded explicitly in the
+        debugger.
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> load_printer "file-name" </span></dt><dd><p> Load in the debugger the indicated .cmo or .cma object file. The file is loaded in an environment consisting only of the Objective Caml standard library plus the definitions provided by object files previously loaded using load_printer. If this file depends on other object files not yet loaded, the debugger automatically loads them if it is able to find them in the search path. The loaded file does not have direct access to the modules of the program being debugged.</p></dd><dt><span class="term"> install_printer printer-name </span></dt><dd><p> Register the function named printer-name (a value path) as a printer for objects whose types match the argument type of the function. That is, the debugger will call printer-name when it has such an object to print. The printing function printer-name must use the Format library module to produce its output, otherwise its output will not be correctly located in the values printed by the toplevel loop.</p></dd></dl></div>
+      <p>
+        The value path printer-name must refer to one of the functions defined by the
+        object files loaded using load_printer. It cannot reference the functions of
+        the program being debugged.
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> remove_printer printer-name </span></dt><dd><p> Remove the named function from the table of value printers. </p></dd></dl></div>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch16s07.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch16.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch16s09.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">16.7&nbsp;Examining variable values&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;16.9&nbsp;Miscellaneous commands</td></tr></table></div></body></html>

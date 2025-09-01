@@ -1,0 +1,32 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>16.10&nbsp;Running the debugger under Emacs</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch16.html" title="16.&nbsp;デバッガ（ocamldebug）"><link rel="prev" href="ch16s09.html" title="16.9&nbsp;Miscellaneous commands"><link rel="next" href="ch17.html" title="17.&nbsp;プロファイラ（ocamlprof）"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">16.10&nbsp;Running the debugger under Emacs</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch16s09.html">前のページ</a>&nbsp;</td><th width="60%" align="center">16.&nbsp;デバッガ（<span class="command"><strong>ocamldebug</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch17.html">次のページ</a></td></tr></table><hr></div><div class="section" title="16.10&nbsp;Running the debugger under Emacs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e13166"></a>16.10&nbsp;Running the debugger under Emacs</h2></div></div></div>
+    
+    <p>
+      The most user-friendly way to use the debugger is to run it under Emacs. See
+      the file emacs/README in the distribution for information on how to load the
+      Emacs Lisp files for Caml support.
+    </p>
+    <p>
+      The Caml debugger is started under Emacs by the command M-x camldebug, with
+      argument the name of the executable file progname to debug. Communication with
+      the debugger takes place in an Emacs buffer named *camldebug-progname*. The
+      editing and history facilities of Shell mode are available for interacting with
+      the debugger.
+    </p>
+    <p>
+      In addition, Emacs displays the source files containing the current event
+      (the current position in the program execution) and highlights the location of
+      the event. This display is updated synchronously with the debugger action.
+    </p>
+    <p>
+      The following bindings for the most common debugger commands are available in
+      the *camldebug-progname* buffer:
+    </p>
+    <div class="variablelist"><dl><dt><span class="term"> C-c C-s </span></dt><dd><p> (command step): execute the program one step forward. </p></dd><dt><span class="term"> C-c C-k </span></dt><dd><p> (command backstep): execute the program one step backward. </p></dd><dt><span class="term"> C-c C-n </span></dt><dd><p> (command next): execute the program one step forward, skipping over function calls. </p></dd><dt><span class="term"> Middle mouse button </span></dt><dd><p> (command display): display named value. $n under mouse cursor (support incremental browsing of large data structures). </p></dd><dt><span class="term"> C-c C-p </span></dt><dd><p> (command print): print value of identifier at point. </p></dd><dt><span class="term"> C-c C-d </span></dt><dd><p> (command display): display value of identifier at point. </p></dd><dt><span class="term"> C-c C-r </span></dt><dd><p> (command run): execute the program forward to next breakpoint. </p></dd><dt><span class="term"> C-c C-v </span></dt><dd><p> (command reverse): execute the program backward to latest breakpoint.</p></dd><dt><span class="term"> C-c C-l </span></dt><dd><p> (command last): go back one step in the command history. </p></dd><dt><span class="term"> C-c C-t </span></dt><dd><p> (command backtrace): display backtrace of function calls. </p></dd><dt><span class="term"> C-c C-f </span></dt><dd><p> (command finish): run forward till the current function returns. </p></dd><dt><span class="term"> C-c &lt; </span></dt><dd><p> (command up): select the stack frame below the current frame. </p></dd><dt><span class="term"> C-c &gt; </span></dt><dd><p> (command down): select the stack frame above the current frame. </p></dd></dl></div>
+    <p>
+      In all buffers in Caml editing mode, the following debugger commands are also
+      available:
+    </p>
+    <div class="variablelist"><dl><dt><span class="term"> C-x C-a C-b </span></dt><dd><p> (command break): set a breakpoint at event closest to point </p></dd><dt><span class="term"> C-x C-a C-p </span></dt><dd><p> (command print): print value of identifier at point </p></dd><dt><span class="term"> C-x C-a C-d </span></dt><dd><p> (command display): display value of identifier at point</p></dd></dl></div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch16s09.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch16.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch17.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">16.9&nbsp;Miscellaneous commands&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;17.&nbsp;プロファイラ（<span class="command"><strong>ocamlprof</strong></span>）</td></tr></table></div></body></html>

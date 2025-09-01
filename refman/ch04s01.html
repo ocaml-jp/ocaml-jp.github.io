@@ -1,0 +1,297 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>4.1&nbsp;ラベル</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch04.html" title="4.&nbsp;ラベルとバリアント"><link rel="prev" href="ch04.html" title="4.&nbsp;ラベルとバリアント"><link rel="next" href="ch04s02.html" title="4.2&nbsp;多相バリアント"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.1&nbsp;ラベル </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04.html">前のページ</a>&nbsp;</td><th width="60%" align="center">4.&nbsp;ラベルとバリアント </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="4.1&nbsp;ラベル"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Labels"></a>4.1&nbsp;ラベル </h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch04s01.html#sec:Optional argumments">4.1.1. 省略可能引数 </a></span></dt><dt><span class="section"><a href="ch04s01.html#Labels and type inference">4.1.2. ラベルと型推論 </a></span></dt><dt><span class="section"><a href="ch04s01.html#sec:Suggestions for labeling">4.1.3. ラベル付けに関する提案 </a></span></dt></dl></div>
+    
+    <p>
+      標準ライブラリのモジュールで、名前の終わりに <code class="code">Labels</code> がついているモジュールを見ると、自分で定義した関数にはないような注釈が関数の型についていることがわかります。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>ListLabels.map;;</code></strong>
+<code class="computeroutput">- : f:('a -&gt; 'b) -&gt; 'a list -&gt; 'b list = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>StringLabels.sub;;</code></strong>
+<code class="computeroutput">- : string -&gt; pos:int -&gt; len:int -&gt; string = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      このように <code class="code">name:</code> の形をした注釈を<span class="emphasis"><em>ラベル</em></span>と言います。ラベルを使うと、コードがより読みやすくなり、より細かいチェックができるようになり、関数適用がより柔軟になります。プログラム中で引数をチルダ <code class="code">~</code> ではじめると、このような名前を引数につけることができます。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let f ~x ~y = x - y;;</code></strong>
+<code class="computeroutput">val f : x:int -&gt; y:int -&gt; int = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let x = 3 and y = 2 in f ~x ~y;;</code></strong>
+<code class="computeroutput">- : int = 1</code>
+    </pre>
+    <p>
+      型に現れるラベル名と変数名に別の名前を使いたいときは、<code class="code">~name:</code> の形のラベル付けを行ないます。引数が変数でないときも、この形を使います。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let f ~x:x1 ~y:y1 = x1 - y1;;</code></strong>
+<code class="computeroutput">val f : x:int -&gt; y:int -&gt; int = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>f ~x:3 ~y:2;;</code></strong>
+<code class="computeroutput">- : int = 1</code>
+    </pre>
+    <p>
+      ラベルは Caml の他の識別子とおなじ文法規則になり、（<code class="code">in</code> や <code class="code">to</code> のような）予約語はラベルとして使用できません。
+    </p>
+    <p>
+      仮引数と引数はそれぞれのラベルを元に対応を判断され<sup>[<a name="d4e1708" href="#ftn.d4e1708" class="footnote">2</a>]</sup>、足りないラベルは空のラベルとして解釈されます。 これによって関数適用の引数を入れ替えることができます。また、どの引数でも関数に部分適用でき、残っているパラメータで新しい関数を作ります。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let f ~x ~y = x - y;;</code></strong>
+<code class="computeroutput">val f : x:int -&gt; y:int -&gt; int = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>f ~y:2 ~x:3;;</code></strong>
+<code class="computeroutput">- : int = 1</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>ListLabels.fold_left;;</code></strong>
+<code class="computeroutput">- : f:('a -&gt; 'b -&gt; 'a) -&gt; init:'a -&gt; 'b list -&gt; 'a = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>ListLabels.fold_left [1;2;3] ~init:0 ~f:(+);;</code></strong>
+<code class="computeroutput">- : int = 6</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>ListLabels.fold_left ~init:0;;</code></strong>
+<code class="computeroutput">- : f:(int -&gt; 'a -&gt; int) -&gt; 'a list -&gt; int = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      関数の中で複数の実引数が同じラベルを持つとき（またはラベルを持たないとき）、その引数同士の順序を変えることはできず、順序が問題になってきます。ただしそれ以外の引数と入れ替えることはできます。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let hline ~x:x1 ~x:x2 ~y = (x1, x2, y);;</code></strong>
+<code class="computeroutput">val hline : x:'a -&gt; x:'b -&gt; y:'c -&gt; 'a * 'b * 'c = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>hline ~x:3 ~y:2 ~x:5;;</code></strong>
+<code class="computeroutput">- : int * int * int = (3, 5, 2)</code>
+    </pre>
+    <p>
+      上記の対応規則には例外があります。関数適用が全適用であるとき、ラベルは省略可能です。現実的には大抵の関数適用が全適用で、ラベルが省略可能です。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>f 3 2;;</code></strong>
+<code class="computeroutput">- : int = 1</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>ListLabels.map succ [1;2;3];;</code></strong>
+<code class="computeroutput">- : int list = [2; 3; 4]</code>
+    </pre>
+    <p>
+      ここで注意すべきなのは、 <code class="code">ListLabels.fold_left</code> のように結果の型が型変数であるような関数は、全適用とはみなされないということです。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>ListLabels.fold_left (+) 0 [1;2;3];;</code></strong>
+<code class="computeroutput">This expression has type int -&gt; int -&gt; int but is here used with type 'a list</code>
+    </pre>
+    <p>
+関数に高階関数を引数として渡す場合、両者の型のラベルが一致しなければなりません。ラベルを付け足すことも取り外すことも許されません。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let h g = g ~x:3 ~y:2;;</code></strong>
+<code class="computeroutput">val h : (x:int -&gt; y:int -&gt; 'a) -&gt; 'a = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>h f;;</code></strong>
+<code class="computeroutput">- : int = 1</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>h (+);;</code></strong>
+<code class="computeroutput">This expression has type int -&gt; int -&gt; int but is here used with type
+  x:int -&gt; y:int -&gt; 'a</code>
+    </pre>
+    <p>
+      引数が必要ない場合にはワイルドカードパターンを使うことができますが、ラベルをつける必要があることに気をつけてください。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>h (fun ~x:_ ~y -&gt; y+1);;</code></strong>
+<code class="computeroutput">- : int = 3</code>
+    </pre>
+    <div class="section" title="4.1.1&nbsp;省略可能引数"><div class="titlepage"><div><div><h3 class="title"><a name="sec:Optional argumments"></a>4.1.1&nbsp;省略可能引数 </h3></div></div></div>
+      
+      <p>
+        ラベル付けした引数には省略可能にできるという面白い特徴があります。 省略可能引数にするには、省略可能でない引数の <code class="code">~</code> を <code class="code">?</code> と置き換えます。関数型のなかのラベルも <code class="code">?</code> になります。 このような省略可能引数にはデフォルト値を与えることができます。 
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let bump ?(step = 1) x = x + step;;</code></strong>
+<code class="computeroutput">val bump : ?step:int -&gt; int -&gt; int = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>bump 2;;</code></strong>
+<code class="computeroutput">- : int = 3</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>bump ~step:3 2;;</code></strong>
+<code class="computeroutput">- : int = 5</code>
+      </pre>
+      <p>
+        省略可能引数をとる関数は、最低でも 1 つのラベルなし引数をとる必要があります。 これは、省略可能引数より後に現れたラベルなし引数が適用されたかどうかが、省略可能引数が省略されたかどうかの判断基準になっているためです。 
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let test ?(x = 0) ?(y = 0) () ?(z = 0) () = (x, y, z);;</code></strong>
+<code class="computeroutput">val test : ?x:int -&gt; ?y:int -&gt; unit -&gt; ?z:int -&gt; unit -&gt; int * int * int =
+  &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>test ();;</code></strong>
+<code class="computeroutput">- : ?z:int -&gt; unit -&gt; int * int * int = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>test ~x:2 () ~z:3 ();;</code></strong>
+<code class="computeroutput">- : int * int * int = (2, 0, 3)</code>
+      </pre>
+      <p>
+        省略可能引数は省略可能でない引数タやラベルなし引数と入れ替えが可能です（ただしそれらの一斉に適用された場合）。性質上、省略可能引数は、別に適用されるラベル付けされない引数と入れ替えることはできません。 
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>test ~y:2 ~x:3 () ();;</code></strong>
+<code class="computeroutput">- : int * int * int = (3, 2, 0)</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>test () () ~z:1 ~y:2 ~x:3;;</code></strong>
+<code class="computeroutput">- : int * int * int = (3, 2, 1)</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>(test () ()) ~z:1;;</code></strong>
+<code class="computeroutput">This expression is not a function, it cannot be applied</code>
+      </pre>
+      <p>
+        ここでは、 <code class="code">(test () ())</code> はすでに <code class="code">(0,0,0)</code> となっているので、これ以上適用できません。
+      </p>
+      <p>
+        省略可能引数は実際にはオプション型として実装されています。デフォルト値を与えなかった場合には、その内部表現 <code class="code">type 'a option = None | Some of 'a</code> にアクセスすることになります。これを利用すると引数があるかないかによって動作を変えることができます。 
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let bump ?step x =
+   match step with
+   | None -&gt; x * 2
+   | Some y -&gt; x + y
+ ;;</code></strong>
+<code class="computeroutput">val bump : ?step:int -&gt; int -&gt; int = &lt;fun&gt;</code>
+      </pre>
+      <p>
+        またこれは、ある関数呼び出しから別の関数呼び出しへ省略可能引数を中継するのにも使えます。 これを行うには適用される引数を <code class="code">?</code> で始めます。 ここでクエスチョンマークを使うと、省略可能引数がオプション型でラップされなくなります。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let test2 ?x ?y () = test ?x ?y () ();;</code></strong>
+<code class="computeroutput">val test2 : ?x:int -&gt; ?y:int -&gt; unit -&gt; int * int * int = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>test2 ?x:None;;</code></strong>
+<code class="computeroutput">- : ?y:int -&gt; unit -&gt; int * int * int = &lt;fun&gt;</code>
+      </pre>
+    </div>
+    <div class="section" title="4.1.2&nbsp;ラベルと型推論"><div class="titlepage"><div><div><h3 class="title"><a name="Labels and type inference"></a>4.1.2&nbsp;ラベルと型推論 </h3></div></div></div>
+      
+      <p>
+        ラベルや省略可能引数を使うと関数適用の記述力が増しますが、落とし穴もあります。言語の他の部分のように、完全には推論できないのです。
+      </p>
+      <p>
+        以下の 2 つの例をみるとわかります。 
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let h' g = g ~y:2 ~x:3;;</code></strong>
+<code class="computeroutput">val h' : (y:int -&gt; x:int -&gt; 'a) -&gt; 'a = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>h' f;;</code></strong>
+<code class="computeroutput">This expression has type x:int -&gt; y:int -&gt; int but is here used with type
+  y:int -&gt; x:int -&gt; 'a</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let bump_it bump x =
+   bump ~step:2 x;;</code></strong>
+<code class="computeroutput">val bump_it : (step:int -&gt; 'a -&gt; 'b) -&gt; 'a -&gt; 'b = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>bump_it bump 1;;</code></strong>
+<code class="computeroutput">This expression has type ?step:int -&gt; int -&gt; int but is here used with type
+  step:int -&gt; 'a -&gt; 'b</code>
+      </pre>
+      <p>
+        最初の事例は単純です。 <code class="code">g</code> は <code class="code">~y</code> を受け取って次に <code class="code">~x</code> を受け取りますが、 <code class="code">f</code> は <code class="code">~x</code> を受け取って次に <code class="code">~y</code> を受け取ります。 <code class="code">g</code> の型が <code class="code">x:int -&gt; y:int -&gt; int</code> の順だとすればこれは正しく処理できますが、そうでなければ上記のような型エラーとなります。引数を同じ順で適用すればとりあえず回避できます。
+      </p>
+      <p>
+        二つ目の事例はもっと微妙です。引数 <code class="code">bump</code> の型は <code class="code">?step:int -&gt; int -&gt; int</code> のつもりでしたが、 <code class="code">step:int -&gt; int -&gt; 'a</code> と推論されてしまいました。この 2 つの型は互換性がなく（内部的に普通の引数とオプション引数は異なります）、 <code class="code">bump_it</code> に <code class="code">bump</code> の実体を適用すると型エラーが発生します。
+      </p>
+      <p>
+        ここでは型推論がどのように動作するかを詳しくは説明しません。上記のプログラムで <code class="code">g</code> や <code class="code">bump</code> の型を正しく導出するには情報が足りなさすぎるということだけ理解してください。つまり関数がどのように適用されているかを見るだけでは、引数が省略可能かどうかや、どちらが正しい引数の順序であるかを知る方法はないということです。コンパイラは、省略可能引数はないもの、関数適用は正しい順番で行われるもの、と仮定した戦略を採用しています。
+      </p>
+      <p>
+        省略可能引数の問題は、引数 <code class="code">bump</code> に型注釈をつければちゃんと解決できます。 
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let bump_it (bump : ?step:int -&gt; int -&gt; int) x =
+   bump ~step:2 x;;</code></strong>
+<code class="computeroutput">val bump_it : (?step:int -&gt; int -&gt; int) -&gt; int -&gt; int = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>bump_it bump 1;;</code></strong>
+<code class="computeroutput">- : int = 3</code>
+      </pre>
+      <p>
+        実際にこのような問題が発生するのは、省略可能引数を取るようなメソッドのあるオブジェクトを使うときです。このためには、オブジェクト引数の型を書くようにするとよいでしょう。
+      </p>
+      <p>
+        関数の引数に、期待される型と異なる型のパラメータを渡そうとするとコンパイラは普通エラーを出しますが、予想される型がラベルなしの関数型で、引数が省略可能引数を受け取る関数であるという特定の場合に限り、コンパイラはその関数の省略可能引数すべてに <code class="code">None</code> を渡して、予想される型に適合する型に変形しようとします。 
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let twice f (x : int) = f(f x);;</code></strong>
+<code class="computeroutput">val twice : (int -&gt; int) -&gt; int -&gt; int = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>twice bump 2;;</code></strong>
+<code class="computeroutput">- : int = 8</code>
+      </pre>
+      <p>
+        この変形は副作用を含む意味論と整合性があります。つまり省略可能引数の適用で副作用が発生する場合、その関数が実際に引数に適用されるまで、副作用は遅延されます。
+      </p>
+    </div>
+    <div class="section" title="4.1.3&nbsp;ラベル付けに関する提案"><div class="titlepage"><div><div><h3 class="title"><a name="sec:Suggestions for labeling"></a>4.1.3&nbsp;ラベル付けに関する提案 </h3></div></div></div>
+      
+      <p>
+        他の名前にも言えることですが、関数のラベルを選ぶのは簡単なことではありません。よいラベル付けは次のようなものです。 
+      </p>
+      <div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">プログラムの可読性を上げる</li><li class="listitem">覚えやすい</li><li class="listitem">できる限り部分適用を行えるようにする</li></ol></div>
+      <p>
+        ここでは私たちが Objective Caml ライブラリにラベルを付ける際に使った規則を説明します。
+      </p>
+      <p>
+        「オブジェクト指向」の観点から言うと、関数にはそれぞれ、主となる引数（<span class="emphasis"><em>オブジェクト</em></span>）と、その動作に関する引数（<span class="emphasis"><em>パラメータ</em></span>）があると考えられます。ラベル順入れ替え可能モードで高階関数を通して関数の組み合わせをできるようにするため、オブジェクトにはラベルを付けません。オブジェクトの役割は関数自身からはっきりしています。パラメータはラベルを付けて、その本質や役割をわかるようにします。意味の本質と役割が一体化するようなラベルを付けることが理想です。それが不可能なときは役割を重視します。というのは、本質は型で表されていることが多いからです。不明瞭な略語は避けるべきです。 
+      </p>
+      <pre class="programlisting">
+ListLabels.map : f:('a -&gt; 'b) -&gt; 'a list -&gt; 'b list
+UnixLabels.write : file_descr -&gt; buf:string -&gt; pos:int -&gt; len:int -&gt; unit
+      </pre>
+      <p>
+        本質や役割が同じオブジェクトが複数個ある場合は、すべてラベル付けせずに残します。 
+      </p>
+      <pre class="programlisting">
+ListLabels.iter2 : f:('a -&gt; 'b -&gt; 'c) -&gt; 'a list -&gt; 'b list -&gt; unit
+      </pre>
+      <p>
+        オブジェクトとしてふさわしいものがない場合は、引数すべてにラベルを付けます。 
+      </p>
+      <pre class="programlisting">
+StringLabels.blit :
+  src:string -&gt; src_pos:int -&gt; dst:string -&gt; dst_pos:int -&gt; len:int -&gt; unit
+      </pre>
+      <p>
+        ただし、引数が 1 つしかない場合はラベル付けせずに残します。 
+      </p>
+      <pre class="programlisting">
+        StringLabels.create : int -&gt; string
+      </pre>
+      <p>
+        引数それぞれの役割がはっきりしている場合に限り、返す型が型変数であり、複数の引数をとる関数にも、この方針を適用します。 このような関数にラベル付けを行うと、ラベルを省略して適用しようとしたときに、 <code class="code">ListLabels.fold_left</code> で見たような、わけのわからないエラーメッセージが出ることがあります。
+      </p>
+      <p>
+        ライブラリで使っているラベル名一覧です。
+      </p>
+      <table id="d4e1897">
+        <thead>
+          <tr><th>ラベル</th><th>意味</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>f:</th><td>適用する関数</td></tr>
+          <tr><th>pos:</th><td>文字列や配列の位置</td></tr>
+          <tr><th>len:</th><td>長さ</td></tr>
+          <tr><th>buf:</th><td>バッファとして使う文字列</td></tr>
+          <tr><th>src:</th><td>処理を行う元</td></tr>
+          <tr><th>dst:</th><td>処理が行われる先</td></tr>
+          <tr><th>init:</th><td>イテレータの初期値</td></tr>
+          <tr><th>cmp:</th><td>比較関数 e.g. Pervasives.compare</td></tr>
+          <tr><th>mode:</th><td>処理モード、フラグのリスト</td></tr>
+        </tbody>
+      </table>
+      <p>
+        これらはあくまで提案ですが、ラベルの選択は可読性を大きく左右するということを心にとめておいてください。突飛なラベル付けを行うと、プログラムの保守が困難になります。
+      </p>
+      <p>
+        理想的には、きちんとした名前の関数にきちんとラベル付けをすると、それだけで関数の意味を理解するには十分になります。この情報は OCamlBrowser やトップレベルの <code class="code">ocaml</code> でわかるので、より詳細な仕様が知りたいときだけドキュメントを調べればいいということになります。
+      </p>
+    </div>
+  <div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.d4e1708" href="#d4e1708" class="para">2</a>] </sup>これは Objective Caml 3.00 から 3.02 の commuting label mode に、全適用（total application）に関する柔軟性を加えたものに対応します。いわゆる classic mode（<code class="option">-nolabels</code> オプション）は一般的な用途では推奨されません。</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch04.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">4.&nbsp;ラベルとバリアント &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;4.2&nbsp;多相バリアント </td></tr></table></div></body></html>

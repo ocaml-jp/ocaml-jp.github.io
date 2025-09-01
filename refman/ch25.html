@@ -1,0 +1,75 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>25.&nbsp;graphics ライブラリ</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="pt04.html" title="パート&nbsp;IV.&nbsp;The Objective Caml library"><link rel="prev" href="ch24.html" title="24.&nbsp;threads ライブラリ"><link rel="next" href="ch26.html" title="26.&nbsp;dbm ライブラリ: NDBM データベースへのアクセス"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">25.&nbsp;<code class="code">graphics</code> ライブラリ</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch24.html">前のページ</a>&nbsp;</td><th width="60%" align="center">パート&nbsp;IV.&nbsp;The Objective Caml library</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch26.html">次のページ</a></td></tr></table><hr></div><div class="chapter" title="25.&nbsp;graphics ライブラリ"><div class="titlepage"><div><div><h2 class="title"><a name="d4e14416"></a>25.&nbsp;<code class="code">graphics</code> ライブラリ</h2></div></div></div>
+  
+  <p>
+    <code class="code">graphics</code> ライブラリはポータブルな描画プリミティブを提供します。 <code class="code">Graphics.open_graph</code> を呼び出すと別ウィンドウを作成し、描画はそのウィンドウ内で行われます。
+    
+  </p>
+  <div class="note" title="Unix" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Unix"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Unix</th></tr><tr><td align="left" valign="top">
+    
+    <p>
+      このライブラリは X11 ウィンドウシステム下で実装されています。
+      <code class="code">graphics</code> ライブラリを使用するプログラムは以下のようにリンクして下さい。
+      
+    </p>
+    <pre class="screen">
+ocamlc <em class="replaceable"><code>other options</code></em> graphics.cma <em class="replaceable"><code>other files</code></em>
+    </pre>
+    <p>
+      <code class="code">graphics</code> ライブラリを対話式システムで使うには以下のようにしてください。
+      
+    </p>
+    <pre class="programlisting">
+ocamlmktop -o mytop graphics.cma
+./mytop
+    </pre>
+    <p>
+      または、（C ライブラリの動的リンクがサポートされているプラットフォームでは）
+      <span class="command"><strong>ocaml</strong></span> を実行して <strong class="userinput"><code>#load "graphics.cma";;</code></strong> とすることもできます。
+    </p>
+    <p>
+      このライブラリの X11 実装で <code class="code">Graphics.open_graph</code> がサポートするグラフィックモード指定方法は、<code class="code">"<em class="replaceable"><code>display-name</code></em> <em class="replaceable"><code>geometry</code></em>"</code> という形式です。 <em class="replaceable"><code>display-name</code></em> は接続する X Window ディスプレイの名前で、<em class="replaceable"><code>geometry</code></em> は X Window 標準のジオメトリ指定です。この 2 つを 1 つのスペースを挟んで連結します。これらの両方または一方を省略することができます。以下に例を示します。
+      
+    </p>
+    <pre class="programlisting">Graphics.open_graph "foo:0"</pre> 
+    <p>
+      ディスプレイ <code class="code">foo:0</code> に接続して、デフォルトジオメトリのウィンドウを作成します。
+      
+    </p>
+    <pre class="programlisting">Graphics.open_graph "foo:0 300x100+50-0"</pre>
+    <p>
+      ディスプレイ <code class="code">foo:0</code> に接続して、横 300 ピクセル、縦 100 ピクセルのウィンドウを (50, 0) の位置に作成します。
+      
+    </p>
+    <pre class="programlisting">Graphics.open_graph " 300x100+50-0"</pre>
+    <p>
+      デフォルトディスプレイに接続して、横 300 ピクセル、縦 100 ピクセルのウィンドウを (50, 0) の位置に作成します。
+      
+    </p>
+    <pre class="programlisting">Graphics.open_graph ""</pre>
+    <p>
+      デフォルトディスプレイに接続して、デフォルトジオメトリのウィンドウを作成します。
+      
+    </p>
+  </td></tr></table></div>
+  <div class="note" title="Windows" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Windows"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Windows</th></tr><tr><td align="left" valign="top">
+    
+    <p>
+      このライブラリはコンパイル済みスタンドアロンプログラムでもトップレベルアプリケーション <span class="command"><strong>ocamlwin.exe</strong></span> でも使用可能です。後者の場合、以下のようにしてロードして下さい。
+      
+    </p>
+    <pre class="programlisting">#load "graphics.cma";;</pre>
+  </td></tr></table></div>
+  <p>
+    画面座標は以下の図のように解釈されます。
+    数学における座標系と同じであることに注意して下さい。
+    y は画面下から画面上に向かって大きくなります。
+    角度の単位は度で、反時計回りに計ります。
+    描画は画面に対してクリッピングされます。
+    
+  </p>
+  <div class="mediaobject" align="center"><img src="images/libgraph.gif" align="middle"></div>
+  <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><a href="./libref/Graphics.html" class="libref">Graphics</a> モジュール: machine-independent graphics primitives
+    </li></ul></div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch24.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt04.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch26.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">24.&nbsp;<code class="code">threads</code> ライブラリ&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;26.&nbsp;<code class="code">dbm</code> ライブラリ: NDBM データベースへのアクセス</td></tr></table></div></body></html>

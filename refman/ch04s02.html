@@ -1,0 +1,223 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>4.2&nbsp;多相バリアント</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch04.html" title="4.&nbsp;ラベルとバリアント"><link rel="prev" href="ch04s01.html" title="4.1&nbsp;ラベル"><link rel="next" href="ch05.html" title="5.&nbsp;クラスとモジュールの高度な例"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">4.2&nbsp;多相バリアント </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch04s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">4.&nbsp;ラベルとバリアント </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch05.html">次のページ</a></td></tr></table><hr></div><div class="section" title="4.2&nbsp;多相バリアント"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Polymorphic variants"></a>4.2&nbsp;多相バリアント </h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch04s02.html#d4e2074">4.2.1. 
+        多相バリアントの弱点
+  
+      </a></span></dt></dl></div>
+    
+    <p>
+      <a class="xref" href="ch01s04.html" title="1.4&nbsp;レコードとバリアント"> 1.4 節「レコードとバリアント 」</a>で紹介したバリアントは、データ構造やアルゴリズムを組み立てるときにとても便利です。しかしモジュール化プログラミングで使っていると、時として柔軟性に欠けることがあります。これは、コンストラクタが個々に名前を予約して、個別の型に対応させることに起因します。異なる型に同じ名前を使うことはできません。ある型の値が、複数の構成子のある別の型に属すということを考えてみてください。
+    </p>
+    <p>
+      多相バリアントを使えば、この根本的な前提を取り除きます。つまり、バリアントタグは特にどの型にも属しません。型システムはバリアントタグの使われ方から、そのバリアントタグが許される値かどうかを判断するだけです。バリアントタグは使用する前に型を宣言する必要がありません。バリアント型はその使われ方それぞれから独立に推論されます。
+    </p>
+    <div class="simplesect" title="基本的な使い方"><div class="titlepage"><div><div><h3 class="title"><a name="d4e1938"></a>基本的な使い方 </h3></div></div></div>
+      
+      <p>
+        プログラム中では、多相バリアントは通常のバリアントと同じように使えます。ただし、名前の前にバッククオート（<code class="code">`</code>）をつける必要があります。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>[`On; `Off];;</code></strong>
+<code class="computeroutput">- : [&gt; `Off | `On] list = [`On; `Off]</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>`Number 1;;</code></strong>
+<code class="computeroutput">- : [&gt; `Number of int] = `Number 1</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let f = function `On -&gt; 1 | `Off -&gt; 0 | `Number n -&gt; n;;</code></strong>
+<code class="computeroutput">val f : [&lt; `Number of int | `Off | `On] -&gt; int = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>List.map f [`On; `Off];;</code></strong>
+<code class="computeroutput">- : int list = [1; 0]</code>
+      </pre>
+      <p>
+        <code class="code">[&gt;`Off|`On] list</code> は、すくなくとも <code class="code">`Off</code> と <code class="code">`On</code> にマッチするもののリストを意味します（<code class="code">`Off</code>、 <code class="code">`On</code> ともに引数なし）。
+        <code class="code">[&lt;`On|`Off|`Number of int]</code> は、 <code class="code">f</code> が <code class="code">`Off</code>、 <code class="code">`On</code>（ともに引数なし）、もしくは <code class="code">`Number <em class="parameter"><code>n</code></em></code>（<em class="parameter"><code>n</code></em> は <code class="code">int</code>）を受け取ることを意味します。バリアントの型の中の <code class="code">&gt;</code> と <code class="code">&lt;</code> は、これらの型がタグを増やしたり減らしたりといった変更が可能なことを示しています。そのようなものは、暗黙の型変数を含んでいます。どちらのバリアント型も型中で一度しか現れないので、暗黙の型変数は表示されません。
+      </p>
+      <p>
+        上記のバリアント型は多相的で、変更が可能です。型注釈を書く場合には固定バリアント型、すなわち変更できない型として書かれることがほとんどでしょう。これは型の略記形<sup>[<a name="d4e1972" href="#ftn.d4e1972" class="footnote">3</a>]</sup>でも同様です。そのような型は <code class="code">&gt;</code> や <code class="code">&lt;</code> を含まず、通常のデータ型の記述と同様に単にタグと関連した型を並べてあるだけです。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type 'a vlist = [`Nil | `Cons of 'a * 'a vlist];;</code></strong>
+<code class="computeroutput">type 'a vlist = [ `Cons of 'a * 'a vlist | `Nil]</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let rec map f : 'a vlist -&gt; 'b vlist = function
+   | `Nil -&gt; `Nil
+   | `Cons(a, l) -&gt; `Cons(f a, map f l)
+ ;;</code></strong>
+<code class="computeroutput">val map : ('a -&gt; 'b) -&gt; 'a vlist -&gt; 'b vlist = &lt;fun&gt;</code>
+      </pre>
+    </div>
+    <div class="simplesect" title="高度な使い方"><div class="titlepage"><div><div><h3 class="title"><a name="d4e1984"></a>高度な使い方 </h3></div></div></div>
+      
+      <p>
+        多相バリアントの型チェックは微妙なもので、型情報が通常よりも複雑になってしまう式も存在します。
+
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let f = function `A -&gt; `C | `B -&gt; `D | x -&gt; x;;</code></strong>
+<code class="computeroutput">val f : ([&gt; `A | `B | `C | `D] as 'a) -&gt; 'a = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>f `E;;</code></strong>
+<code class="computeroutput">- : _[&gt; `A | `B | `C | `D | `E] = `E</code>
+      </pre>
+      <p>
+        ここではふたつのことが起こっています。
+        まずこのパターンマッチは開いているので（最後の場合ですべてのタグを捕まえています）、型は、閉じた <code class="code">[&lt; `A | `B]</code> ではなく <code class="code">[&gt; `A | `B]</code> になります。
+        それから、 <code class="code">x</code> がそのまま返るので、入力の型と戻り値の型は同一です。
+        <code class="code">'a</code> という表記はその共有を表しているのです。
+        <code class="function">f</code> をまた別のタグ <code class="code">`E</code> に適用すると、それがまたリストに追加されます。
+
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let f1 = function `A x -&gt; x = 1 | `B -&gt; true | `C -&gt; false
+ let f2 = function `A x -&gt; x = "a" | `B -&gt; true ;;</code></strong>
+<code class="computeroutput">val f1 : [&lt; `A of int | `B | `C] -&gt; bool = &lt;fun&gt;
+val f2 : [&lt; `A of string | `B] -&gt; bool = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let f x = f1 x &amp;&amp; f2 x;;</code></strong>
+<code class="computeroutput">val f : [&lt; `A of string &amp; int | `B] -&gt; bool = &lt;fun&gt;</code>
+      </pre>
+      <p>
+        ここでは <code class="function">f1</code> と <code class="function">f2</code> はどちらもバリアントタグ <code class="code">`A</code> と <code class="code">`B</code> を受け取りますが、 <code class="code">`A</code> の引数は <code class="function">f1</code> では <span class="type">int</span> で <code class="function">f2</code> では <span class="type">string</span> です。
+        <code class="function">f</code> の型には、 <code class="function">f1</code> だけが受け取る <code class="code">`C</code> は現れず、 <code class="code">`A</code> の引数型には <span class="type">int &amp; string</span> と両方が現れています。
+        これはすなわち、バリアントタグ <code class="code">`A</code> を <code class="function">f</code> に渡す場合には、 <code class="code">`A</code> の引数は <span class="type">int</span> と <span class="type">string</span> の両方でなければならないということです。
+  このような値は存在しないため、 <code class="function">f</code> は <code class="code">`A</code> には適用できず、 <code class="code">`B</code> だけが入力として与えられるということになります。
+        
+      </p>
+      <p>
+        ある値の型が固定的なバリアントであっても、型変換によって、それをより大きな型にすることもできます。
+        型変換は通常、変換元の型と変換先の型の両方を指定しなければなりませんが、単純な場合には元の型を省略することができます。
+
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type 'a wlist = [`Nil | `Cons of 'a * 'a wlist | `Snoc of 'a wlist * 'a];;</code></strong>
+<code class="computeroutput">type 'a wlist = [ `Cons of 'a * 'a wlist | `Nil | `Snoc of 'a wlist * 'a]</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let wlist_of_vlist  l = (l : 'a vlist :&gt; 'a wlist);;</code></strong>
+<code class="computeroutput">val wlist_of_vlist : 'a vlist -&gt; 'a wlist = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let open_vlist l = (l : 'a vlist :&gt; [&gt; 'a vlist]);;</code></strong>
+<code class="computeroutput">val open_vlist : 'a vlist -&gt; [&gt; 'a vlist] = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>fun x -&gt; (x :&gt; [`A|`B|`C]);;</code></strong>
+<code class="computeroutput">- : [&lt; `A | `B | `C] -&gt; [ `A | `B | `C] = &lt;fun&gt;</code>
+      </pre>
+      <p>
+        パターンマッチを使って値を選択的に型変換することもできます。
+  
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let split_cases = function
+   | `Nil | `Cons _ as x -&gt; `A x
+   | `Snoc _ as x -&gt; `B x
+ ;;</code></strong>
+<code class="computeroutput">val split_cases :
+  [&lt; `Cons of 'a | `Nil | `Snoc of 'b] -&gt;
+  [&gt; `A of [&gt; `Cons of 'a | `Nil] | `B of [&gt; `Snoc of 'b]] = &lt;fun&gt;</code>
+      </pre>
+      <p>
+        バリアントタグを組み合わせた or パターンが alias パターンの中に現れた場合には、その alias には or パターンで列挙されたタグだけを含む型がつけられます。
+  これによって、関数の漸次定義などの便利なイディオムが実現できます。
+  
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let num x = `Num x
+ let eval1 eval (`Num x) = x
+ let rec eval x = eval1 eval x ;;</code></strong>
+<code class="computeroutput">val num : 'a -&gt; [&gt; `Num of 'a] = &lt;fun&gt;
+val eval1 : 'a -&gt; [ `Num of 'b] -&gt; 'b = &lt;fun&gt;
+val eval : [ `Num of 'a] -&gt; 'a = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let plus x y = `Plus(x,y)
+ let eval2 eval = function
+   | `Plus(x,y) -&gt; eval x + eval y
+   | `Num _ as x -&gt; eval1 eval x
+ let rec eval x = eval2 eval x ;;</code></strong>
+<code class="computeroutput">val plus : 'a -&gt; 'b -&gt; [&gt; `Plus of 'a * 'b] = &lt;fun&gt;
+val eval2 : ('a -&gt; int) -&gt; [&lt; `Num of int | `Plus of 'a * 'a] -&gt; int = &lt;fun&gt;
+val eval : ([&lt; `Num of int | `Plus of 'a * 'a] as 'a) -&gt; int = &lt;fun&gt;</code>
+      </pre>
+      <p>
+        これをもっと便利に使うために、型定義を or パターンの略記として使うこともできます。
+        すなわち、 <code class="code">type myvariant = [`Tag1 int | `Tag2 bool]</code> を定義すると、 <code class="code">#myvariant</code> というパターンは <code class="code">(`Tag1(_ : int) | `Tag2(_ : bool))</code> と書いたのと等価になります。
+        
+      </p>
+      <p>
+        このような略記を単独で使うこともできますし、
+  
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let f = function
+   | #myvariant -&gt; "myvariant"
+   | `Tag3 -&gt; "Tag3";;
+val f : [&lt; `Tag1 of int | `Tag2 of bool | `Tag3] -&gt; string = &lt;fun&gt;</code></strong>
+      </pre>
+      <p>
+        alias と組み合わせることもできます。
+  
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let g1 = function `Tag1 _ -&gt; "Tag1" | `Tag2 _ -&gt; "Tag2";;</code></strong>
+<code class="computeroutput">val g1 : [&lt; `Tag1 of 'a | `Tag2 of 'b] -&gt; string = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let g = function
+   | #myvariant as x -&gt; g1 x
+   | `Tag3 -&gt; "Tag3";;</code></strong>
+<code class="computeroutput">val g : [&lt; `Tag1 of int | `Tag2 of bool | `Tag3] -&gt; string = &lt;fun&gt;</code>
+      </pre>
+    </div>
+    <div class="section" title="4.2.1&nbsp; 多相バリアントの弱点"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2074"></a>4.2.1&nbsp;
+        多相バリアントの弱点
+  
+      </h3></div></div></div>
+      
+      <p>
+        多相バリアントの威力を見ると、なぜこれで通常のバリアントを置き換えずに、新たに追加することにしたのか疑問を覚える人もいるでしょう。
+  
+      </p>
+      <p>
+        答えはふたつあります。
+        ひとつには、多相バリアントは、非常に効率的である一方で、最適化のための静的型情報が欠落しているため、通常のバリアントよりもわずかに低速だということがあります。しかしながら、この違いが顕著になるのは巨大なデータ構造を扱った場合だけです。
+  
+      </p>
+      <p>
+        より重要なのは、多相バリアントは型安全であるとはいうものの、それはより弱い型制約においてのことだということです。
+        すなわち、通常のバリアントは実際に型安全性を保証するだけでなく、宣言された型構成子だけを使い、データ構造中に存在する構成子はすべて互換性があり、構成子のパラメータにに型制約が付いていることを検査しています。
+  
+      </p>
+      <p>
+        このことから、多相バリアントを使っている場合には型を明示するようより深く注意しなければなりません。
+        ライブラリを書いている場合には、インタフェースに精確な型を書くことができるので簡単です。
+        しかし、単純なプログラムには通常のバリアントを使っておいた方がよいでしょう。
+  
+      </p>
+      <p>
+        特定のイディオムによって簡単なエラーが見つけにくくなることにも注意してください。
+        例えば、次のコードは恐らく間違っていますが、コンパイラにはそれを検出する術がありません。
+  
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type abc = [`A | `B | `C] ;;</code></strong>
+<code class="computeroutput">type abc = [ `A | `B | `C]</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let f = function
+   | `As -&gt; "A"
+   | #abc -&gt; "other" ;;</code></strong>
+<code class="computeroutput">val f : [&lt; `A | `As | `B | `C] -&gt; string = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let f : abc -&gt; string = f ;;</code></strong>
+<code class="computeroutput">val f : abc -&gt; string = &lt;fun&gt;</code>
+      </pre>
+      <p>
+        このような危険性は定義自体に注釈を付けることで避けることができます。
+  
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let f : abc -&gt; string = function
+   | `As -&gt; "A"
+   | #abc -&gt; "other" ;;</code></strong>
+<code class="computeroutput">Warning: this match case is unused.
+val f : abc -&gt; string = &lt;fun&gt;</code>
+      </pre>
+    </div>
+  <div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.d4e1972" href="#d4e1972" class="para">3</a>] </sup>訳注: <code class="code">type t = `On　| `Off</code></p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch04s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch04.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch05.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">4.1&nbsp;ラベル &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;5.&nbsp;クラスとモジュールの高度な例</td></tr></table></div></body></html>

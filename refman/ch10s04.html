@@ -1,0 +1,69 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>10.4&nbsp;よくあるエラー</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch10.html" title="10.&nbsp;ランタイムシステム（ocamlrun）"><link rel="prev" href="ch10s03.html" title="10.3&nbsp;共有ライブラリの動的読み込み"><link rel="next" href="ch11.html" title="11.&nbsp;ネイティブコードコンパイル（ocamlopt）"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">10.4&nbsp;よくあるエラー</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch10s03.html">前のページ</a>&nbsp;</td><th width="60%" align="center">10.&nbsp;ランタイムシステム（<span class="command"><strong>ocamlrun</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch11.html">次のページ</a></td></tr></table><hr></div><div class="section" title="10.4&nbsp;よくあるエラー"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:ocamlrun:Common errors"></a>10.4&nbsp;よくあるエラー</h2></div></div></div>
+    
+    <p>
+      本節ではもっともよく遭遇するエラーメッセージについて説明します。
+      
+    </p>
+    <div class="simplesect" title="filename: no such file or directory"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11213"></a><em class="replaceable"><code>filename</code></em>: no such file or directory</h3></div></div></div>
+      
+      <p>
+        <em class="replaceable"><code>filename</code></em> が実行可能なバイトコードファイルの名前である場合、そのファイルが存在しないか、バイトコードインタプリタ <span class="command"><strong>ocamlrun</strong></span> 自体を実行できなかったことを意味します。
+        後者の場合は、 Objective Caml がシステムに正しくインストールできていない可能性があります。
+      </p>
+    </div>
+    <div class="simplesect" title="Cannot exec ocamlrun"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11219"></a>Cannot exec ocamlrun</h3></div></div></div>
+      
+      <p>
+        （実行可能バイトコードファイルを起動した場合） <span class="command"><strong>ocamlrun</strong></span> が実行可能パスに見つかりませんでした。
+        Objective Caml がシステムに正しくインストールされているか確認してください。
+        
+      </p>
+    </div>
+    <div class="simplesect" title="Cannot find the bytecode file"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11223"></a>Cannot find the bytecode file</h3></div></div></div>
+      
+      <p>
+        <span class="command"><strong>ocamlrun</strong></span> の実行しようとしたファイル（<span class="command"><strong>ocamlrun</strong></span> にオプション以外の最初の引数として渡されたファイル）が存在しないか、妥当な実行可能バイトコードファイルではありません。
+        
+      </p>
+    </div>
+    <div class="simplesect" title="Truncated bytecode file"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11228"></a>Truncated bytecode file</h3></div></div></div>
+      
+      <p>
+        <span class="command"><strong>ocamlrun</strong></span> の実行しようとしたファイルが妥当な実行可能バイトコードファイルではありませんでした。
+        恐らくは作成後に切り詰められたか壊れたのでしょう。
+        ファイルを消してビルドしなおしてください。
+        
+      </p>
+    </div>
+    <div class="simplesect" title="Uncaught exception"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11232"></a>Uncaught exception</h3></div></div></div>
+      
+      <p>
+        実行中のプログラムに「迷子」の例外がありました。
+        すなわち、例外が発生したものの、どこでも捕捉されませんでした。
+        この場合、プログラムはただちに終了します。
+        例外の名前を表示し、それに続いて整数や文字列の引数を表示します（より複雑な型の引数は正しく表示されません）。
+        捕捉されなかった例外がどの文脈で発生したか特定するには、プログラムを <code class="option">-g</code> オプション付きでコンパイルし、<span class="command"><strong>ocamldebug</strong></span> 内で実行するか（<a class="xref" href="ch16.html" title="16.&nbsp;デバッガ（ocamldebug）"> 16 章「<i>デバッガ（<span class="command"><strong>ocamldebug</strong></span>）</i>」</a> 参照）、 <strong class="userinput"><code>ocamlrun -b</code></strong> で実行するか、環境変数 <code class="envar">OCAMLRUNPARAM</code> に <code class="code">b=1</code> を設定して再実行してください。
+        
+      </p>
+    </div>
+    <div class="simplesect" title="Out of memory"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11241"></a>Out of memory</h3></div></div></div>
+      
+      <p>
+        実行中のプログラムが利用可能な量より多くのメモリを要求しました。
+        これは、プログラムが過度に巨大なデータ構造を作成したか、プログラムに非常に深い関数呼び出しがありスタックオーバーフローを起こしたかのいずれかです。
+        プログラムは完全に正しいのですが、計算機に搭載されているのより多くのメモリを要求している場合もあります。
+        それ以外に「Out of memory」メッセージがプログラムのエラーを表している場合もあります。
+        例えば、停止しない再帰関数、巨大な配列や文字列を割り当てようとした、無限リストや他の無限データ構造を作成しようとした……などがあります。
+        
+      </p>
+      <p>
+        このエラーについて診断するには、 <span class="command"><strong>ocamlrun</strong></span> に <code class="option">-v</code> オプションを与えるか、環境変数 <code class="envar">OCAMLRUN</code> に <code class="code">v=63</code> を設定してプログラムを実行してみるとヒントが得られるかもしれません。
+        <code class="computeroutput">"Growing stack ..."</code> というメッセージが非常に多く表示されている場合には、再帰関数のループの可能性があります。
+        <code class="computeroutput">"Growing heap ..."</code> というメッセージが沢山表示されている場合には、非常に多くの（無限といってもよいほど多くの？）セルを使うデータ構造か構築しようとしている可能性があります。
+        <code class="computeroutput">"Growing heap ..."</code> の表示は少ないながらヒープのサイズが大きく増加している場合には、巨大な配列や文字列を作成しようとしている可能性があります。
+        
+      </p>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch10s03.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch10.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch11.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">10.3&nbsp;共有ライブラリの動的読み込み&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;11.&nbsp;ネイティブコードコンパイル（<span class="command"><strong>ocamlopt</strong></span>）</td></tr></table></div></body></html>

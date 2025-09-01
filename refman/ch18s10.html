@@ -1,0 +1,102 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>18.10&nbsp;Building mixed C/Caml libraries: ocamlmklib</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch18.html" title="18.&nbsp;C と Objective Caml のインタフェース"><link rel="prev" href="ch18s09.html" title="18.9&nbsp;Advanced topic: custom blocks"><link rel="next" href="pt04.html" title="パート&nbsp;IV.&nbsp;The Objective Caml library"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">18.10&nbsp;Building mixed C/Caml libraries: ocamlmklib</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch18s09.html">前のページ</a>&nbsp;</td><th width="60%" align="center">18.&nbsp;C と Objective Caml のインタフェース</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="pt04.html">次のページ</a></td></tr></table><hr></div><div class="section" title="18.10&nbsp;Building mixed C/Caml libraries: ocamlmklib"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Building mixed C/Caml libraries: ocamlmklib"></a>18.10&nbsp;Building mixed C/Caml libraries: ocamlmklib</h2></div></div></div>
+    
+    <p>
+      The ocamlmklib command facilitates the construction of libraries containing
+      both Caml code and C code, and usable both in static linking and dynamic
+      linking modes.
+    </p>
+    <p>
+      Windows: 
+    </p>
+    <p>
+      This command is available only under Cygwin, but not for the native Win32
+      port. 
+    </p>
+    <p>
+      The ocamlmklib command takes three kinds of arguments: 
+    </p>
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">Caml source files and object files (.cmo, .cmx, .ml) comprising the Caml part of the library; 
+      </li><li class="listitem">C object files (.o, .a) comprising the C part of the library; 
+      </li><li class="listitem">Support libraries for the C part (-llib). 
+      </li></ul></div>
+    <p>
+      It generates the following outputs: 
+    </p>
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">A Caml bytecode library .cma incorporating the .cmo and .ml Caml files given as arguments, and automatically referencing the C library generated with the
+      </li></ul></div>
+    <p>
+      C object files. 
+    </p>
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">A Caml native-code library .cmxa incorporating the .cmx and .ml Caml files given as arguments, and automatically referencing the C library generated with the C object files. 
+      </li><li class="listitem">If dynamic linking is supported on the target platform, a .so shared library built from the C object files given as arguments, and automatically referencing the support libraries. 
+      </li><li class="listitem">A C static library .a built from the C object files. 
+      </li></ul></div>
+    <p>
+      In addition, the following options are recognized: 
+    </p>
+    <div class="variablelist"><dl></dl></div>
+    <p>
+      Example
+    </p>
+    <p>
+      Consider a Caml interface to the standard libz C library for reading and
+      writing compressed files. Assume this library resides in /usr/local/zlib. This
+      interface is composed of a Caml part zip.cmo/zip.cmx and a C part zipstubs.o
+      containing the stub code around the libz entry points. The following command
+      builds the Caml libraries zip.cma and zip.cmxa, as well as the companion C
+      libraries dllzip.so and libzip.a: 
+    </p>
+    <pre class="programlisting">
+ocamlmklib -o zip zip.cmo zip.cmx zipstubs.o -lz -L/usr/local/zlib
+</pre>
+    <p>
+      If shared libraries are supported, this performs the following commands: 
+    </p>
+    <pre class="programlisting">
+ocamlc -a -o zip.cma zip.cmo -dllib -lzip \
+        -cclib -lzip -cclib -lz -ccopt -L/usr/local/zlib
+ocamlopt -a -o zip.cmxa zip.cmx -cclib -lzip \
+        -cclib -lzip -cclib -lz -ccopt -L/usr/local/zlib
+gcc -shared -o dllzip.so zipstubs.o -lz -L/usr/local/zlib
+ar rc libzip.a zipstubs.o
+</pre>
+    <p>
+      If shared libraries are not supported, the following commands are performed
+      instead: 
+    </p>
+    <pre class="programlisting">
+ocamlc -a -custom -o zip.cma zip.cmo -cclib -lzip \
+        -cclib -lz -ccopt -L/usr/local/zlib
+ocamlopt -a -o zip.cmxa zip.cmx -lzip \
+        -cclib -lz -ccopt -L/usr/local/zlib
+ar rc libzip.a zipstubs.o
+</pre>
+    <p>
+      Instead of building simultaneously the bytecode library, the native-code
+      library and the C libraries, ocamlmklib can be called three times to build each
+      separately. Thus, 
+    </p>
+    <pre class="programlisting">
+ocamlmklib -o zip zip.cmo -lz -L/usr/local/zlib
+    </pre>
+    <p>
+      builds the bytecode library zip.cma, and 
+    </p>
+    <pre class="programlisting">
+ocamlmklib -o zip zip.cmx -lz -L/usr/local/zlib
+    </pre>
+    <p>
+      builds the native-code library zip.cmxa, and 
+    </p>
+    <pre class="programlisting">
+ocamlmklib -o zip zipstubs.o -lz -L/usr/local/zlib
+</pre>
+    <p>
+      builds the C libraries dllzip.so and libzip.a. Notice that the support
+      libraries (-lz) and the corresponding options (-L/usr/local/zlib) must be given
+      on all three invocations of ocamlmklib, because they are needed at different
+      times depending on whether shared libraries are supported.
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch18s09.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch18.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="pt04.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">18.9&nbsp;Advanced topic: custom blocks&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;パート&nbsp;IV.&nbsp;The Objective Caml library</td></tr></table></div></body></html>

@@ -1,0 +1,113 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>18.4&nbsp;Operations on values</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch18.html" title="18.&nbsp;C と Objective Caml のインタフェース"><link rel="prev" href="ch18s03.html" title="18.3&nbsp;Representation of Caml data types"><link rel="next" href="ch18s05.html" title="18.5&nbsp;Living in harmony with the garbage collector"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">18.4&nbsp;Operations on values</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch18s03.html">前のページ</a>&nbsp;</td><th width="60%" align="center">18.&nbsp;C と Objective Caml のインタフェース</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch18s05.html">次のページ</a></td></tr></table><hr></div><div class="section" title="18.4&nbsp;Operations on values"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e13579"></a>18.4&nbsp;Operations on values</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch18s04.html#d4e13581">18.4.1. Kind tests</a></span></dt><dt><span class="section"><a href="ch18s04.html#d4e13586">18.4.2. Operations on integers</a></span></dt><dt><span class="section"><a href="ch18s04.html#d4e13596">18.4.3. Accessing blocks</a></span></dt><dt><span class="section"><a href="ch18s04.html#d4e13620">18.4.4. Allocating blocks</a></span></dt><dt><span class="section"><a href="ch18s04.html#d4e13641">18.4.5. Raising exceptions</a></span></dt></dl></div>
+    
+    <div class="section" title="18.4.1&nbsp;Kind tests"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13581"></a>18.4.1&nbsp;Kind tests</h3></div></div></div>
+      
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">Is_long(v) is true if value v is an immediate integer, false otherwise 
+        </li><li class="listitem">Is_block(v) is true if value v is a pointer to a block, and false if it is an immediate integer. 
+        </li></ul></div>
+    </div>
+    <div class="section" title="18.4.2&nbsp;Operations on integers"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13586"></a>18.4.2&nbsp;Operations on integers</h3></div></div></div>
+      
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">Val_long(l) returns the value encoding the long int l. 
+        </li><li class="listitem">Long_val(v) returns the long int encoded in value v. 
+        </li><li class="listitem">Val_int(i) returns the value encoding the int i. 
+        </li><li class="listitem">Int_val(v) returns the int encoded in value v. 
+        </li><li class="listitem">Val_bool(x) returns the Caml boolean representing the truth value of the C integer x. 
+        </li><li class="listitem">Bool_val(v) returns 0 if v is the Caml boolean false, 1 if v is true. 
+        </li><li class="listitem">Val_true, Val_false represent the Caml booleans true and false. 
+        </li></ul></div>
+    </div>
+    <div class="section" title="18.4.3&nbsp;Accessing blocks"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13596"></a>18.4.3&nbsp;Accessing blocks</h3></div></div></div>
+      
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">Wosize_val(v) returns the size of the block v, in words, excluding the header. 
+        </li><li class="listitem">Tag_val(v) returns the tag of the block v. 
+        </li><li class="listitem">Field(v, n) returns the value contained in the n^th field of the structured block v. Fields are numbered from 0 to Wosize_val(v)-1. 
+        </li><li class="listitem">Store_field(b, n, v) stores the value v in the field number n of value b, which must be a structured block. 
+        </li><li class="listitem">Code_val(v) returns the code part of the closure v. 
+        </li><li class="listitem">string_length(v) returns the length (number of characters) of the string v. 
+        </li><li class="listitem">Byte(v, n) returns the n^th character of the string v, with type char.
+        </li></ul></div>
+      <p>
+        Characters are numbered from 0 to string_length(v)-1. 
+      </p>
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">Byte_u(v, n) returns the n^th character of the string v, with type unsigned char. Characters are numbered from 0 to string_length(v)-1. 
+        </li><li class="listitem">String_val(v) returns a pointer to the first byte of the string v, with type char *. This pointer is a valid C string: there is a null character after the last character in the string. However, Caml strings can contain embedded null characters, that will confuse the usual C functions over strings.  
+        </li><li class="listitem">Double_val(v) returns the floating-point number contained in value v, with type double. 
+        </li><li class="listitem">Double_field(v, n) returns the n^th element of the array of floating-point numbers v (a block tagged Double_array_tag). 
+        </li><li class="listitem">Store_double_field(v, n, d) stores the double precision floating-point number d in the n^th element of the array of floating-point numbers v. 
+        </li><li class="listitem">Data_custom_val(v) returns a pointer to the data part of the custom block v.
+        </li></ul></div>
+      <p>
+        This pointer has type void * and must be cast to the type of the data
+        contained in the custom block. 
+      </p>
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">Int32_val(v) returns the 32-bit integer contained in the int32 v. 
+        </li><li class="listitem">Int64_val(v) returns the 64-bit integer contained in the int64 v. 
+        </li><li class="listitem">Nativeint_val(v) returns the long integer contained in the nativeint v. 
+        </li></ul></div>
+      <p>
+        The expressions Field(v, n), Byte(v, n) and Byte_u(v, n) are valid l-values.
+        Hence, they can be assigned to, resulting in an in-place modification of value
+        v. Assigning directly to Field(v, n) must be done with care to avoid confusing
+        the garbage collector (see below).
+      </p>
+    </div>
+    <div class="section" title="18.4.4&nbsp;Allocating blocks"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13620"></a>18.4.4&nbsp;Allocating blocks</h3></div></div></div>
+      
+      <div class="section" title="Simple interface"><div class="titlepage"><div><div><h4 class="title"><a name="d4e13622"></a>Simple interface</h4></div></div></div>
+        
+        <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">Atom(t) returns an "atom" (zero-sized block) with tag t. Zero-sized blocks are preallocated outside of the heap. It is incorrect to try and allocate a zero-sized block using the functions below. For instance, Atom(0) represents the empty array. 
+          </li><li class="listitem">caml_alloc(n, t) returns a fresh block of size n with tag t. If t is less than No_scan_tag, then the fields of the block are initialized with a valid value in order to satisfy the GC constraints. 
+          </li><li class="listitem">caml_alloc_tuple(n) returns a fresh block of size n words, with tag 0. 
+          </li><li class="listitem">caml_alloc_string(n) returns a string value of length n characters. The string initially contains garbage. 
+          </li><li class="listitem">caml_copy_string(s) returns a string value containing a copy of the null-terminated C string s (a char *). 
+          </li><li class="listitem">caml_copy_double(d) returns a floating-point value initialized with the double d. 
+          </li><li class="listitem">caml_copy_int32(i), copy_int64(i) and caml_copy_nativeint(i) return a value of Caml type int32, int64 and nativeint, respectively, initialized with the integer i. 
+          </li><li class="listitem">caml_alloc_array(f, a) allocates an array of values, calling function f over each element of the input array a to transform it into a value. The array a is an array of pointers terminated by the null pointer. The function f receives each pointer as argument, and returns a value. The zero-tagged block returned by alloc_array(f, a) is filled with the values returned by the successive calls to f. (This function must not be used to build an array of floating-point numbers.) 
+          </li><li class="listitem">caml_copy_string_array(p) allocates an array of strings, copied from the pointer to a string array p (a `char **'). p must be NULL-terminated. 
+          </li></ul></div>
+      </div>
+      <div class="section" title="Low-level interface"><div class="titlepage"><div><div><h4 class="title"><a name="d4e13634"></a>Low-level interface</h4></div></div></div>
+        
+        <p>
+          The following functions are slightly more efficient than caml_alloc, but also
+          much more difficult to use.
+        </p>
+        <p>
+          From the standpoint of the allocation functions, blocks are divided according
+          to their size as zero-sized blocks, small blocks (with size less than or equal
+          to `Max_young_wosize'), and large blocks (with size greater than
+          `Max_young_wosize'). The constant `Max_young_wosize' is declared in the include
+          file mlvalues.h. It is guaranteed to be at least 64 (words), so that any block
+          with constant size less than or equal to 64 can be assumed to be small. For
+          blocks whose size is computed at run-time, the size must be compared against
+          `Max_young_wosize' to determine the correct allocation procedure.
+        </p>
+        <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">caml_alloc_small(n, t) returns a fresh small block of size n &lt;= Max_young_wosize words, with tag t.  If this block is a structured block (i.e. if t &lt; No_scan_tag), then  the fields of the block (initially containing garbage) must be initialized with legal values (using direct assignment to the fields of the block) before the next allocation. 
+          </li><li class="listitem">caml_alloc_shr(n, t) returns a fresh block of size n, with tag t.  The size of the block can be greater than `Max_young_wosize'. (It can also be smaller, but in this case it is more efficient to call caml_alloc_small instead of caml_alloc_shr.)  If this block is a structured block (i.e. if t &lt; No_scan_tag), then  the fields of the block (initially containing garbage) must be initialized with legal values (using the initialize function described below) before the next allocation. 
+          </li></ul></div>
+      </div>
+    </div>
+    <div class="section" title="18.4.5&nbsp;Raising exceptions"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13641"></a>18.4.5&nbsp;Raising exceptions</h3></div></div></div>
+      
+      <p>
+        Two functions are provided to raise two standard exceptions: 
+      </p>
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">caml_failwith(s), where s is a null-terminated C string (with type `char *'), raises exception Failure with argument s. 
+        </li><li class="listitem">caml_invalid_argument(s), where s is a null-terminated C string (with type `char *'), raises exception Invalid_argument with argument s. 
+        </li></ul></div>
+      <p>
+        Raising arbitrary exceptions from C is more delicate: the exception
+        identifier is dynamically allocated by the Caml program, and therefore must be
+        communicated to the C function using the registration facility described below
+        in section 18.7.3. Once the exception identifier is recovered in C, the
+        following functions actually raise the exception: 
+      </p>
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">caml_raise_constant(id) raises the exception id with no argument; 
+        </li><li class="listitem">caml_raise_with_arg(id, v) raises the exception id with the Caml value v as argument; 
+        </li><li class="listitem">caml_raise_with_string(id, s), where s is a null-terminated C string, raises the exception id with a copy of the C string s as argument. 
+        </li></ul></div>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch18s03.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch18.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch18s05.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">18.3&nbsp;Representation of Caml data types&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;18.5&nbsp;Living in harmony with the garbage collector</td></tr></table></div></body></html>

@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Nativeint.html">
+<link rel="next" href="Obj.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><link title="算術演算" rel="Section" href="#2_">
+<link title="文字列との変換" rel="Section" href="#2_">
+<link title="数値型との変換" rel="Section" href="#2_">
+<link title="数の比較" rel="Subsection" href="#3_">
+<title>Num</title>
+</head>
+<body>
+<div class="navbar"><a href="Nativeint.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="Obj.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Num.html">Num</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Num: <code class="code"><span class="keyword">sig</span></code> <a href="Num.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>任意精度の数値演算
+<p>
+
+    <code class="code">num</code> 型の数は任意精度の実数に、特別な要素として <code class="code">1/0</code> （無限大）と <code class="code">0/0</code> （未定義）を加えたものです。<br>
+<hr width="100%">
+<br><code><span id="TYPEnum"><span class="keyword">type</span> <code class="type"></code>num</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Int</span> <span class="keyword">of</span> <code class="type">int</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Big_int</span> <span class="keyword">of</span> <code class="type"><a href="Big_int.html#TYPEbig_int">Big_int.big_int</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Ratio</span> <span class="keyword">of</span> <code class="type">Ratio.ratio</code></code></td>
+
+</tr></table>
+
+<div class="info">
+数の型。<br>
+</div>
+
+<br>
+<span id="2_"><h2>算術演算</h2></span><br>
+<pre><span id="VAL(+/)"><span class="keyword">val</span> (+/)</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+<a href="Num.html#VALadd_num"><code class="code"><span class="constructor">Num</span>.add_num</code></a> と同じです。<br>
+</div>
+<pre><span id="VALadd_num"><span class="keyword">val</span> add_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+加算。<br>
+</div>
+<pre><span id="VALminus_num"><span class="keyword">val</span> minus_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+単項の符号反転。<br>
+</div>
+<pre><span id="VAL(-/)"><span class="keyword">val</span> (-/)</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+<a href="Num.html#VALsub_num"><code class="code"><span class="constructor">Num</span>.sub_num</code></a> と同じです。<br>
+</div>
+<pre><span id="VALsub_num"><span class="keyword">val</span> sub_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+減算。<br>
+</div>
+<pre><span id="VAL( */ )"><span class="keyword">val</span> ( */ )</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+<a href="Num.html#VALmult_num"><code class="code"><span class="constructor">Num</span>.mult_num</code></a> と同じです。<br>
+</div>
+<pre><span id="VALmult_num"><span class="keyword">val</span> mult_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+乗算。<br>
+</div>
+<pre><span id="VALsquare_num"><span class="keyword">val</span> square_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+平方。<br>
+</div>
+<pre><span id="VAL(//)"><span class="keyword">val</span> (//)</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+<a href="Num.html#VALdiv_num"><code class="code"><span class="constructor">Num</span>.div_num</code></a> と同じです。<br>
+</div>
+<pre><span id="VALdiv_num"><span class="keyword">val</span> div_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+除算。<br>
+</div>
+<pre><span id="VALquo_num"><span class="keyword">val</span> quo_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+ユークリッド除算の商。<br>
+</div>
+<pre><span id="VALmod_num"><span class="keyword">val</span> mod_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+ユークリッド除算の余り。<br>
+</div>
+<pre><span id="VAL( **/ )"><span class="keyword">val</span> ( **/ )</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+<a href="Num.html#VALpower_num"><code class="code"><span class="constructor">Num</span>.power_num</code></a> と同じです。<br>
+</div>
+<pre><span id="VALpower_num"><span class="keyword">val</span> power_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+累乗。<br>
+</div>
+<pre><span id="VALabs_num"><span class="keyword">val</span> abs_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+絶対値。<br>
+</div>
+<pre><span id="VALsucc_num"><span class="keyword">val</span> succ_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+<code class="code">succ n</code> は <code class="code">n + 1</code> になります。<br>
+</div>
+<pre><span id="VALpred_num"><span class="keyword">val</span> pred_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+<code class="code">pred n</code> は <code class="code">n - 1</code> になります。<br>
+</div>
+<pre><span id="VALincr_num"><span class="keyword">val</span> incr_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> <a href="Pervasives.html#TYPEref">ref</a> -> unit</code></pre><div class="info">
+<code class="code">r</code> を数へのリファレンスとしたとき、 <code class="code">incr r</code> は <code class="code">r := !r + 1</code> になります。<br>
+</div>
+<pre><span id="VALdecr_num"><span class="keyword">val</span> decr_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> <a href="Pervasives.html#TYPEref">ref</a> -> unit</code></pre><div class="info">
+<code class="code">r</code> を数へのリファレンスとしたとき、 <code class="code">decr r</code> は <code class="code">r := !r - 1</code> になります。<br>
+</div>
+<pre><span id="VALis_integer_num"><span class="keyword">val</span> is_integer_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> bool</code></pre><div class="info">
+ある数が整数かどうか検査します。<br>
+</div>
+<br>
+以下のよっつの関数は数を整数で近似するものです。<br>
+<pre><span id="VALinteger_num"><span class="keyword">val</span> integer_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+<code class="code">integer_num</code> は <code class="code">n</code> に最も近い整数を返します。ふたつの整数の中間にある場合には 0 に向って丸めます。<br>
+</div>
+<pre><span id="VALfloor_num"><span class="keyword">val</span> floor_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+<code class="code">floor_num n</code> は <code class="code">n</code> 以下の最大の整数を返します。<br>
+</div>
+<pre><span id="VALround_num"><span class="keyword">val</span> round_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+<code class="code">integer_num</code> は <code class="code">n</code> に最も近い整数を返します。ふたつの整数の中間にある場合には 0 に向って丸めます。<br>
+</div>
+<pre><span id="VALceiling_num"><span class="keyword">val</span> ceiling_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+<code class="code">ceiling_num n</code> は <code class="code">n</code> 以上の最小の整数を返します。<br>
+</div>
+<pre><span id="VALsign_num"><span class="keyword">val</span> sign_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> int</code></pre><div class="info">
+引数の符号に応じて <code class="code">-1</code>、 <code class="code">0</code>、 <code class="code">1</code> を返します。<br>
+</div>
+<br>
+<span id="3_"><h3>数の比較</h3></span><br>
+<pre><span id="VAL(=/)"><span class="keyword">val</span> (=/)</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> bool</code></pre><pre><span id="VAL(</)"><span class="keyword">val</span> (&lt;/)</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> bool</code></pre><pre><span id="VAL(>/)"><span class="keyword">val</span> (&gt;/)</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> bool</code></pre><pre><span id="VAL(<=/)"><span class="keyword">val</span> (&lt;=/)</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> bool</code></pre><pre><span id="VAL(>=/)"><span class="keyword">val</span> (&gt;=/)</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> bool</code></pre><pre><span id="VAL(<>/)"><span class="keyword">val</span> (&lt;&gt;/)</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> bool</code></pre><pre><span id="VALeq_num"><span class="keyword">val</span> eq_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> bool</code></pre><pre><span id="VALlt_num"><span class="keyword">val</span> lt_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> bool</code></pre><pre><span id="VALle_num"><span class="keyword">val</span> le_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> bool</code></pre><pre><span id="VALgt_num"><span class="keyword">val</span> gt_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> bool</code></pre><pre><span id="VALge_num"><span class="keyword">val</span> ge_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> bool</code></pre><pre><span id="VALcompare_num"><span class="keyword">val</span> compare_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> int</code></pre><div class="info">
+第一引数がより小さい、第二引数と等しい、より大きい場合にそれぞれ <code class="code">-1</code>、 <code class="code">0</code>、 <code class="code">1</code> を返します。<br>
+</div>
+<pre><span id="VALmax_num"><span class="keyword">val</span> max_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+引数のうちより大きい方を返します。<br>
+</div>
+<pre><span id="VALmin_num"><span class="keyword">val</span> min_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+引数のうちより小さい方を返します。<br>
+</div>
+<br>
+<span id="2_"><h2>文字列との変換</h2></span><br>
+<pre><span id="VALstring_of_num"><span class="keyword">val</span> string_of_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> string</code></pre><div class="info">
+数を分数表記の文字列に変換します。<br>
+</div>
+<pre><span id="VALapprox_num_fix"><span class="keyword">val</span> approx_num_fix</span> : <code class="type">int -> <a href="Num.html#TYPEnum">num</a> -> string</code></pre><div class="info">
+<a href="Num.html#VALapprox_num_exp"><code class="code"><span class="constructor">Num</span>.approx_num_exp</code></a> を参照してください。<br>
+</div>
+<pre><span id="VALapprox_num_exp"><span class="keyword">val</span> approx_num_exp</span> : <code class="type">int -> <a href="Num.html#TYPEnum">num</a> -> string</code></pre><div class="info">
+数を十進数で近似します。
+    第一引数は必要な精度で、第二引数は近似する数です。
+    <a href="Num.html#VALapprox_num_fix"><code class="code"><span class="constructor">Num</span>.approx_num_fix</code></a> は十進表記を使い、第一引数は小数点の後に続く数字の個数になります。
+    <code class="code">approx_num_exp</code> は科学（指数）表記を使い、第一引数は仮数部の数字の個数になります。<br>
+</div>
+<pre><span id="VALnum_of_string"><span class="keyword">val</span> num_of_string</span> : <code class="type">string -> <a href="Num.html#TYPEnum">num</a></code></pre><div class="info">
+文字列を数に変換します。<br>
+</div>
+<br>
+<span id="2_"><h2>数値型との変換</h2></span><br>
+<pre><span id="VALint_of_num"><span class="keyword">val</span> int_of_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> int</code></pre><pre><span id="VALnum_of_int"><span class="keyword">val</span> num_of_int</span> : <code class="type">int -> <a href="Num.html#TYPEnum">num</a></code></pre><pre><span id="VALnat_of_num"><span class="keyword">val</span> nat_of_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> Nat.nat</code></pre><pre><span id="VALnum_of_nat"><span class="keyword">val</span> num_of_nat</span> : <code class="type">Nat.nat -> <a href="Num.html#TYPEnum">num</a></code></pre><pre><span id="VALnum_of_big_int"><span class="keyword">val</span> num_of_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">Big_int.big_int</a> -> <a href="Num.html#TYPEnum">num</a></code></pre><pre><span id="VALbig_int_of_num"><span class="keyword">val</span> big_int_of_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> <a href="Big_int.html#TYPEbig_int">Big_int.big_int</a></code></pre><pre><span id="VALratio_of_num"><span class="keyword">val</span> ratio_of_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> Ratio.ratio</code></pre><pre><span id="VALnum_of_ratio"><span class="keyword">val</span> num_of_ratio</span> : <code class="type">Ratio.ratio -> <a href="Num.html#TYPEnum">num</a></code></pre><pre><span id="VALfloat_of_num"><span class="keyword">val</span> float_of_num</span> : <code class="type"><a href="Num.html#TYPEnum">num</a> -> float</code></pre></body></html>

@@ -1,0 +1,208 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>6.3&nbsp;名前</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch06.html" title="6.&nbsp;The Objective Caml language"><link rel="prev" href="ch06s02.html" title="6.2&nbsp;値"><link rel="next" href="ch06s04.html" title="6.4&nbsp;型式"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.3&nbsp;名前 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s02.html">前のページ</a>&nbsp;</td><th width="60%" align="center">6.&nbsp;The Objective Caml language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s04.html">次のページ</a></td></tr></table><hr></div><div class="section" title="6.3&nbsp;名前"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Names"></a>6.3&nbsp;名前 </h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch06s03.html#d4e2991">6.3.1. オブジェクトに名前をつける </a></span></dt><dt><span class="section"><a href="ch06s03.html#d4e3154">6.3.2. 名前のついたオブジェクトを参照する </a></span></dt></dl></div>
+  
+  <p>
+    識別子はオブジェクトの名前で、その名前でオブジェクトにアクセスできます。
+  </p>
+  <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">値の名前（文法クラス <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a>）</li><li class="listitem">値構成子と例外構成子（<a class="link" href="ch06s03.html#bnf--constr-name"><span class="bnf-non-terminal">constr-name</span></a>）</li><li class="listitem">ラベル（<a class="link" href="ch06s03.html#bnf--label-name"><span class="bnf-non-terminal">label-name</span></a>）</li><li class="listitem">バリアントタグ（<a class="link" href="ch06s03.html#bnf--tag-name"><span class="bnf-non-terminal">tag-name</span></a>）</li><li class="listitem">型構成子（<a class="link" href="ch06s03.html#bnf--typeconstr-name"><span class="bnf-non-terminal">typeconstr-name</span></a>）</li><li class="listitem">レコードフィールド（<a class="link" href="ch06s03.html#bnf--field-name"><span class="bnf-non-terminal">field-name</span></a>）</li><li class="listitem">クラス名（<a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a>）</li><li class="listitem">メソッド名（<a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a>）</li><li class="listitem">インスタンス変数名（<a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a>）</li><li class="listitem">モジュール名（<a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a>）</li><li class="listitem">モジュール型名（<a class="link" href="ch06s03.html#bnf--modtype-name"><span class="bnf-non-terminal">modtype-name</span></a>）</li></ul></div>
+  <p>
+    これら 11 の名前空間は文脈と識別子の大文字小文字（先頭の文字が小文字 — 以下である <span class="bnf-non-terminal"><a name="bnf--lowercase-ident"></a>lowercase-ident</span> mdash; か、大文字である — 以下<span class="bnf-non-terminal"><a name="bnf--capitalized-ident"></a>capitalized-ident</span>）で区別されます。ここではアンダースコアは小文字と見なされます。
+  </p>
+  <div class="section" title="6.3.1&nbsp;オブジェクトに名前をつける"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2991"></a>6.3.1&nbsp;オブジェクトに名前をつける </h3></div></div></div>
+    
+    <table id="d4e2993">
+      <tbody>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--value-name"></a>value-name</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--lowercase-ident"><span class="bnf-non-terminal">lowercase-ident</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td>( <a class="link" href="ch06s03.html#bnf--operator-name"><span class="bnf-non-terminal">operator-name</span></a> )</td>
+        </tr>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--operator-name"></a>operator-name</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s01.html#bnf--prefix-symbol"><span class="bnf-non-terminal">prefix-symbol</span></a> | <a class="link" href="ch06s03.html#bnf--infix-op"><span class="bnf-non-terminal">infix-op</span></a></td>
+        </tr>
+        <tr>
+          <td rowspan="3" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--infix-op"></a>infix-op</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s01.html#bnf--infix-symbol"><span class="bnf-non-terminal">infix-symbol</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">*</span> | <span class="bnf-terminal">=</span> | <span class="bnf-terminal">or</span> | <span class="bnf-terminal">&amp;</span> | <span class="bnf-terminal">:=</span></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">mod</span> | <span class="bnf-terminal">land</span> | <span class="bnf-terminal">lor</span> | <span class="bnf-terminal">lxor</span> | <span class="bnf-terminal">lsl</span> | <span class="bnf-terminal">lsr</span> | <span class="bnf-terminal">asr</span></td>
+        </tr>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--constr-name"></a>constr-name</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--capitalized-ident"><span class="bnf-non-terminal">capitalized-ident</span></a></td>
+        </tr>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--label-name"></a>label-name</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--lowercase-ident"><span class="bnf-non-terminal">lowercase-ident</span></a></td>
+        </tr>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--tag-name"></a>tag-name</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--capitalized-ident"><span class="bnf-non-terminal">capitalized-ident</span></a></td>
+        </tr>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--typeconstr-name"></a>typeconstr-name</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--lowercase-ident"><span class="bnf-non-terminal">lowercase-ident</span></a></td>
+        </tr>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--field-name"></a>field-name</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--lowercase-ident"><span class="bnf-non-terminal">lowercase-ident</span></a></td>
+        </tr>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--module-name"></a>module-name</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--capitalized-ident"><span class="bnf-non-terminal">capitalized-ident</span></a></td>
+        </tr>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--modtype-name"></a>modtype-name</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a></td>
+        </tr>
+        
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--class-name"></a>class-name</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--lowercase-ident"><span class="bnf-non-terminal">lowercase-ident</span></a></td>
+        </tr>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--inst-var-name"></a>inst-var-name</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--lowercase-ident"><span class="bnf-non-terminal">lowercase-ident</span></a></td>
+        </tr>
+        <tr>
+          <td><span class="bnf-non-terminal"><a name="bnf--method-name"></a>method-name</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--lowercase-ident"><span class="bnf-non-terminal">lowercase-ident</span></a></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      
+      以上のように、前置シンボルや中置シンボル、いくつかのキーワードは、括弧でくくることで値の名前として使えます。 大文字小文字で区別する規則は要約すると以下のようになります。
+    </p>
+    <table id="d4e3112"><tbody>
+        <tr><th>名前空間</th><th>先頭文字の大文字小文字</th></tr>
+        <tr><td>値</td><td>小文字</td></tr>
+        <tr><td>コンストラクタ</td><td>大文字</td></tr>
+        <tr><td>ラベル</td><td>小文字</td></tr>
+        <tr><td>バリアントタグ</td><td>大文字</td></tr>
+        <tr><td>例外</td><td>大文字</td></tr>
+        <tr><td>型コンストラクタ</td><td>小文字</td></tr>
+        <tr><td>レコードフィールド</td><td>小文字</td></tr>
+        <tr><td>クラス</td><td>小文字</td></tr>
+        <tr><td>インスタンス変数</td><td>小文字</td></tr>
+        <tr><td>メソッド</td><td>小文字</td></tr>
+        <tr><td>モジュール</td><td>大文字</td></tr>
+        <tr><td>モジュール型</td><td>どちらでも</td></tr>
+    </tbody></table>
+    <p>
+      バリアントタグに関する注意: 現在の実装では大文字だけでなく小文字のバリアントタグも受理しますが、将来の OCaml バージョンとの移植性、互換性を考えると小文字は避けておいた方が無難です。
+    </p>
+  </div>
+  <div class="section" title="6.3.2&nbsp;名前のついたオブジェクトを参照する"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3154"></a>6.3.2&nbsp;名前のついたオブジェクトを参照する </h3></div></div></div>
+    
+    <table id="d4e3156">
+      <tbody>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--value-path"></a>value-path</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> <span class="bnf-terminal">.</span> <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a></td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--constr"></a>constr</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--constr-name"><span class="bnf-non-terminal">constr-name</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> <span class="bnf-terminal">.</span> <a class="link" href="ch06s03.html#bnf--constr-name"><span class="bnf-non-terminal">constr-name</span></a></td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--typeconstr"></a>typeconstr</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--typeconstr-name"><span class="bnf-non-terminal">typeconstr-name</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s03.html#bnf--extended-module-path"><span class="bnf-non-terminal">extended-module-path</span></a> <span class="bnf-terminal">.</span> <a class="link" href="ch06s03.html#bnf--typeconstr-name"><span class="bnf-non-terminal">typeconstr-name</span></a></td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--field"></a>field</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--field-name"><span class="bnf-non-terminal">field-name</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> <span class="bnf-terminal">.</span> <a class="link" href="ch06s03.html#bnf--field-name"><span class="bnf-non-terminal">field-name</span></a></td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--module-path"></a>module-path</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> <span class="bnf-terminal">.</span> <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a></td>
+        </tr>
+        <tr>
+          <td rowspan="3" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--extended-module-path"></a>extended-module-path</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s03.html#bnf--extended-module-path"><span class="bnf-non-terminal">extended-module-path</span></a> <span class="bnf-terminal">.</span> <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s03.html#bnf--extended-module-path"><span class="bnf-non-terminal">extended-module-path</span></a> <span class="bnf-terminal">(</span> <a class="link" href="ch06s03.html#bnf--extended-module-path"><span class="bnf-non-terminal">extended-module-path</span></a> <span class="bnf-terminal">)</span></td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--modtype-path"></a>modtype-path</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--modtype-name"><span class="bnf-non-terminal">modtype-name</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s03.html#bnf--extended-module-path"><span class="bnf-non-terminal">extended-module-path</span></a> <span class="bnf-terminal">.</span> <a class="link" href="ch06s03.html#bnf--modtype-name"><span class="bnf-non-terminal">modtype-name</span></a></td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--class-path"></a>class-path</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> <span class="bnf-terminal">.</span> <a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      名前付きのオブジェクトはその名前で参照する (名前のための通常の静的なスコープルールによって) か、アクセスパス <span class="bnf-non-terminal">prefix</span>.<span class="bnf-non-terminal">name</span> によって参照できます。ここで <span class="bnf-non-terminal">prefix</span> はモジュールを、 <span class="bnf-non-terminal">name</span> はそのモジュールで定義されたオブジェクトを表します。 パスの最初の部分 <span class="bnf-non-terminal">prefix</span> は単なるモジュール名か、アクセスパス <span class="bnf-non-terminal">name</span><sub>1</sub>.<span class="bnf-non-terminal">name</span><sub>2</sub> ... となり、後者では名前を定義しているモジュールはそれ自身他のモジュールの中に入れ子なっていることになります。 型構成子やモジュール型を参照する場合、  <span class="bnf-non-terminal">prefix</span> は 単純なファンクタ適用を含むことができます（上の構文クラス <a class="link" href="ch06s03.html#bnf--extended-module-path"><span class="bnf-non-terminal">extended-module-path</span></a> のように）。この場合、定義されているモジュールはファンクタ適用の結果です。
+    </p>
+    <p>
+      ラベル名、タグ名、メソッド名とインスタンス変数名は修飾する必要はありません。前3つはグローバルなラベルですし、後者はクラス内でローカルです。
+    </p>
+  </div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s02.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s04.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">6.2&nbsp;値 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;6.4&nbsp;型式 </td></tr></table></div></body></html>

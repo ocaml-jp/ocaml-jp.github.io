@@ -1,0 +1,106 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>9.2&nbsp;トップレベル指示子</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch09.html" title="9.&nbsp;トップレベルシステム（ocaml）"><link rel="prev" href="ch09s01.html" title="9.1&nbsp;オプション"><link rel="next" href="ch09s03.html" title="9.3&nbsp;トップレベルとモジュールシステム"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">9.2&nbsp;トップレベル指示子</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch09s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">9.&nbsp;トップレベルシステム（<span class="command"><strong>ocaml</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch09s03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="9.2&nbsp;トップレベル指示子"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Toplevel directives"></a>9.2&nbsp;トップレベル指示子</h2></div></div></div>
+    
+    <p>
+      以下の指示子は、トップレベルの振る舞いを制御し、ファイルをメモリに読み込み、プログラムの実行をトレースするためのものです。
+      
+    </p>
+    <p>
+      指示子はすべて <code class="code">#</code> （シャープ）で始まります。
+      指示子の前には必ず <code class="code">#</code> を入力し、対話ループによって表示されるプロンプトの <code class="prompt">#</code> と混同しないようにしてください。
+      例えば、 <strong class="userinput"><code>#quit;;</code></strong> と入力するとトップレベルループを終了しますが、 <strong class="userinput"><code>quit;;</code></strong> と入力すると <code class="computeroutput">unbound value quit</code> というエラーになります。
+      
+    </p>
+    <div class="variablelist"><dl><dt><span class="term"><code class="code">#quit;;</code></span></dt><dd>
+          <p>
+            トップレベルループを抜け、 <span class="command"><strong>ocaml</strong></span> コマンドを終了します。
+            
+          </p>
+        </dd><dt><span class="term"><code class="code">#labels <em class="replaceable"><code>bool</code></em>;;</code></span></dt><dd>
+          <p>
+            引数が <code class="code">false</code> の場合には関数の型中のラベルを無視し、
+            <code class="code">true</code> の場合にはデフォルトの動作（commuting style）に戻ります。
+            
+          </p>
+        </dd><dt><span class="term"><code class="code">#warnings "<em class="replaceable"><code>warning-list</code></em>";;</code></span></dt><dd>
+          <p>
+            引数に応じて警告を有効／無効にします。
+            
+          </p>
+        </dd><dt><span class="term"><code class="code">#directory "<em class="replaceable"><code>dir-name</code></em>";;</code></span></dt><dd>
+          <p>
+            ソースファイルやコンパイル済みファイルを探索するディレクトリのリストに指定されたディレクトリを追加します。
+            
+          </p>
+        </dd><dt><span class="term"><code class="code">#cd "<em class="replaceable"><code>dir-name</code></em>";;</code></span></dt><dd>
+          <p>
+            カレントディレクトリを変更します。
+            
+          </p>
+        </dd><dt><span class="term"><code class="code">#load "<em class="replaceable"><code>file-name</code></em>";;</code></span></dt><dd>
+          <p>
+            バッチコンパイラ <span class="command"><strong>ocamlc</strong></span> の生成したバイトコードオブジェクト（<code class="filename">.cmo</code> ファイル）をメモリに読み込みます。<sup>[<a name="d4e10748" href="#ftn.d4e10748" class="footnote">11</a>]</sup>
+            
+          </p>
+        </dd><dt><span class="term"><code class="code">#use "<em class="replaceable"><code>file-name</code></em>";;</code></span></dt><dd>
+          <p>
+            与えられたファイルからフレーズを読み込み、コンパイルして実行します。
+            これはテキストレベルの取り込みで、フレーズを標準入力にそのまま打ち込んだのと同じように処理されます。
+            最初にエラーが発生した時点でファイルの読み込みは終了します。
+            
+          </p>
+        </dd><dt><span class="term"><code class="code">#install_printer <em class="replaceable"><code>printer-name</code></em>;;</code></span></dt><dd>
+          <p>
+            <em class="replaceable"><code>printer-name</code></em> （値パス）という関数を、その関数の引数の型と一致する値を表示するための関数として登録します。
+            そのような値を表示するとき、トップレベルループから <em class="replaceable"><code>printer-name</code></em> が呼び出されます。
+            
+          </p>
+          <p>
+            表示関数 <em class="parameter"><code>printer-name</code></em> は
+            <span class="type">Format.formatter -&gt; t -&gt; unit</span>
+            型の関数で（<span class="type">t</span> は表示する値の型です）、
+            <code class="code">Format</code> ライブラリで提供される関数を利用して指定された
+            <code class="code">formatter</code> で <code class="code">t</code> 型の値のテキスト表現を出力します。
+            後方互換性のために、 <em class="replaceable"><code>printer-name</code></em>
+            を <span class="type">t -&gt; unit</span> 型の関数とし、標準の <code class="code">formatter</code>
+            で出力することもできますが、その使用法は推奨されません。
+            
+          </p>
+        </dd><dt><span class="term"><code class="code">#remove_printer <em class="replaceable"><code>printer-name</code></em>;;</code></span></dt><dd>
+          <p>
+            指定された名前の関数をトップレベルの表示関数の表から取り除きます。
+            
+          </p>
+        </dd><dt><span class="term"><code class="code">#trace <em class="replaceable"><code>function-name</code></em>;;</code></span></dt><dd>
+          <p>
+            この指示子の実行以後、 <em class="replaceable"><code>function-name</code></em>
+            という名前の関数の呼び出しが「トレース」されるようになります。
+            関数の各呼び出しごとに引数と戻り値を表示し、さらに、関数を通過した例外について、それがその関数内で発生したものなのか、そこから呼び出された別の関数で発生したものなのかを表示します。
+            関数がカリー化されている場合には、引数はその関数に渡された時にそれぞれ別個に表示されます。
+            
+          </p>
+        </dd><dt><span class="term"><code class="code">#untrace <em class="replaceable"><code>function-name</code></em>;;</code></span></dt><dd>
+          <p>
+            指定された関数のトレースを中止します。
+            
+          </p>
+        </dd><dt><span class="term"><code class="code">#untrace_all;;</code></span></dt><dd>
+          <p>
+            これまでトレースしていた関数すべてのトレースを中止します。
+            
+          </p>
+        </dd><dt><span class="term"><code class="code">#print_depth <em class="replaceable"><code>n</code></em>;;</code></span></dt><dd>
+          <p>
+            値を表示する際の深さを最大 <em class="replaceable"><code>n</code></em> に制限します。
+            深さ <em class="replaceable"><code>n</code></em> 以上の部分は <code class="code">...</code> のように表示されます。
+            
+          </p>
+        </dd><dt><span class="term"><code class="code">#print_length <em class="replaceable"><code>n</code></em>;;</code></span></dt><dd>
+          <p>
+            値のノードを表示する際の最大数を <em class="replaceable"><code>n</code></em> に制限します。
+            値の残り部分は <code class="code">...</code> のように表示されます。
+            
+          </p>
+        </dd></dl></div>
+  <div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.d4e10748" href="#d4e10748" class="para">11</a>] </sup>訳注: <code class="filename">.cma</code> ファイルも可。</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch09s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch09.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch09s03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">9.1&nbsp;オプション&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;9.3&nbsp;トップレベルとモジュールシステム</td></tr></table></div></body></html>

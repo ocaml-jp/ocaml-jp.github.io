@@ -1,0 +1,44 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>10.1&nbsp;概要</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch10.html" title="10.&nbsp;ランタイムシステム（ocamlrun）"><link rel="prev" href="ch10.html" title="10.&nbsp;ランタイムシステム（ocamlrun）"><link rel="next" href="ch10s02.html" title="10.2&nbsp;オプション"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">10.1&nbsp;概要</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch10.html">前のページ</a>&nbsp;</td><th width="60%" align="center">10.&nbsp;ランタイムシステム（<span class="command"><strong>ocamlrun</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch10s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="10.1&nbsp;概要"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:ocamlrun:Overview"></a>10.1&nbsp;概要</h2></div></div></div>
+    
+    <p>
+      <span class="command"><strong>ocamlrun</strong></span> コマンドは、実際にバイトコードファイルを実行するバイトコードインタプリタ、メモリ割り当てとガーベジコレクタ、入出力のようなプリミティブ処理を実装する C 関数の集合のみっつの部分から構成されます。
+      
+    </p>
+    <p>
+      <span class="command"><strong>ocamlrun</strong></span> の使い方は以下のようになります。
+      
+    </p>
+    <pre class="programlisting">ocamlrun <em class="replaceable"><code>options bytecode-executable arg<sub>1</sub> ... arg<sub><em class="parameter"><code>n</code></em></sub></code></em></pre>
+    <p>
+      第一引数は省略不可能で、実行可能なバイトコードを格納したファイルの名前として扱われます（このファイルはカレントディレクトリだけでなく実行可能プログラムの探索パスからも探索されます）。
+      残りの引数は <code class="code">Sys.argv</code> の文字列の配列を介して Caml プログラムに渡されます。
+      この配列の第 0 要素は実行可能バイトコードファイルの名前になります。第 1 要素から第 <em class="parameter"><code>n</code></em> 要素までは、残りの引数 <em class="replaceable"><code>arg<sub>1</sub></code></em> から <em class="replaceable"><code>arg<sub><em class="parameter"><code>n</code></em></sub></code></em> になります。
+      
+    </p>
+    <p>
+      <a class="xref" href="ch08.html" title="8.&nbsp;バッチコンパイル（ocamlc）"> 8 章「<i>バッチコンパイル（<span class="command"><strong>ocamlc</strong></span>）</i>」</a> で述べたように、 <span class="command"><strong>ocamlc</strong></span> コマンドで生成した実行可能バイトコードファイルは、それ自体が実行可能で、自身を解釈実行する <span class="command"><strong>ocamlrun</strong></span> コマンドを自分で自動的に起動します。
+      つまり、 <code class="filename">caml.out</code> を実行可能なバイトコードファイルとすると、
+      
+    </p>
+    <pre class="programlisting">caml.out <em class="replaceable"><code>arg<sub>1</sub> ... arg<sub><em class="parameter"><code>n</code></em></sub></code></em></pre>
+    <p>
+      は以下と全く同じように動作します。
+      
+    </p>
+    <pre class="programlisting">ocamlrun caml.out arg<sub>1</sub> ... arg<sub><em class="parameter"><code>n</code></em></sub></pre>
+    <p>
+      ただし、 <code class="filename">caml.out</code> を直接起動した場合には、 <span class="command"><strong>ocamlrun</strong></span> にオプションを渡すことはできないことに注意してください。
+      
+    </p>
+    <div class="note" title="Windows:" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Windows:"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Windows:</th></tr><tr><td align="left" valign="top">
+      
+      <p>
+        Windows のバージョンによっては、実行可能バイトコードファイルの名前が <code class="filename">.exe</code> で終わっていないと単体で実行可能なファイルにはならないことがあります。
+        バイトコード実行ファイルには <code class="filename">.exe</code> 付きの名前を与えるようにすることが推奨されます。
+        <strong class="userinput"><code>ocamlc -o myprog ...</code></strong> ではなく <strong class="userinput"><code>ocamlc -o myprog.exe ...</code></strong> としてコンパイルしてください。
+        
+      </p>
+    </td></tr></table></div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch10.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch10.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch10s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">10.&nbsp;ランタイムシステム（<span class="command"><strong>ocamlrun</strong></span>）&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;10.2&nbsp;オプション</td></tr></table></div></body></html>

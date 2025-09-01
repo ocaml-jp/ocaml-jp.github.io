@@ -1,0 +1,70 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>7.8&nbsp;再帰モジュール</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch07.html" title="7.&nbsp;Language extensions"><link rel="prev" href="ch07s07.html" title="7.7&nbsp;局所モジュール"><link rel="next" href="ch07s09.html" title="7.9&nbsp;private な型"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.8&nbsp;再帰モジュール</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s07.html">前のページ</a>&nbsp;</td><th width="60%" align="center">7.&nbsp;Language extensions</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s09.html">次のページ</a></td></tr></table><hr></div><div class="section" title="7.8&nbsp;再帰モジュール"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Recursive modules"></a>7.8&nbsp;再帰モジュール</h2></div></div></div>
+    
+    <p>（OCaml 3.07 〜）</p>
+    <div class="syntax">
+      <table id="d4e8730">
+        <tbody>
+          <tr>
+            <td rowspan="2" valign="baseline"><a class="bnf-non-terminal" href="ch06s11.html#bnf--definition">definition</a></td>
+            <td><span class="meta">::=</span></td>
+            <td><span class="meta">...</span></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>module rec <a class="bnf-non-terminal" href="ch06s03.html#bnf--module-name">module-name</a> : <a class="bnf-non-terminal" href="ch06s10.html#bnf--module-type">module-type</a> = <a class="bnf-non-terminal" href="ch06s11.html#bnf--module-expr">module-expr</a> <span class="meta">{</span> and <a class="bnf-non-terminal" href="ch06s03.html#bnf--module-name">module-name</a> : <a class="bnf-non-terminal" href="ch06s10.html#bnf--module-type">module-type</a> = <a class="bnf-non-terminal" href="ch06s11.html#bnf--module-expr">module-expr</a> <span class="meta">}</span></td>
+          </tr>
+          <tr>
+            <td rowspan="2" valign="baseline"><a class="bnf-non-terminal" href="ch06s10.html#bnf--specification">specification</a></td>
+            <td><span class="meta">::=</span></td>
+            <td><span class="meta">...</span></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>module rec <a class="bnf-non-terminal" href="ch06s03.html#bnf--module-name">module-name</a> : <a class="bnf-non-terminal" href="ch06s10.html#bnf--module-type">module-type</a> <span class="meta">{</span> and <a class="bnf-non-terminal" href="ch06s03.html#bnf--module-name">module-name</a> : <a class="bnf-non-terminal" href="ch06s10.html#bnf--module-type">module-type</a> <span class="meta">}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      再帰モジュールの定義は <code class="syntax">module rec <span class="syntax">...</span> and <span class="syntax">...</span></code> 構文で始めます。これは、通常の <code class="syntax">module <a class="bnf-non-terminal" href="ch06s03.html#bnf--module-name">module-name</a> = <a class="bnf-non-terminal" href="ch06s11.html#bnf--module-expr">module-expr</a></code> 形式のモジュール定義と <code class="syntax">module <a class="bnf-non-terminal" href="ch06s03.html#bnf--module-name">module-name</a> : <a class="bnf-non-terminal" href="ch06s10.html#bnf--module-type">module-type</a></code> 形式のモジュール仕様を一般化し、 <a class="bnf-non-terminal" href="ch06s11.html#bnf--module-expr">module-expr</a> と <a class="bnf-non-terminal" href="ch06s10.html#bnf--module-type">module-type</a> 内で定義中のモジュール識別子を参照できるようにしたものです。再帰モジュール定義の典型的な例としては次のようなものがあります。
+      
+    </p>
+    <pre class="programlisting">
+module rec A : sig
+                 type t = Leaf of string | Node of ASet.t
+                 val compare: t -&gt; t -&gt; int
+               end
+             = struct
+                 type t = Leaf of string | Node of ASet.t
+                 let compare t1 t2 =
+                   match (t1, t2) with
+                     (Leaf s1, Leaf s2) -&gt; Pervasives.compare s1 s2
+                   | (Leaf _, Node _) -&gt; 1
+                   | (Node _, Leaf _) -&gt; -1
+                   | (Node n1, Node n2) -&gt; ASet.compare n1 n2
+               end
+    and ASet : Set.S with type elt = A.t
+             = Set.Make(A)
+    </pre>
+    <p>
+      これには次のような仕様が与えられます。
+      
+    </p>
+    <pre class="programlisting">
+module rec A : sig
+                 type t = Leaf of string | Node of ASet.t
+                 val compare: t -&gt; t -&gt; int
+               end
+    and ASet : Set.S with type elt = A.t
+    </pre>
+    <p>
+      これは Objective Caml の実験的な拡張です。受け入れられる再帰的定義のクラスは、その動的な意味論も含め、最終的なものではなく将来変更されるかもしれません。
+      
+    </p>
+    <p>
+      現在の実装では、再帰的に定義されたモジュール識別子の依存関係の輪が、最低でもひとつは「安全な」モジュールを含むことを要求しています。モジュール中のすべての値の定義が関数型 <code class="syntax"><a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a><sub>1</sub> -&gt; <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a><sub>2</sub></code> を持つとき、そのモジュールは「安全」である、と言います。再帰モジュールの定義は、そこに含まれる安全なモジュール内の（関数）値に初期値として <code class="code">fun _ -&gt; raise Undefined_recursive_module</code> を束縛することにより進められます。その次に、定義中のモジュール内の式を評価し、それによって計算された値で安全なモジュール内の束縛に与えられた初期値が置き換えられます。安全なモジュール内の関数が値の計算中に適用されると（これは ill-founded な再帰定義にあたります）、 <code class="exceptionname">Undefined_recursive_module</code> 例外が発生します。
+      
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s07.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s09.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">7.7&nbsp;局所モジュール&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;7.9&nbsp;<code class="code">private</code> な型</td></tr></table></div></body></html>

@@ -1,0 +1,20 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>17.3&nbsp;Printing profiling information</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch17.html" title="17.&nbsp;プロファイラ（ocamlprof）"><link rel="prev" href="ch17s02.html" title="17.2&nbsp;Profiling an execution"><link rel="next" href="ch17s04.html" title="17.4&nbsp;Time profiling"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">17.3&nbsp;Printing profiling information</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch17s02.html">前のページ</a>&nbsp;</td><th width="60%" align="center">17.&nbsp;プロファイラ（<span class="command"><strong>ocamlprof</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch17s04.html">次のページ</a></td></tr></table><hr></div><div class="section" title="17.3&nbsp;Printing profiling information"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e13285"></a>17.3&nbsp;Printing profiling information</h2></div></div></div>
+    
+    <p>
+      The ocamlprof command produces a source listing of the program modules where
+      execution counts have been inserted as comments. For instance, 
+    </p>
+    <pre class="programlisting">ocamlprof foo.ml</pre>
+    <p>
+      prints the source code for the foo module, with comments indicating how many
+      times the functions in this module have been called. Naturally, this
+      information is accurate only if the source file has not been modified since the
+      profiling execution took place.
+    </p>
+    <p>
+      The following options are recognized by ocamlprof:
+    </p>
+    <div class="variablelist"><dl><dt><span class="term"> -f dumpfile </span></dt><dd><p>  Specifies an alternate dump file of profiling information to be read. </p></dd><dt><span class="term"> -F string </span></dt><dd><p> Specifies an additional string to be output with profiling information. By default, ocamlprof will annotate programs with comments of the form (* n *) where n is the counter value for a profiling point. With option -F s, the annotation will be (* sn *). </p></dd><dt><span class="term"> -impl sourcefile </span></dt><dd><p> Treat sourcefile as an implementation file (i.e. as if its name ended with .ml). </p></dd><dt><span class="term"> -intf sourcefile </span></dt><dd><p> Treat sourcefile as an interface file (i.e. as if its name ended with .mli). </p></dd><dt><span class="term"> -version </span></dt><dd><p> Print the version number of ocamlprof and exit. </p></dd><dt><span class="term"> -instrument </span></dt><dd><p> </p></dd><dt><span class="term"> -m flags </span></dt><dd><p> These options are undocumented; they are used internally by ocamlcp.</p></dd></dl></div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch17s02.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch17.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch17s04.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">17.2&nbsp;Profiling an execution&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;17.4&nbsp;Time profiling</td></tr></table></div></body></html>

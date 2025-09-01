@@ -1,0 +1,103 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.6&nbsp;プライベートメソッド</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s05.html" title="3.5&nbsp;抽象メソッド"><link rel="next" href="ch03s07.html" title="3.7&nbsp;クラスインタフェース"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.6&nbsp;プライベートメソッド</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s05.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s07.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.6&nbsp;プライベートメソッド"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Private methods"></a>3.6&nbsp;プライベートメソッド</h2></div></div></div>
+    
+    <p>
+      プライベートメソッドとはオブジェクトのインタフェースに現れないメソッドです。プライベートメソッドは同じオブジェクトの他のメソッドからのみ呼び出すことができます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class restricted_point x_init =
+   object (self)
+     val mutable x = x_init
+     method get_x = x
+     method private move d = x &lt;- x + d
+     method bump = self move 1
+   end;;</code></strong>
+<code class="computeroutput">class restricted_point :
+  int -&gt;
+  object
+    val mutable x : int
+    method bump : unit
+    method get_x : int
+    method private move : int -&gt; unit
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let p = new restricted_point 0;;</code></strong>
+<code class="computeroutput">val p : restricted_point = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>p#move 10;;</code></strong>
+<code class="computeroutput">This expression has type restricted_point
+It has no method move</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>p#bump;;</code></strong>
+<code class="computeroutput">- : unit = ()</code>
+    </pre>
+    <p>
+      これは Java や C++ のプライベートメソッドやプロテクテッドメソッドとは異なることに注意してください。 Java や C++ では同じクラスの別のオブジェクトからも呼ひ出せますが、 Objective Caml では呼び出せません。これは、 Objective Caml では型とクラスが独立していることによるものです。無関係のクラスが同じ型のオブジェクトを生成することができるので、型レベルでオブジェクトが同じクラスから生成されたか確かめることができません。しかし、3.17節で述べるように friend メソッドを実現することはできます。
+    </p>
+    <p>
+      後で述べるようにシグネチャによって隠蔽しない限り、プライベートメソッドは継承され、子クラスから呼び出すことができます。
+    </p>
+    <p>
+       プライベートメソッドは、子クラスで公開することもできます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class point_again x =
+   object (self)
+     inherit restricted_point x
+     method virtual move : _
+   end;;</code></strong>
+<code class="computeroutput">class point_again :
+  int -&gt;
+  object
+    val mutable x : int
+    method bump : unit
+    method get_x : int
+    method move : int -&gt; unit
+  end</code>
+    </pre>
+    <p>
+      ここで <code class="code">virtual</code> が用いられているのは、メソッドをその定義をあたえることなく言及するためです。 <code class="code">private</code> キーワードを用いなかったのでメソッドは公開され、その定義は親クラスのものが用いられます。 
+    </p>
+    <p>
+      次のような定義を用いることもできます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class point_again x =
+   object (self : &lt; move : _; ..&gt; )
+     inherit restricted_point x
+   end;;</code></strong>
+<code class="computeroutput">class point_again :
+  int -&gt;
+  object
+    val mutable x : int
+    method bump : unit
+    method get_x : int
+    method move : int -&gt; unit
+  end</code>
+    </pre>
+    <p>
+      <code class="code">self</code> の型が <code class="code">move</code> メソッドが公開されていることを示しています。これでプライベートメソッドを公開することができます。 
+    </p>
+    <p>
+      プライベートメソッドは子クラスでも公開されるべきでないと考えるかも知れません。しかし、プライベートメソッドは子クラスから呼び出すことはできるので、結局プライベートメソッドを呼び出す公開メソッドはいつでも定義できます。例えば次のようにすることができます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class point_again x =
+   object
+     inherit restricted_point x as super
+     method move = super#move 
+   end;;</code></strong>
+<code class="computeroutput">class point_again :
+  int -&gt;
+  object
+    val mutable x : int
+    method bump : unit
+    method get_x : int
+    method move : int -&gt; unit
+  end</code>
+    </pre>
+    <p>
+      プライベートメソッドは抽象メソッドでもありえます。このとき、キーワードは <code class="code">method private virtual</code> の順で与えられなければなりません。 
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s05.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s07.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.5&nbsp;抽象メソッド&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.7&nbsp;クラスインタフェース</td></tr></table></div></body></html>

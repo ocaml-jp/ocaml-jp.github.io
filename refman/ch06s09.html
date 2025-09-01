@@ -1,0 +1,556 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>6.9&nbsp;クラス</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch06.html" title="6.&nbsp;The Objective Caml language"><link rel="prev" href="ch06s08.html" title="6.8&nbsp;型と例外の定義"><link rel="next" href="ch06s10.html" title="6.10&nbsp;モジュール型"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.9&nbsp;クラス </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s08.html">前のページ</a>&nbsp;</td><th width="60%" align="center">6.&nbsp;The Objective Caml language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s10.html">次のページ</a></td></tr></table><hr></div><div class="section" title="6.9&nbsp;クラス"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Classes"></a>6.9&nbsp;クラス </h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch06s09.html#d4e6418">6.9.1. クラス型 </a></span></dt><dt><span class="section"><a href="ch06s09.html#d4e6634">6.9.2. クラス式 </a></span></dt><dt><span class="section"><a href="ch06s09.html#sec:classdef">6.9.3. クラス定義 </a></span></dt><dt><span class="section"><a href="ch06s09.html#sec:classspec">6.9.4. クラス仕様 </a></span></dt><dt><span class="section"><a href="ch06s09.html#sec:classtypedef">6.9.5. クラス型定義 </a></span></dt></dl></div>
+  
+  <p>
+    クラスはモジュール定義と似たようなミニ言語を使って定義されます。
+    
+  </p>
+  <div class="section" title="6.9.1&nbsp;クラス型"><div class="titlepage"><div><div><h3 class="title"><a name="d4e6418"></a>6.9.1&nbsp;クラス型 </h3></div></div></div>
+    
+    <p>
+      クラス型はクラスにおける型式で、クラスの概形と型特性を規定します。
+      
+    </p>
+    <table id="d4e6421">
+      <tbody>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--class-type"></a>class-type</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s09.html#bnf--class-body-type"><span class="bnf-non-terminal">class-body-type</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td>[ [ <span class="bnf-terminal">?</span> ] <a class="link" href="ch06s03.html#bnf--label-name"><span class="bnf-non-terminal">label-name</span></a> <span class="bnf-terminal">:</span> ] <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s09.html#bnf--class-type"><span class="bnf-non-terminal">class-type</span></a></td>
+        </tr>
+        <tr>
+          <td rowspan="3" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--class-body-type"></a>class-body-type</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">object</span> [ <span class="bnf-terminal">(</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">)</span> ] { <a class="link" href="ch06s09.html#bnf--class-field-spec"><span class="bnf-non-terminal">class-field-spec</span></a> } <span class="bnf-terminal">end</span></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">[</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> { <span class="bnf-terminal">,</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> } <span class="bnf-terminal">]</span> <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a></td>
+        </tr>
+        <tr>
+          <td rowspan="5" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--class-field-spec"></a>class-field-spec</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">inherit</span> <a class="link" href="ch06s09.html#bnf--class-type"><span class="bnf-non-terminal">class-type</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">val</span> [ <span class="bnf-terminal">mutable</span> ] [ <span class="bnf-terminal">virtual</span> ] <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">method</span> [ <span class="bnf-terminal">private</span> ] <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">method</span> [ <span class="bnf-terminal">private</span> ] <span class="bnf-terminal">virtual</span> <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">constraint</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="section" title="単純なクラス式"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6521"></a>単純なクラス式 </h4></div></div></div>
+      
+      <p>
+        <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a> という式はその名前に束縛されたクラス型と等価です。 
+        同様に、 <span class="bnf-terminal">[</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub><span class="bnf-terminal">,</span> ... <span class="bnf-terminal">,</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub><em class="parameter"><code>n</code></em></sub><span class="bnf-terminal">]</span> はその名前に束縛された、パラメータ化されたクラスと等価で、型パラメータは各々 <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub>, ..., <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub><em class="parameter"><code>n</code></em></sub> にインスタン化されます。
+        
+      </p>
+    </div>
+    <div class="section" title="クラス関数型"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6544"></a>クラス関数型 </h4></div></div></div>
+      
+      <p>
+        <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s09.html#bnf--class-type"><span class="bnf-non-terminal">class-type</span></a> はクラス関数（値からクラスへの関数）の型で、 <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> 型の値を引数に取り、結果として <a class="link" href="ch06s09.html#bnf--class-type"><span class="bnf-non-terminal">class-type</span></a> 型のクラスを返すものを表します。
+        
+      </p>
+    </div>
+    <div class="section" title="クラスの本体の型"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6556"></a>クラスの本体の型 </h4></div></div></div>
+      
+      <p>
+        <span class="bnf-terminal">object</span> [<span class="bnf-terminal">(</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">)</span>] { <a class="link" href="ch06s09.html#bnf--class-field-spec"><span class="bnf-non-terminal">class-field-spec</span></a> } <span class="bnf-terminal">end</span> はクラス本体の型で、インスタンス変数とメソッドを規定します。
+        このとき、 <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> は自身の型とマッチされます。
+        すなわち、自身の型への束縛になります。
+        
+      </p>
+      <p>
+        クラス本体がクラス型に規定されたすべての構成要素を定義し、それらの型がクラス型で与えられた型要求を満たす場合、クラス本体はクラス本体の型にマッチします。
+        さらに、クラス本体に存在するメソッドは virtual であれ public であれ、クラス型にも存在していなければなりません（一方で、インスタンス変数や具象 private メソッドは省略してもかまいません）。
+        抽象メソッドは具象メソッドにマッチします。
+        抽象メソッドを使うと実装を捨象できます。
+        変更可能なインスタンス変数は変更可能なインスタンス変数にマッチします。
+        
+      </p>
+    </div>
+    <div class="section" title="継承"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6570"></a>継承 </h4></div></div></div>
+      
+      <p>
+        継承構文 <span class="bnf-terminal">inherit</span> <a class="link" href="ch06s09.html#bnf--class-type"><span class="bnf-non-terminal">class-type</span></a> を使うと他のクラス型からメソッドとインスタンス変数を取り込むことができます。
+        取り込まれたインスタンス変数とメソッドの型は現在のクラスの型うに追加されます。
+        
+      </p>
+    </div>
+    <div class="section" title="インスタンス変数の仕様"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6576"></a>インスタンス変数の仕様 </h4></div></div></div>
+      
+      <p>
+        インスタンス変数の仕様は
+        <span class="bnf-terminal">val</span> [<span class="bnf-terminal">mutable</span>] [<span class="bnf-terminal">virtual</span>] <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> と書きます。
+        ここで、 <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> はインスタンス変数の名前で、 <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> はそれに期待される型です。
+        <span class="bnf-terminal">mutable</span> はそのインスタンス変数が物理的に変更できるかどうかを表します。
+        <span class="bnf-terminal">virtual</span> はこのインスタンス変数が初期化されていないことを示します。
+        未初期化のインスタンス変数は継承を用いてあとで初期化することができます。
+        
+      </p>
+      <p>
+        インスタンス変数の仕様を書くと、同名のインスタンス変数の仕様はすべて隠蔽されます。
+        
+      </p>
+    </div>
+    <div class="section" title="メソッドの仕様"><div class="titlepage"><div><div><h4 class="title"><a name="sec:Method specification"></a>メソッドの仕様 </h4></div></div></div>
+      
+      <p>
+        メソッドの仕様は
+        [<span class="bnf-terminal">private</span>] <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a> と書きます。
+        ここで、 <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> はメソッドの名前であり、 <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a> はメソッドに期待される型で、多相型にすることができます。
+        private は、そのメソッドがオブジェクトの外側からはアクセスできないことを表します。
+        
+      </p>
+      <p>
+        public なメソッドの仕様では暗黙にメソッドの多相性が保たれることがあります。
+        クラスのパラメータで束縛されない型変数で、クラス仕様内の他の部分に現れないものは、全称性のものと仮定され、結果のメソッド型で多相型になります。
+        多相型を明示するとこのような振舞いにはなりません。
+        
+      </p>
+      <p>
+        同一のメソッドに対する複数の仕様は整合性のある型でなければなりません。
+        あるメソッドに private でない仕様があると、そのメソッドは public になります。
+        
+      </p>
+    </div>
+    <div class="section" title="抽象メソッドの仕様"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6609"></a>抽象メソッドの仕様 </h4></div></div></div>
+      
+      <p>
+        抽象メソッドの仕様は [<span class="bnf-terminal">private</span>] <span class="bnf-terminal">virtual</span> <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a> と書きます。
+        ここで、 <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> はメソッドの名前で、 <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a> はそれに期待される型になります。
+        
+      </p>
+    </div>
+    <div class="section" title="型引数に対する制約"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6623"></a>型引数に対する制約 </h4></div></div></div>
+      
+      <p>
+        <span class="bnf-terminal">constraint</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub> <span class="bnf-terminal">=</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>2</sub> 構文はふたつの型式が等しいことを強制します。
+        典型的には型パラメータを指定するのに使います。
+        これを使うと型パラメータを指定された型式に束縛することができます。
+        
+      </p>
+    </div>
+  </div>
+  <div class="section" title="6.9.2&nbsp;クラス式"><div class="titlepage"><div><div><h3 class="title"><a name="d4e6634"></a>6.9.2&nbsp;クラス式 </h3></div></div></div>
+    
+    <p>
+      クラス式はクラスにおける値式で、クラスに評価され、クラス型の表す仕様に対する実装を表すものになります。
+      
+    </p>
+    <table id="d4e6637">
+      <tbody>
+        <tr>
+          <td rowspan="8" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--class-expr"></a>class-expr</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">[</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> { <span class="bnf-terminal">,</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> } <span class="bnf-terminal">]</span> <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">(</span> <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> <span class="bnf-terminal">)</span></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">(</span> <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s09.html#bnf--class-type"><span class="bnf-non-terminal">class-type</span></a> <span class="bnf-terminal">)</span></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> { <a class="link" href="ch06s07.html#bnf--argument"><span class="bnf-non-terminal">argument</span></a> }<sup>+</sup></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">fun</span> { <a class="link" href="ch06s07.html#bnf--parameter"><span class="bnf-non-terminal">parameter</span></a> }<sup>+</sup> <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">let</span> [ <span class="bnf-terminal">rec</span> ] <a class="link" href="ch06s07.html#bnf--let-binding"><span class="bnf-non-terminal">let-binding</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s07.html#bnf--let-binding"><span class="bnf-non-terminal">let-binding</span></a> } <span class="bnf-terminal">in</span> <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">object</span> [ <span class="bnf-terminal">(</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> [ <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> ] <span class="bnf-terminal">)</span> ] { <a class="link" href="ch06s09.html#bnf--class-field"><span class="bnf-non-terminal">class-field</span></a> } <span class="bnf-terminal">end</span></td>
+        </tr>
+        <tr>
+          <td rowspan="8" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--class-field"></a>class-field</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">inherit</span> <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> [ <span class="bnf-terminal">as</span> <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> ]</td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">val</span> [ <span class="bnf-terminal">mutable</span> ] <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> [ <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> ] <span class="bnf-terminal">=</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">val</span> [ <span class="bnf-terminal">mutable</span> ] <span class="bnf-terminal">virtual</span> <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">method</span> [ <span class="bnf-terminal">private</span> ] <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> { <a class="link" href="ch06s07.html#bnf--parameter"><span class="bnf-non-terminal">parameter</span></a> } [ <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> ] <span class="bnf-terminal">=</span> <a class="link" href="ch06s09.html#bnf--expr-class"><span class="bnf-non-terminal">expr</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">method</span> [ <span class="bnf-terminal">private</span> ] <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s09.html#bnf--expr-class"><span class="bnf-non-terminal">expr</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">method</span> [ <span class="bnf-terminal">private</span> ] <span class="bnf-terminal">virtual</span> <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">constraint</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">initializer</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="section" title="単純なクラス式"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6809"></a>単純なクラス式 </h4></div></div></div>
+      
+      <p>
+        <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a> はその名前に束縛されたクラスに評価されます。
+        同様に、 <span class="bnf-terminal">[</span><a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub><span class="bnf-terminal">,</span> ...<span class="bnf-terminal">,</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub><em class="parameter"><code>n</code></em></sub><span class="bnf-terminal">]</span> <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a> はその名前に束縛された、パラメータ化されたクラスに評価され、型パラメータがそれぞれ <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub>, ..., <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub><em class="parameter"><code>n</code></em></sub> にインスタンス化されます。
+        
+      </p>
+      <p>
+        <span class="bnf-terminal">(</span><a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a><span class="bnf-terminal">)</span> は <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> と同一のクラス<sup>[<a name="d4e6841" href="#ftn.d4e6841" class="footnote">5</a>]</sup>に評価されます。
+        
+      </p>
+      <p>
+        <span class="bnf-terminal">(</span> <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s09.html#bnf--class-type"><span class="bnf-non-terminal">class-type</span></a> <span class="bnf-terminal">)</span> は <a class="link" href="ch06s09.html#bnf--class-type"><span class="bnf-non-terminal">class-type</span></a> が <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> の型にマッチするか（すなわち、実装である <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> が、型仕様である <a class="link" href="ch06s09.html#bnf--class-type"><span class="bnf-non-terminal">class-type</span></a> に適合するか）検査します。
+        式全体は <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> と同じクラスに評価されますが、 <a class="link" href="ch06s09.html#bnf--class-type"><span class="bnf-non-terminal">class-type</span></a> に指定されていない要素はすべて隠蔽され、アクセスできなくなります。
+        
+      </p>
+    </div>
+    <div class="section" title="クラスの適用"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6863"></a>クラスの適用 </h4></div></div></div>
+      
+      <p>
+        クラスの適用は（ラベルのついた）式を並べることであらわされます。
+        これはもとの構築子を引数列に適用する構築子を持つクラスを表します。
+        引数は式の適用のときと同じように評価されますが、構築子自体はオブジェクトを生成するときにだけ評価されます。
+        特に、構築子の適用によって引き起こされる副作用はオブジェクトの生成時にだけ起こります。
+        
+      </p>
+    </div>
+    <div class="section" title="クラス関数"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6866"></a>クラス関数 </h4></div></div></div>
+      
+      <p>
+        <span class="bnf-terminal">fun</span> [[<span class="bnf-terminal">?</span>]<a class="link" href="ch06s03.html#bnf--label-name"><span class="bnf-non-terminal">label-name</span></a><span class="bnf-terminal">:</span>] <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> は値からクラスへの関数に評価されます。
+        この関数が値 <em class="parameter"><code>v</code></em> に適用されると、その値が <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> とマッチされ、パターンマッチにより拡張された環境で <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> を評価した結果がこの式の値になります。
+        
+      </p>
+      <p>
+        デフォルト値のある関数からパターンのみの関数への変換は通常の関数と同様に行われます。
+        
+      </p>
+      <p>
+        </p><div class="literallayout"><p><span class="bnf-terminal">fun</span>&nbsp;<a class="link" href="ch06s07.html#bnf--parameter"><span class="bnf-non-terminal">parameter</span></a><sub>1</sub>&nbsp;...&nbsp;<a class="link" href="ch06s07.html#bnf--parameter"><span class="bnf-non-terminal">parameter</span></a><sub><em class="parameter"><code>n</code></em></sub>&nbsp;<span class="bnf-terminal">-&gt;</span>&nbsp;<a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a></p></div><p>
+        は
+        </p><div class="literallayout"><p><span class="bnf-terminal">fun</span>&nbsp;<a class="link" href="ch06s07.html#bnf--parameter"><span class="bnf-non-terminal">parameter</span></a><sub>1</sub>&nbsp;<span class="bnf-terminal">-&gt;</span>&nbsp;...&nbsp;<span class="bnf-terminal">fun</span>&nbsp;<a class="link" href="ch06s07.html#bnf--parameter"><span class="bnf-non-terminal">parameter</span></a><sub><em class="parameter"><code>n</code></em></sub>&nbsp;<span class="bnf-terminal">-&gt;</span>&nbsp;<a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a></p></div><p>
+        の省略形です。<sup>[<a name="d4e6912" href="#ftn.d4e6912" class="footnote">6</a>]</sup>
+        
+      </p>
+    </div>
+    <div class="section" title="局所定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6917"></a>局所定義 </h4></div></div></div>
+      
+      <p>
+        <span class="bnf-terminal">let</span> および <span class="bnf-terminal">let rec</span> 構文は、通常の式における場合と同じく、名前を局所的に束縛します。
+        
+      </p>
+      <p>
+        クラス定義の最初に局所定義が現れた場合には、その定義はクラスが生成されるときに（単純に、その定義がクラス定義の外側にあるように）評価されます。
+        それ以外の場合には構築子が呼び出されたときに評価されます。
+         
+      </p>
+    </div>
+    <div class="section" title="クラス本体"><div class="titlepage"><div><div><h4 class="title"><a name="sec:class-body"></a>クラス本体</h4></div></div></div>
+      
+      <table id="d4e6925">
+        <tbody>
+          <tr>
+            <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--class-body"></a>class-body</span></td>
+            <td>::=</td>
+            <td>[ <span class="bnf-terminal">(</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> [ <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> ] <span class="bnf-terminal">)</span> ]</td>
+          </tr>
+          <tr>
+            <td>|</td>
+            <td>{ <a class="link" href="ch06s09.html#bnf--class-field"><span class="bnf-non-terminal">class-field</span></a> }</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        <span class="bnf-terminal">object</span> <a class="link" href="ch06s09.html#bnf--class-body"><span class="bnf-non-terminal">class-body</span></a> <span class="bnf-terminal">end</span> はクラスの本体を表します。
+        これはクラスのプロトタイプで、クラスに属するオブジェクトの持つインスタンス変数やメソッドを並べます。
+        
+      </p>
+      <p>
+        クラス本体はクラス値で、評価されるのは一回だけではなく、オブジェクトが作られるたびにその構成要素が評価されます。
+        
+      </p>
+      <p>
+        クラス本体では、 <span class="bnf-terminal">(</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> [<span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a>] <span class="bnf-terminal">)</span> というパターンは自身とマッチされます。
+        したがって、これにより自身と自身の型が束縛されます。
+        これらの束縛はメソッドと初期化子の中でだけ使うことができます。
+        
+      </p>
+      <p>
+        自身の型を閉じたオブジェクト型にすることはできないので、クラスは拡張可能なままになります。
+        
+      </p>
+    </div>
+    <div class="section" title="継承"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6959"></a>継承 </h4></div></div></div>
+      
+      <p>
+        継承構文 <span class="bnf-terminal">inherit</span> <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> を使うと他のクラスのメソッドやインスタンス変数を再利用できます。
+        クラス式 <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> はクラス式に評価され、このクラスのインスタンス変数、メソッド、初期化子が現在のクラスに追加されます。
+        メソッドを追加すると以前に定義された同名のメソッドはすべて上書きされます。
+        
+      </p>
+      <p>
+        上記のクラス構文の後に <span class="bnf-terminal">as</span> <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> を続けることで親クラスを <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> に束縛することができます。
+        ここで、 <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> は真の変数ではなく、メソッドを選択するためにだけ使うことができます。
+        例えば、 <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> <span class="bnf-terminal">#</span> <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> とすることで、 <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> が現在のクラスで再定義されていた場合でも、親クラスで定義されたものをそのまま参照することができます。
+        この親クラスのスコープは現在のクラスに限定されています。
+        親クラスのメソッドを子クラスから呼ぶことはできますが、間接的にしか呼ぶことはできません。
+        
+      </p>
+    </div>
+    <div class="section" title="インスタンス変数の定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6982"></a>インスタンス変数の定義 </h4></div></div></div>
+      
+      <p>
+        <span class="bnf-terminal">val</span> [<span class="bnf-terminal">mutable</span>] <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> と定義すると、初期値が式 <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> の値であるインスタンス変数 <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> が追加されます。
+        <span class="bnf-terminal">mutable</span> をつけるとこの変数をメソッドから物理的に変更できるようになります。
+        
+      </p>
+      <p>
+        インスタンス変数はクラス内で後続するメソッドや初期化子内だけで使うことができます。
+        
+      </p>
+      <p>
+        version 3.10 から、可視なインスタンス変数を同名のもので再定義した場合、変数を新たに作らず、最後の初期化式の値を使って変数を結合することになりました。
+        このとき、それぞれの定義の型と変更可能性は同じでなければなりません。
+        ただし、インタフェースから除外することでそのインスタンス変数を隠蔽していた場合には、そのインスタンス変数は同名のその他の変数とは区別されます。
+        
+      </p>
+    </div>
+    <div class="section" title="抽象インスタンス変数の定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6999"></a>抽象インスタンス変数の定義 </h4></div></div></div>
+      
+      <p>
+        抽象<sup>[<a name="d4e7002" href="#ftn.d4e7002" class="footnote">7</a>]</sup>インスタンス<sup>[<a name="d4e7004" href="#ftn.d4e7004" class="footnote">8</a>]</sup>変数の定義は <span class="bnf-terminal">val</span> [<span class="bnf-terminal">mutable</span>] <span class="bnf-terminal">virtual</span> <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> と書きます。
+        値が変更可能であるか指定でき、型を指定します。
+        
+      </p>
+      <p>
+        抽象インスタンス変数は version 3.10 で追加されました。
+        
+      </p>
+    </div>
+    <div class="section" title="メソッド定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7015"></a>メソッド定義 </h4></div></div></div>
+      
+      <p>
+        メソッド定義は <span class="bnf-terminal">method</span> <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> と書きます。
+        この定義により先行する同名のメソッドの定義はすべて上書きされます。
+        定義のうちのいずれかが public である（private でない）と指定されていれば、メソッドは public になります。
+        
+      </p>
+      <p>
+        private メソッド <span class="bnf-terminal">method</span> <span class="bnf-terminal">private</span> <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> は自身から（同一のオブジェクトの別のメソッドで、現在のクラスか、子クラスで定義されたものから）起動することができます。
+        <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> <span class="bnf-terminal">#</span> <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> のようにして起動します。
+        <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> はクラス定義の先頭で自身を指すように束縛されたものです。
+        private メソッドはオブジェクトの型の中には登場しません。
+        ひとつのメソッドに public な定義と private な定義の両方を与えることができますが、 public なものがひとつでもあれば、残りの定義はすべて public になります。
+        
+      </p>
+      <p>
+        メソッドが多相型を持つことを明示することもでき、これによりそのメソッドをプログラム中で（同一のオブジェクトに対しても）多相的に扱うことができるようになります。
+        多相性を明示するには次のいずれかの方法を使います。
+        (1) メソッド定義中で、メソッド名の直後に多相型を明示する。
+        <span class="bnf-terminal">method</span> [<span class="bnf-terminal">private</span>] <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> <span class="bnf-terminal">:</span> {<span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a>}<sup>+</sup><span class="bnf-terminal">.</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a>
+        (2) 抽象メソッド定義を使ってまえもって多相型を明示して宣言する。
+        (3) 継承や型制約を使ってそのような宣言を取り込む。
+        
+      </p>
+      <p>
+        メソッド本体ではインスタンス変数を操作したり、自身を複製したりするための特別な式を使うことができます。
+        
+      </p>
+      <table id="d4e7056">
+        <tbody>
+          <tr>
+            <td rowspan="3" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--expr-class"></a>expr</span></td>
+            <td>::=</td>
+            <td><a class="link" href="ch06s07.html#bnf--expr">...</a></td>
+          </tr>
+          <tr>
+            <td>|</td>
+            <td><a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> <span class="bnf-terminal">&lt;-</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a></td>
+          </tr>
+          <tr>
+            <td>|</td>
+            <td><span class="bnf-terminal">{&lt;</span> [ <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> { <span class="bnf-terminal">;</span> <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> } ] <span class="bnf-terminal">&gt;}</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> <span class="bnf-terminal">&lt;-</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> は <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> に対応する値を <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> の値で置き換え、現在のオブジェクトをその場で変更します。
+        変更対象のインスタンス変数は <span class="bnf-terminal">mutable</span> と宣言されていなければなりません。
+        
+      </p>
+      <p>
+        <span class="bnf-terminal">{&lt;</span> [<a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> { <span class="bnf-terminal">;</span> <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> } ] <span class="bnf-terminal">&gt;}</span> は現在のオブジェクトのインスタンス変数 <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a><sub>1</sub> ... <a class="link" href="ch06s03.html#bnf--inst-var-name"><span class="bnf-non-terminal">inst-var-name</span></a><sub><em class="parameter"><code>n</code></em></sub> を 対応する式 <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a><sub>1</sub> ... <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a><sub><em class="parameter"><code>n</code></em></sub> の値で置き換えた、コピーを返します。
+        
+      </p>
+    </div>
+    <div class="section" title="抽象メソッドの定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7127"></a>抽象メソッドの定義 </h4></div></div></div>
+      
+      <p>
+        抽象<sup>[<a name="d4e7130" href="#ftn.d4e7130" class="footnote">9</a>]</sup>メソッドの定義は <span class="bnf-terminal">method</span> [<span class="bnf-terminal">private</span>] <span class="bnf-terminal">virtual</span> <a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a> と書きます。
+        メソッドが public か private かと、その型を指定します。
+        メソッドの型を多相的にする場合は、それを明示しなければなりません。
+        
+      </p>
+    </div>
+    <div class="section" title="型パラメータに対する制約"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7140"></a>型パラメータに対する制約 </h4></div></div></div>
+      
+      <p>
+        <span class="bnf-terminal">constraint</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub> <span class="bnf-terminal">=</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>2</sub> はふたつの型が等しいことを強制します。
+        典型的には型パラメータを指定するのに使います。
+        これを使うと型パラメータを指定された型式に束縛することができます。
+        
+      </p>
+    </div>
+    <div class="section" title="初期化子"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7151"></a>初期化子 </h4></div></div></div>
+      
+      <p>
+        クラス初期化子 <span class="bnf-terminal">initializer</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> はクラスからオブジェクトが生成され、インスタンス変数がすべて初期化された時点で評価されます。
+        
+      </p>
+    </div>
+  </div>
+  <div class="section" title="6.9.3&nbsp;クラス定義"><div class="titlepage"><div><div><h3 class="title"><a name="sec:classdef"></a>6.9.3&nbsp;クラス定義 </h3></div></div></div>
+    
+    <table id="d4e7159">
+      <tbody>
+        <tr>
+          <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--class-definition"></a>class-definition</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">class</span> <a class="link" href="ch06s09.html#bnf--class-binding"><span class="bnf-non-terminal">class-binding</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s09.html#bnf--class-binding"><span class="bnf-non-terminal">class-binding</span></a> }</td>
+        </tr>
+        <tr>
+          <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--class-binding"></a>class-binding</span></td>
+          <td>::=</td>
+          <td>[ <span class="bnf-terminal">virtual</span> ] [ <span class="bnf-terminal">[</span> <a class="link" href="ch06s09.html#bnf--type-parameters"><span class="bnf-non-terminal">type-parameters</span></a> <span class="bnf-terminal">]</span> ] <a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a> { <a class="link" href="ch06s07.html#bnf--parameter"><span class="bnf-non-terminal">parameter</span></a> } [ <span class="bnf-terminal">:</span> <a class="link" href="ch06s09.html#bnf--class-type"><span class="bnf-non-terminal">class-type</span></a> ] <span class="bnf-terminal">=</span> <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a></td>
+        </tr>
+        <tr>
+          <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--type-parameters"></a>type-parameters</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">'</span> <span class="bnf-terminal">ident</span> { <span class="bnf-terminal">,</span> <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> }</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      クラス宣言は <span class="bnf-terminal">class</span> <a class="link" href="ch06s09.html#bnf--class-binding"><span class="bnf-non-terminal">class-binding</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s09.html#bnf--class-binding"><span class="bnf-non-terminal">class-binding</span></a> } は再帰的です。
+      各 <a class="link" href="ch06s09.html#bnf--class-binding"><span class="bnf-non-terminal">class-binding</span></a> は継承以外のすべての式で参照できる <a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a> を定義します。
+      定義された名前は、後続する定義では継承にも使うことができます。
+      
+    </p>
+    <p>
+      <a class="link" href="ch06s09.html#bnf--class-binding"><span class="bnf-non-terminal">class-binding</span></a> はクラス名 <a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a> を式 <a class="link" href="ch06s09.html#bnf--class-expr"><span class="bnf-non-terminal">class-expr</span></a> の値に束縛します。
+      また、クラス型 <a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a> をそのクラスの型に束縛し、 <a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a> と <span class="bnf-terminal">#</span><a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a> のふたつの略記型を定義します。
+      前者はこのクラスのオブジェクトの型で、後者はより一般的な、任意の子クラスのオブジェクトの型も単一化したものです（<a class="xref" href="ch06s04.html" title="6.4&nbsp;型式"> 6.4 節「型式 」</a> 参照）。
+      
+    </p>
+    <div class="section" title="抽象クラス"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7229"></a>抽象クラス </h4></div></div></div>
+      
+      <p>
+        クラスに抽象メソッド（すなわち、クラス型に現れながら、実際には定義されていないメソッド）がある場合、定義に <span class="bnf-terminal">virtual</span> をつけなければなりません。
+        抽象クラスからオブジェクトを作ることはできません。
+        
+      </p>
+    </div>
+    <div class="section" title="型パラメータ"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7233"></a>型パラメータ </h4></div></div></div>
+      
+      <p>
+        型パラメータはクラス型と、そのふたつ型略記に対応づけられます。
+        型パラメータはクラス定義内で型制約を使って実際の型に束縛されなければなりません。
+        型略記が妥当なものになるためには、推論された型の型パラメータは型パラメータになるか、 <span class="bnf-terminal">constraint</span> 節より束縛されなければなりません。
+        
+      </p>
+    </div>
+  </div>
+  <div class="section" title="6.9.4&nbsp;クラス仕様"><div class="titlepage"><div><div><h3 class="title"><a name="sec:classspec"></a>6.9.4&nbsp;クラス仕様 </h3></div></div></div>
+    
+    <table id="d4e7239">
+      <tbody>
+        <tr>
+          <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--class-specification"></a>class-specification</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">class</span> <a class="link" href="ch06s09.html#bnf--class-spec"><span class="bnf-non-terminal">class-spec</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s09.html#bnf--class-spec"><span class="bnf-non-terminal">class-spec</span></a> }</td>
+        </tr>
+        <tr>
+          <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--class-spec"></a>class-spec</span></td>
+          <td>::=</td>
+          <td>[ <span class="bnf-terminal">virtual</span> ] [ <span class="bnf-terminal">[</span> <a class="link" href="ch06s09.html#bnf--type-parameters"><span class="bnf-non-terminal">type-parameters</span></a> <span class="bnf-terminal">]</span> ] <a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s09.html#bnf--class-type"><span class="bnf-non-terminal">class-type</span></a></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      クラス仕様はクラス定義においてシグネチャに相当するものです。
+      クラス仕様に同一の型パラメータがあり、型がマッチする場合、そのクラス仕様はクラス定義にマッチします。
+      
+    </p>
+  </div>
+  <div class="section" title="6.9.5&nbsp;クラス型定義"><div class="titlepage"><div><div><h3 class="title"><a name="sec:classtypedef"></a>6.9.5&nbsp;クラス型定義 </h3></div></div></div>
+    
+    <table id="d4e7270">
+      <tbody>
+        <tr>
+          <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--classtype-definition"></a>classtype-definition</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">class</span> <span class="bnf-terminal">type</span> <a class="link" href="ch06s09.html#bnf--classtype-def"><span class="bnf-non-terminal">classtype-def</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s09.html#bnf--classtype-def"><span class="bnf-non-terminal">classtype-def</span></a> }</td>
+        </tr>
+        <tr>
+          <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--classtype-def"></a>classtype-def</span></td>
+          <td>::=</td>
+          <td>[ <span class="bnf-terminal">virtual</span> ] [ <span class="bnf-terminal">[</span> <a class="link" href="ch06s09.html#bnf--type-parameters"><span class="bnf-non-terminal">type-parameters</span></a> <span class="bnf-terminal">]</span> ] <a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s09.html#bnf--class-body-type"><span class="bnf-non-terminal">class-body-type</span></a></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      クラス型定義 <span class="bnf-terminal">class</span> <a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s09.html#bnf--class-body-type"><span class="bnf-non-terminal">class-body-type</span></a> は、クラス本体の型 <a class="link" href="ch06s09.html#bnf--class-body-type"><span class="bnf-non-terminal">class-body-type</span></a> の略記型 <a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a> を定義します。
+      クラス定義と同じく、ふたつの略記型 <a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a> と <span class="bnf-terminal">#</span><a class="link" href="ch06s03.html#bnf--class-name"><span class="bnf-non-terminal">class-name</span></a> も定義されます。
+      定義に型パラメータをつけてパラメータ化することもできます。
+      クラス型本体に virtual とされたメソッドがある場合、クラス型定義に virtual をつけなければなりません。
+      
+    </p>
+    <p>
+      ふたつクラス型定義に、同一の型パラメータがあり、展開された各型がマッチするとき、ふたつの定義はマッチします。
+      
+    </p>
+  </div>
+<div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.d4e6841" href="#d4e6841" class="para">5</a>] </sup>訳注: 原文: モジュール</p></div><div class="footnote"><p><sup>[<a name="ftn.d4e6912" href="#d4e6912" class="para">6</a>] </sup>訳注: 原文: <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> とあり</p></div><div class="footnote"><p><sup>[<a name="ftn.d4e7002" href="#d4e7002" class="para">7</a>] </sup>訳注: 原文に virtual の語なし</p></div><div class="footnote"><p><sup>[<a name="ftn.d4e7004" href="#d4e7004" class="para">8</a>] </sup>訳注: 原文に instance の語なし</p></div><div class="footnote"><p><sup>[<a name="ftn.d4e7130" href="#d4e7130" class="para">9</a>] </sup>訳注: 原文に virtual の語なし</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s08.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s10.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">6.8&nbsp;型と例外の定義 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;6.10&nbsp;モジュール型 </td></tr></table></div></body></html>

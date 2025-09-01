@@ -1,0 +1,103 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.16&nbsp;バイナリメソッド</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s15.html" title="3.15&nbsp;再帰クラス"><link rel="next" href="ch03s17.html" title="3.17&nbsp;Friend"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.16&nbsp;バイナリメソッド</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s15.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s17.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.16&nbsp;バイナリメソッド"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Binary methods"></a>3.16&nbsp;バイナリメソッド</h2></div></div></div>
+    
+    <p>
+      そのオブジェクト自体と同じ型の引数を取るメソッドのことをバイナリメソッドと言います。下の <code class="code">comparable</code> クラスは型 <code class="code">'a -&gt; bool</code> なるバイナリメソッド <code class="code">leq</code> を持つクラスのテンプレートです。ここで <code class="code">'a</code> はオブジェクト自体の型に束縛されています。したがって、 <code class="code">#comparable</code> は <code class="code">&lt; leq : 'a -&gt; bool; .. &gt; as 'a</code> の略記となります。ここで <code class="code">as</code> が再帰的な型を表記するのに使えることが分ります。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class virtual comparable = 
+   object (_ : 'a)
+     method virtual leq : 'a -&gt; bool
+   end;;</code></strong>
+<code class="computeroutput">class virtual comparable : object ('a) method virtual leq : 'a -&gt; bool end</code>
+    </pre>
+    <p>
+      さて、 <code class="code">comparable</code> の子クラス <code class="code">money</code> を定義しましょう。 <code class="code">money</code> クラスは、単に浮動小数点数型を <code class="code">comparable</code> オブジェクトになるようにしたものです。後で、もっと操作を加えることにします。 <code class="code">&lt;=</code> は Objective Caml では多相型を持つので、クラス引数 <code class="code">x</code> には型制約が与えられています。 <code class="code">inherit</code> 節によってこのクラスのオブジェクトが <code class="code">#comparable</code> のインスタンスであることが保証されています。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class money (x : float) =
+   object
+     inherit comparable
+     val repr = x
+     method value = repr
+     method leq p = repr &lt;= p value
+   end;;</code></strong>
+<code class="computeroutput">class money :
+  float -&gt;
+  object ('a)
+    val repr : float
+    method leq : 'a -&gt; bool
+    method value : float
+  end</code>
+    </pre>
+    <p>
+      型 <code class="code">money</code> は <code class="code">comparable</code> の部分型でないことに注意して下さい。というのは、自分自身の型が引数の位置に現れているからです。実際、クラス <code class="code">money</code> のオブジェクト <code class="code">m</code> のメソッド <code class="code">leq</code> は引数の <code class="code">value</code> メソッドを呼び出します。もし、<code class="code">m</code> が型 <code class="code">comparable</code> を持つとみなせたとすると、 <code class="code">value</code> メソッドを持たないオブジェクトを引数として <code class="code">m</code> の <code class="code">leq</code> メソッドを呼び出せることになり、エラーとなります。
+    </p>
+    <p>
+      同じように、次の型 <code class="code">money2</code> は <code class="code">money</code> の部分型ではありません。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class money2 x =
+   object   
+     inherit money x
+     method times k = {&lt; repr = k *. repr &gt;}
+   end;;</code></strong>
+<code class="computeroutput">class money2 :
+  float -&gt;
+  object ('a)
+    val repr : float
+    method leq : 'a -&gt; bool
+    method times : float -&gt; 'a
+    method value : float
+  end</code>
+    </pre>
+    <p>
+      しかし、 <code class="code">money</code> と <code class="code">money2</code> のいずれの型を持つオブジェクトでも機能する関数を定義することができます。関数 <code class="code">min</code> は <code class="code">#comparable</code> に単一化する型を持つ二つのオブジェクトのうち、最小のものを返します。 <code class="code">min</code> の型は <code class="code">#comparable -&gt; #comparable -&gt; #comparable</code> ではありません。というのは、<code class="code">#comparable</code> は型変数 （<code class="code">..</code> の部分）を隠蔽するからです。これでは、それぞれの <code class="code">#comparable</code> が新しい型変数を導入してしまいます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let min (x : #comparable) y =
+   if x#leq y then x else y;;</code></strong>
+<code class="computeroutput">val min : (#comparable as 'a) -&gt; 'a -&gt; 'a = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      この関数は <code class="code">money</code> と <code class="code">money2</code> のどちらの型をもつオブジェクトにも適用できます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>(min (new money  1.3) (new money 3.1))#value;;</code></strong>
+<code class="computeroutput">- : float = 1.3</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>(min (new money2 5.0) (new money2 3.14))#value;;</code></strong>
+<code class="computeroutput">- : float = 3.14</code>
+    </pre>
+    <p>
+      バイナリメソッドの他の例は<a class="xref" href="ch05s02.html#subsec:Strings" title="5.2.1&nbsp;文字列"> 5.2.1 節「文字列 」</a>と<a class="xref" href="ch05s02.html#subsec:Sets" title="5.2.4&nbsp;集合"> 5.2.4 節「集合 」</a>にあげられています。
+    </p>
+    <p>
+      <code class="code">times</code> メソッドで <code class="code">{&lt; ... &gt;}</code> 構文を用いていることに注意して下さい。 <code class="code">{&lt; repr = k *. repr &gt;}</code> の代わりに <code class="code">new money2 (k *. repr)</code> と書くと、継承をしたときにうまく動きません。すなわち、 <code class="code">money2</code> の子クラス <code class="code">money3</code> で <code class="code">times</code> メソッドが期待した <code class="code">money3</code> クラスではなく <code class="code">money2</code> クラスのオブジェクトを返すようになってしまうのです。
+    </p>
+    <p>
+      <code class="code">money</code> クラスには当然他のバイナリメソッドあるでしょう。ここでは直接定義します。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class money x =
+   object (self : 'a)
+     val repr = x
+     method value = repr
+     method print = print_float repr
+     method times k = {&lt; repr = k *. x &gt;}
+     method leq (p : 'a) = repr &lt;= p value
+     method plus (p : 'a) = {&lt; repr = x +. p value &gt;}
+   end;;</code></strong>
+<code class="computeroutput">class money :
+  float -&gt;
+  object ('a)
+    val repr : float
+    method leq : 'a -&gt; bool
+    method plus : 'a -&gt; 'a
+    method print : unit
+    method times : float -&gt; 'a
+    method value : float
+  end</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s15.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s17.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.15&nbsp;再帰クラス&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.17&nbsp;Friend</td></tr></table></div></body></html>

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Int64.html">
+<link rel="next" href="Lexing.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><title>Lazy</title>
+</head>
+<body>
+<div class="navbar"><a href="Int64.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="Lexing.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Lazy.html">Lazy</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Lazy: <code class="code"><span class="keyword">sig</span></code> <a href="Lazy.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>遅延計算<br>
+<hr width="100%">
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type">'a</code> t</span> = <code class="type">'a lazy_t</code> </pre>
+<div class="info">
+<code class="code"><span class="keywordsign">'</span>a <span class="constructor">Lazy</span>.t</code> 型の値は、中断（suspension）と呼ばれる、 <code class="code"><span class="keywordsign">'</span>a</code> 型の結果を返す遅延計算です。
+    <code class="code"><span class="keyword">lazy</span> (expr)</code> という特殊な式の構文は、 <code class="code">expr</code> 自体は計算せずに、 <code class="code">expr</code> に対する中断を作成します。
+    中断を強制評価（force）すると <code class="code">expr</code> を計算し、その結果を返します。
+<p>
+
+    注意: <code class="code">lazy_t</code> はコンパイラが予約語 <code class="code"><span class="keyword">lazy</span></code> に対して使うための組み込みの型で、利用者が直接使うべきものではありません。常に <code class="code"><span class="constructor">Lazy</span>.t</code> を使ってください。
+<p>
+
+    注意: <code class="code"><span class="constructor">Lazy</span>.force</code> はスレッドセーフではありません。このモジュールをマルチスレッドプログラムで使うためには何らかのロックを追加する必要があります。
+<p>
+
+    注意: プログラムを <code class="code">-rectypes</code> オプションを指定してコンパイルすると、
+    <code class="code"><span class="keyword">let</span> <span class="keyword">rec</span> x = <span class="keyword">lazy</span> x</code> や <code class="code"><span class="keyword">let</span> <span class="keyword">rec</span> x = <span class="keyword">lazy</span>(<span class="keyword">lazy</span>(...(<span class="keyword">lazy</span> x)))</code> といったような
+    ill-founded な再帰的定義が型検査を通り、それを強制評価すると、ガーベジコレクターや実行システムの別の部分で無限ループを引き起こすような不正な値になります。
+    <code class="code">-rectypes</code> オプションを使わなければ、このような ill-founded な定義は型検査を通りません。<br>
+</div>
+
+<pre><span id="EXCEPTIONUndefined"><span class="keyword">exception</span> Undefined</span></pre>
+<pre><span id="VALforce"><span class="keyword">val</span> force</span> : <code class="type">'a <a href="Lazy.html#TYPEt">t</a> -> 'a</code></pre><div class="info">
+<code class="code">force x</code> は中断 <code class="code">x</code> を強制評価し、その結果を返します。 <code class="code">x</code> が既に評価されていた場合には、 <code class="code"><span class="constructor">Lazy</span>.force x</code> は再計算を行なわずに同じ値を返します。
+    計算中に例外が発生した場合には、再評価時にも同じ例外が発生します。
+    <code class="code">x</code> を強制評価しているときに <code class="code">x</code> 自体を再帰的に強制評価しようとすると <code class="code"><span class="constructor">Undefined</span></code>
+    例外が発生します。<br>
+</div>
+<pre><span id="VALforce_val"><span class="keyword">val</span> force_val</span> : <code class="type">'a <a href="Lazy.html#TYPEt">t</a> -> 'a</code></pre><div class="info">
+<code class="code">force x</code> は中断 <code class="code">x</code> を強制評価し、その結果を返します。 <code class="code">x</code> が既に評価されていた場合には、 <code class="code"><span class="constructor">Lazy</span>.force x</code> は再計算を行なわずに同じ値を返します。
+    <code class="code">x</code> を強制評価しているときに <code class="code">x</code> 自体を再帰的に強制評価しようとすると <code class="code"><span class="constructor">Undefined</span></code>
+    例外が発生します。
+    <code class="code">x</code> の計算中に例外が発生したときに、もう一度 <code class="code">force_val x</code>
+    した場合、同一の例外が発生するか <code class="code"><span class="constructor">Undefined</span></code> 例外が発生するかは規定されていません。<br>
+</div>
+<pre><span id="VALlazy_from_fun"><span class="keyword">val</span> lazy_from_fun</span> : <code class="type">(unit -> 'a) -> 'a <a href="Lazy.html#TYPEt">t</a></code></pre><div class="info">
+<code class="code">lazy_from_fun f</code> は <code class="code"><span class="keyword">lazy</span> (f ())</code> と同じですが、若干効率的です。<br>
+</div>
+<pre><span id="VALlazy_from_val"><span class="keyword">val</span> lazy_from_val</span> : <code class="type">'a -> 'a <a href="Lazy.html#TYPEt">t</a></code></pre><div class="info">
+<code class="code">lazy_from_val</code> は既に評価された中断 <code class="code">v</code> を返します。
+    これは特別な目的のために使うもので、 <code class="code"><span class="keyword">lazy</span> (v)</code> と混同してはいけません。<br>
+</div>
+<pre><span id="VALlazy_is_val"><span class="keyword">val</span> lazy_is_val</span> : <code class="type">'a <a href="Lazy.html#TYPEt">t</a> -> bool</code></pre><div class="info">
+<code class="code">lazy_is_val x</code> は <code class="code">x</code> が既に評価されていて、例外を発生させない場合に <code class="code"><span class="keyword">true</span></code> を返します。<br>
+</div>
+</body></html>

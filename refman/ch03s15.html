@@ -1,0 +1,29 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.15&nbsp;再帰クラス</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s14.html" title="3.14&nbsp;オブジェクトの複製"><link rel="next" href="ch03s16.html" title="3.16&nbsp;バイナリメソッド"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.15&nbsp;再帰クラス</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s14.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s16.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.15&nbsp;再帰クラス"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Recursive classes"></a>3.15&nbsp;再帰クラス</h2></div></div></div>
+    
+    <p>
+      再帰クラスを使うと、型が相互に再帰的なオブジェクトを定義することができます
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class window =
+   object 
+     val mutable top_widget = (None : widget option)
+     method top_widget = top_widget
+   end
+ and widget (w : window) =
+   object
+     val window = w
+     method window = window
+   end;;</code></strong>
+<code class="computeroutput">class window :
+  object
+    val mutable top_widget : widget option
+    method top_widget : widget option
+  end
+and widget : window -&gt; object val window : window method window : window end</code>
+    </pre>
+    <p>
+      型は相互に再帰的ですが、<code class="code">widget</code> クラスと <code class="code">window</code> クラス自体は独立です。
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s14.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s16.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.14&nbsp;オブジェクトの複製&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.16&nbsp;バイナリメソッド</td></tr></table></div></body></html>

@@ -1,0 +1,38 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>8.3&nbsp;モジュールとファイルシステム</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch08.html" title="8.&nbsp;バッチコンパイル（ocamlc）"><link rel="prev" href="ch08s02.html" title="8.2&nbsp;オプション"><link rel="next" href="ch08s04.html" title="8.4&nbsp;よくあるエラー"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">8.3&nbsp;モジュールとファイルシステム</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08s02.html">前のページ</a>&nbsp;</td><th width="60%" align="center">8.&nbsp;バッチコンパイル（<span class="command"><strong>ocamlc</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch08s04.html">次のページ</a></td></tr></table><hr></div><div class="section" title="8.3&nbsp;モジュールとファイルシステム"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Modules and the file system"></a>8.3&nbsp;モジュールとファイルシステム</h2></div></div></div>
+      
+      <p>
+        本節では翻訳単位に対応するモジュールの名前と、コンパイル済みのインタフェースや実装を格納するファイルの名前の関係について述べます。
+        
+      </p>
+      <p>
+        コンパイラは常にソースファイル（<code class="filename">.ml</code> ファイルや <code class="filename">.mli</code> ファイル）のベースネームの一文字目を大文字にしたものをモジュール名とします。
+        すなわち、ディレクトリ名が先にあればそれを取り除き、同様に拡張子 <code class="filename">.ml</code> や <code class="filename">.mli</code> も取り除きます。
+        それから、モジュール名は大文字から始まる必要があるので、最初の文字を大文字にします。
+        例えば、 <code class="filename">mylib/misc.ml</code> をコンパイルすると、 <code class="code">Misc</code> というモジュールの実装になります。
+        他の翻訳単位からは <code class="filename">mylib/misc.ml</code> で定義された要素は <code class="code">Misc.<em class="replaceable"><code>name</code></em></code> という名前で参照できます。
+        また、 <code class="code">open Misc</code> として、修飾されていない <em class="replaceable"><code>name</code></em> という名前を使うこともできます。
+        
+      </p>
+      <p>
+        コンパイラの生成した <code class="filename">.cmi</code> ファイルも
+        <code class="filename">.cmo</code> ファイルもソースファイルと同じベースネームになります。
+        したがって、コンパイル済みのファイルは常に（最初の文字が大文字か小文字かということを除けば）、そのインタフェース（<code class="filename">.cmi</code> ファイル）に対応するモジュールやオブジェクトファイル（<code class="filename">.cmo</code> ファイル）により実装されるモジュールと同じ名前になります。
+        
+      </p>
+      <p>
+        コンパイラは自由なモジュール識別子 <code class="code">Mod</code> を見つけると、探索パスから <code class="filename">Mod.cmi</code> ないしは <code class="filename">mod.cmi</code> というファイルを探索し、そのファイルに格納されているコンパイル済みインタフェースを読み込みます。
+        そのため、 <code class="filename">.cmi</code> ファイルの名前を変更することは推奨されません。
+        <code class="filename">.cmi</code> ファイルの名前は常にその翻訳単位の実装の名前と対応していなければなりません。
+        ベースネームが変更されないのであれば、 <code class="filename">.cmi</code> ファイルを別のディレクトリに移動することは構いません。
+        コンパイラに適切な <code class="option">-I</code> オプションを指定しましょう。
+        名前を変更した <code class="filename">.cmi</code> を読み込むとコンパイラはエラーを出力し、停止します。
+        
+      </p>
+      <p>
+        これに対して、コンパイル済みバイトコードファイル（<code class="filename">.cmo</code> ファイル）の名前は、作成後自由に変更することができます。
+        これは、与えられた名前のモジュールを実装する <code class="filename">.cmo</code> ファイルをリンカが自分で探すことはなく、 <code class="filename">.cmo</code> ファイルは常に利用者が手作業で指定することになっているからです。
+        
+      </p>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08s02.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch08.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch08s04.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">8.2&nbsp;オプション &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;8.4&nbsp;よくあるエラー</td></tr></table></div></body></html>

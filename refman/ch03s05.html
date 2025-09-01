@@ -1,0 +1,65 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.5&nbsp;抽象メソッド</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s04.html" title="3.4&nbsp;初期化"><link rel="next" href="ch03s06.html" title="3.6&nbsp;プライベートメソッド"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.5&nbsp;抽象メソッド</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s04.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s06.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.5&nbsp;抽象メソッド"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Virtual methods"></a>3.5&nbsp;抽象メソッド</h2></div></div></div>
+    
+    <p>
+      <code class="code">virtual</code> というキーワードを用いることで、メソッドを宣言だけして定義しないですますことができます。このようなメソッドのことを抽象メソッドと呼びます。抽象メソッドの定義は後に子クラスで与えることができます。抽象メソッドを含むクラスを抽象クラスと呼びます。抽象クラスを定義する際には、クラス定義にも <code class="code">virtual</code> キーワードが必要です。また、抽象クラスのインスタンス、つまりこのクラスのオブジェクトを生成することはできません。一方、抽象クラスの定義は、通常のクラスと同じく型名を定義します。抽象クラスに対応する型では抽象メソッドは、通常のメソッドと同じように扱われます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class virtual abstract_point x_init =
+   object (self)
+     method virtual get_x : int
+     method get_offset = self get_x - x_init
+     method virtual move : int -&gt; unit
+   end;;</code></strong>
+<code class="computeroutput">class virtual abstract_point :
+  int -&gt;
+  object
+    method get_offset : int
+    method virtual get_x : int
+    method virtual move : int -&gt; unit
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class point x_init =
+   object
+     inherit abstract_point x_init
+     val mutable x = x_init
+     method get_x = x
+     method move d = x &lt;- x + d 
+   end;;</code></strong>
+<code class="computeroutput">class point :
+  int -&gt;
+  object
+    val mutable x : int
+    method get_offset : int
+    method get_x : int
+    method move : int -&gt; unit
+  end</code>
+    </pre>
+    <p>
+      インスタンス変数も <code class="code">virtual</code> と宣言することで、メソッドの場合と同じ効果が得られます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class virtual abstract_point2 =
+   object
+     val mutable virtual x : int
+     method move d = x &lt;- x + d 
+   end;;</code></strong>
+<code class="computeroutput">class virtual abstract_point2 :
+  object val mutable virtual x : int method move : int -&gt; unit end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class point2 x_init =
+   object
+     inherit abstract_point2
+     val mutable x = x_init
+     method get_offset = x - x_init
+   end;;</code></strong>
+<code class="computeroutput">class point2 :
+  int -&gt;
+  object
+    val mutable x : int
+    method get_offset : int
+    method move : int -&gt; unit
+  end</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s04.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s06.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.4&nbsp;初期化&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.6&nbsp;プライベートメソッド</td></tr></table></div></body></html>

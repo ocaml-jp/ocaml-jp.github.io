@@ -1,0 +1,24 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>14.2&nbsp;Viewer</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch14.html" title="14.&nbsp;ブラウザ・エディタ（ocamlbrowser）"><link rel="prev" href="ch14s01.html" title="14.1&nbsp;Invocation"><link rel="next" href="ch14s03.html" title="14.3&nbsp;Module browsing"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">14.2&nbsp;Viewer</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch14s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">14.&nbsp;ブラウザ・エディタ（<span class="command"><strong>ocamlbrowser</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14s03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="14.2&nbsp;Viewer"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e11983"></a>14.2&nbsp;Viewer</h2></div></div></div>
+    
+    <p>
+      OCamlBrowser を起動すると最初に、検索ウィンドウと、ロードパスのモジュールのリストが書かれたウィンドウが開きます。一番上にメニューの列があります。
+    </p>
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><span class="guimenu">File</span> - <span class="guimenuitem">Open</span> と <span class="guimenu">File</span> - <span class="guimenuitem">Editor</span> エディタへのアクセスを与えます。
+      </li></ul></div>
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><span class="guimenu">File</span> - <span class="guimenuitem">Shell</span> シェル中に Objective Caml の子プロセスを作成します。
+      </li></ul></div>
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><span class="guimenu">View</span> - <span class="guimenuitem">Show all defs</span> 現在選択されているモジュールのシグネチャを表示します。
+      </li></ul></div>
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><span class="guimenu">View</span> - <span class="guimenuitem">Search entry</span> メニューバーのすぐ下の検索エントリを表示/消去します。
+      </li></ul></div>
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><span class="guimenu">Modules</span> - <span class="guimenuitem">Path editor</span> ロードパスを変更します。<span class="guimenu">Modules</span> - <span class="guimenuitem">Reset cache</span> でロードパスを再スキャンしてモジュールキャッシュをリセットします。インターフェイスを再コンパイルしたときや、キャッシュで何か変なことが起きたときに行ってください。
+      </li></ul></div>
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><span class="guimenu">Modules</span> - <span class="guisubmenu">Search symbol</span> シンボルを検索します。ビューアの一番下の行に表示されるように名前で検索できます。面白いことに、型からも検索できます。<span class="guimenuitem">Exact type</span> はパターンとして指定された型と全く同じ型を持つシンボルを検索します (変数は変数にのみマッチします) 。<span class="guimenuitem">Included type</span> を使うと部分的な情報から検索ができます。ヒットする型はもっと多くの引数を取るかも知れないし、もっと多くの結果を返すかも知れません。パターン中の変数は任意のものにマッチします。どちらの場合でも、引数とタプルの順番は無関係で<sup>[<a name="d4e12016" href="#ftn.d4e12016" class="footnote">12</a>]</sup> 、パターン中でラベル付けされていない引数はどんなラベルにでもマッチします。
+      </li></ul></div>
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><span class="guilabel">Search entry</span> メニューバーのすぐ下にあります。これを使うとすべてのモジュールから識別子で検索ができます (ワイルドカードとして ``?'' や ``*'' が使用可能です) 。type を選択すると、その型を含むものを検索します (cf. <span class="guimenu">Search Symbol</span> - <span class="guimenuitem">Included type</span>) 。
+      </li></ul></div>
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><span class="guimenuitem">Close all</span> <span class="guibutton">Detach</span> ボタンで作成されたウィンドウをすべて消します。このボタンをダブルクリックするとブラウザが終了します。
+      </li></ul></div>
+  <div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.d4e12016" href="#d4e12016" class="para">12</a>] </sup>検索空間の組み合わせ爆発を避けるため、実際の型中のオプション引数は、(1) 引数が多すぎる場合、かつ、(2) パターン中に明示的に現れない場合、無視されます。</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch14s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch14.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14s03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">14.1&nbsp;Invocation&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;14.3&nbsp;Module browsing</td></tr></table></div></body></html>

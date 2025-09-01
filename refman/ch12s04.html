@@ -1,0 +1,131 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>12.4&nbsp;Syntax of grammar definitions</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch12.html" title="12.&nbsp;字句解析器、構文解析器生成器（ocamllex、 ocamlyacc）"><link rel="prev" href="ch12s03.html" title="12.3&nbsp;Overview of ocamlyacc"><link rel="next" href="ch12s05.html" title="12.5&nbsp;Options"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">12.4&nbsp;Syntax of grammar definitions</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12s03.html">前のページ</a>&nbsp;</td><th width="60%" align="center">12.&nbsp;字句解析器、構文解析器生成器（ocamllex、 ocamlyacc）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch12s05.html">次のページ</a></td></tr></table><hr></div><div class="section" title="12.4&nbsp;Syntax of grammar definitions"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e11804"></a>12.4&nbsp;Syntax of grammar definitions</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch12s04.html#d4e11809">12.4.1. Header and trailer</a></span></dt><dt><span class="section"><a href="ch12s04.html#d4e11812">12.4.2. Declarations</a></span></dt><dt><span class="section"><a href="ch12s04.html#d4e11834">12.4.3. Rules</a></span></dt><dt><span class="section"><a href="ch12s04.html#d4e11843">12.4.4. Error handling</a></span></dt></dl></div>
+      
+      <p>
+        Grammar definitions have the following format: 
+      </p>
+      <pre class="programlisting">
+%{
+  header
+%}
+  declarations
+%%
+  rules
+%%
+  trailer
+</pre>
+      <p>
+        Comments are enclosed between `/*' and `*/' (as in C) in the "declarations" and "rules" sections, and between `(*' and `*)' (as in Caml) in the "header" and "trailer" sections.
+      </p>
+      <div class="section" title="12.4.1&nbsp;Header and trailer"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11809"></a>12.4.1&nbsp;Header and trailer</h3></div></div></div>
+        
+        <p>
+          The header and the trailer sections are Caml code that is copied as is into file grammar.ml. Both sections are optional. The header goes at the beginning of the output file; it usually contains open directives and auxiliary functions required by the semantic actions of the rules. The trailer goes at the end of the output file.
+        </p>
+      </div>
+      <div class="section" title="12.4.2&nbsp;Declarations"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11812"></a>12.4.2&nbsp;Declarations</h3></div></div></div>
+        
+        <p>
+          Declarations are given one per line. They all start with a `%' sign.
+        </p>
+        <pre class="programlisting">%token constr ...  constr</pre>
+        <p>
+          Declare the given symbols constr ...  constr as tokens (terminal symbols). These symbols are added as constant constructors for the token concrete type.
+        </p>
+        <pre class="programlisting">%token &lt; typexpr &gt;  constr ...  constr</pre>
+        <p>
+          Declare the given symbols constr ... constr as tokens with an attached attribute of the given type. These symbols are added as constructors with arguments of the given type for the token concrete type. The typexpr part is an arbitrary Caml type expression, except that all type constructor names must be fully qualified (e.g. Modname.typename) for all types except standard built-in types, even if the proper `open' directives (e.g. `open Modname') were given in the header section. That's because the header is copied only to the .ml output file, but not to the .mli output file, while the typexpr part of a `%token'
+declaration is copied to both.
+        </p>
+        <pre class="programlisting">%start symbol ...  symbol</pre>
+        <p>
+          Declare the given symbols as entry points for the grammar. For each entry point, a parsing function with the same name is defined in the output module. Non-terminals that are not declared as entry points have no such parsing function. Start symbols must be given a type with the `%type' directive below.
+        </p>
+        <pre class="programlisting">%type &lt; typexpr &gt;  symbol ...  symbol</pre>
+        <p>
+          Specify the type of the semantic attributes for the given symbols. This is mandatory for start symbols only.
+        </p>
+        <p>
+          Other nonterminal symbols need not be given types by hand: these types will be inferred when running the output files through the Objective Caml compiler (unless the `-s' option is in effect). The typexpr part is an arbitrary Caml type expression, except that all type constructor names must be fully qualified, as explained above for %token.
+        </p>
+        <pre class="programlisting">
+%left symbol ...  symbol  
+%right symbol ...  symbol  
+%nonassoc symbol ...  symbol 
+</pre>
+        <p>
+          Associate precedences and associativities to the given symbols. All symbols on the same line are given the same precedence. They have higher precedence than symbols declared before in a `%left', `%right' or `%nonassoc' line.
+        </p>
+        <p>
+          They have lower precedence than symbols declared after in a `%left', `%right' or `%nonassoc' line. The symbols are declared to associate to the left (`%left'), to the right (`%right'), or to be non-associative (`%nonassoc'). The symbols are usually tokens. They can also be dummy nonterminals, for use with the `%prec' directive inside the rules.
+        </p>
+        <p>
+          The precedence declarations are used in the following way to resolve reduce/reduce and shift/reduce conflicts: 
+        </p>
+        <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">Tokens and rules have precedences. By default, the precedence of a rule is the precedence of its rightmost terminal. You can override this default by using the %prec directive in the rule. </li><li class="listitem">A reduce/reduce conflict is resolved in favor of the first rule (in the order given by the source file), and ocamlyacc outputs a warning. </li><li class="listitem">A shift/reduce conflict is resolved by comparing the precedence of the rule to be reduced with the precedence of the token to be shifted. If the precedence of the rule is higher, then the rule will be reduced; if the precedence of the token is higher, then the token will be shifted. </li><li class="listitem">A shift/reduce conflict between a rule and a token with the same precedence will be resolved using the associativity: if the token is left-associative, then the parser will reduce; if the token is right-associative, then the parser will shift. If the token is non-associative, then the parser will declare a syntax error. </li><li class="listitem">When a shift/reduce conflict cannot be resolved using the above method, then ocamlyacc will output a warning and the parser will always shift. </li></ul></div>
+      </div>
+      <div class="section" title="12.4.3&nbsp;Rules"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11834"></a>12.4.3&nbsp;Rules</h3></div></div></div>
+        
+        <p>
+          The syntax for rules is as usual: 
+        </p>
+        <pre class="programlisting">
+nonterminal :
+    symbol ... symbol { semantic-action }
+  | ...
+  | symbol ... symbol { semantic-action }
+;
+</pre>
+        <p>
+          Rules can also contain the `%prec 'symbol directive in the right-hand side
+          part, to override the default precedence and associativity of the rule with the
+          precedence and associativity of the given symbol.
+        </p>
+        <p>
+          Semantic actions are arbitrary Caml expressions, that are evaluated to
+          produce the semantic attribute attached to the defined nonterminal. The
+          semantic actions can access the semantic attributes of the symbols in the
+          right-hand side of the rule with the `$' notation: `$1' is the attribute for
+          the first (leftmost) symbol, `$2' is the attribute for the second symbol, etc.
+        </p>
+        <p>
+          The rules may contain the special symbol error to indicate resynchronization
+          points, as in yacc.
+        </p>
+        <p>
+          Actions occurring in the middle of rules are not supported.
+        </p>
+        <p>
+          Nonterminal symbols are like regular Caml symbols, except that they cannot
+          end with ' (single quote).
+        </p>
+      </div>
+      <div class="section" title="12.4.4&nbsp;Error handling"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11843"></a>12.4.4&nbsp;Error handling</h3></div></div></div>
+        
+        <p>
+          Error recovery is supported as follows: when the parser reaches an error
+          state (no grammar rules can apply), it calls a function named parse_error with
+          the string "syntax error" as argument. The default parse_error function does
+          nothing and returns, thus initiating error recovery (see below). The user can
+          define a customized parse_error function in the header section of the grammar
+          file.
+        </p>
+        <p>
+          The parser also enters error recovery mode if one of the grammar actions
+          raises the Parsing.Parse_error exception.
+        </p>
+        <p>
+          In error recovery mode, the parser discards states from the stack until it
+          reaches a place where the error token can be shifted. It then discards tokens
+          from the input until it finds three successive tokens that can be accepted, and
+          starts processing with the first of these. If no state can be uncovered where
+          the error token can be shifted, then the parser aborts by raising the
+          Parsing.Parse_error exception.
+        </p>
+        <p>
+          Refer to documentation on yacc for more details and guidance in how to use
+          error recovery.
+        </p>
+      </div>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12s03.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch12.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch12s05.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">12.3&nbsp;Overview of ocamlyacc&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;12.5&nbsp;Options</td></tr></table></div></body></html>

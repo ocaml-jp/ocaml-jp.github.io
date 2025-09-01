@@ -1,0 +1,21 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>13.1&nbsp;Options</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch13.html" title="13.&nbsp;依存関係生成器（ocamldep）"><link rel="prev" href="ch13.html" title="13.&nbsp;依存関係生成器（ocamldep）"><link rel="next" href="ch13s02.html" title="13.2&nbsp;A typical Makefile"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">13.1&nbsp;Options</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13.html">前のページ</a>&nbsp;</td><th width="60%" align="center">13.&nbsp;依存関係生成器（<span class="command"><strong>ocamldep</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch13s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="13.1&nbsp;Options"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e11903"></a>13.1&nbsp;Options</h2></div></div></div>
+    
+    <p>
+      ocamldep のオプションは以下の通りです。
+    </p>
+    <div class="variablelist"><dl><dt><span class="term"><code class="option">-I</code> <em class="parameter"><code>directory</code></em></span></dt><dd>
+          <p>
+            指定されたディレクトリをソースファイルの検索パスに追加します。ソースファイル foo.ml の中に外部コンパイルユニット Bar への参照があると、カレントディレクトリか -I で指定されたディレクトリに bar のソースがあれば、そのユニットのインターフェイス bar.cmi への依存関係が生成されますが、ない場合は Bar は標準ライブラリのモジュールであると判断して依存関係は生成されません。複数のディレクトリにまたがるプログラムに対しては、コンパイラに渡す -I オプションを ocamldep にも渡すことを推奨します。
+          </p>
+        </dd><dt><span class="term"><code class="option">-native</code></span></dt><dd>
+          <p>
+            純粋なネイティブコードプログラム (バイトコードでない) 用の依存関係を生成します。実装ファイル (.ml) がインターフェイスファイル (.mli) を持たない場合、ocamldep はインターフェイスの変更を反映するためコンパイル済みバイトコードファイル (.cmo) への依存関係を生成します。しかしこのせいで、ネイティブコードだけをコンパイルすればいいのに不必要にバイトコードも再コンパイルしてしまうことがあります。この -native フラグを使えば、.cmo の代わりにコンパイル済みネイティブコード .cmx への依存関係を生成することができます (すべてのソースファイルがインターフェイスファイル .mli を持っていればこのフラグは何もしません) 。
+          </p>
+        </dd><dt><span class="term"><code class="option">-version</code></span></dt><dd>
+          <p>
+            バージョンを出力して終了します。
+          </p>
+        </dd></dl></div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch13.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch13s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">13.&nbsp;依存関係生成器（<span class="command"><strong>ocamldep</strong></span>）&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;13.2&nbsp;A typical Makefile</td></tr></table></div></body></html>

@@ -1,0 +1,49 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>17.1&nbsp;Compiling for profiling</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch17.html" title="17.&nbsp;プロファイラ（ocamlprof）"><link rel="prev" href="ch17.html" title="17.&nbsp;プロファイラ（ocamlprof）"><link rel="next" href="ch17s02.html" title="17.2&nbsp;Profiling an execution"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">17.1&nbsp;Compiling for profiling</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch17.html">前のページ</a>&nbsp;</td><th width="60%" align="center">17.&nbsp;プロファイラ（<span class="command"><strong>ocamlprof</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch17s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="17.1&nbsp;Compiling for profiling"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e13243"></a>17.1&nbsp;Compiling for profiling</h2></div></div></div>
+    
+    <p>
+      Before profiling an execution, the program must be compiled in profiling
+      mode, using the ocamlcp front-end to the ocamlc compiler (see chapter 8). When
+      compiling modules separately, ocamlcp must be used when compiling the modules
+      (production of .cmo files), and can also be used (though this is not strictly
+      necessary) when linking them together.
+      Note
+    </p>
+    <p>
+      If a module (.ml file) doesn't have a corresponding interface (.mli file),
+      then compiling it with ocamlcp will produce object files (.cmi and .cmo) that
+      are not compatible with the ones produced by ocamlc, which may lead to problems
+      (if the .cmi or .cmo is still around) when switching between profiling and
+      non-profiling compilations. To avoid this problem, you should always have a
+      .mli file for each .ml file.
+      Note
+    </p>
+    <p>
+      To make sure your programs can be compiled in profiling mode, avoid using
+      any identifier that begins with __ocaml_prof.
+    </p>
+    <p>
+      The amount of profiling information can be controlled through the -p option
+      to ocamlcp, followed by one or several letters indicating which parts of the
+      program should be profiled:
+    </p>
+    <div class="variablelist"><dl><dt><span class="term"> a </span></dt><dd><p> all options </p></dd><dt><span class="term"> f </span></dt><dd><p> function calls : a count point is set at the beginning of function bodies </p></dd><dt><span class="term"> i </span></dt><dd><p> if ...then ...else ... : count points are set in both then branch and else branch </p></dd><dt><span class="term"> l </span></dt><dd><p> while, for loops: a count point is set at the beginning of the loop body </p></dd><dt><span class="term"> m </span></dt><dd><p> match branches: a count point is set at the beginning of the body of each branch </p></dd><dt><span class="term"> t </span></dt><dd><p> try ...with ... branches: a count point is set at the beginning of the body of each branch </p></dd></dl></div>
+    <p>
+      For instance, compiling with ocamlcp -p film profiles function calls,
+      if...then...else..., loops and pattern matching.
+    </p>
+    <p>
+      Calling ocamlcp without the -p option defaults to -p fm, meaning that only
+      function calls and pattern matching are profiled.
+    </p>
+    <div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Note</th></tr><tr><td align="left" valign="top">
+      
+      <p>
+      Due to the implementation of streams and stream patterns as syntactic
+      sugar, it is hard to predict what parts of stream expressions and patterns will
+      be profiled by a given flag. To profile a program with streams, we recommend
+      using ocamlcp -p a.
+      </p>
+    </td></tr></table></div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch17.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch17.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch17s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">17.&nbsp;プロファイラ（<span class="command"><strong>ocamlprof</strong></span>）&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;17.2&nbsp;Profiling an execution</td></tr></table></div></body></html>

@@ -1,0 +1,28 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>16.2&nbsp;Invocation</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch16.html" title="16.&nbsp;デバッガ（ocamldebug）"><link rel="prev" href="ch16s01.html" title="16.1&nbsp;Compiling for debugging"><link rel="next" href="ch16s03.html" title="16.3&nbsp;Commands"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">16.2&nbsp;Invocation</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch16s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">16.&nbsp;デバッガ（<span class="command"><strong>ocamldebug</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch16s03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="16.2&nbsp;Invocation"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e12701"></a>16.2&nbsp;Invocation</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch16s02.html#d4e12703">16.2.1. Starting the debugger</a></span></dt><dt><span class="section"><a href="ch16s02.html#d4e12744">16.2.2. Exiting the debugger</a></span></dt></dl></div>
+    
+    <div class="section" title="16.2.1&nbsp;Starting the debugger"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12703"></a>16.2.1&nbsp;Starting the debugger</h3></div></div></div>
+      
+      <p>
+        The Objective Caml debugger is invoked by running the program ocamldebug with the name of the bytecode executable file as first argument:
+      </p>
+      <pre class="programlisting">ocamldebug [options] program [arguments]</pre>
+      <p>
+        The arguments following program are optional, and are passed as command-line arguments to the program being debugged. (See also the set arguments command.)
+      </p>
+      <p>
+        The following command-line options are recognized: 
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"><code class="option">-I</code> <em class="parameter"><code>directory</code></em></span></dt><dd><p> Add directory to the list of directories searched for source files and compiled files. (See also the directory command.)</p></dd><dt><span class="term"><code class="option">-s</code> <em class="parameter"><code>socket</code></em></span></dt><dd><p> Use socket for communicating with the debugged program. See the description of the command set socket (section 16.8.6) for the format of socket.</p></dd><dt><span class="term"><code class="option">-c</code> <em class="parameter"><code>count</code></em></span></dt><dd><p> Set the maximum number of simultaneously live checkpoints to count.</p></dd><dt><span class="term"><code class="option">-cd</code> <em class="parameter"><code>directory</code></em></span></dt><dd><p> Run the debugger program from the working directory directory, instead of the current directory. (See also the cd command.)</p></dd><dt><span class="term"><code class="option">-emacs</code></span></dt><dd><p> Tell the debugger it is executed under Emacs. (See section 16.10 for information on how to run the debugger under Emacs.)</p></dd><dt><span class="term"><code class="option">-version</code></span></dt><dd><p> Print version and exit. </p></dd></dl></div>
+    </div>
+    <div class="section" title="16.2.2&nbsp;Exiting the debugger"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12744"></a>16.2.2&nbsp;Exiting the debugger</h3></div></div></div>
+      
+      <p>
+        The command quit exits the debugger. You can also exit the debugger by typing an end-of-file character (usually ctrl-D).
+      </p>
+      <p>
+        Typing an interrupt character (usually ctrl-C) will not exit the debugger, but will terminate the action of any debugger command that is in progress and return to the debugger command level. 
+      </p>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch16s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch16.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch16s03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">16.1&nbsp;Compiling for debugging&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;16.3&nbsp;Commands</td></tr></table></div></body></html>

@@ -1,0 +1,231 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>6.11&nbsp;モジュール式</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch06.html" title="6.&nbsp;The Objective Caml language"><link rel="prev" href="ch06s10.html" title="6.10&nbsp;モジュール型"><link rel="next" href="ch06s12.html" title="6.12&nbsp;翻訳単位"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.11&nbsp;モジュール式 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s10.html">前のページ</a>&nbsp;</td><th width="60%" align="center">6.&nbsp;The Objective Caml language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s12.html">次のページ</a></td></tr></table><hr></div><div class="section" title="6.11&nbsp;モジュール式"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Module expressions"></a>6.11&nbsp;モジュール式 </h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch06s11.html#d4e7943">6.11.1. 単純なモジュール式 </a></span></dt><dt><span class="section"><a href="ch06s11.html#d4e7977">6.11.2. ストラクチャ </a></span></dt><dt><span class="section"><a href="ch06s11.html#d4e8193">6.11.3. ファンクタ </a></span></dt></dl></div>
+  
+  <p>
+    モジュール式はモジュールにおける値式で、モジュールに評価されます。
+    モジュール式はモジュール型で表現された仕様に対する実装です。
+    
+  </p>
+  <table id="d4e7798">
+    <tbody>
+      <tr>
+        <td rowspan="6" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--module-expr"></a>module-expr</span></td>
+        <td>::=</td>
+        <td><a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">struct</span> { <a class="link" href="ch06s11.html#bnf--definition"><span class="bnf-non-terminal">definition</span></a> [ <span class="bnf-terminal">;;</span> ] || <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> <span class="bnf-terminal">;;</span> } <span class="bnf-terminal">end</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">functor</span> <span class="bnf-terminal">(</span> <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> <span class="bnf-terminal">)</span> <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> <span class="bnf-terminal">(</span> <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">(</span> <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">(</span> <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td rowspan="10" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--definition"></a>definition</span></td>
+        <td>::=</td>
+        <td><span class="bnf-terminal">let</span> [ <span class="bnf-terminal">rec</span> ] <a class="link" href="ch06s07.html#bnf--let-binding"><span class="bnf-non-terminal">let-binding</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s07.html#bnf--let-binding"><span class="bnf-non-terminal">let-binding</span></a> }</td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">external</span> <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">=</span> <a class="link" href=""><span class="bnf-non-terminal">external-declaration</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s08.html#bnf--type-definition"><span class="bnf-non-terminal">type-definition</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s08.html#bnf--exception-definition"><span class="bnf-non-terminal">exception-definition</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s09.html#bnf--class-definition"><span class="bnf-non-terminal">class-definition</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s09.html#bnf--classtype-definition"><span class="bnf-non-terminal">classtype-definition</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">module</span> <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> { <span class="bnf-terminal">(</span> <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> <span class="bnf-terminal">)</span> } [ <span class="bnf-terminal">:</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> ] <span class="bnf-terminal">=</span> <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">module</span> <span class="bnf-terminal">type</span> <a class="link" href="ch06s03.html#bnf--modtype-name"><span class="bnf-non-terminal">modtype-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">open</span> <a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">include</span> <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="section" title="6.11.1&nbsp;単純なモジュール式"><div class="titlepage"><div><div><h3 class="title"><a name="d4e7943"></a>6.11.1&nbsp;単純なモジュール式 </h3></div></div></div>
+    
+    <p>
+      <a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> はその名前に束縛されたモジュールに評価されます。
+      
+    </p>
+    <p>
+      <span class="bnf-terminal">(</span><a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a><span class="bnf-terminal">)</span> は <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> と同じモジュールに評価されます。
+      
+    </p>
+    <p>
+      <span class="bnf-terminal">(</span><a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><span class="bnf-terminal">)</span> は、 <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> の型が <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> の部分型であるかどうか、すなわち、 <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> で規定された要素がすべて <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> で実装されてい、その実装が <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> の要求に合致しているかをチェックします。
+      式全体は <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> と同じモジュールに評価されますが、 <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> に指定されていない要素はすべて隠蔽され、アクセスできなくなります。
+      
+    </p>
+  </div>
+  <div class="section" title="6.11.2&nbsp;ストラクチャ"><div class="titlepage"><div><div><h3 class="title"><a name="d4e7977"></a>6.11.2&nbsp;ストラクチャ </h3></div></div></div>
+    
+    <p>
+      ストラクチャ <span class="bnf-terminal">struct</span> ... <span class="bnf-terminal">end</span> は、値の名前、型名、例外、モジュール名、モジュール型の名前に対する定義を集めたものです。
+      各定義はストラクチャ内に現れた順に評価されます。
+      各定義により確立される束縛のスコープはストラクチャ全体にまで拡大されます。
+      そのため、ある定義で、同一のストラクチャ内で先に定義した名前を参照することができます。
+      
+    </p>
+    <p>
+      トップレベルや Caml Lightとの互換性のために、定義の後ろには <code class="code">;;</code> を付けられます。
+      <code class="code">;;</code> に特別な意味はありません。
+      また、さらに互換性のために、構成要素として <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> <span class="bnf-terminal">;;</span> と書くこともできます。
+      これは <span class="bnf-terminal">let</span> <span class="bnf-terminal">_</span> <span class="bnf-terminal">=</span> <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> を意味し、 <a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a> は副作用のために評価されます。
+      このときの <code class="code">;;</code> は省略できません。
+      
+    </p>
+    <div class="section" title="値の定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7996"></a>値の定義 </h4></div></div></div>
+      
+      <p>
+        値の定義 <span class="bnf-terminal">let</span> [<span class="bnf-terminal">rec</span>] <a class="link" href="ch06s07.html#bnf--let-binding"><span class="bnf-non-terminal">let-binding</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s07.html#bnf--let-binding"><span class="bnf-non-terminal">let-binding</span></a> } は <span class="bnf-terminal">let</span> ... <span class="bnf-terminal">in</span> ... 式（<a class="xref" href="ch06s07.html#sec:localdef" title="局所定義">「局所定義 」</a>参照）と同じく値の名前を束縛します。
+        束縛の左辺に現れる名前は対応する右辺の値に束縛されます。
+        
+      </p>
+      <p>
+        <span class="bnf-terminal">external</span> <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">=</span> <a class="link" href=""><span class="bnf-non-terminal">external-declaration</span></a> の値定義は、 <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> を <a class="link" href=""><span class="bnf-non-terminal">external-declaration</span></a> で指定された外部関数として実装<sup>[<a name="d4e8023" href="#ftn.d4e8023" class="footnote">10</a>]</sup>します。
+        
+      </p>
+    </div>
+    <div class="section" title="型定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e8025"></a>型定義 </h4></div></div></div>
+      
+      <p>
+        <span class="bnf-terminal">type</span> <a class="link" href="ch06s08.html#bnf--typedef"><span class="bnf-non-terminal">typedef</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s08.html#bnf--typedef"><span class="bnf-non-terminal">typedef</span></a> } として、相互再帰的な型の名前の定義を書くことができます。
+        
+      </p>
+    </div>
+    <div class="section" title="例外定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e8034"></a>例外定義 </h4></div></div></div>
+      
+      <p>
+        例外は <span class="bnf-terminal">exception</span> <a class="link" href="ch06s08.html#bnf--constr-decl"><span class="bnf-non-terminal">constr-decl</span></a>、または <span class="bnf-terminal">exception</span> <a class="link" href="ch06s03.html#bnf--constr-name"><span class="bnf-non-terminal">constr-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s03.html#bnf--constr"><span class="bnf-non-terminal">constr</span></a> として定義します。
+        
+      </p>
+    </div>
+    <div class="section" title="クラス定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e8046"></a>クラス定義 </h4></div></div></div>
+      
+      <p>
+        <span class="bnf-terminal">class</span> <a class="link" href="ch06s09.html#bnf--class-binding"><span class="bnf-non-terminal">class-binding</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s09.html#bnf--class-binding"><span class="bnf-non-terminal">class-binding</span></a> } として、相互再帰的なクラスの名前から成る定義を書くことができます。
+        クラス定義については<a class="xref" href="ch06s09.html#sec:classdef" title="6.9.3&nbsp;クラス定義"> 6.9.3 節「クラス定義 」</a>により正確に説明されています。
+        
+      </p>
+    </div>
+    <div class="section" title="クラス型定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e8056"></a>クラス型定義 </h4></div></div></div>
+      
+      <p>
+        <span class="bnf-terminal">class</span> <span class="bnf-terminal">type</span> <a class="link" href="ch06s09.html#bnf--classtype-def"><span class="bnf-non-terminal">classtype-def</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s09.html#bnf--classtype-def"><span class="bnf-non-terminal">classtype-def</span></a> } として、相互再帰的なクラス型の名前の定義からなるクラス型の定義を書くことができます。クラス型の定義は<a class="xref" href="ch06s09.html#sec:classtypedef" title="6.9.5&nbsp;クラス型定義"> 6.9.5 節「クラス型定義 」</a>により正確に説明されています。
+        
+      </p>
+    </div>
+    <div class="section" title="モジュール定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e8067"></a>モジュール定義 </h4></div></div></div>
+      
+      <p>
+        モジュール要素の定義の構文の基本形は <span class="bnf-terminal">module</span> <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> で、 <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> を評価し、その結果を <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> に束縛します。
+        
+      </p>
+      <p>
+        </p><div class="literallayout"><p><span class="bnf-terminal">module</span>&nbsp;<a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a>&nbsp;<span class="bnf-terminal">=</span>&nbsp;<span class="bnf-terminal">(</span><a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a>&nbsp;<span class="bnf-terminal">:</span>&nbsp;<a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><span class="bnf-terminal">)</span></p></div><p>
+        と書く代わりに
+        </p><div class="literallayout"><p><span class="bnf-terminal">module</span>&nbsp;<a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a>&nbsp;<span class="bnf-terminal">:</span>&nbsp;<a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a>&nbsp;<span class="bnf-terminal">=</span>&nbsp;<a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a></p></div><p>
+        と書くこともできます。
+        
+        また、
+        </p><div class="literallayout"><p><span class="bnf-terminal">module</span>&nbsp;<a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a>&nbsp;<span class="bnf-terminal">(</span>&nbsp;<a class="link" href=""><span class="bnf-non-terminal">name</span></a><sub>1</sub>&nbsp;<a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><sub>1</sub><span class="bnf-terminal">)</span>&nbsp;...&nbsp;<span class="bnf-terminal">(</span><a class="link" href=""><span class="bnf-non-terminal">name</span></a><sub><em class="parameter"><code>n</code></em></sub>&nbsp;<span class="bnf-terminal">:</span>&nbsp;<a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><sub><em class="parameter"><code>n</code></em></sub><span class="bnf-terminal">)</span>&nbsp;<span class="bnf-terminal">=</span>&nbsp;<a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a></p></div><p>
+        は
+        </p><div class="literallayout"><p><span class="bnf-terminal">module</span>&nbsp;<a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a>&nbsp;<span class="bnf-terminal">=</span>&nbsp;<span class="bnf-terminal">functor</span>&nbsp;<span class="bnf-terminal">(</span><a class="link" href=""><span class="bnf-non-terminal">name</span></a><sub>1</sub>&nbsp;<span class="bnf-terminal">:</span>&nbsp;<a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><sub>1</sub><span class="bnf-terminal">)</span>&nbsp;<span class="bnf-terminal">-&gt;</span>&nbsp;...&nbsp;<span class="bnf-terminal">-&gt;</span>&nbsp;<a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a></p></div><p>
+        と等価です。
+        
+      </p>
+    </div>
+    <div class="section" title="モジュール型の定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e8148"></a>モジュール型の定義 </h4></div></div></div>
+      
+      <p>
+        モジュール型の定義は <span class="bnf-terminal">module</span> <span class="bnf-terminal">type</span> <a class="link" href="ch06s03.html#bnf--modtype-name"><span class="bnf-non-terminal">modtype-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> と書き、 <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> の表すモジュール型に <a class="link" href="ch06s03.html#bnf--modtype-name"><span class="bnf-non-terminal">modtype-name</span></a> を束縛します。
+        
+      </p>
+    </div>
+    <div class="section" title="モジュールパスの open"><div class="titlepage"><div><div><h4 class="title"><a name="d4e8162"></a>モジュールパスの <code class="code">open</code> </h4></div></div></div>
+      
+      <p>
+        ストラクチャ内で <span class="bnf-terminal">open</span> <a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> としても何の要素も定義されず、名前も束縛されません。
+        この構文はストラクチャ内の後続する要素の構文解析に影響を与え、 <a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> の表すモジュールの構成要素が、 <a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> 経由ではなく、単純名で参照できるようにする効果しかありません。
+        <code class="code">open</code> のスコープはストラクチャ式の末尾で終了します。
+        
+      </p>
+    </div>
+    <div class="section" title="他のストラクチャからの要素の取り込み"><div class="titlepage"><div><div><h4 class="title"><a name="d4e8174"></a>他のストラクチャからの要素の取り込み </h4></div></div></div>
+      
+      <p>
+        モジュール中で <span class="bnf-terminal">include</span> <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> とすると、 <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> の表すストラクチャ内のすべての定義が現在のストラクチャに再エクスポートされます。
+        例えば、識別子 <code class="code">S</code> が次のモジュールに束縛されているとき、
+        
+        </p><pre class="programlisting">struct type t = int  let x = 2 end</pre><p>
+        次のモジュール式
+        
+        </p><pre class="programlisting">struct include S  let y = (x + 1 : t) end</pre><p>
+        は下のモジュール式と等価になります。
+        
+        </p><pre class="programlisting">struct type t = int  let x = 2  let y = (x + 1 : t) end</pre><p>
+      </p>
+      <p>
+        <code class="code">open</code> と <code class="code">include</code> の違いは、 <code class="code">open</code> が単純に、 <code class="code">open</code> されたストラクチャの構成要素へ短かい名前でアクセスできるようにするだけで、現在のストラクチャには何の要素も定義しないのに対し、
+        <code class="code">include</code> は <code class="code">include</code> されたストラクチャの要素の定義を現在のストラクチャに追加するということです。
+        
+      </p>
+    </div>
+  </div>
+  <div class="section" title="6.11.3&nbsp;ファンクタ"><div class="titlepage"><div><div><h3 class="title"><a name="d4e8193"></a>6.11.3&nbsp;ファンクタ </h3></div></div></div>
+    
+    <div class="section" title="ファンクタ定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e8195"></a>ファンクタ定義 </h4></div></div></div>
+      
+      <p>
+        <span class="bnf-terminal">functor</span> <span class="bnf-terminal">(</span> <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><span class="bnf-terminal">)</span> <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> は <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><sub>1</sub> 型のモジュールを引数に取るファンクタに評価されます。
+        <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a> は <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> の束縛された環境で評価され、その結果のモジュールを返します。
+        ファンクタの引数の型には何の制約もなく、特に、ファンクタが別のファンクタを引数に取ることもできます（高階ファンクタ）。
+        
+      </p>
+    </div>
+    <div class="section" title="ファンクタ適用"><div class="titlepage"><div><div><h4 class="title"><a name="d4e8216"></a>ファンクタ適用 </h4></div></div></div>
+      
+      <p>
+        <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a><sub>1</sub> <span class="bnf-terminal">(</span><a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a><sub>2</sub><span class="bnf-terminal">)</span> は <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a><sub>1</sub> がファンクタに評価され、 <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a><sub>2</sub> がモジュールに評価され、そのファンクタをモジュールに適用します。
+        <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a><sub>2</sub> の型は <a class="link" href="ch06s11.html#bnf--module-expr"><span class="bnf-non-terminal">module-expr</span></a><sub>1</sub> の引数型として期待される型に適合しなければなりません。
+        
+      </p>
+    </div>
+  </div>
+<div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.d4e8023" href="#d4e8023" class="para">10</a>] </sup>原文 implements。定義、あるいは束縛か。</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s10.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s12.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">6.10&nbsp;モジュール型 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;6.12&nbsp;翻訳単位 </td></tr></table></div></body></html>

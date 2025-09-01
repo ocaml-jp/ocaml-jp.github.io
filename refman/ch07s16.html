@@ -1,0 +1,71 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>7.16&nbsp;シグネチャ内での代入</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch07.html" title="7.&nbsp;Language extensions"><link rel="prev" href="ch07s15.html" title="7.15&nbsp;モジュールの型の復元"><link rel="next" href="ch07s17.html" title="7.17&nbsp;クラス定義中でのオーバーライドの明示"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.16&nbsp;シグネチャ内での代入</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s15.html">前のページ</a>&nbsp;</td><th width="60%" align="center">7.&nbsp;Language extensions</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s17.html">次のページ</a></td></tr></table><hr></div><div class="section" title="7.16&nbsp;シグネチャ内での代入"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Substituting inside a signature"></a>7.16&nbsp;シグネチャ内での代入</h2></div></div></div>
+    
+    <p>（OCaml 3.12 〜）</p>
+    <div class="syntax">
+      <table id="d4e9342">
+        <tbody>
+          <tr>
+            <td rowspan="3" valign="baseline"><a class="bnf-non-terminal" href="ch06s10.html#bnf--mod-constraint">mod-constraint</a></td>
+            <td><span class="meta">::=</span></td>
+            <td><span class="meta">...</span></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>type <span class="meta">[</span> <a class="bnf-non-terminal" href="ch06s09.html#bnf--type-parameters">type-parameters</a> <span class="meta">]</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--typeconstr-name">typeconstr-name</a> := <span class="meta">[</span> <a class="bnf-non-terminal" href="ch06s09.html#bnf--type-parameters">type-parameters</a> <span class="meta">]</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--typeconstr-name">typeconstr-name</a></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>module <a class="bnf-non-terminal" href="ch06s03.html#bnf--module-name">module-name</a> := <a class="bnf-non-terminal" href="ch06s03.html#bnf--extended-module-path">extended-module-path</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      「破壊的」代入（<code class="code">with ... :=</code>）は本質的には通常のシグネチャ制約（<code class="code">with ... =</code>）のように振る舞いますが、それに加えて、再定義された型やモジュールをシグネチャから取り除きます。ただし、いくつかの制約があります。まず、いちばん外側のモジュールの型やモジュールしか取り除くことができません（下位モジュールのものは取り除けません）。また、取り除かれる定義は（同一の型パラメータを持つ）型構成子か、モジュールパスでなければなりません。
+    </p>
+    <p>
+      破壊的代入の自然な例は、型名を共有するシグネチャを併合することです。
+    </p>
+    <pre class="programlisting">
+module type Printable = sig
+  type t
+  val print : Format.formatter -&gt; t -&gt; unit
+end
+module type Comparable = sig
+  type t
+  val compare : t -&gt; t -&gt; int
+end
+module type PrintableComparable = sig
+  include Printable
+  include Comparable with type t := t
+end
+    </pre>
+    <p>
+      フィールドを完全に取り除いてしまうこともできます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module type S = Comparable with type t := int;;</code></strong>
+<code class="computeroutput">module type S = sig val compare : int -&gt; int -&gt; int end</code>
+    </pre>
+    <p>
+      名前を変更することもできます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module type S = sig
+   type u
+   include Comparable with type t := u
+ end;;</code></strong>
+<code class="computeroutput">module type S = sig type u val compare : u -&gt; u -&gt; int end</code>
+    </pre>
+    <p>
+      同一の型を代入することで文脈上明らかな型を取り除くこともできます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module type ComparableInt = Comparable with type t = int ;;</code></strong>
+<code class="computeroutput">module type ComparableInt = sig type t = int val compare : t -&gt; t -&gt; int end</code>
+<code class="prompt">#</code><strong class="userinput"><code>module type CompareInt = ComparableInt with type t := int ;;</code></strong>
+<code class="computeroutput">module type CompareInt = sig val compare : int -&gt; int -&gt; int end</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s15.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s17.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">7.15&nbsp;モジュールの型の復元&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;7.17&nbsp;クラス定義中でのオーバーライドの明示</td></tr></table></div></body></html>

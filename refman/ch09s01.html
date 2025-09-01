@@ -1,0 +1,134 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>9.1&nbsp;オプション</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch09.html" title="9.&nbsp;トップレベルシステム（ocaml）"><link rel="prev" href="ch09.html" title="9.&nbsp;トップレベルシステム（ocaml）"><link rel="next" href="ch09s02.html" title="9.2&nbsp;トップレベル指示子"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">9.1&nbsp;オプション</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch09.html">前のページ</a>&nbsp;</td><th width="60%" align="center">9.&nbsp;トップレベルシステム（<span class="command"><strong>ocaml</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch09s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="9.1&nbsp;オプション"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:ocaml:Options"></a>9.1&nbsp;オプション</h2></div></div></div>
+    
+    <p>
+      <span class="command"><strong>ocaml</strong></span> コマンドの認識するコマンドラインオプションは以下の通りです。 
+    </p>
+    <div class="variablelist"><dl><dt><span class="term"><code class="option">-I</code> <em class="replaceable"><code>directory</code></em></span></dt><dd>
+          <p>
+            ソースファイル、コンパイル済みファイルの探索パスに与えられたディレクトリを追加します。
+            デフォルトでは、まずカレントディレクトリから探索し、それから標準ライブラリディレクトリを探索します。
+            <code class="option">-I</code> で追加されたディレクトリは、カレントディレクトリより後、標準ライブラリディレクトリより前に、コマンドラインに与えた順に探索します。
+            
+          </p>
+          <p>
+            ディレクトリ名が <code class="code">+</code> で始まっていた場合は、標準ライブラリディレクトリからの相対パスとして扱われます。
+            例えば、 <code class="code">-I +labltk</code> は標準ライブラリディレクトリのサブディレクトリ <code class="filename">labltk</code> を探索パスに追加します。
+            
+          </p>
+          <p>
+            <code class="code">#directory</code> 指示子を使うと、トップレベル起動中にもディレクトリを探索リストに追加することができます（<a class="xref" href="ch09s02.html" title="9.2&nbsp;トップレベル指示子"> 9.2 節「トップレベル指示子」</a>）。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-init</code> <em class="replaceable"><code>file</code></em></span></dt><dd>
+          <p>
+            デフォルトの初期化ファイルの代わりに指定されたファイルを読み込みます。
+            デフォルトのファイルは、カレントディレクトリに <code class="filename">.ocamlinit</code> が存在すればそのファイル、存在ない場合には、ユーザーのホームディレクトリの <code class="filename">.ocamlinit</code> ファイルになります。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-labels</code></span></dt><dd>
+          <p>
+            型中のラベルは無視されず、関数適用でラベルを使うことができ、ラベル付きの引数を任意の順序で与えることができます。
+            これがデフォルトです。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-noassert</code></span></dt><dd>
+          <p>
+            <code class="code">assert</code> の検査をコンパイルしません。
+            このとき、特別な形として <code class="code">assert false</code> は常にコンパイルされることに注意してください。
+            この式には特別な型付け規則が存在するからです。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-nolabels</code></span></dt><dd>
+            <p>
+              型中の省略可能引数以外のラベルを無視します。適用時にラベルを使用することはできず、引数の順序が厳格になります。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-noprompt</code></span></dt><dd>
+          <p>
+            入力待ちのときにプロンプトを表示しません。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-nostdlib</code></span></dt><dd>
+          <p>
+            ソースファイルとコンパイル済みファイルを探索するディレクトリのリストに標準ライブラリのディレクトリを含めないようにします。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-principal</code></span></dt><dd>
+          <p>
+            型チェックの際に information path をチェックし、すべての型がもっとも一般的な型として導出されているか確認します。
+            ラベル付き引数や多相メソッドを使用している場合は、コンパイラの将来のバージョンでアルゴリズムが変更された場合でも、正しく型を推論できることを保証するためにこのフラグを指定する必要があります。
+            <code class="option">-principal</code> モードで受理されたプログラムはすべて、デフォルトの場合でも等価な型として受理されます。
+            ただし、この場合でもバイナリのシグネチャは異なりますし、型検査が低速化するかもしれません。
+            とはいうものの、ソースコードを公開する前に一度このオプションを試してみるのはよいことでしょう。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-rectypes</code></span></dt><dd>
+          <p>
+            型検査時に任意の再帰型を認めます。
+            デフォルトではオブジェクト型を経由する再帰型のみがサポートされます。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-unsafe</code></span></dt><dd>
+          <p>
+            <a class="xref" href="ch08.html" title="8.&nbsp;バッチコンパイル（ocamlc）"> 8 章「<i>バッチコンパイル（<span class="command"><strong>ocamlc</strong></span>）</i>」</a> の <span class="command"><strong>ocamlc</strong></span> の同名のオプションを参照してください。
+            <code class="code">v.(i)</code> 構文や <code class="code">s.[i]</code> 構文を使った配列や文字列へのアクセスの際の境界チェックを無効にします。
+            このため、 <code class="option">-unsafe</code> オプションを使ってコンパイルしたプログラムは若干高速になりますが、安全ではありません。
+            プログラムが配列や文字列の境界外にアクセスした場合に何が起こるかはわかりません。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-version</code></span></dt><dd>
+          <p>
+            バージョン文字列を表示し、終了します。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-vnum</code></span></dt><dd>
+          <p>
+            コンパイラのバージョン番号を短かい形式で表示して終了します。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-w</code> <em class="replaceable"><code>warning-list</code></em></span></dt><dd>
+          <p>
+            <em class="replaceable"><code>warning-list</code></em> 引数に従って警告を有効／無効にします。
+            引数の構文については <a class="xref" href="ch08s02.html" title="8.2&nbsp;オプション"> 8.2 節「オプション 」</a> を参照してください。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-warn-error</code> <em class="replaceable"><code>warning-list</code></em></span></dt><dd>
+          <p>
+            <em class="replaceable"><code>warning-list</code></em> 引数で有効にした警告をエラーとして扱います。
+            引数の構文については <a class="xref" href="ch08s02.html" title="8.2&nbsp;オプション"> 8.2 節「オプション 」</a> を参照してください。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-help</code> または <code class="option">--help</code></span></dt><dd>
+          <p>
+            簡単な使用法を表示して終了します。
+            
+          </p>
+        </dd></dl></div>
+    <div class="note" title="Unix" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Unix"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Unix</th></tr><tr><td align="left" valign="top">
+      
+      <p>
+        以下の環境変数も参照します。 
+        
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"><code class="envar">LC_CTYPE</code></span></dt><dd>
+            <p>
+              <code class="code">iso_8859_1</code> に設定されていると文字列リテラルや文字リテラル中の ISO Latin-1 文字集合のアクセント付き文字がそのまま表示されます。
+              それ以外の場合には、アクセント付き文字は十進のエスケープシーケンスで <code class="code">\<em class="replaceable"><code>ddd</code></em></code> と表示されます。
+              
+            </p>
+          </dd><dt><span class="term"><code class="envar">TERM</code></span></dt><dd>
+            <p>
+              エラーメッセージを表示する際に、トップレベルシステムはエラーの起こった箇所に下線を表示しようとします。
+              このとき、 <code class="envar">TERM</code> の値を参照して端末の種類を特定し、端末データベースから下線表示機能を検索します。
+              
+            </p>
+          </dd><dt><span class="term"><code class="envar">HOME</code></span></dt><dd>
+            <p>
+              <code class="filename">.ocamlinit</code> ファイルを検索するディレクトリです。
+              
+            </p>
+          </dd></dl></div>
+    </td></tr></table></div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch09.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch09.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch09s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">9.&nbsp;トップレベルシステム（<span class="command"><strong>ocaml</strong></span>）&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;9.2&nbsp;トップレベル指示子</td></tr></table></div></body></html>

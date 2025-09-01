@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="GraphicsX11.html">
+<link rel="next" href="Int32.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><link title="汎用インタフェース" rel="Section" href="#2_">
+<link title="関数型インタフェース" rel="Section" href="#2_">
+<link title="多相ハッシュプリミティブ" rel="Section" href="#2_">
+<title>Hashtbl</title>
+</head>
+<body>
+<div class="navbar"><a href="GraphicsX11.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="Int32.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Hashtbl.html">Hashtbl</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Hashtbl: <code class="code"><span class="keyword">sig</span></code> <a href="Hashtbl.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>ハッシュテーブルとハッシュ関数
+<p>
+
+    ハッシュテーブルはハッシュ関数を使った、破壊的変更のできる対応表です。<br>
+<hr width="100%">
+<br>
+<span id="2_"><h2>汎用インタフェース</h2></span><br>
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type">('a, 'b)</code> t</span> </pre>
+<div class="info">
+<code class="code"><span class="keywordsign">'</span>a</code> 型から <code class="code"><span class="keywordsign">'</span>b</code> 型へのハッシュテーブルの型。<br>
+</div>
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">int -> ('a, 'b) <a href="Hashtbl.html#TYPEt">t</a></code></pre><div class="info">
+<code class="code"><span class="constructor">Hashtbl</span>.create n</code> は初期サイズ <code class="code">n</code> の空のハッシュテーブルを新たに作ります。
+    性能を最大化するためには <code class="code">n</code> はテーブルに入れる要素の予想量に近い値にすべきです。
+    テーブルは必要に応じて伸長します。 <code class="code">n</code> は単なる最初の推測値に過ぎません。<br>
+</div>
+<pre><span id="VALclear"><span class="keyword">val</span> clear</span> : <code class="type">('a, 'b) <a href="Hashtbl.html#TYPEt">t</a> -> unit</code></pre><div class="info">
+ハッシュテーブルを空にします。<br>
+</div>
+<pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type">('a, 'b) <a href="Hashtbl.html#TYPEt">t</a> -> 'a -> 'b -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Hashtbl</span>.add tbl x y</code> は <code class="code">y</code> に対する <code class="code">x</code> の束縛をテーブル <code class="code">tbl</code> に追加します。
+    <code class="code">x</code> に関する以前の束縛は取り除かれることなく、単に隠蔽されます。
+    すなわち、 <a href="Hashtbl.html#VALremove"><code class="code"><span class="constructor">Hashtbl</span>.remove</code></a><code class="code"> tbl x</code> とすると、 <code class="code">x</code> に対する以前の束縛がもしあれば、それが復元されます（これは連想リストと同じ振舞いです）。<br>
+</div>
+<pre><span id="VALcopy"><span class="keyword">val</span> copy</span> : <code class="type">('a, 'b) <a href="Hashtbl.html#TYPEt">t</a> -> ('a, 'b) <a href="Hashtbl.html#TYPEt">t</a></code></pre><div class="info">
+与えられたハッシュテーブルのコピーを返します。<br>
+</div>
+<pre><span id="VALfind"><span class="keyword">val</span> find</span> : <code class="type">('a, 'b) <a href="Hashtbl.html#TYPEt">t</a> -> 'a -> 'b</code></pre><div class="info">
+<code class="code"><span class="constructor">Hashtbl</span>.find tbl x</code> は <code class="code">tbl</code> 中での現在の <code class="code">x</code> の束縛を返します。
+    そのような束縛が存在しない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALfind_all"><span class="keyword">val</span> find_all</span> : <code class="type">('a, 'b) <a href="Hashtbl.html#TYPEt">t</a> -> 'a -> 'b list</code></pre><div class="info">
+<code class="code"><span class="constructor">Hashtbl</span>.find_all tbl x</code> は <code class="code">tbl</code> 中で <code class="code">x</code> に対応づけられたデータをすべてリストにして返します。
+    現在の束縛が戻り値のリストの最初の要素になり、テーブルに挿入したのと逆の順に以前の束縛が並びます。<br>
+</div>
+<pre><span id="VALmem"><span class="keyword">val</span> mem</span> : <code class="type">('a, 'b) <a href="Hashtbl.html#TYPEt">t</a> -> 'a -> bool</code></pre><div class="info">
+<code class="code"><span class="constructor">Hashtbl</span>.mem tbl x</code> は <code class="code">x</code> が <code class="code">tbl</code> 中で束縛されているか検査します。<br>
+</div>
+<pre><span id="VALremove"><span class="keyword">val</span> remove</span> : <code class="type">('a, 'b) <a href="Hashtbl.html#TYPEt">t</a> -> 'a -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Hashtbl</span>.remove tbl x</code> は <code class="code">tbl</code> から <code class="code">x</code> の現在の束縛を取り除き、以前の束縛が存在すればそれを復元します。
+    <code class="code">x</code> が <code class="code">tbl</code> 中で束縛されていなかった場合には何もしません。<br>
+</div>
+<pre><span id="VALreplace"><span class="keyword">val</span> replace</span> : <code class="type">('a, 'b) <a href="Hashtbl.html#TYPEt">t</a> -> 'a -> 'b -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Hashtbl</span>.replace tbl x y</code> は <code class="code">tbl</code> 中の現在の <code class="code">x</code> の束縛を置き換えます。 
+    <code class="code">x</code> が <code class="code">tbl</code> 中で束縛されていなかった場合には <code class="code">x</code> から <code class="code">y</code> への束縛を <code class="code">tbl</code> に追加します。
+    この関数は機能としては <a href="Hashtbl.html#VALremove"><code class="code"><span class="constructor">Hashtbl</span>.remove</code></a><code class="code"> tbl x</code> して <a href="Hashtbl.html#VALadd"><code class="code"><span class="constructor">Hashtbl</span>.add</code></a><code class="code"> tbl x y</code>
+    するのと同じです。<br>
+</div>
+<pre><span id="VALiter"><span class="keyword">val</span> iter</span> : <code class="type">('a -> 'b -> unit) -> ('a, 'b) <a href="Hashtbl.html#TYPEt">t</a> -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Hashtbl</span>.iter f tbl</code> は <code class="code">tbl</code> 中のすべての束縛に <code class="code">f</code> を適用します。
+    <code class="code">f</code> はキーを第一引数として取り、そのキーに対応する値を第二引数として取ります。
+    <code class="code">f</code> に渡される束縛の順序は未定義です。
+    ただし、テーブルに同一のキーに対する値が複数ある場合には、追加したのと逆の順番に、すなわち、もっとも最近に追加した束縛が最初に <code class="code">f</code> に渡されます。<br>
+</div>
+<pre><span id="VALfold"><span class="keyword">val</span> fold</span> : <code class="type">('a -> 'b -> 'c -> 'c) -> ('a, 'b) <a href="Hashtbl.html#TYPEt">t</a> -> 'c -> 'c</code></pre><div class="info">
+<code class="code"><span class="constructor">Hashtbl</span>.fold f tbl init</code> は
+    <code class="code">(f kN dN ... (f k1 d1 init) ...)</code> を計算します。
+    ここで <code class="code">k1 ... kN</code> は <code class="code">tbl</code> 中の束縛のキーで、 <code class="code">d1 ... dN</code> はそれに対応する値です。
+    各束縛は <code class="code">f</code> にちょうど一回だけ渡されます。
+    <code class="code">f</code> に渡される束縛の順序は未定義です。
+    ただし、テーブルに同一のキーに対する値が複数ある場合には、追加したのと逆の順番に、すなわち、もっとも最近に追加した束縛が最初に <code class="code">f</code> に渡されます。<br>
+</div>
+<pre><span id="VALlength"><span class="keyword">val</span> length</span> : <code class="type">('a, 'b) <a href="Hashtbl.html#TYPEt">t</a> -> int</code></pre><div class="info">
+<code class="code"><span class="constructor">Hashtbl</span>.length tbl</code> は <code class="code">tbl</code> 中に存在する束縛の個数を返します。
+    複数の値に束縛されているキーは複数回数えられます。
+    つまり、 <code class="code"><span class="constructor">Hashtbl</span>.length</code> は <code class="code"><span class="constructor">Hashtbl</span>.iter</code> が第一引数の関数を呼び出す回数を返します。<br>
+</div>
+<br>
+<span id="2_"><h2>関数型インタフェース</h2></span><br>
+<pre><span class="keyword">module type</span> <a href="Hashtbl.HashedType.html">HashedType</a> = <code class="code"><span class="keyword">sig</span></code> <a href="Hashtbl.HashedType.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+<a href="Hashtbl.Make.html"><code class="code"><span class="constructor">Hashtbl</span>.<span class="constructor">Make</span></code></a> ファンクタに対する入力のシグネチャ。
+</div>
+<pre><span class="keyword">module type</span> <a href="Hashtbl.S.html">S</a> = <code class="code"><span class="keyword">sig</span></code> <a href="Hashtbl.S.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+<a href="Hashtbl.Make.html"><code class="code"><span class="constructor">Hashtbl</span>.<span class="constructor">Make</span></code></a> ファンクタの出力のシグネチャ。
+</div>
+<pre><span class="keyword">module</span> <a href="Hashtbl.Make.html">Make</a>: <div class="sig_block"><code class="code"><span class="keyword">functor</span> (</code><code class="code"><span class="constructor">H</span></code><code class="code"> : </code><code class="type"><a href="Hashtbl.HashedType.html">HashedType</a></code><code class="code">) <span class="keywordsign">-&gt;</span> </code><code class="type"><a href="Hashtbl.S.html">S</a></code><code class="type">  with type key = H.t</code></div></pre><div class="info">
+ハッシュテーブルのストラクチャの実装を作成するファンクタ。
+</div>
+<br>
+<span id="2_"><h2>多相ハッシュプリミティブ</h2></span><br>
+<pre><span id="VALhash"><span class="keyword">val</span> hash</span> : <code class="type">'a -> int</code></pre><div class="info">
+<code class="code"><span class="constructor">Hashtbl</span>.hash x</code> は正の整数を任意の型の値に対応づけます。
+    <code class="code">x = y</code> または <code class="code"><span class="constructor">Pervasives</span>.compare x y = 0</code> のとき、 <code class="code">hash x = hash y</code> であることが保証されています。
+    さらに、 <code class="code">hash</code> は循環構造に対しても必ず停止します。<br>
+</div>
+<pre><span id="VALhash_param"><span class="keyword">val</span> hash_param</span> : <code class="type">int -> int -> 'a -> int</code></pre><div class="info">
+<code class="code"><span class="constructor">Hashtbl</span>.hash_param n m x</code> は <code class="code">x</code> について <code class="code">hash</code> と同じ性質のハッシュ値を計算します。
+    追加の引数 <code class="code">n</code> と <code class="code">m</code> はハッシュ関数をより精確に制御します。
+    ハッシュ関数は <code class="code">x</code> の構造を深さ優先で、右から左に走査し、 <code class="code">n</code> 個の意味のあるノードに遭遇するか、意味の有無にかかわらず <code class="code">m</code> 個のノードに遭遇すると停止します。
+    ここでいう意味のあるノードとは、整数、浮動小数点数、文字列、文字、真偽値、定数構成子です。
+    <code class="code">m</code> と <code class="code">n</code> により大きな値を指定することで、より多くのノードが最終的なハッシュ値の計算に関係することになり、それによってハッシュ値の衝突がより起こりにくくなります。
+    しかし、計算により時間がかかるようになります。
+    パラメータ <code class="code">m</code> と <code class="code">n</code> の値は精確さと速度のトレードオフになります。<br>
+</div>
+</body></html>

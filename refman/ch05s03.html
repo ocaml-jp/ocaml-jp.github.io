@@ -1,0 +1,188 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>5.3&nbsp;Subject / Observer パターン</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch05.html" title="5.&nbsp;クラスとモジュールの高度な例"><link rel="prev" href="ch05s02.html" title="5.2&nbsp;クラスを用いた簡単なモジュール"><link rel="next" href="pt02.html" title="パート&nbsp;II.&nbsp;The Objective Caml language"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.3&nbsp;Subject / Observer パターン </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05s02.html">前のページ</a>&nbsp;</td><th width="60%" align="center">5.&nbsp;クラスとモジュールの高度な例</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="pt02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="5.3&nbsp;Subject / Observer パターン"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e2338"></a>5.3&nbsp;Subject / Observer パターン </h2></div></div></div>
+    
+    <p>
+      次の例は、 Subject / Observer パターンとして知られ、相互に接続されたクラスを伴う難しい継承の問題としてよく文献で紹介されます。 一般的なパターンは相互再帰的にやりとりをする2つのクラスの対の定義なります。
+    </p>
+    <p>
+      クラス <code class="code">observer</code> には、メソッド <code class="code">notify</code> があり、 subject とアクションを実行するイベントの二引数を取ります。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class virtual ['subject, 'event] observer =
+   object
+     method virtual notify : 'subject -&gt;  'event -&gt; unit
+   end;;</code></strong>
+<code class="computeroutput">class virtual ['a, 'b] observer :
+  object method virtual notify : 'a -&gt; 'b -&gt; unit end</code>
+    </pre>
+    <p>
+      クラス <code class="code">subject</code> はインスタンス変数に observer のリストを保持し、 <code class="code">notify_observers</code> メソッドですべての observer に、特定のイベント <code class="code">e</code> を伴って <code class="code">notify</code> メッセージを配信します。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ['observer, 'event] subject =
+   object (self)
+     val mutable observers = ([]:'observer list)
+     method add_observer obs = observers &lt;- (obs :: observers)
+     method notify_observers (e : 'event) = 
+         List.iter (fun x -&gt; x notify self e) observers
+   end;;</code></strong>
+<code class="computeroutput">class ['a, 'b] subject :
+  object ('c)
+    constraint 'a = &lt; notify : 'c -&gt; 'b -&gt; unit; .. &gt;
+    val mutable observers : 'a list
+    method add_observer : 'a -&gt; unit
+    method notify_observers : 'b -&gt; unit
+  end</code>
+    </pre>
+    <p>
+      難しいのは大抵、継承で上記のパターンのインスタンスを定義することです。 これはウィンドウを操作する次の例で示すように、 OCaml では自然で明確な方法で実現できます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type event = Raise | Resize | Move;;</code></strong>
+<code class="computeroutput">type event = Raise | Resize | Move</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let string_of_event = function
+     Raise -&gt; "Raise" | Resize -&gt; "Resize" | Move -&gt; "Move";;</code></strong>
+val string_of_event : event -&gt; string = &lt;fun&gt;
+
+<code class="prompt">#</code><strong class="userinput"><code>let count = ref 0;;</code></strong>
+<code class="computeroutput">val count : int ref = {contents = 0}</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class ['observer] window_subject =
+   let id = count := succ !count; !count in
+   object (self)
+     inherit ['observer, event] subject
+     val mutable position = 0
+     method identity = id
+     method move x = position &lt;- position + x; self notify_observers Move
+     method draw = Printf.printf "{Position = %d}\n"  position;
+   end;;</code></strong>
+<code class="computeroutput">class ['a] window_subject :
+  object ('b)
+    constraint 'a = &lt; notify : 'b -&gt; event -&gt; unit; .. &gt;
+    val mutable observers : 'a list
+    val mutable position : int
+    method add_observer : 'a -&gt; unit
+    method draw : unit
+    method identity : int
+    method move : int -&gt; unit
+    method notify_observers : event -&gt; unit
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class ['subject] window_observer =
+   object
+     inherit ['subject, event] observer
+     method notify s e = s draw
+   end;;</code></strong>
+<code class="computeroutput">class ['a] window_observer :
+  object
+    constraint 'a = &lt; draw : unit; .. &gt;
+    method notify : 'a -&gt; event -&gt; unit
+  end</code>
+    </pre>
+    <p>
+      当然、ウィンドウの型は再帰的になります。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let window = new window_subject;;</code></strong>
+<code class="computeroutput">val window : &lt; notify : 'a -&gt; event -&gt; unit; _.. &gt; window_subject as 'a =
+  &lt;obj&gt;</code>
+    </pre>
+    <p>
+      ですが、 <code class="code">window_subject</code> と <code class="code">window_observer</code> の2つのクラスは相互に再帰していません。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let window_observer = new window_observer;;</code></strong>
+<code class="computeroutput">val window_observer : &lt; draw : unit; _.. &gt; window_observer = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>window#add_observer window_observer;;</code></strong>
+<code class="computeroutput">- : unit = ()</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>window#move 1;;</code></strong>
+{Position = 1}
+- : unit = ()
+    </pre>
+    <p>
+      クラス <code class="code">window_observer</code> と <code class="code">window_subject</code> は、依然として継承で拡張することができます。 例えば、 subject に新しい振る舞いを加え、 observer の振舞いを再定義することができます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ['observer] richer_window_subject =
+   object (self)
+     inherit ['observer] window_subject
+     val mutable size = 1
+     method resize x = size &lt;- size + x; self notify_observers Resize
+     val mutable top = false
+     method raise = top &lt;- true; self notify_observers Raise
+     method draw = Printf.printf "{Position = %d; Size = %d}\n"  position size
+   end;;</code></strong>
+<code class="computeroutput">class ['a] richer_window_subject :
+  object ('b)
+    constraint 'a = &lt; notify : 'b -&gt; event -&gt; unit; .. &gt;
+    val mutable observers : 'a list
+    val mutable position : int
+    val mutable size : int
+    val mutable top : bool
+    method add_observer : 'a -&gt; unit
+    method draw : unit
+    method identity : int
+    method move : int -&gt; unit
+    method notify_observers : event -&gt; unit
+    method raise : unit
+    method resize : int -&gt; unit
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class ['subject] richer_window_observer =
+   object 
+     inherit ['subject] window_observer as super
+     method notify s e = if e &lt;&gt; Raise then s raise; super notify s e
+   end;;</code></strong>
+<code class="computeroutput">class ['a] richer_window_observer :
+  object
+    constraint 'a = &lt; draw : unit; raise : unit; .. &gt;
+    method notify : 'a -&gt; event -&gt; unit
+  end</code>
+    </pre>
+    <p>
+      別の種類の observer を作成することもできます：
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ['subject] trace_observer = 
+   object 
+     inherit ['subject, event] observer
+     method notify s e =
+       Printf.printf
+         "&lt;Window %d &lt;== %s&gt;\n" s identity (string_of_event e)
+   end;;</code></strong>
+<code class="computeroutput">class ['a] trace_observer :
+  object
+    constraint 'a = &lt; identity : int; .. &gt;
+    method notify : 'a -&gt; event -&gt; unit
+  end</code>
+    </pre>
+    <p>
+      そして同じオブジェクトに複数の observer を接続します。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let window = new richer_window_subject;;</code></strong>
+<code class="computeroutput">val window :
+  &lt; notify : 'a -&gt; event -&gt; unit; _.. &gt; richer_window_subject as 'a = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>window#add_observer (new richer_window_observer);;</code></strong>
+<code class="computeroutput">- : unit = ()</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>window#add_observer (new trace_observer);;</code></strong>
+<code class="computeroutput">- : unit = ()</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>window#move 1; window#resize 2;;</code></strong>
+<code class="computeroutput">&lt;Window 1 &lt;== Move&gt;
+&lt;Window 1 &lt;== Raise&gt;
+{Position = 1; Size = 1}
+{Position = 1; Size = 1}
+&lt;Window 1 &lt;== Resize&gt;
+&lt;Window 1 &lt;== Raise&gt;
+{Position = 1; Size = 3}
+{Position = 1; Size = 3}
+- : unit = ()</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05s02.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch05.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="pt02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">5.2&nbsp;クラスを用いた簡単なモジュール&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;パート&nbsp;II.&nbsp;The Objective Caml language</td></tr></table></div></body></html>

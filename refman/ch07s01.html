@@ -1,0 +1,31 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>7.1&nbsp;int32、 int64、 nativeint 型の 整数リテラル</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch07.html" title="7.&nbsp;Language extensions"><link rel="prev" href="ch07.html" title="7.&nbsp;Language extensions"><link rel="next" href="ch07s02.html" title="7.2&nbsp;ストリームとストリームパーサー"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.1&nbsp;<code class="code">int32</code>、 <code class="code">int64</code>、 <code class="code">nativeint</code> 型の 整数リテラル</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07.html">前のページ</a>&nbsp;</td><th width="60%" align="center">7.&nbsp;Language extensions</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="7.1&nbsp;int32、 int64、 nativeint 型の 整数リテラル"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e8328"></a>7.1&nbsp;<code class="code">int32</code>、 <code class="code">int64</code>、 <code class="code">nativeint</code> 型の 整数リテラル</h2></div></div></div>
+    
+    <p>（OCaml 3.07〜）</p>
+    <div class="syntax">
+      <table id="d4e8335">
+        <tbody>
+          <tr>
+            <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--int32-literal"></a>int32-literal</span></td>
+            <td><span class="meta">::=</span></td>
+            <td><a class="bnf-non-terminal" href="ch06s01.html#bnf--integer-literal">integer-literal</a> l</td>
+          </tr>
+          <tr>
+            <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--int64-literal"></a>int64-literal</span></td>
+            <td><span class="meta">::=</span></td>
+            <td><a class="bnf-non-terminal" href="ch06s01.html#bnf--integer-literal">integer-literal</a> L</td>
+          </tr>
+          <tr>
+            <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--nativeint-literal"></a>nativeint-literal</span></td>
+            <td><span class="meta">::=</span></td>
+            <td><a class="bnf-non-terminal" href="ch06s01.html#bnf--integer-literal">integer-literal</a> n</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      整数リテラルの後に <code class="code">l</code>、 <code class="code">L</code>、 <code class="code">n</code> のいずれかを続けることで、その整数がデフォルトの <code class="code">int</code> 型ではなく、それぞれ <code class="code">int32</code>、 <code class="code">int64</code>、 <code class="code">nativeint</code> 型を持つように指定することができます。これらの整数型の操作は <a href="./libref/Int32.html" class="libref">Int32</a>、 <a href="./libref/Int64.html" class="libref">Int64</a>、 <a href="./libref/Nativeint.html" class="libref">NativeInt</a> モジュールで提供されます。
+      
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">7.&nbsp;Language extensions&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;7.2&nbsp;ストリームとストリームパーサー</td></tr></table></div></body></html>

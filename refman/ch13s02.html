@@ -1,0 +1,57 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>13.2&nbsp;A typical Makefile</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch13.html" title="13.&nbsp;依存関係生成器（ocamldep）"><link rel="prev" href="ch13s01.html" title="13.1&nbsp;Options"><link rel="next" href="ch14.html" title="14.&nbsp;ブラウザ・エディタ（ocamlbrowser）"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">13.2&nbsp;A typical Makefile</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch13s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">13.&nbsp;依存関係生成器（<span class="command"><strong>ocamldep</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch14.html">次のページ</a></td></tr></table><hr></div><div class="section" title="13.2&nbsp;A typical Makefile"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e11923"></a>13.2&nbsp;A typical Makefile</h2></div></div></div>
+    
+    <p>
+      Objective Caml プログラム用の Makefile のテンプレートを以下に示します。
+    </p>
+    <pre class="programlisting">
+OCAMLC=ocamlc
+OCAMLOPT=ocamlopt
+OCAMLDEP=ocamldep
+INCLUDES=                 # all relevant -I options here
+OCAMLFLAGS=$(INCLUDES)    # add other options for ocamlc here
+OCAMLOPTFLAGS=$(INCLUDES) # add other options for ocamlopt here
+
+# prog1 should be compiled to bytecode, and is composed of three
+# units: mod1, mod2 and mod3.
+
+# The list of object files for prog1
+PROG1_OBJS=mod1.cmo mod2.cmo mod3.cmo
+
+prog1: $(PROG1_OBJS)
+        $(OCAMLC) -o prog1 $(OCAMLFLAGS) $(PROG1_OBJS)
+
+# prog2 should be compiled to native-code, and is composed of two
+# units: mod4 and mod5.
+
+# The list of object files for prog2
+PROG2_OBJS=mod4.cmx mod5.cmx
+
+prog2: $(PROG2_OBJS)
+        $(OCAMLOPT) -o prog2 $(OCAMLFLAGS) $(PROG2_OBJS)
+
+# Common rules
+.SUFFIXES: .ml .mli .cmo .cmi .cmx
+
+.ml.cmo:
+        $(OCAMLC) $(OCAMLFLAGS) -c $&lt;
+
+.mli.cmi:
+        $(OCAMLC) $(OCAMLFLAGS) -c $&lt;
+
+.ml.cmx:
+        $(OCAMLOPT) $(OCAMLOPTFLAGS) -c $&lt;
+
+# Clean up
+clean:
+        rm -f prog1 prog2
+        rm -f *.cm[iox]
+
+# Dependencies
+depend:
+        $(OCAMLDEP) $(INCLUDES) *.mli *.ml &gt; .depend
+
+include .depend
+</pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch13s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch13.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch14.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">13.1&nbsp;Options&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;14.&nbsp;ブラウザ・エディタ（<span class="command"><strong>ocamlbrowser</strong></span>）</td></tr></table></div></body></html>

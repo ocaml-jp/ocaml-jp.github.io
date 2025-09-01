@@ -1,0 +1,128 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>12.2&nbsp;Syntax of lexer definitions</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch12.html" title="12.&nbsp;字句解析器、構文解析器生成器（ocamllex、 ocamlyacc）"><link rel="prev" href="ch12s01.html" title="12.1&nbsp;Overview of ocamllex"><link rel="next" href="ch12s03.html" title="12.3&nbsp;Overview of ocamlyacc"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">12.2&nbsp;Syntax of lexer definitions</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">12.&nbsp;字句解析器、構文解析器生成器（ocamllex、 ocamlyacc）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch12s03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="12.2&nbsp;Syntax of lexer definitions"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e11555"></a>12.2&nbsp;Syntax of lexer definitions</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch12s02.html#d4e11560">12.2.1. Header and trailer</a></span></dt><dt><span class="section"><a href="ch12s02.html#d4e11563">12.2.2. Naming regular expressions</a></span></dt><dt><span class="section"><a href="ch12s02.html#d4e11576">12.2.3. Entry points</a></span></dt><dt><span class="section"><a href="ch12s02.html#d4e11585">12.2.4. Regular expressions</a></span></dt><dt><span class="section"><a href="ch12s02.html#d4e11758">12.2.5. Actions</a></span></dt><dt><span class="section"><a href="ch12s02.html#d4e11783">12.2.6. 正規表現中の変数</a></span></dt><dt><span class="section"><a href="ch12s02.html#d4e11795">12.2.7. Reserved identifiers</a></span></dt></dl></div>
+    
+    <p>
+      字句解析の定義の記述法は以下の通りです。 
+    </p>
+    <pre class="programlisting">
+{ header }
+let ident = regexp ...
+rule entrypoint [arg_1... arg_n] =
+  parse regexp { action }
+      | ...
+      | regexp { action }
+and entrypoint [arg_1... arg_n] =
+  parse ...
+and ...
+{ trailer }</pre>
+    <p>
+      コメントは Caml と同じように (* と *) で区切られます。
+      parseキーワードはshortestキーワードで置き換えられますが、その意味は以下で解説します。
+    </p>
+    <div class="section" title="12.2.1&nbsp;Header and trailer"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11560"></a>12.2.1&nbsp;Header and trailer</h3></div></div></div>
+      
+      <p>
+        ヘッダ(header) と trailer セクションには中カッコ({ ... })でくくって任意の Caml コードを入れることが出来ます。これらはどちらも省略可能です。存在すれば、header は出力ファイルの先頭に、trailer は出力ファイルの終端に置かれます。大抵、header セクションには action で必要な openディレクティブを置きます。actions 内で使う補助関数を定義することもあります。
+      </p>
+    </div>
+    <div class="section" title="12.2.2&nbsp;Naming regular expressions"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11563"></a>12.2.2&nbsp;Naming regular expressions</h3></div></div></div>
+      
+      <p>
+        header と entry points のあいだで、頻繁に発生する正規表現に名前を与えることが出来ます。
+        <span class="bnf-terminal">let</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a> のように書きます。今後、正規表現を書くところに <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a> の代わりに識別子 <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> を使うことが出来ます。
+      </p>
+    </div>
+    <div class="section" title="12.2.3&nbsp;Entry points"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11576"></a>12.2.3&nbsp;Entry points</h3></div></div></div>
+      
+      <p>
+        エントリーポイントの名前は Caml の値の名前 (小文字で始まる) として有効な識別子である必要があります。同様に、引数arg<sub>1</sub> ... arg<sub><em class="parameter"><code>n</code></em></sub> もCamlとして有効な識別子でなければなりません。
+        それぞれのエントリーポイントは <em class="parameter"><code>n</code></em> + 1 個の引数を受け問り、最後に追加される暗黙の引数の型はLexing.lexbufです。
+        文字を Lexing.lexbuf から読み、rule にある正規表現にマッチさせます。その正規表現に対応する action が評価され、関数の結果として返されます。
+      </p>
+      <p>
+        先頭文字列にマッチする正規表現が複数ある場合は、"最大マッチ" する正規表現が適用され、先頭文字列を長くして最後までマッチする正規表現を選択します。それでもふるいきれないときは、rule のなかで先に出現したものが優先されます。
+      </p>
+      <p>
+        しかし、parseキーワードの代わりにshortestキーワードが用いられている場合は、"最小マッチ"が適用されます:つまり最短の先頭文字列が選択されます。それでもふるいきれないときは、ruleの中で先に出現したものが優先されます。
+        この機能は通常の字句解析で用いられることを意図しておらず、ocamllexを単なるテキスト処理ツールとして用いることを想定しています。
+      </p>
+</div>
+    <div class="section" title="12.2.4&nbsp;Regular expressions"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11585"></a>12.2.4&nbsp;Regular expressions</h3></div></div></div>
+      
+      <p>
+        正規表現は lex と同じですが、より Caml らしい文法です。
+      </p>
+      <p>
+        <span class="bnf-non-terminal"><a name="bnf--regexp"></a>regexp</span> ::= ...
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"><span class="bnf-terminal">'</span> <a class="link" href=""><span class="bnf-non-terminal">regular-char</span></a> | <a class="link" href="ch06s01.html#bnf--escape-sequence"><span class="bnf-non-terminal">escape-sequence</span></a> <span class="bnf-terminal">'</span></span></dt><dd><p> 文字定数。Objective Caml の文字定数と同じ文法です。その文字とマッチします。</p></dd><dt><span class="term"><span class="bnf-terminal">_</span></span></dt><dd><p> (アンダースコア) どんな文字とでもマッチします。</p></dd><dt><span class="term"><span class="bnf-terminal">eof</span></span></dt><dd>
+            <p>
+              入力終端にマッチします。
+            </p>
+            <p>
+              警告: システムによっては対話式入力において、end-of-file のあとにさらに文字列が続く場合がありますが、ocamllex では eof の後に何かが続く正規表現を正しく扱うことは出来ません。
+            </p>
+          </dd><dt><span class="term"><span class="bnf-terminal">"</span> { <a class="link" href="ch06s01.html#bnf--string-character"><span class="bnf-non-terminal">string-character</span></a> } <span class="bnf-terminal">"</span></span></dt><dd><p> 文字列定数。Objective Caml の文字列定数と同じ文法です。文字列にマッチします。</p></dd><dt><span class="term"><span class="bnf-terminal">[</span> <a class="link" href=""><span class="bnf-non-terminal">character-set</span></a> <span class="bnf-terminal">]</span></span></dt><dd><p> 指定された文字集合に属する 1 文字とマッチします。有効な文字集合は、文字定数 1 つの ' c ' 、範囲 ' c1 ' - '  c2 ' (c1 と c2 自身を含むその間の文字すべて) 、または 2 つ以上の文字集合を結合したもののどれかです。</p></dd><dt><span class="term"><span class="bnf-terminal">[</span> <span class="bnf-terminal">^</span> <a class="link" href=""><span class="bnf-non-terminal">character-set</span></a> <span class="bnf-terminal">]</span></span></dt><dd><p> 指定された文字集合に属さない 1 文字とマッチします。</p></dd><dt><span class="term"><a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a><sub>1</sub> <span class="bnf-terminal">#</span> <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a><sub>2</sub></span></dt><dd>
+            <p> (文字集合の差).
+              <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a><sub>1</sub>
+              と
+              <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a><sub>2</sub>
+              は <span class="bnf-terminal">[</span> ... <span class="bnf-terminal">]</span> (もしくは <span class="bnf-terminal">_</span> 以外の文字定数)で定義される文字集合でなければなりません。2つの指定された集合の差とマッチします。
+            </p>
+          </dd><dt><span class="term"><a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a> <span class="bnf-terminal">*</span></span></dt><dd><p> (反復) <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a> とマッチする文字列が 0 個以上連なった文字列にマッチします。</p></dd><dt><span class="term"><a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a> <span class="bnf-terminal">+</span></span></dt><dd><p> (厳しい反復) <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a> とマッチする文字列が 1 個以上連なった文字列にマッチします。</p></dd><dt><span class="term"><a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a> <span class="bnf-terminal">?</span></span></dt><dd><p> (オプション) 空文字列か、<span class="bnf-terminal">regexp</span> とマッチする文字列にマッチします。</p></dd><dt><span class="term"><a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a><sub>1</sub> <span class="bnf-terminal">|</span> <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a><sub>2</sub></span></dt><dd><p> (どちらか) <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a><sub>1</sub> にマッチする文字列か、 <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a><sub>2</sub> にマッチする文字列のどちらかにマッチします。</p></dd><dt><span class="term"><a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a><sub>1</sub> <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a><sub>2</sub></span></dt><dd><p> (結合) <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a><sub>1</sub> にマッチする文字列のあとに <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a><sub>2</sub> にマッチする文字列を結合した文字列にマッチします。</p></dd><dt><span class="term"><span class="bnf-terminal">(</span> <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a> <span class="bnf-terminal">)</span></span></dt><dd><p><a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a> と同じです。</p></dd><dt><span class="term"><a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a></span></dt><dd><p> 前もって
+              <span class="bnf-terminal">let</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a>
+              で定義された
+              <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a>
+              に割り当てられている正規表現になります。</p></dd><dt><span class="term"><a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a> <span class="bnf-terminal">as</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a></span></dt><dd><p><a class="link" href="ch12s02.html#bnf--regexp"><span class="bnf-non-terminal">regexp</span></a> にマッチした部分文字列を識別子 <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> に束縛します</p></dd></dl></div>
+      <p>
+        演算子の優先順位は、<code class="code">*</code> と <code class="code">+</code> が最優先、次に <code class="code">?</code>、次に結合、最後に <code class="code">|</code> になります。
+      </p>
+    </div>
+      <div class="section" title="12.2.5&nbsp;Actions"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11758"></a>12.2.5&nbsp;Actions</h3></div></div></div>
+        
+        <p>
+          action は Caml の任意な式です。これらの式は lexbuf 識別子に現在の字句解析バッファが割り当てられた環境で評価されます。lexbuf の主な利用法を、Lexing 標準ライブラリモジュールの字句解析バッファ処理関数と関連付けながら以下に示します。
+        </p>
+        <div class="variablelist"><dl><dt><span class="term">Lexing.lexeme lexbuf</span></dt><dd><p>マッチした文字列を返します。</p></dd><dt><span class="term">Lexing.lexeme_char lexbuf n</span></dt><dd><p>マッチした文字列の n 番目の文字を返します。最初の文字は n = 0 になります。</p></dd><dt><span class="term">Lexing.lexeme_start lexbuf</span></dt><dd><p>マッチした文字列の先頭の文字が入力文字列全体において何番目の文字であるかを返します。入力文字列の先頭は 0 です。</p></dd><dt><span class="term">Lexing.lexeme_end lexbuf</span></dt><dd><p>マッチした文字列の末尾の文字が入力文字列全体において何番目の文字であるかを返します。入力文字列の先頭は 0 です。</p></dd><dt><span class="term">entrypoint [exp_1 ... exp_n] lexbuf</span></dt><dd><p></p></dd></dl></div>
+        <p>
+          (entrypoint には、同じ字句解析器の定義内にある別のエントリーポイント名が入ります) 字句解析器の指定されたエントリーポイントを再帰的に呼びます。入れ子のコメントなどの字句解析に便利です。
+        </p>
+      </div>
+      <div class="section" title="12.2.6&nbsp;正規表現中の変数"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11783"></a>12.2.6&nbsp;正規表現中の変数</h3></div></div></div>
+        
+        <p>
+          'as'コンストラクタは多くの正規表現パッケージが提供している"グループ"に似ています。これらの変数の型は、string、char、string、option、char optionのいずれかです。
+        </p>
+        <p>
+          まず線形なパターン、つまりすべての束縛変数がお互いに異なる場合について考えてみましょう。''regexp as ident''において、identの型は通常string(もしくはstring option)になります。例外はregexpが文字列定数、アンダースコア、長さ1の文字列定数、文字集合、これらの選択の場合です。その場合、identの型はchar(もしくはchar option)になります。option型は、ルールのマッチングが必ず成功するとは限らない場合です。
+例えば、( regexp as  ident) ?やregexp_1 | (  regexp_2 as  ident )のような場合です。
+        </p>
+        <p>
+          変数束縛が非線形の場合について考えてみましょう。 変数が一度以上束縛される場合、前述のルールは以下のように拡張さえれます。
+        </p>
+        <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+            <p>
+              前述したルールで、全ての変数出現が文字に束縛されている場合、変数は文字変数になります。
+            </p>
+          </li><li class="listitem">
+            <p>
+              いずれかの式がこの変数を束縛しない場合は、変数はoptionになります。
+            </p>
+          </li></ul></div>
+        <p>
+          例えば、'' ('a' as x) | ( 'a' (_ as x) )' ''において、変数''x''はchar型になります。一方、'' ("ab" as x) | ( 'a' (_ as x) ? )''において変数''x''はstring option型になります。
+        </p>
+        <p>
+          多くの場合、連続したマッチがユニークな束縛を生まないことがあります。
+          例えば、''aba''を'' (('a'|"ab") as x) (("ba"|'a') as y)''はxを"ab"にyを"a"に束縛するか、xを"a"にyを"ba"に束縛するかのいずれかになります。
+          camllexはこのような曖昧な正規表現の場合、ありうる束縛のうち、いずれかを選びます。ただし、選択の方法は規定されていません。
+        </p>
+      </div>
+      <div class="section" title="12.2.7&nbsp;Reserved identifiers"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11795"></a>12.2.7&nbsp;Reserved identifiers</h3></div></div></div>
+        
+        <p>
+          __ocaml_lex で始まるすべての識別子は ocamllex が予約しています。プログラム中にそのような識別子は使用しないでください。
+        </p>
+      </div>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch12.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch12s03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">12.1&nbsp;Overview of ocamllex&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;12.3&nbsp;Overview of ocamlyacc</td></tr></table></div></body></html>

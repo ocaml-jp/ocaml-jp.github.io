@@ -1,0 +1,62 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.3&nbsp;自分自身への参照</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s02.html" title="3.2&nbsp;直接生成されたオブジェクト"><link rel="next" href="ch03s04.html" title="3.4&nbsp;初期化"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.3&nbsp;自分自身への参照</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s02.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s04.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.3&nbsp;自分自身への参照"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Reference to self"></a>3.3&nbsp;自分自身への参照</h2></div></div></div>
+    
+    <p>
+      メソッドや初期化子は自分自身、つまり現在のオブジェクトのメソッドを呼び出すことができます。このためには、ここで変数 <code class="code">s</code> になされているように、自分自身を明示的にある変数に束縛する必要があります（<code class="code">s</code> はどんな識別子でも構いませんが、 <code class="code">self</code> という名前がよく使われます）。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class printable_point x_init =
+   object (s)
+     val mutable x = x_init
+     method get_x = x
+     method move d = x &lt;- x + d
+     method print = print_int s#get_x
+   end;;</code></strong>
+<code class="computeroutput">class printable_point :
+  int -&gt;
+  object
+    val mutable x : int
+    method get_x : int
+    method move : int -&gt; unit
+    method print : unit
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let p = new printable_point 7;;</code></strong>
+<code class="computeroutput">val p : printable_point = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>p#print;;</code></strong>
+<code class="computeroutput">7- : unit = ()</code>
+    </pre>
+    <p>
+      変数 <code class="code">s</code> はメソッドの起動時に動的に束縛されます。
+      特にクラス <code class="code">printable_point</code> が継承された場合、 <code class="code">s</code> はその子クラスのオブジェクトに束縛されます。 
+    </p>
+    <p>
+      <code class="code">self</code> に関するよくある問題は、それが子クラスで拡張可能であるという問題点です。これは避けることができません。簡単な例は以下のようになります。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let ints = ref [];;</code></strong>
+<code class="computeroutput">val ints : '_a list ref = {contents = []}</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class my_int =
+   object (self)
+     method n = 1
+     method register = ints := self :: !ints
+   end;;</code></strong>
+<code class="computeroutput">This expression has type &lt; n : int; register : 'a; .. &gt;
+but is here used with type 'b
+Self type cannot escape its class</code>
+    </pre>
+    <p>
+      最初の2つのエラーは無視することができます。問題は最後のエラーで、 <code class="code">self</code> を外部の参照に置くと、あとでそれが拡張できなくなるという点です。これについては、<a class="xref" href="ch03s12.html" title="3.12&nbsp;型変換の使用"> 3.12 節「型変換の使用」</a>で詳しく説明します。さしあたっては、直接生成されたオブジェクトは拡張ができないので、この問題は起こらないということを覚えておいてください。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let my_int =
+   object (self)
+     method n = 1
+     method register = ints := self :: !ints
+   end;;</code></strong>
+<code class="computeroutput">val my_int : &lt; n : int; register : unit &gt; = &lt;obj&gt;</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s02.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s04.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.2&nbsp;直接生成されたオブジェクト&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.4&nbsp;初期化</td></tr></table></div></body></html>

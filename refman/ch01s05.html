@@ -1,0 +1,105 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>1.5&nbsp;命令型の機能</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch01.html" title="1.&nbsp;The core language"><link rel="prev" href="ch01s04.html" title="1.4&nbsp;レコードとバリアント"><link rel="next" href="ch01s06.html" title="1.6&nbsp;例外"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">1.5&nbsp;命令型の機能 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01s04.html">前のページ</a>&nbsp;</td><th width="60%" align="center">1.&nbsp;The core language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch01s06.html">次のページ</a></td></tr></table><hr></div><div class="section" title="1.5&nbsp;命令型の機能"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Imperative features"></a>1.5&nbsp;命令型の機能 </h2></div></div></div>
+    
+    <p>
+      今まではすべての例を純粋な関数型スタイルで書いてきましたが、Caml には手続き型の機能も備わっています。
+      配列などの変更可能なデータ構造や、おなじみの <code class="code">while</code> ループや <code class="code">for</code> ループです。配列は <code class="code">[|</code> と <code class="code">|]</code> のブラケットでリストのように記述するか、<code class="code">Array.create</code> 関数で割り当てと初期化を行い、後で代入によって値を埋めることが出来ます。
+      例えば、次の関数は（浮動小数点数の配列で表された）ふたつのベクトルを要素ごとに足し算します。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let add_vect v1 v2 =
+   let len = min (Array.length v1) (Array.length v2) in
+   let res = Array.create len 0.0 in
+   for i = 0 to len - 1 do
+     res.(i) &lt;- v1.(i) +. v2.(i)
+   done;
+   res;;</code></strong>
+<code class="computeroutput">val add_vect : float array -&gt; float array -&gt; float array = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>add_vect [| 1.0; 2.0 |] [| 3.0; 4.0 |];;</code></strong>
+<code class="computeroutput">- : float array = [|4.; 6.|]</code>
+    </pre>
+    <p>
+      レコード型の定義に <code class="code">mutable</code> が宣言されているフィールドならば、そのフィールドも代入によって変更することが出来ます。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type mutable_point = { mutable x: float; mutable y: float };;</code></strong>
+<code class="computeroutput">type mutable_point = { mutable x : float; mutable y : float; }</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let translate p dx dy =
+   p.x &lt;- p.x +. dx; p.y &lt;- p.y +. dy;;</code></strong>
+<code class="computeroutput">val translate : mutable_point -&gt; float -&gt; float -&gt; unit = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let mypoint = { x = 0.0; y = 0.0 };;</code></strong>
+<code class="computeroutput">val mypoint : mutable_point = {x = 0.; y = 0.}</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>translate mypoint 1.0 2.0;;</code></strong>
+<code class="computeroutput">- : unit = ()</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>mypoint;;</code></strong>
+<code class="computeroutput">- : mutable_point = {x = 1.; y = 2.}</code>
+    </pre>
+    <p>
+      Caml にはもともと変数という概念がありません。ここで言う変数とは代入によって現在の値に変更できる識別子のことです（<code class="code">let</code> 束縛は代入ではなく、新たなスコープで新しい識別子を導入しています）。しかし標準ライブラリに参照があります。これは変更可能なセル (または 1 要素の配列) で、 <code class="code">!</code> 演算子で参照の現在保持している内容を取り出し、<code class="code">:=</code> で内容を代入します。これを使うと <code class="code">let</code> で束縛した参照で、擬似的に変数を実現できます。例として、配列の挿入ソートを示します。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let insertion_sort a =
+   for i = 1 to Array.length a - 1 do
+     let val_i = a.(i) in
+     let j = ref i in
+     while !j &gt; 0 &amp;&amp; val_i &lt; a.(!j - 1) do
+       a.(!j) &lt;- a.(!j - 1);
+       j := !j - 1
+     done;
+     a.(!j) &lt;- val_i
+   done;;</code></strong>
+<code class="computeroutput">val insertion_sort : 'a array -&gt; unit = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      次の呼び出しまでの間現在の状態を保持しなければならない関数を定義するときにも、参照が使えます。例として、最後に返した結果を参照に保存する疑似乱数生成器を示します。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let current_rand = ref 0;;</code></strong>
+<code class="computeroutput">val current_rand : int ref = {contents = 0}</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let random () =
+   current_rand := !current_rand * 25713 + 1345;
+   !current_rand;;</code></strong>
+<code class="computeroutput">val random : unit -&gt; int = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      再度説明しますが、参照は特別なものではありません。以下のように 1 つのフィールドからなるレコードで実装されているのです。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type 'a ref = { mutable contents: 'a };;</code></strong>
+<code class="computeroutput">type 'a ref = { mutable contents : 'a; }</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let (!) r = r.contents;;</code></strong>
+<code class="computeroutput">val ( ! ) : 'a ref -&gt; 'a = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let (:=) r newval = r.contents &lt;- newval;;</code></strong>
+<code class="computeroutput">val ( := ) : 'a ref -&gt; 'a -&gt; unit = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      時には、多相関数を多相性を保ったままデータ構造に格納する必要があることもあるでしょう。しかし、多相性は大域的にしか導入することができないため、ユーザーが型アノテーションを指定してやらなければ、これは実現できません。レコードのフィールドには多相型を明示することができます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type idref = { mutable id: 'a. 'a -&gt; 'a };;</code></strong>
+<code class="computeroutput">type idref = { mutable id : 'a. 'a -&gt; 'a; }</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let r = {id = fun x -&gt; x};;</code></strong>
+<code class="computeroutput">val r : idref = {id = &lt;fun&gt;}</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let g s = (s.id 1, s.id true);;</code></strong>
+<code class="computeroutput">val g : idref -&gt; int * bool = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>r.id &lt;- (fun x -&gt; print_string "called id\n"; x);;</code></strong>
+<code class="computeroutput">- : unit = ()</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>g r;;</code></strong>
+<code class="computeroutput">called id
+called id
+- : int * bool = (1, true)</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch01s04.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch01.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch01s06.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">1.4&nbsp;レコードとバリアント &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;1.6&nbsp;例外 </td></tr></table></div></body></html>

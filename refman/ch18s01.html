@@ -1,0 +1,428 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>18.1&nbsp;Overview and compilation information</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch18.html" title="18.&nbsp;C と Objective Caml のインタフェース"><link rel="prev" href="ch18.html" title="18.&nbsp;C と Objective Caml のインタフェース"><link rel="next" href="ch18s02.html" title="18.2&nbsp;The value type"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">18.1&nbsp;Overview and compilation information</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch18.html">前のページ</a>&nbsp;</td><th width="60%" align="center">18.&nbsp;C と Objective Caml のインタフェース</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch18s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="18.1&nbsp;Overview and compilation information"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e13332"></a>18.1&nbsp;Overview and compilation information</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch18s01.html#d4e13334">18.1.1. Declaring primitives</a></span></dt><dt><span class="section"><a href="ch18s01.html#d4e13352">18.1.2. Implementing primitives</a></span></dt><dt><span class="section"><a href="ch18s01.html#d4e13396">18.1.3. Statically linking C code with Caml code</a></span></dt><dt><span class="section"><a href="ch18s01.html#sec:Dynamically linking C code with Caml code">18.1.4. Dynamically linking C code with Caml code</a></span></dt><dt><span class="section"><a href="ch18s01.html#d4e13442">18.1.5. Choosing between static linking and dynamic linking</a></span></dt><dt><span class="section"><a href="ch18s01.html#sec:Building standalone custom runtime systems">18.1.6. Building standalone custom runtime systems</a></span></dt></dl></div>
+    
+    <div class="section" title="18.1.1&nbsp;Declaring primitives"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13334"></a>18.1.1&nbsp;Declaring primitives</h3></div></div></div>
+      
+      <p>
+        User primitives are declared in an implementation file or struct...end
+        module expression using the external keyword: 
+      </p>
+      <pre class="programlisting">
+external name : type = C-function-name
+</pre>
+      <p>
+        This defines the value name name as a function with type type that executes
+        by calling the given C function. For instance, here is how the input primitive
+        is declared in the standard library module Pervasives: 
+      </p>
+      <pre class="programlisting">
+external input : in_channel -&gt; string -&gt; int -&gt; int -&gt; int
+               = "input"
+</pre>
+      <p>
+        Primitives with several arguments are always curried. The C function does not
+        necessarily have the same name as the ML function.
+      </p>
+      <p>
+        External functions thus defined can be specified in interface files or
+        sig...end signatures either as regular values 
+      </p>
+      <pre class="programlisting">
+val name : type
+      </pre>
+      <p>
+        thus hiding their implementation as a C function, or explicitly as
+        "manifest" external functions 
+      </p>
+      <pre class="programlisting">
+external name : type = C-function-name
+</pre>
+      <p>
+        The latter is slightly more efficient, as it allows clients of the module to
+        call directly the C function instead of going through the corresponding Caml
+        function. 
+      </p>
+      <p>
+        The arity (number of arguments) of a primitive is automatically determined
+        from its Caml type in the external declaration, by counting the number of
+        function arrows in the type. For instance, input above has arity 4, and the
+        input C function is called with four arguments. Similarly, 
+      </p>
+      <pre class="programlisting">
+external input2 : in_channel * string * int * int -&gt; int = "input2"
+</pre>
+      <p>
+        has arity 1, and the input2 C function receives one argument (which is a
+        quadruple of Caml values).
+      </p>
+      <p>
+        Type abbreviations are not expanded when determining the arity of a
+        primitive. For instance, 
+      </p>
+      <pre class="programlisting">
+type int_endo = int -&gt; int
+external f : int_endo -&gt; int_endo = "f"
+external g : (int -&gt; int) -&gt; (int -&gt; int) = "f"
+</pre>
+      <p>
+        f has arity 1, but g has arity 2. This allows a primitive to return a
+        functional value (as in the f example above): just remember to name the
+        functional return type in a type abbreviation.
+      </p>
+    </div>
+    <div class="section" title="18.1.2&nbsp;Implementing primitives"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13352"></a>18.1.2&nbsp;Implementing primitives</h3></div></div></div>
+      
+      <p>
+        User primitives with arity n &lt;= 5 are implemented by C functions that take n
+        arguments of type value, and return a result of type value. The type value is
+        the type of the representations for Caml values. It encodes objects of several
+        base types (integers, floating-point numbers, strings, ...), as well as Caml
+        data structures. The type value and the associated conversion functions and
+        macros are described in details below. For instance, here is the declaration
+        for the C function implementing the input primitive: 
+      </p>
+      <pre class="programlisting">
+CAMLprim value input(value channel, value buffer, value offset, value length)
+{
+  ...
+}
+</pre>
+      <p>
+        When the primitive function is applied in a Caml program, the C function is
+        called with the values of the expressions to which the primitive is applied as
+        arguments. The value returned by the function is passed back to the Caml
+        program as the result of the function application.
+      </p>
+      <p>
+        User primitives with arity greater than 5 should be implemented by two C
+        functions. The first function, to be used in conjunction with the bytecode
+        compiler ocamlc, receives two arguments: a pointer to an array of Caml values
+        (the values for the arguments), and an integer which is the number of arguments
+        provided. The other function, to be used in conjunction with the native-code
+        compiler ocamlopt, takes its arguments directly. For instance, here are the two
+        C functions for the 7-argument primitive Nat.add_nat: 
+      </p>
+      <pre class="programlisting">
+CAMLprim value add_nat_native(value nat1, value ofs1, value len1,
+                              value nat2, value ofs2, value len2,
+                              value carry_in)
+{
+  ...
+}
+CAMLprim value add_nat_bytecode(value * argv, int argn)
+{
+  return add_nat_native(argv[0], argv[1], argv[2], argv[3],
+                        argv[4], argv[5], argv[6]);
+}
+</pre>
+      <p>
+        The names of the two C functions must be given in the primitive declaration,
+        as follows: 
+      </p>
+      <pre class="programlisting">
+external name : type =
+         bytecode-C-function-name native-code-C-function-name
+      </pre>
+      <p>
+        For instance, in the case of add_nat, the declaration is: 
+      </p>
+      <pre class="programlisting">
+ external add_nat: nat -&gt; int -&gt; int -&gt; nat -&gt; int -&gt; int -&gt; int -&gt; int
+                 = "add_nat_bytecode" "add_nat_native"
+</pre>
+      <p>
+        Implementing a user primitive is actually two separate tasks: on the one
+        hand, decoding the arguments to extract C values from the given Caml values,
+        and encoding the return value as a Caml  value; on the other hand, actually
+        computing the result from the arguments. Except for very simple primitives, it
+        is often preferable to have two distinct C functions to implement these two
+        tasks. The first function actually implements the primitive, taking native C
+        values as arguments and returning a native C value. The second function, often
+        called the "stub code", is a simple wrapper around the first function that
+        converts its arguments from Caml values to C values, call the first function,
+        and convert the returned C value to Caml value. For instance, here is the stub
+        code for the input primitive: 
+      </p>
+      <pre class="programlisting">
+CAMLprim value input(value channel, value buffer, value offset, value length)
+{
+  return Val_long(getblock((struct channel *) channel,
+                           &amp;Byte(buffer, Long_val(offset)),
+                           Long_val(length)));
+}
+ (Here, Val_long, Long_val and so on are conversion macros for the type value,
+</pre>
+      <p>
+        that will be described later. The CAMLprim macro expands to the required
+        compiler directives to ensure that the function following it is exported and
+        accessible from Caml.) The hard work is performed by the function getblock,
+        which is declared as: 
+      </p>
+      <pre class="programlisting">
+long getblock(struct channel * channel, char * p, long n)
+{
+  ...
+}
+</pre>
+      <p>
+        To write C code that operates on Objective Caml values, the following include
+        files are provided: 
+      </p>
+      <table id="d4e13368">
+        <thead>
+          <tr><th>  Include file  </th><th>             Provides             </th></tr>
+        </thead>
+        <tbody>
+          <tr><td>caml/mlvalues.h</td><td>definition of the value type, and conversion macros</td></tr>
+          <tr><td>caml/alloc.h</td><td>allocation functions (to create structured Caml objects)</td></tr>
+          <tr><td>caml/memory.h</td><td>miscellaneous memory-related functions and macros (for GC interface, in-place modification of structures, etc).</td></tr>
+          <tr><td>caml/fail.h</td><td>functions for raising exceptions (see section 18.4.5)</td></tr>
+          <tr><td>caml/callback.h</td><td>callback from C to Caml (see section 18.7).</td></tr>
+          <tr><td>caml/custom.h</td><td>operations on custom blocks (see section 18.9).</td></tr>
+          <tr><td>caml/intext.h</td><td>operations for writing user-defined serialization and deserialization functions for custom blocks (see section 18.9).</td></tr>
+      </tbody></table>
+      <p>
+        These files reside in the caml/ subdirectory of the Objective Caml standard
+        library directory (usually /usr/local/lib/ocaml).
+      </p>
+    </div>
+    <div class="section" title="18.1.3&nbsp;Statically linking C code with Caml code"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13396"></a>18.1.3&nbsp;Statically linking C code with Caml code</h3></div></div></div>
+      
+      <p>
+        The Objective Caml runtime system comprises three main parts: the bytecode
+        interpreter, the memory manager, and a set of C functions that implement the
+        primitive operations. Some bytecode instructions are provided to call these C
+        functions, designated by their offset in a table of functions (the table of
+        primitives).
+      </p>
+      <p>
+        In the default mode, the Caml linker produces bytecode for the standard
+        runtime system, with a standard set of primitives. References to primitives
+        that are not in this standard set result in the "unavailable C primitive"
+        error. (Unless dynamic loading of C libraries is supported -- see section
+        18.1.4 below.)
+      </p>
+      <p>
+        In the "custom runtime" mode, the Caml linker scans the object files and
+        determines the set of required primitives. Then, it builds a suitable runtime
+        system, by calling the native code linker with: 
+      </p>
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">the table of the required primitives; 
+        </li><li class="listitem">a library that provides the bytecode interpreter, the memory manager, and the standard primitives; 
+        </li><li class="listitem">libraries and object code files (.o files) mentioned on the command line for the Caml linker, that provide implementations for the user's primitives. 
+        </li></ul></div>
+      <p>
+        This builds a runtime system with the required primitives. The Caml linker
+        generates bytecode for this custom runtime system. The bytecode is appended to
+        the end of the custom runtime system, so that it will be automatically executed
+        when the output file (custom runtime + bytecode) is launched.
+      </p>
+      <p>
+        To link in "custom runtime" mode, execute the ocamlc command with: 
+      </p>
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">the -custom option; 
+        </li><li class="listitem">the names of the desired Caml object files (.cmo and .cma files) ; 
+        </li><li class="listitem">the names of the C object files and libraries (.o and .a files) that implement the required primitives. Under Unix and Windows, a library named libname.a residing in one of the standard library directories can also be specified as -cclib -lname. 
+        </li></ul></div>
+      <p>
+        If you are using the native-code compiler ocamlopt, the -custom flag is not
+        needed, as the final linking phase of ocamlopt always builds a standalone
+        executable. To build a mixed Caml/C executable, execute the ocamlopt command
+        with: 
+      </p>
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">the names of the desired Caml native object files (.cmx and .cmxa files); 
+        </li><li class="listitem">the names of the C object files and libraries (.o, .a, .so or .dll files) that implement the required primitives. 
+        </li></ul></div>
+      <p>
+        Starting with OCaml 3.00, it is possible to record the -custom option as well
+        as the names of C libraries in a Caml library file .cma or .cmxa. For instance,
+        consider a Caml library mylib.cma, built from the Caml object files a.cmo and
+        b.cmo, which reference C code in libmylib.a. If the library is built as
+        follows: 
+      </p>
+      <pre class="programlisting">
+ocamlc -a -o mylib.cma -custom a.cmo b.cmo -cclib -lmylib
+</pre>
+      <p>
+        users of the library can simply link with mylib.cma: 
+      </p>
+      <pre class="programlisting">
+ocamlc -o myprog mylib.cma ...
+</pre>
+      <p>
+        and the system will automatically add the -custom and -cclib -lmylib
+        options, achieving the same effect as 
+      </p>
+      <pre class="programlisting">
+ocamlc -o myprog -custom a.cmo b.cmo ... -cclib -lmylib
+</pre>
+      <p>
+        The alternative, of course, is to build the library without extra options: 
+      </p>
+      <pre class="programlisting">
+ocamlc -a -o mylib.cma a.cmo b.cmo
+</pre>
+      <p>
+        and then ask users to provide the -custom and -cclib -lmylib options
+        themselves at link-time: 
+      </p>
+      <pre class="programlisting">
+ocamlc -o myprog -custom mylib.cma ... -cclib -lmylib
+</pre>
+      <p>
+        The former alternative is more convenient for the final users of the
+        library, however.
+      </p>
+    </div>
+    <div class="section" title="18.1.4&nbsp;Dynamically linking C code with Caml code"><div class="titlepage"><div><div><h3 class="title"><a name="sec:Dynamically linking C code with Caml code"></a>18.1.4&nbsp;Dynamically linking C code with Caml code</h3></div></div></div>
+      
+      <p>
+        Starting with OCaml 3.03, an alternative to static linking of C code using
+        the -custom code is provided. In this mode, the Caml linker generates a pure
+        bytecode executable (no embedded custom runtime system) that simply records the
+        names of dynamically-loaded libraries containing the C code. The standard Caml
+        runtime system ocamlrun then loads dynamically these libraries, and resolves
+        references to the required primitives, before executing the bytecode.
+      </p>
+      <p>
+        This facility is currently supported and known to work well under Linux,
+        MacOS X, and Windows (the native Windows port). It is supported, but not fully
+        tested yet, under FreeBSD, Tru64, Solaris and Irix. It is not supported yet
+        under other Unixes and under Cygwin for Windows.
+      </p>
+      <p>
+        To dynamically link C code with Caml code, the C code must first be compiled
+        into a shared library (under Unix) or DLL (under Windows). This involves 1-
+        compiling the C files with appropriate C compiler flags for producing
+        position-independent code, and 2- building a shared library from the resulting
+        object files. The resulting shared library or DLL file must be installed in a
+        place where ocamlrun can find it later at program start-up time (see section
+        10.3). Finally (step 3), execute the ocamlc command with 
+      </p>
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">the names of the desired Caml object files (.cmo and .cma files) ; 
+        </li><li class="listitem">the names of the C shared libraries (.so or .dll files) that implement the required primitives. Under Unix and Windows,  a library named dllname.so (respectively, .dll) residing in one of the standard library directories can also be specified as -dllib -lname. 
+        </li></ul></div>
+      <p>
+        Do not set the -custom flag, otherwise you're back to static linking as
+        described in section 18.1.3. Under Unix, the ocamlmklib tool (see section
+        18.10) automates steps 2 and 3.
+      </p>
+      <p>
+        As in the case of static linking, it is possible (and recommended) to record
+        the names of C libraries in a Caml .cmo library archive.  Consider again a Caml
+        library mylib.cma, built from the Caml object files a.cmo and b.cmo, which
+        reference C code in dllmylib.so. If the library is built as follows: 
+      </p>
+      <pre class="programlisting">
+ocamlc -a -o mylib.cma a.cmo b.cmo -dllib -lmylib
+</pre>
+      <p>
+        users of the library can simply link with mylib.cma: 
+      </p>
+      <pre class="programlisting">
+ocamlc -o myprog mylib.cma ...
+</pre>
+      <p>
+        and the system will automatically add the -dllib -lmylib option, achieving
+        the same effect as 
+      </p>
+      <pre class="programlisting">
+ocamlc -o myprog a.cmo b.cmo ... -dllib -lmylib
+</pre>
+      <p>
+        Using this mechanism, users of the library mylib.cma do not need to known
+        that it references C code, nor whether this C code must be statically linked
+        (using -custom) or dynamically linked.
+      </p>
+    </div>
+    <div class="section" title="18.1.5&nbsp;Choosing between static linking and dynamic linking"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13442"></a>18.1.5&nbsp;Choosing between static linking and dynamic linking</h3></div></div></div>
+      
+      <p>
+        After having described two different ways of linking C code with Caml code,
+        we now review the pros and cons of each, to help developers of mixed Caml/C
+        libraries decide.
+      </p>
+      <p>
+        The main advantage of dynamic linking is that it preserves the
+        platform-independence of bytecode executables. That is, the bytecode executable
+        contains no machine code, and can therefore be compiled on platform A and
+        executed on other platforms B, C, ..., as long as the required shared libraries
+        are available on all these platforms. In contrast, executables generated by
+        ocamlc -custom run only on the platform on which they were created, because
+        they embark a custom-tailored runtime system specific to that platform. In
+        addition, dynamic linking results in smaller executables.
+      </p>
+      <p>
+        Another advantage of dynamic linking is that the final users of the library
+        do not need to have a C compiler, C linker, and C runtime libraries installed
+        on their machines. This is no big deal under  Unix and Cygwin, but many Windows
+        users are reluctant to install Microsoft Visual C just to be able to do ocamlc -custom.
+      </p>
+      <p>
+        There are two drawbacks to dynamic linking. The first is that the resulting
+        executable is not stand-alone: it requires the shared libraries, as well as
+        ocamlrun, to be installed on the machine executing the code. If you wish to
+        distribute a stand-alone executable, it is better to link it statically, using
+        ocamlc -custom -ccopt -static or ocamlopt -ccopt -static. Dynamic linking also
+        raises the "DLL hell" problem: some care must be taken to ensure that the right
+        versions of the shared libraries are found at start-up time.
+      </p>
+      <p>
+        The second drawback of dynamic linking is that it complicates the
+        construction of the library. The C compiler and linker flags to compile to
+        position-independent code and build a shared library vary wildly between
+        different Unix systems. Also, dynamic linking is not supported on all Unix
+        systems, requiring a fall-back case to static linking in the Makefile for the
+        library. The ocamlmklib command (see section 18.10) tries to hide some of these
+        system dependencies.
+      </p>
+      <p>
+        In conclusion: dynamic linking is highly recommended under the native Windows
+        port, because there are no portability problems and it is much more convenient
+        for the end users. Under Unix, dynamic linking should be considered for mature,
+        frequently used libraries because it enhances platform-independence of bytecode
+        executables. For new or rarely-used libraries, static linking is much simpler
+        to set up in a portable way.
+      </p>
+    </div>
+    <div class="section" title="18.1.6&nbsp;Building standalone custom runtime systems"><div class="titlepage"><div><div><h3 class="title"><a name="sec:Building standalone custom runtime systems"></a>18.1.6&nbsp;Building standalone custom runtime systems</h3></div></div></div>
+      
+      <p>
+        It is sometimes inconvenient to build a custom runtime system each time Caml
+        code is linked with C libraries, like ocamlc -custom does. For one thing, the
+        building of the runtime system is slow on some systems (that have bad linkers
+        or slow remote file systems); for another thing, the platform-independence of
+        bytecode files is lost, forcing to perform one ocamlc -custom link per platform
+        of interest.
+      </p>
+      <p>
+        An alternative to ocamlc -custom is to build separately a custom runtime
+        system integrating the desired C libraries, then generate "pure" bytecode
+        executables (not containing their own runtime system) that can run on this
+        custom runtime. This is achieved by the -make_runtime and -use_runtime flags to
+        ocamlc. For example, to build a custom runtime system integrating the C parts
+        of the "Unix" and "Threads" libraries, do: 
+      </p>
+      <pre class="programlisting">
+ocamlc -make-runtime -o /home/me/ocamlunixrun unix.cma threads.cma
+</pre>
+      <p>
+        To generate a bytecode executable that runs on this runtime system, do: 
+      </p>
+      <pre class="programlisting">
+ocamlc -use-runtime /home/me/ocamlunixrun -o myprog \
+       unix.cma threads.cma your .cmo and .cma files
+</pre>
+      <p>
+        The bytecode executable myprog can then be launched as usual: myprog args or
+        /home/me/ocamlunixrun myprog args.
+      </p>
+      <p>
+        Notice that the bytecode libraries unix.cma and threads.cma must be given
+        twice: when building the runtime system (so that ocamlc knows which C
+        primitives are required) and also when building the bytecode executable (so
+        that the bytecode from unix.cma and threads.cma is actually linked in).
+      </p>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch18.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch18.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch18s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">18.&nbsp;C と Objective Caml のインタフェース&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;18.2&nbsp;The value type</td></tr></table></div></body></html>

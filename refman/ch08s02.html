@@ -1,0 +1,518 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>8.2&nbsp;オプション</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch08.html" title="8.&nbsp;バッチコンパイル（ocamlc）"><link rel="prev" href="ch08s01.html" title="8.1&nbsp;コンパイラの概要"><link rel="next" href="ch08s03.html" title="8.3&nbsp;モジュールとファイルシステム"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">8.2&nbsp;オプション </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">8.&nbsp;バッチコンパイル（<span class="command"><strong>ocamlc</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch08s03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="8.2&nbsp;オプション"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:ocamlc:Options"></a>8.2&nbsp;オプション </h2></div></div></div>
+      
+      <p>
+        <span class="command"><strong>ocamlc</strong></span> の認識するコマンドラインオプションは以下の通りです。
+        <code class="option">-pack</code>、 <code class="option">-a</code>、 <code class="option">-c</code>、 <code class="option">-output-obj</code> はいずれかしか指定できません。
+        
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"><code class="option">-a</code></span></dt><dd>
+            <p>
+              コマンドラインに与えられたオブジェクトファイル（<code class="filename">.cmo</code> ファイル）から、実行ファイルの代わりに、ライブラリ（<code class="filename">.cma</code> ファイル）を作成します。
+              ライブラリの名前は <code class="option">-o</code> オプションで指定しなければなりません。
+              
+            </p>
+            <p>
+              コマンドラインで <code class="option">-custom</code> 、 <code class="option">-cclib</code>、 <code class="option">-ccopt</code> オプションのいずれかが指定されていた場合、出力される <code class="filename">.cma</code> ライブラリにこれらのオプションが保存されます。
+              出力されたライブラリをリンクするときに、 <code class="option">-noautolink</code> オプションが指定されていなければ、自動的にこの <code class="option">-custom</code>、 <code class="option">-cclib</code> や <code class="option">-ccopt</code> オプションが追加されます。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-annot</code></span></dt><dd>
+            <p>
+              コンパイル時の詳細情報（型、束縛、末尾呼び出し等）を出力します。
+              <code class="filename"><em class="replaceable"><code>src</code></em>.ml</code> に関する情報は <code class="filename"><em class="replaceable"><code>src</code></em>.annot</code> に出力されます。
+              型エラーが起こった場合には、エラーの起こる前に型検査器の推論した情報をすべて出力します。
+              <code class="filename"><em class="replaceable"><code>src</code></em>.annot</code> ファイルを使うと <code class="filename">emacs/caml-types.el</code> で提供される <span class="command"><strong>emacs</strong></span> コマンド群を使って型情報やその他の注釈を対話的に表示することができます。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-c</code></span></dt><dd>
+            <p>
+              コンパイルのみ行ない、リンクを行いません。
+              ソースコードファイルからコンパイル済みファイルを生成しますが、実行ファイルは生成しません。
+              このオプションはモジュールを分割コンパイルするのに便利です。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-cc</code> <em class="replaceable"><code>ccomp</code></em></span></dt><dd>
+            <p>
+              カスタムランタイムモード（<code class="option">-custom</code> オプション参照）でリンクに使う C リンカや <code class="filename">.c</code> ソースファイルをコンパイルする C コンパイラとして <em class="replaceable"><code>ccomp</code></em> を使用します。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-cclib -l</code><em class="replaceable"><code>libname</code></em></span></dt><dd>
+            <p>
+              カスタムランタイムモード（<code class="option">-custom</code> オプション参照）でのリンク時に C リンカにオプションとして <code class="option">-l</code><em class="replaceable"><code>libname</code></em> を渡し、指定した C ライブラリがプログラムにリンクされるようにします。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-ccopt</code> <em class="replaceable"><code>option</code></em></span></dt><dd>
+            <p>
+              与えられたオプションを C コンパイラやリンカに渡します。
+              例えば、カスタムランタイムモードでリンクする場合、 <strong class="userinput"><code>-ccopt -L<em class="replaceable"><code>dir</code></em></code></strong> とすると、リンカはディレクトリ <em class="replaceable"><code>dir</code></em> から C のライブラリを探索するようになります。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-config</code></span></dt><dd>
+            <p>
+              <span class="command"><strong>ocamlc</strong></span> のバージョン番号と構成の概要を表示して終了します。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-custom</code></span></dt><dd>
+            <p>
+              カスタムランタイムモードでリンクします。
+              デフォルトのリンクモードでは、リンカは共有ランタイムシステム <span class="command"><strong>ocamlrun</strong></span> で実行するバイトコードを生成します。
+              カスタムランタイムモードでは、リンカが生成するファイルにはランタイムシステムとプログラムのバイトコードの両方が含まれます。
+              生成されるファイルは大きくなりますが、 <span class="command"><strong>ocamlrun</strong></span> コマンドのインストールされていない環境でも直接実行することができます。
+              さらにカスタムランタイムモードでは、 <a class="xref" href="ch18.html" title="18.&nbsp;C と Objective Caml のインタフェース"> 18 章「<i>C と Objective Caml のインタフェース</i>」</a> で述べるように、 Caml コードにユーザが定義した C 関数を静的にリンクすることができます。
+              
+            </p> 
+            <div class="note" title="Unix" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Unix"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Unix</th></tr><tr><td align="left" valign="top">
+              
+              <p>
+                <strong class="userinput"><code>ocamlc -custom</code></strong> で生成した実行ファイルに対して <span class="command"><strong>strip</strong></span> コマンドを使用しないで下さい。実行ファイルのバイトコード部分が削除される可能性があります。
+                
+              </p>
+            </td></tr></table></div>
+          </dd><dt><span class="term"><code class="option">-dlib -l</code><em class="replaceable"><code>libname</code></em></span></dt><dd>
+            <p>
+              プログラムの起動時に、 <span class="command"><strong>ocamlrun</strong></span> が C の共有ライブラリ <code class="filename"><em class="replaceable"><code>libname</code></em>.so</code>  （Windows では <code class="filename"><em class="replaceable"><code>libname</code></em>.dll</code>）を動的に読み込むようにします。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-dllpath</code> <em class="replaceable"><code>dir</code></em></span></dt><dd>
+            <p>
+              ディレクトリ <em class="replaceable"><code>dir</code></em> を実行時の共有 C ライブラリの探索パスに加えます。
+              リンク時には共有ライブラリは標準の探索パス（<code class="option">-I</code> の指定に対応します）から探索されます。
+              <code class="option">-dllpath</code> オプションは <em class="replaceable"><code>dir</code></em> を単純に出力の実行ファイルに格納し、 <a class="xref" href="ch10s03.html" title="10.3&nbsp;共有ライブラリの動的読み込み"> 10.3 節「共有ライブラリの動的読み込み」</a> で説明するように、 <span class="command"><strong>ocamlrun</strong></span> が <em class="replaceable"><code>dir</code></em> の指定を見つけてそれを利用できるようにします。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-g</code></span></dt><dd>
+            <p>
+              コンパイルとリンク時にデバッグ情報を追加します。
+              <span class="command"><strong>ocamldebug</strong></span> でプログラムをデバッグする場合（<a class="xref" href="ch16.html" title="16.&nbsp;デバッガ（ocamldebug）"> 16 章「<i>デバッガ（<span class="command"><strong>ocamldebug</strong></span>）</i>」</a> 参照）や、プログラムが捕捉されない例外により終了した場合にバックトレースを表示する（<a class="xref" href="ch10s02.html" title="10.2&nbsp;オプション"> 10.2 節「オプション」</a> 参照）ためにはこのオプションを指定する必要があります。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-i</code></span></dt><dd>
+            <p>
+              実装ファイル（<code class="filename">.ml</code>）をコンパイルする際、定義されているすべての名前について、その名前と推論された型または定義を表示します。
+              コンパイル済みファイル（<code class="filename">.cmo</code> ファイルと <code class="filename">.cmi</code> ファイル）は生成されません。
+              コンパイラの推論した型を確認するのに便利です。
+              また、出力はインターフェイスファイルの構文に従っているので、インターフェイスファイル（<code class="filename">.mli</code> ファイル）を書くときの手助けにもなります。
+              この場合は、単純に標準出力を <code class="filename">.mli</code> ファイルにリダイレクトし、 <code class="filename">.mli</code> ファイルを編集して非公開の名前の宣言を取り除きます。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-I</code> <em class="replaceable"><code>directory</code></em></span></dt><dd>
+            <p>
+              コンパイル済みインターフェイスファイル（<code class="filename">.cmi</code> ファイル）、コンパイル済みオブジェクトコードファイル（<code class="filename">.cmo</code> ファイル）、ライブラリ（<code class="filename">.cma</code> ファイル）、<code class="option">-cclib -l<em class="replaceable"><code>xxx</code></em></code> で指定される C ライブラリの探索パスに与えられたディレクトリを追加します。
+              デフォルトでは、まずカレントディレクトリから探索し、それから標準ライブラリディレクトリを探索します。
+              <code class="option">-I</code> で追加されたディレクトリは、カレントディレクトリより後、標準ライブラリディレクトリより前に、コマンドラインに与えた順に探索します。
+              
+            </p>
+            <p>
+              ディレクトリ名が <code class="code">+</code> で始まっていた場合は、標準ライブラリディレクトリからの相対パスとして扱われます。
+              例えば、 <code class="code">-I +labltk</code> は標準ライブラリディレクトリのサブディレクトリ <code class="filename">labltk</code> を探索パスに追加します。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-impl</code> <em class="replaceable"><code>filename</code></em></span></dt><dd>
+            <p>
+              ファイル <em class="replaceable"><code>filename</code></em> を実装ファイルとしてコンパイルします。
+              拡張子は <code class="filename">.ml</code> でなくても構いません。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-intf</code> <em class="replaceable"><code>filename</code></em></span></dt><dd>
+            <p>
+              ファイル  <em class="replaceable"><code>filename</code></em> をインターフェイスファイルとしてコンパイルします。
+              拡張子は <code class="filename">.mli</code> でなくても構いません。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-intf-suffix</code> <em class="replaceable"><code>string</code></em></span></dt><dd>
+            <p>
+              （デフォルトの <code class="filename">.mli</code> の代わりに） <em class="replaceable"><code>string</code></em> で終わるファイル名をインタフェースファイルと解釈します。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-labels</code></span></dt><dd>
+            <p>
+              型中のラベルは無視されず、関数適用でラベルを使うことができ、ラベル付きの引数を任意の順序で与えることができます。
+              これがデフォルトです。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-linkall</code></span></dt><dd>
+            <p>
+              ライブラリに含まれるモジュールをすべて強制的にリンクします。
+              このフラグが与えられない場合は、参照されていないモジュールはリンクされません。
+              <code class="option">-a</code> オプションでライブラリを作成する際に <code class="option">-linkall</code> オプションを指定すると、そのライブラリを使用するプログラムをリンクすると、ライブラリ内のモジュールがすべて強制的にリンクされるようになります。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-make-runtime</code></span></dt><dd>
+            <p>
+              コマンドラインで与えられた C オブジェクトファイルとライブラリを組み込んだカスンタムランタイムシステムを作成し <code class="option">-o</code> オプションで指定したファイルに出力します。
+              このカスタムランタイムは <strong class="userinput"><code>ocamlc -use-runtime <em class="replaceable"><code>runtime-name</code></em></code></strong> で生成したバイトコードを実行するのに使うことができます。
+              詳しくは、 <a class="xref" href="ch18s01.html#sec:Building standalone custom runtime systems" title="18.1.6&nbsp;Building standalone custom runtime systems"> 18.1.6 節「Building standalone custom runtime systems」</a> を参照してください。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-noassert</code></span></dt><dd>
+            <p>
+              <code class="code">assert</code> の検査をコンパイルしません。
+              このとき、特別な形として <code class="code">assert false</code> は常にコンパイルされることに注意してください。
+              この式には特別な型付け規則が存在するからです。
+              このフラグは既にコンパイルしたファイルをリンクする場合には何の意味もありません。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-noautolink</code></span></dt><dd>
+            <p>
+              <code class="filename">.cma</code> ライブラリをリンクするときに、ライブラリが潜在的に持つ <code class="option">-custom</code>、 <code class="option">-cclib</code>、 <code class="option">-ccopt</code> といったオプションを無視します（ライブラリ作成時に指定されていた場合）。
+              これは、ライブラリに間違った C ライブラリや C オプションの指定が含まれているときに便利な場合があります。
+              このような場合には、リンクの際コマンドラインで <code class="option">-noautolink</code> を指定し、コマンドラインで正しい C ライブラリやオプションを指定しなおします。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-nolabels</code></span></dt><dd>
+            <p>
+              型中の省略可能引数以外のラベルを無視します。適用時にラベルを使用することはできず、引数の順序が厳格になります。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-o</code> <em class="replaceable"><code>exec-file</code></em></span></dt><dd>
+            <p>
+              コンパイラの生成する出力ファイルの名前を指定します。
+              出力のデフォルト名は Unix では <code class="filename">a.out</code>、 Windows では <code class="filename">camlprog.exe</code> です。
+              <code class="option">-pack</code> オプションが指定されている場合には、生成されるパックされたオブジェクトファイルの名前を指定します。
+              <code class="option">-c</code> オプションが指定されている場合には、コマンドライン引数で次に現れたソースファイルに対するオブジェクトファイルの名前を指定します。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-output-obj</code></span></dt><dd>
+            <p>
+              バイトコードオブジェクトファイルではなく、 C のオブジェクトファイルを生成するようにします。
+              これは Caml コードを任意の C プログラムから呼び出せる C ライブラリとしてラップするときに便利です。
+              <a class="xref" href="ch18.html" title="18.&nbsp;C と Objective Caml のインタフェース"> 18 章「<i>C と Objective Caml のインタフェース</i>」</a> と <a class="xref" href="ch18s07.html#sec:Embedding the Caml code in the C code" title="18.7.5&nbsp;Embedding the Caml code in the C code"> 18.7.5 節「Embedding the Caml code in the C code」</a> を参照してください。
+              デフォルトでは出力のオブジェクトファイルの名前は <code class="filename">camlprog.o</code> になりますが、 <code class="option">-o</code> で設定することもできます。
+              このオプションは C のソースファイル（拡張子は <code class="filename">.c</code>）やコンパイル済みの共有／動的ライブラリ（拡張子 <code class="filename">.so</code>、 Windows では <code class="filename">.dll</code>）を作成するのにも使うことができます。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-pack</code></span></dt><dd>
+            <p>
+              コマンドラインで与えられたオブジェクトファイルを結合してオブジェクトファイル（<code class="filename">.cmo</code>）とそのコンパイル済みインターフェイス（<code class="filename">.cmi</code>）を生成します。
+              元のオブジェクトファイルは出力される <code class="filename">.cmo</code> ファイルのサブモジュールとなります。
+              出力の <code class="filename">.cmo</code> ファイルの名前は <code class="option">-o</code> オプションで指定しなければなりません。
+              例えば、
+              
+            </p>
+            <pre class="programlisting">ocamlc -pack -o p.cmo a.cmo b.cmo c.cmo</pre>
+            <p>
+              は、サブモジュールとして <code class="code">A</code>、 <code class="code">B</code>、 <code class="code">C</code> を持つコンパイル済みファイル <code class="filename">p.cmo</code> と <code class="filename">p.cmi</code> を生成します。
+              サブモジュールの内容は、それぞれ <code class="filename">a.cmo</code>、 <code class="filename">b.cmo</code>、 <code class="filename">c.cmo</code> の内容に対応します。
+              これらの要素はプログラムの残りの部分からは <code class="code">P.A</code>、 <code class="code">P.B</code>、 <code class="code">P.C</code> として参照することができます。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-pp</code> <em class="replaceable"><code>command</code></em></span></dt><dd>
+            <p>
+              与えられた <em class="replaceable"><code>command</code></em> を前処理プログラムとして各々のソースファイルごとに呼び出すようにします。
+              <em class="replaceable"><code>command</code></em> の出力は中間ファイルにリダイレクトされ、それがコンパイルされます。
+              コンパイルエラーが発生しなければ中間ファイルはコンパイル後に削除されます。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-principal</code></span></dt><dd>
+            <p>
+              型チェックの際に information path をチェックし、すべての型がもっとも一般的な型として導出されているか確認します。
+              ラベル付き引数や多相メソッドを使用している場合は、コンパイラの将来のバージョンでアルゴリズムが変更された場合でも、正しく型を推論できることを保証するためにこのフラグを指定する必要があります。
+              <code class="option">-principal</code> モードで受理されたプログラムはすべて、デフォルトの場合でも等価な型として受理されます。
+              ただし、この場合でもバイナリのシグネチャは異なりますし、型検査が低速化するかもしれません。
+              とはいうものの、ソースコードを公開する前に一度このオプションを試してみるのはよいことでしょう。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-rectypes</code></span></dt><dd>
+            <p>
+              型検査時に任意の再帰型を認めます。
+              デフォルトではオブジェクト型を経由する再帰型のみがサポートされます。
+              このフラグを使ってインタフェースを生成した場合には、それに依存するものにもすべて <code class="option">-rectypes</code> フラグを指定しなければなりません。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-thread</code></span></dt><dd>
+            <p>
+              <a class="xref" href="ch24.html" title="24.&nbsp;threads ライブラリ"> 24 章「<i><code class="code">threads</code> ライブラリ</i>」</a> で説明する <code class="code">threads</code>
+              システムスレッドライブラリと組み合わせて、マルチスレッドプログラムをコンパイル・リンクします。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-unsafe</code></span></dt><dd>
+            <p>
+              <code class="code">v.(i)</code> 構文や <code class="code">s.[i]</code> 構文を使った配列や文字列へのアクセスの際の境界チェックを無効にします。
+              このため、 <code class="option">-unsafe</code> オプションを使ってコンパイルしたプログラムは若干高速になりますが、安全ではありません。
+              プログラムが配列や文字列の境界外にアクセスした場合に何が起こるかはわかりません。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-use-runtime</code> <em class="replaceable"><code>runtime-name</code></em></span></dt><dd>
+            <p>
+              <strong class="userinput"><code>ocamlc -make-runtime <em class="replaceable"><code>runtime-name</code></em></code></strong> で作成しておいたカスタムランタイムシステムで実行するためのバイトコード実行ファイルを生成します。
+              より詳しくは <a class="xref" href="ch18s01.html#sec:Building standalone custom runtime systems" title="18.1.6&nbsp;Building standalone custom runtime systems"> 18.1.6 節「Building standalone custom runtime systems」</a> を参照してください。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-v</code></span></dt><dd>
+            <p>
+              コンパイラのバージョンと標準ライブラリディレクトリの場所を表示して終了します。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-verbose</code></span></dt><dd>
+            <p>
+              外部コマンドを実行する前に、そのコマンドを表示します。
+              特に <code class="option">-custom</code> モードで C コンパイラやリンカの起動を表示します。
+              C ライブラリプログラムをデバッグする際に便利です。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-vnum</code> または <code class="option">-version</code></span></dt><dd>
+            <p>
+              コンパイラのバージョン番号を短かい形式（例えば <code class="code">3.11.0</code>）で表示して終了します。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-vmthread</code></span></dt><dd>
+            <p>
+              <a class="xref" href="ch24.html" title="24.&nbsp;threads ライブラリ"> 24 章「<i><code class="code">threads</code> ライブラリ</i>」</a> で説明する <code class="code">threads</code>
+              VM レベルスレッドライブラリと組み合わせてマルチスレッドプログラムをコンパイル・リンクします。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-w</code> <em class="replaceable"><code>warning-list</code></em></span></dt><dd>
+            <p>
+              <em class="replaceable"><code>warning-list</code></em> 引数で指定された警告を別個に有効にしたり無効にしたり、エラーとして報告されるようにしたりします。
+              各々の警告を有効にしたり無効にしたり、エラーとすることもしないこともできます。
+              警告を無効にすると表示されなくなり（エラーとされていても）コンパイルにまったく寄与しなくなります。
+              有効にすると、ソースコードに該当する部分があると通常通り警告が表示されます。
+              エラーになるものと指定されていた場合には、警告を表示したあとにコンパイラが停止します。
+              
+            </p>
+            <p>
+              <em class="replaceable"><code>warning-list</code></em> は警告指定子を区切り文字なしで並べたものです。
+              警告指定子は以下のいずれかです。
+              
+            </p>
+            <div class="variablelist"><dl><dt><span class="term"><code class="code">+<em class="replaceable"><code>num</code></em></code></span></dt><dd>
+                  <em class="replaceable"><code>num</code></em> 番の警告を有効にします。
+                  
+                </dd><dt><span class="term"><code class="code">-<em class="replaceable"><code>num</code></em></code></span></dt><dd>
+                  <em class="replaceable"><code>num</code></em> 番の警告を無効にします。
+                  
+                </dd><dt><span class="term"><code class="code">@<em class="replaceable"><code>num</code></em></code></span></dt><dd>
+                  <em class="replaceable"><code>num</code></em> 番の警告を有効にし、エラーとします。
+                  
+                </dd><dt><span class="term"><code class="code">+<em class="replaceable"><code>num1</code></em>..<em class="replaceable"><code>num2</code></em></code></span></dt><dd>
+                  指定された範囲の警告を有効にします。
+                  
+                </dd><dt><span class="term"><code class="code">-<em class="replaceable"><code>num1</code></em>..<em class="replaceable"><code>num2</code></em></code></span></dt><dd>
+                  指定された範囲の警告を無効にします。
+                  
+                </dd><dt><span class="term"><code class="code">@<em class="replaceable"><code>num1</code></em>..<em class="replaceable"><code>num2</code></em></code></span></dt><dd>
+                  指定された範囲の警告を有効にし、エラーとします。
+                  
+                </dd><dt><span class="term"><code class="code">+<em class="replaceable"><code>letter</code></em></code></span></dt><dd>
+                  <em class="replaceable"><code>letter</code></em> に対応する警告を有効にします。
+                  <em class="replaceable"><code>letter</code></em> は大文字でも小文字でも構いません。
+                  
+                </dd><dt><span class="term"><code class="code">-<em class="replaceable"><code>letter</code></em></code></span></dt><dd>
+                  <em class="replaceable"><code>letter</code></em> に対応する警告を無効にします。
+                  <em class="replaceable"><code>letter</code></em> は大文字でも小文字でも構いません。
+                  
+                </dd><dt><span class="term"><code class="code">@<em class="replaceable"><code>letter</code></em></code></span></dt><dd>
+                  <em class="replaceable"><code>letter</code></em> に対応する警告を有効にし、エラーとします。
+                  <em class="replaceable"><code>letter</code></em> は大文字でも小文字でも構いません。
+                  
+                </dd><dt><span class="term"><em class="replaceable"><code>uppercase-letter</code></em></span></dt><dd>
+                  <em class="replaceable"><code>uppercase-letter</code></em> に対応する警告を有効にします。
+                  
+                </dd><dt><span class="term"><em class="replaceable"><code>lowercase-letter</code></em></span></dt><dd>
+                  <em class="replaceable"><code>lowercase-letter</code></em> に対応する警告を無効にします。
+                  
+                </dd></dl></div>
+            <p>
+              現在定義されていない範囲の警告番号は無視されます。
+              警告番号は以下の通りです。
+              
+            </p>
+            <div class="variablelist"><dl><dt><span class="term"><code class="code">1</code></span></dt><dd>
+                  <p>
+                    コメント開始文字列かどうかまぎらわしい入力
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">2</code></span></dt><dd>
+                  <p>
+                    コメント終了文字列かどうかまぎらわしい入力
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">3</code></span></dt><dd>
+                  <p>
+                    非推奨の構文
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">4</code></span></dt><dd>
+                  <p>
+                    不十分なパターンマッチ（マッチさせるバリアント型に新たな構成子が追加されても完全であるようなパターンマッチ）
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">5</code></span></dt><dd>
+                  <p>
+                    部分適用された関数（結果が関数型になる式で、その結果が無視されているもの）
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">6</code></span></dt><dd>
+                  <p>
+                    関数適用時に省略されたラベル
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">7</code></span></dt><dd>
+                  <p>
+                    メソッドを定義したクラスでそれをオーバーライドした
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">8</code></span></dt><dd>
+                  <p>
+                    部分マッチ（パターンマッチでパターンに欠けがある）
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">9</code></span></dt><dd>
+                  <p>
+                    レコードパターンでフィールドに欠けがある
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">10</code></span></dt><dd>
+                  <p>
+                    逐次実行式の左辺が <span class="type">unit</span> 型ではない（さらに、それが関数ではない。 5 番の警告も参照）
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">11</code></span></dt><dd>
+                  <p>
+                    冗長なパターンマッチ（未使用のパターン）
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">12</code></span></dt><dd>
+                  <p>
+                    冗長なサブパターン
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">13</code></span></dt><dd>
+                  <p>
+                    インスタンス変数のオーバーライド
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">14</code></span></dt><dd>
+                  <p>
+                    文字列定数中の不正なバックスラッシュエスケープ
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">15</code></span></dt><dd>
+                  <p>
+                    <code class="code">private</code> メソッドが暗黙のうちに公開された
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">16</code></span></dt><dd>
+                  <p>
+                    省略可能引数を消去できない
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">17</code></span></dt><dd>
+                  <p>
+                    未宣言の抽象メソッド
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">18</code></span></dt><dd>
+                  <p>
+                    Non-principal type.
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">19</code></span></dt><dd>
+                  <p>
+                    Type without principality.
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">20</code></span></dt><dd>
+                  <p>
+                    未使用の関数引数
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">21</code></span></dt><dd>
+                  <p>
+                    返らない文。
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">22</code></span></dt><dd>
+                  <p>
+                    Camlp4 の警告
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">23</code></span></dt><dd>
+                  <p>
+                    レコード中の必要のない <code class="code">with</code> 節
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">24</code></span></dt><dd>
+                  <p>
+                    不正なモジュール名。ソースファイルの名前が有効な OCaml のモジュール名ではない。
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">25</code></span></dt><dd>
+                  <p>
+                    すべての節にガードのついたパターンマッチ。網羅性が検査できません
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">26</code></span></dt><dd>
+                  <p>
+                    未使用と思しい変数。 <code class="code">let</code> や <code class="code">as</code> で束縛されながら未使用の変数で、アンダースコア文字 <code class="code">_</code> で始まらないもの
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">27</code></span></dt><dd>
+                  <p>
+                    未使用であるが無害な変数。 <code class="code">let</code> や <code class="code">as</code> で束縛されながら未使用の変数で、アンダースコア文字 <code class="code">_</code> で始まるもの
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">28</code></span></dt><dd>
+                  <p>
+                    定数構成子に与えられたワイルドカードパターン
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">29</code></span></dt><dd>
+                  <p>
+                    文字列定数中のエスケープされていない行末文字（可搬性がありません）
+                    
+                  </p>
+                </dd><dt><span class="term"><code class="code">30</code></span></dt><dd>
+                  <p>
+                    相互再帰的な型で定義された同名のラベルまたは構成子
+                    
+                  </p>
+                </dd></dl></div>
+            <p>
+              各英文字は以下の警告の集合を表します。ここに挙げていない文字は空の集合に対応します。
+              
+            </p>
+            <div class="variablelist"><dl><dt><span class="term"><code class="code">A</code></span></dt><dd><p>すべての警告</p></dd><dt><span class="term"><code class="code">C</code></span></dt><dd><p>1, 2</p></dd><dt><span class="term"><code class="code">D</code></span></dt><dd><p>3</p></dd><dt><span class="term"><code class="code">E</code></span></dt><dd><p>4</p></dd><dt><span class="term"><code class="code">F</code></span></dt><dd><p>5</p></dd><dt><span class="term"><code class="code">L</code></span></dt><dd><p>6</p></dd><dt><span class="term"><code class="code">M</code></span></dt><dd><p>7</p></dd><dt><span class="term"><code class="code">P</code></span></dt><dd><p>8</p></dd><dt><span class="term"><code class="code">R</code></span></dt><dd><p>9</p></dd><dt><span class="term"><code class="code">S</code></span></dt><dd><p>10</p></dd><dt><span class="term"><code class="code">U</code></span></dt><dd><p>11, 12</p></dd><dt><span class="term"><code class="code">V</code></span></dt><dd><p>13</p></dd><dt><span class="term"><code class="code">X</code></span></dt><dd><p>14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25</p></dd><dt><span class="term"><code class="code">Y</code></span></dt><dd><p>26</p></dd><dt><span class="term"><code class="code">Z</code></span></dt><dd><p>27</p></dd></dl></div>
+            <p>
+              デフォルトの設定は <code class="code"><code class="option">-w</code> +a-4-6-7-9-27..29</code> です。
+              5 番と 10 番と警告は型検査器の内部に依存し、常に警告されるわけではないことに注意してください。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-warn-error</code> <em class="replaceable"><code>warning-list</code></em></span></dt><dd>
+            <p>
+              <em class="replaceable"><code>warning-list</code></em> 引数に指定された警告をエラーと見做します。
+              これらの警告のいずれがを表示するとコンパイラは停止します。
+              <em class="replaceable"><code>warning-list</code></em> の意味は <code class="option">-w</code> オプションと同じです。
+              <code class="code">+</code> （または大文字）は対応する警告をエラーにし、 <code class="code">-</code> （または小文字）はそれらを警告に戻します。
+              <code class="code">@</code> は対応する警告を有効にし、エラーにします。
+              
+            </p>
+            <p>
+              注意: 製品コードでは <code class="option">-warn-error</code> の引数は文字列形式にすることを推奨します。
+              これは、 OCaml の将来のバージョンで新たな警告が追加された場合に、うまく動作しなくなる可能性があるからです。
+              
+            </p>
+            <p>
+              デフォルトの設定は <code class="code"><code class="option">-warn-error</code> -a</code> で、警告はすべてエラーとして扱われません。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-where</code></span></dt><dd>
+            <p>
+              標準ライブラリの場所を表示して終了します。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-</code> <em class="replaceable"><code>file</code></em></span></dt><dd>
+            <p>
+              <em class="replaceable"><code>file</code></em> をファイル名として扱います。
+              ファイル名は <code class="code">-</code> で始まっていても構いません。
+              
+            </p>
+          </dd><dt><span class="term"><code class="option">-help</code> または <code class="option">--help</code></span></dt><dd>
+            <p>
+              簡単な使用法を表示して終了します。
+              
+            </p>
+          </dd></dl></div>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch08.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch08s03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">8.1&nbsp;コンパイラの概要&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;8.3&nbsp;モジュールとファイルシステム</td></tr></table></div></body></html>

@@ -1,0 +1,58 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>2.1&nbsp;ストラクチャ</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch02.html" title="2.&nbsp;モジュールシステム"><link rel="prev" href="ch02.html" title="2.&nbsp;モジュールシステム"><link rel="next" href="ch02s02.html" title="2.2&nbsp;シグネチャ"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.1&nbsp;ストラクチャ </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02.html">前のページ</a>&nbsp;</td><th width="60%" align="center">2.&nbsp;モジュールシステム </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="2.1&nbsp;ストラクチャ"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Structures"></a>2.1&nbsp;ストラクチャ </h2></div></div></div>
+    
+    <p>
+      モジュールの主目的は、関連する定義（データ型の定義とその型に対する処理）をまとめてパッケージ化し、それらの定義を一貫性のある名前付けの枠組みの元で管理することにあります。これにより名前が不足してしまったり、うっかり間違えてしまいそうな名前が氾濫することを避ける事が出来ます。
+      そのようなパッケージは<span class="emphasis"><em>ストラクチャ</em></span>（structure）と呼ばれ、任意の定義列を持つ <code class="code">struct</code> ... <code class="code">end</code> という形で導入します。
+      ストラクチャは通常 <code class="code">module</code> 束縛によって名前を与えられます。
+      以下には例として、優先度付きキューの型とそれに対する処理をまとめたストラクチャを示します。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module PrioQueue =
+   struct
+     type priority = int
+     type 'a queue = Empty | Node of priority * 'a * 'a queue * 'a queue
+     let empty = Empty
+     let rec insert queue prio elt =
+       match queue with
+         Empty -&gt; Node(prio, elt, Empty, Empty)
+       | Node(p, e, left, right) -&gt;
+           if prio &lt;= p
+           then Node(prio, elt, insert right p e, left)
+           else Node(p, e, insert right prio elt, left)
+     exception Queue_is_empty
+     let rec remove_top = function
+         Empty -&gt; raise Queue_is_empty
+       | Node(prio, elt, left, Empty) -&gt; left
+       | Node(prio, elt, Empty, right) -&gt; right
+       | Node(prio, elt, (Node(lprio, lelt, _, _) as left),
+                         (Node(rprio, relt, _, _) as right)) -&gt;
+           if lprio &lt;= rprio
+           then Node(lprio, lelt, remove_top left, right)
+           else Node(rprio, relt, left, remove_top right)
+     let extract = function
+         Empty -&gt; raise Queue_is_empty
+       | Node(prio, elt, _, _) as queue -&gt; (prio, elt, remove_top queue)
+   end;;</code></strong>
+<code class="computeroutput">module PrioQueue :
+  sig
+    type priority = int
+    type 'a queue = Empty | Node of priority * 'a * 'a queue * 'a queue
+    val empty : 'a queue
+    val insert : 'a queue -&gt; priority -&gt; 'a -&gt; 'a queue
+    exception Queue_is_empty
+    val remove_top : 'a queue -&gt; 'a queue
+    val extract : 'a queue -&gt; priority * 'a * 'a queue
+  end</code>
+    </pre>
+    <p>
+      ストラクチャの外から、その要素を参照するときは「ドット表記」を使います。
+      ドット表記はストラクチャ名で修飾した識別子です。例えば、文脈から見て値が来るところに <code class="code">PrioQueue.insert</code> とあれば、ストラクチャ <code class="code">PrioQueue</code> の中で定義されている関数 <code class="code">insert</code> を指定したことになります。同様に、文脈から見て型が来るところに <code class="code">PrioQueue.queue</code> とあれば、 <code class="code">PrioQueue</code> の中で定義されている型 <code class="code">queue</code> を指定したことになります。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>PrioQueue.insert PrioQueue.empty 1 "hello";;</code></strong>
+<code class="computeroutput">- : string PrioQueue.queue =
+PrioQueue.Node (1, "hello", PrioQueue.Empty, PrioQueue.Empty)</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch02.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;モジュールシステム &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;2.2&nbsp;シグネチャ </td></tr></table></div></body></html>

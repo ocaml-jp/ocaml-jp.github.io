@@ -1,0 +1,36 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>10.3&nbsp;共有ライブラリの動的読み込み</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch10.html" title="10.&nbsp;ランタイムシステム（ocamlrun）"><link rel="prev" href="ch10s02.html" title="10.2&nbsp;オプション"><link rel="next" href="ch10s04.html" title="10.4&nbsp;よくあるエラー"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">10.3&nbsp;共有ライブラリの動的読み込み</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch10s02.html">前のページ</a>&nbsp;</td><th width="60%" align="center">10.&nbsp;ランタイムシステム（<span class="command"><strong>ocamlrun</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch10s04.html">次のページ</a></td></tr></table><hr></div><div class="section" title="10.3&nbsp;共有ライブラリの動的読み込み"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Dynamic loading of shared libraries"></a>10.3&nbsp;共有ライブラリの動的読み込み</h2></div></div></div>
+    
+    <p>
+      動的読み込みをサポートするプラットフォームでは、標準のランタイムシステムの提供するものに加えて、追加の C プリミティブを提供する C の共有ライブラリ（DLL）を動的にリンクすることができます。
+      <a class="xref" href="ch18s01.html#sec:Dynamically linking C code with Caml code" title="18.1.4&nbsp;Dynamically linking C code with Caml code"> 18.1.4 節「Dynamically linking C code with Caml code」</a> で述べるように、共有ライブラリの名前はリンク時に提供され実行可能バイトコードファイルに記録されます。
+      <span class="command"><strong>ocamlrun</strong></span> はバイトコードプログラムを実行する際にライブラリの位置を特定し、プリミティブへの参照を解決します。
+      
+    </p>
+    <p>
+      <span class="command"><strong>ocamlrun</strong></span> コマンドは以下のディレクトリから上から順に共有ライブラリを探索します。
+      
+    </p>
+    <div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">
+        <span class="command"><strong>ocamlrun</strong></span> のコマンドラインで <code class="option">-I</code> オプションで指定したディレクトリ。
+        
+      </li><li class="listitem">
+        環境変数 <code class="envar">CAML_LD_LIBRARY_PATH</code> で指定されたディレクトリ。
+        
+      </li><li class="listitem">
+        リンク時に <code class="code">ocamlc</code> の <code class="option">-dllpath</code> オプションで指定されたディレクトリ（これらのディレクトリは実行可能バイトコードファイルに記録されます）。
+        
+      </li><li class="listitem">
+        <code class="filename">ld.conf</code> ファイルに指定されたディレクトリ。
+        このファイルは Objective Caml の標準ライブラリディレクトリの中にあり、探索するディレクトリの（一行 1 ディレクトリの）一覧になっています。
+        ユーザーはよく使う共有ライブラリのディレクトリをこのファイルに追加することができます。
+        ただし、インストールの一貫性から、 <code class="filename">ld.conf</code> ファイルに設定を追加するよりも、システムの <code class="filename">stublibs</code> ディレクトリに直接共有ライブラリをインストールことを推奨します。
+        
+      </li><li class="listitem">
+        システムの dynamic loader の探索するデフォルトのディレクトリ。
+        Unix では <code class="filename">/lib</code> や <code class="filename">/usr/lib</code> に、 <code class="filename">/etc/ld.so.conf</code> と環境変数 <code class="envar">LD_LIBRARY_PATH</code> に指定されたディレクトリを加えたものになります。
+        Windows では、システムディレクトリに環境変数 <code class="envar">PATH</code> に指定されたディレクトリを加えたものになります。
+        
+      </li></ol></div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch10s02.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch10.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch10s04.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">10.2&nbsp;オプション&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;10.4&nbsp;よくあるエラー</td></tr></table></div></body></html>

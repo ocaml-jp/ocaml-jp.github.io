@@ -1,0 +1,293 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Lexing.html">
+<link rel="next" href="ListLabels.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><link title="繰り返し" rel="Section" href="#2_">
+<link title="ふたつのリストに対する繰り返し" rel="Section" href="#2_">
+<link title="リストの走査" rel="Section" href="#2_">
+<link title="リストの探索" rel="Section" href="#2_">
+<link title="連想リスト" rel="Section" href="#2_">
+<link title="ペアのリスト" rel="Section" href="#2_">
+<link title="整列" rel="Section" href="#2_">
+<title>List</title>
+</head>
+<body>
+<div class="navbar"><a href="Lexing.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="ListLabels.html">Next</a>
+</div>
+<center><h1>Module <a href="type_List.html">List</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> List: <code class="code"><span class="keyword">sig</span></code> <a href="List.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>リスト操作
+<p>
+
+    いくつかの関数は末尾再帰的ではありません。
+    末尾再帰の関数のスタック使用量は一定で、非末尾再帰の関数はリストの長さに比例したスタックを使用します。
+    非常に長いリストに対しては末尾再帰でないことが問題になる可能性があります。
+    関数が複数のリストを引数に取る場合には、近似的なスタック使用量を（何らかの適当な単位で）括弧書きで示します。
+<p>
+
+    引数のリストが 10000 要素を越えない場合には、通常上のようなことは無視してかまいません。<br>
+<hr width="100%">
+<pre><span id="VALlength"><span class="keyword">val</span> length</span> : <code class="type">'a list -> int</code></pre><div class="info">
+与えられたリストの長さ（要素数）を返します。<br>
+</div>
+<pre><span id="VALhd"><span class="keyword">val</span> hd</span> : <code class="type">'a list -> 'a</code></pre><div class="info">
+与えられたリストの先頭要素を返します。リストが空の場合には <code class="code"><span class="constructor">Failure</span> <span class="string">"hd"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALtl"><span class="keyword">val</span> tl</span> : <code class="type">'a list -> 'a list</code></pre><div class="info">
+与えられたリストから先頭要素を除いたものを返します。リストが空の場合には <code class="code"><span class="constructor">Failure</span> <span class="string">"tl"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALnth"><span class="keyword">val</span> nth</span> : <code class="type">'a list -> int -> 'a</code></pre><div class="info">
+与えられたリストの <code class="code">n</code> 番目の要素を返します。最初の要素（リストの先頭）を 0 番目とします。
+    リストが空の場合には <code class="code"><span class="constructor">Failure</span> <span class="string">"nth"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALrev"><span class="keyword">val</span> rev</span> : <code class="type">'a list -> 'a list</code></pre><div class="info">
+リストの反転。<br>
+</div>
+<pre><span id="VALappend"><span class="keyword">val</span> append</span> : <code class="type">'a list -> 'a list -> 'a list</code></pre><div class="info">
+ふたつのリストを連結します。
+    中置演算子 <code class="code">@</code> と同じ関数です。
+    末尾再帰ではありません（最初の引数の長さに比例します）。
+    <code class="code">@</code> 演算子も末尾再帰ではありません。<br>
+</div>
+<pre><span id="VALrev_append"><span class="keyword">val</span> rev_append</span> : <code class="type">'a list -> 'a list -> 'a list</code></pre><div class="info">
+<code class="code"><span class="constructor">List</span>.rev_append l1 l2</code> は <code class="code">l1</code> を反転して <code class="code">l2</code> に連結します。
+    これは <a href="List.html#VALrev"><code class="code"><span class="constructor">List</span>.rev</code></a> <code class="code">l1 @ l2</code> と等価ですが、 <code class="code">rev_append</code> は末尾再帰で、より効率的です。<br>
+</div>
+<pre><span id="VALconcat"><span class="keyword">val</span> concat</span> : <code class="type">'a list list -> 'a list</code></pre><div class="info">
+リストのリストを連結します。引数リストの要素を（与えられた順番で）連結したものが結果になります。
+    末尾再帰ではありません（引数リストの長さ + 部分リストの長さの最大値に比例します）。<br>
+</div>
+<pre><span id="VALflatten"><span class="keyword">val</span> flatten</span> : <code class="type">'a list list -> 'a list</code></pre><div class="info">
+<code class="code">concat</code> と同じです。
+    末尾再帰ではありません（引数リストの長さ + 部分リストの長さの最大値に比例します）。<br>
+</div>
+<br>
+<span id="2_"><h2>繰り返し</h2></span><br>
+<pre><span id="VALiter"><span class="keyword">val</span> iter</span> : <code class="type">('a -> unit) -> 'a list -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">List</span>.iter f [a1; ...; an]</code> は関数 <code class="code">f</code> を <code class="code">a1; ...; an</code> に順に適用します。
+    これは <code class="code"><span class="keyword">begin</span> f a1; f a2; ...; f an; () <span class="keyword">end</span></code> と等価です。<br>
+</div>
+<pre><span id="VALmap"><span class="keyword">val</span> map</span> : <code class="type">('a -> 'b) -> 'a list -> 'b list</code></pre><div class="info">
+<code class="code"><span class="constructor">List</span>.iter f [a1; ...; an]</code> は関数 <code class="code">f</code> を <code class="code">a1; ...; an</code> に適用し、
+    <code class="code">f</code> の戻り値を使ってリスト <code class="code">[f a1; ...; f an]</code> を作成します。
+    末尾再帰ではありません。<br>
+</div>
+<pre><span id="VALrev_map"><span class="keyword">val</span> rev_map</span> : <code class="type">('a -> 'b) -> 'a list -> 'b list</code></pre><div class="info">
+<code class="code"><span class="constructor">List</span>.rev_map f l</code> は <a href="List.html#VALrev"><code class="code"><span class="constructor">List</span>.rev</code></a><code class="code"> (</code><a href="List.html#VALmap"><code class="code"><span class="constructor">List</span>.map</code></a><code class="code"> f l)</code> と同じ結果を返しますが、末尾再帰で、より効率的です。<br>
+</div>
+<pre><span id="VALfold_left"><span class="keyword">val</span> fold_left</span> : <code class="type">('a -> 'b -> 'a) -> 'a -> 'b list -> 'a</code></pre><div class="info">
+<code class="code"><span class="constructor">List</span>.fold_left f a [b1; ...; bn]</code> は
+   <code class="code">f (... (f (f a b1) b2) ...) bn</code> になります。<br>
+</div>
+<pre><span id="VALfold_right"><span class="keyword">val</span> fold_right</span> : <code class="type">('a -> 'b -> 'b) -> 'a list -> 'b -> 'b</code></pre><div class="info">
+<code class="code"><span class="constructor">List</span>.fold_right f [a1; ...; an] b</code> は <code class="code">f a1 (f a2 (... (f an b) ...))</code> になります。
+   末尾再帰ではありません。<br>
+</div>
+<br>
+<span id="2_"><h2>ふたつのリストに対する繰り返し</h2></span><br>
+<pre><span id="VALiter2"><span class="keyword">val</span> iter2</span> : <code class="type">('a -> 'b -> unit) -> 'a list -> 'b list -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">List</span>.iter2 f [a1; ...; an] [b1; ...; an]</code> は <code class="code">f a1 b1; ...; f an bn</code> を順に呼び出します。
+    ふたつのリストの長さが異なる場合は <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALmap2"><span class="keyword">val</span> map2</span> : <code class="type">('a -> 'b -> 'c) -> 'a list -> 'b list -> 'c list</code></pre><div class="info">
+<code class="code"><span class="constructor">List</span>.map2 f [a1; ...; an] [b1; ...; bn]</code> は
+   <code class="code">[f a1 b1; ...; f an bn]</code> になります。
+    ふたつのリストの長さが異なる場合は <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALrev_map2"><span class="keyword">val</span> rev_map2</span> : <code class="type">('a -> 'b -> 'c) -> 'a list -> 'b list -> 'c list</code></pre><div class="info">
+<code class="code"><span class="constructor">List</span>.rev_map2 f l1 l2</code> は
+   <a href="List.html#VALrev"><code class="code"><span class="constructor">List</span>.rev</code></a><code class="code"> (</code><a href="List.html#VALmap2"><code class="code"><span class="constructor">List</span>.map2</code></a><code class="code"> f l1 l2)</code> と同じ結果を返しますが、末尾再帰で、より効率的です。<br>
+</div>
+<pre><span id="VALfold_left2"><span class="keyword">val</span> fold_left2</span> : <code class="type">('a -> 'b -> 'c -> 'a) -> 'a -> 'b list -> 'c list -> 'a</code></pre><div class="info">
+<code class="code"><span class="constructor">List</span>.fold_left2 f a [b1; ...; bn] [c1; ...; cn]</code> は
+   <code class="code">f (... (f (f a b1 c1) b2 c2) ...) bn cn</code> になります。
+    ふたつのリストの長さが異なる場合は <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALfold_right2"><span class="keyword">val</span> fold_right2</span> : <code class="type">('a -> 'b -> 'c -> 'c) -> 'a list -> 'b list -> 'c -> 'c</code></pre><div class="info">
+<code class="code"><span class="constructor">List</span>.fold_right2 f [a1; ...; an] [b1; ...; bn] c</code> は
+   <code class="code">f a1 b1 (f a2 b2 (... (f an bn c) ...))</code> になります。
+    ふたつのリストの長さが異なる場合は <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。
+    末尾再帰ではありません。<br>
+</div>
+<br>
+<span id="2_"><h2>リストの走査</h2></span><br>
+<pre><span id="VALfor_all"><span class="keyword">val</span> for_all</span> : <code class="type">('a -> bool) -> 'a list -> bool</code></pre><div class="info">
+<code class="code">for_all p [a1; ...; an]</code> はリストのすべての要素が述語 <code class="code">p</code> を満たすか検査します。
+    すなわち、 <code class="code">(p a1) <span class="keywordsign">&amp;&amp;</span> (p a2) <span class="keywordsign">&amp;&amp;</span> ... <span class="keywordsign">&amp;&amp;</span> (p an)</code> を返します。<br>
+</div>
+<pre><span id="VALexists"><span class="keyword">val</span> exists</span> : <code class="type">('a -> bool) -> 'a list -> bool</code></pre><div class="info">
+<code class="code">exists p [a1; ...; an]</code> はリストの要素のうち少なくともひとつは述語 <code class="code">p</code> を満たすか検査します。
+    すなわち、 <code class="code">(p a1) <span class="keywordsign">||</span> (p a2) <span class="keywordsign">||</span> ... <span class="keywordsign">||</span> (p an)</code> を返します。<br>
+</div>
+<pre><span id="VALfor_all2"><span class="keyword">val</span> for_all2</span> : <code class="type">('a -> 'b -> bool) -> 'a list -> 'b list -> bool</code></pre><div class="info">
+<a href="List.html#VALfor_all"><code class="code"><span class="constructor">List</span>.for_all</code></a> と同じですが、 2 引数の述語を取ります。
+    ふたつのリストの長さが異なる場合は <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALexists2"><span class="keyword">val</span> exists2</span> : <code class="type">('a -> 'b -> bool) -> 'a list -> 'b list -> bool</code></pre><div class="info">
+<a href="List.html#VALexists"><code class="code"><span class="constructor">List</span>.exists</code></a> と同じですが、 2 引数の述語を取ります。
+    ふたつのリストの長さが異なる場合は <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALmem"><span class="keyword">val</span> mem</span> : <code class="type">'a -> 'a list -> bool</code></pre><div class="info">
+<code class="code">mem a l</code> は <code class="code">a</code> が <code class="code">l</code> の要素と等しい場合、かつその場合にかぎり真を返します。<br>
+</div>
+<pre><span id="VALmemq"><span class="keyword">val</span> memq</span> : <code class="type">'a -> 'a list -> bool</code></pre><div class="info">
+<a href="List.html#VALmem"><code class="code"><span class="constructor">List</span>.mem</code></a> と同じですが、リストの要素を比較するのに構造等価性ではなく、物理的等価性を使います。<br>
+</div>
+<br>
+<span id="2_"><h2>リストの探索</h2></span><br>
+<pre><span id="VALfind"><span class="keyword">val</span> find</span> : <code class="type">('a -> bool) -> 'a list -> 'a</code></pre><div class="info">
+<code class="code">find p l</code> はリスト <code class="code">l</code> の要素で、述語 <code class="code">p</code> を満たす最初のものを返します。
+    リスト <code class="code">l</code> に <code class="code">p</code> を満たす要素がない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALfilter"><span class="keyword">val</span> filter</span> : <code class="type">('a -> bool) -> 'a list -> 'a list</code></pre><div class="info">
+<code class="code">filter p l</code> はリスト <code class="code">l</code> の要素で、述語 <code class="code">p</code> を満たすものをすべて返します。
+    入力リスト内での要素の順番は保存されます。<br>
+</div>
+<pre><span id="VALfind_all"><span class="keyword">val</span> find_all</span> : <code class="type">('a -> bool) -> 'a list -> 'a list</code></pre><div class="info">
+<code class="code">find_all</code> は <a href="List.html#VALfilter"><code class="code"><span class="constructor">List</span>.filter</code></a> の別名です。<br>
+</div>
+<pre><span id="VALpartition"><span class="keyword">val</span> partition</span> : <code class="type">('a -> bool) -> 'a list -> 'a list * 'a list</code></pre><div class="info">
+<code class="code">partition p l</code> はリストのペア <code class="code">(l1, l2)</code> を返します。
+    ここで、 <code class="code">l1</code> は <code class="code">l</code> の要素のうち、述語 <code class="code">p</code> を満す要素のリストで、
+    <code class="code">l2</code> は <code class="code">l</code> の要素のうち <code class="code">p</code> を満たさないもののリストです。
+    入力リスト内での要素の順番は保存されます。<br>
+</div>
+<br>
+<span id="2_"><h2>連想リスト</h2></span><br>
+<pre><span id="VALassoc"><span class="keyword">val</span> assoc</span> : <code class="type">'a -> ('a * 'b) list -> 'b</code></pre><div class="info">
+<code class="code">assoc a l</code> はペアのリスト <code class="code">l</code> 内でキー <code class="code">a</code> に対応する値を返します。
+    すなわち、 <code class="code">(a, b)</code> がリスト <code class="code">l</code> 内での <code class="code">a</code> の最左の束縛であれば、
+    <code class="code">assoc a [...; (a, b); ...] = b</code> になります。
+    リスト <code class="code">l</code> 内に <code class="code">a</code> に対応する値がない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALassq"><span class="keyword">val</span> assq</span> : <code class="type">'a -> ('a * 'b) list -> 'b</code></pre><div class="info">
+<a href="List.html#VALassoc"><code class="code"><span class="constructor">List</span>.assoc</code></a> と同じですが、キーの比較に構造等価性ではなく物理的等価性を使います。<br>
+</div>
+<pre><span id="VALmem_assoc"><span class="keyword">val</span> mem_assoc</span> : <code class="type">'a -> ('a * 'b) list -> bool</code></pre><div class="info">
+<a href="List.html#VALassoc"><code class="code"><span class="constructor">List</span>.assoc</code></a> と同じですが、束縛が存在した場合には単純に真を返し、与えられたキーに対する束縛がない場合には偽を返します。<br>
+</div>
+<pre><span id="VALmem_assq"><span class="keyword">val</span> mem_assq</span> : <code class="type">'a -> ('a * 'b) list -> bool</code></pre><div class="info">
+<a href="List.html#VALmem_assoc"><code class="code"><span class="constructor">List</span>.mem_assoc</code></a> と同じですが、キーの比較に構造等価性ではなく物理的等価性を使います。<br>
+</div>
+<pre><span id="VALremove_assoc"><span class="keyword">val</span> remove_assoc</span> : <code class="type">'a -> ('a * 'b) list -> ('a * 'b) list</code></pre><div class="info">
+<code class="code">remove_assoc a l</code> はペアのリスト <code class="code">l</code> から、もし存在すれば、キーとして <code class="code">a</code> を持つ最初のペアを除いたものを返します。
+    末尾再帰ではありません。<br>
+</div>
+<pre><span id="VALremove_assq"><span class="keyword">val</span> remove_assq</span> : <code class="type">'a -> ('a * 'b) list -> ('a * 'b) list</code></pre><div class="info">
+<a href="List.html#VALremove_assoc"><code class="code"><span class="constructor">List</span>.remove_assoc</code></a> と同じですが、キーの比較に構造等価性ではなく物理的等価性を使います。
+    末尾再帰ではありません。<br>
+</div>
+<br>
+<span id="2_"><h2>ペアのリスト</h2></span><br>
+<pre><span id="VALsplit"><span class="keyword">val</span> split</span> : <code class="type">('a * 'b) list -> 'a list * 'b list</code></pre><div class="info">
+ペアのリストをリストのペアに変換します。
+    <code class="code">split [(a1,b1); ...; (an,bn)]</code> は <code class="code">([a1; ...; an], [b1; ...; bn])</code> になります。
+    末尾再帰ではありません。<br>
+</div>
+<pre><span id="VALcombine"><span class="keyword">val</span> combine</span> : <code class="type">'a list -> 'b list -> ('a * 'b) list</code></pre><div class="info">
+リストのペアをペアのリストに変換します。
+    <code class="code">combine [a1; ...; an] [b1; ...; bn]</code> は
+    <code class="code">[(a1,b1); ...; (an,bn)]</code> になります。
+    ふたつのリストの長さが異なる場合には <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。
+    末尾再帰ではありません。<br>
+</div>
+<br>
+<span id="2_"><h2>整列</h2></span><br>
+<pre><span id="VALsort"><span class="keyword">val</span> sort</span> : <code class="type">('a -> 'a -> int) -> 'a list -> 'a list</code></pre><div class="info">
+リストの要素を与えられた比較関数に関して昇順に整列させます。
+    比較関数は、引数が等しい場合には 0 を返し、第一引数の方が大きい場合には正の整数を、第一引数の方が小さい場合には負の整数を返さなければなりません（完全な仕様については <a href="Array.html#VALsort"><code class="code"><span class="constructor">Array</span>.sort</code></a> を参照してください）。
+    例えば、 <a href="Pervasives.html#VALcompare"><code class="code">compare</code></a> は適切な比較関数です。
+    結果のリストの要素は昇順に整列しています。
+    <code class="code"><span class="constructor">List</span>.sort</code> は一定のヒープ空間（に結果のリストのサイズを加えたもの）に対数オーダーのスタック空間で実行できることが保証されています。
+<p>
+
+    現在の実装ではヒープソートを使っていいます。これは一定のヒープ空間に対数オーダーのスタック空間で実行できます。<br>
+</div>
+<pre><span id="VALstable_sort"><span class="keyword">val</span> stable_sort</span> : <code class="type">('a -> 'a -> int) -> 'a list -> 'a list</code></pre><div class="info">
+<a href="List.html#VALsort"><code class="code"><span class="constructor">List</span>.sort</code></a> と同じですが、整列アルゴリズムが安定であることが保証されています（すなわち、等しい要素の順番はもとのリスト内での前後関係が保存されるということです）。
+<p>
+
+    現在の実装ではヒープソートを使っていいます。これは一定のヒープ空間に対数オーダーのスタック空間で実行できます。<br>
+</div>
+<pre><span id="VALfast_sort"><span class="keyword">val</span> fast_sort</span> : <code class="type">('a -> 'a -> int) -> 'a list -> 'a list</code></pre><div class="info">
+<a href="List.html#VALsort"><code class="code"><span class="constructor">List</span>.sort</code></a> や <a href="List.html#VALstable_sort"><code class="code"><span class="constructor">List</span>.stable_sort</code></a> のうち、典型的な入力に対してより高速な方と同じです。<br>
+</div>
+<pre><span id="VALmerge"><span class="keyword">val</span> merge</span> : <code class="type">('a -> 'a -> int) -> 'a list -> 'a list -> 'a list</code></pre><div class="info">
+ふたつのリストを併合します。
+    <code class="code">l1</code> と <code class="code">l2</code> が比較関数 <code class="code">cmp</code> に関して整列しているとすると、 <code class="code">merge cmp l1 l2</code> は <code class="code">l1</code> と <code class="code">l2</code> のすべての要素を含む、整列したリストを返します。
+    等しい要素が複数ある場合には <code class="code">l1</code> の要素が <code class="code">l2</code> の要素より先に現れます。
+    末尾再帰ではありません（引数のリストの長さの和に比例します）。<br>
+</div>
+</body></html>

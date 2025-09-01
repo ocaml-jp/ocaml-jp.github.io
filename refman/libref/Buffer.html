@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Bigarray.html">
+<link rel="next" href="Callback.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><title>Buffer</title>
+</head>
+<body>
+<div class="navbar"><a href="Bigarray.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="Callback.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Buffer.html">Buffer</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Buffer: <code class="code"><span class="keyword">sig</span></code> <a href="Buffer.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>伸張可能な文字列バッファ
+<p>
+
+    このモジュールは必要に応じて自動的に伸張する文字列バッファを実装します。
+    このバッファにより、文字列の累積的な連結が準線型時間で実現できます
+    （これに対して、複数の文字列をふたつずつ順に連結すると O(n<sup class="superscript">2</sup>) オーダーの時間がかかります）。<br>
+<hr width="100%">
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
+<div class="info">
+バッファを表す抽象型<br>
+</div>
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">int -> <a href="Buffer.html#TYPEt">t</a></code></pre><div class="info">
+<code class="code">create n</code> は初期状態として空の新しいバッファを返します。
+    引数 <code class="code">n</code> はバッファの内容を格納する文字列の初期サイズです。
+    この文字列はバッファに <code class="code">n</code> 文字を越える文字を格納しようとすると自動的に再割り当てされ、 <code class="code">reset</code> が呼び出されると <code class="code">n</code> 文字に切り詰められます。
+    性能を最大化するためには、 <code class="code">n</code> はバッファに格納される文字数と同じ桁数にしておくのがよいでしょう（例えば、出力用の行バッファであれば 80）。
+    ただし、 <code class="code">n</code> を越えてバッファが伸張しても何の問題もありません。
+    適切な値が不確かな場合には、例えば <code class="code">n = 16</code> としておきましょう。
+    <code class="code">n</code> が 1 から <a href="Sys.html#VALmax_string_length"><code class="code"><span class="constructor">Sys</span>.max_string_length</code></a> の範囲にない場合には、この範囲に切り詰められます。<br>
+</div>
+<pre><span id="VALcontents"><span class="keyword">val</span> contents</span> : <code class="type"><a href="Buffer.html#TYPEt">t</a> -> string</code></pre><div class="info">
+バッファの現在の内容のコピーを返します。バッファ自体は変更されません。<br>
+</div>
+<pre><span id="VALsub"><span class="keyword">val</span> sub</span> : <code class="type"><a href="Buffer.html#TYPEt">t</a> -> int -> int -> string</code></pre><div class="info">
+<code class="code"><span class="constructor">Buffer</span>.sub b off len</code> はバッファ <code class="code">b</code> の現在の内容の <code class="code">off</code> 番目から <code class="code">len</code> バイト分の長さの部分文字列（のコピー）を返します。
+    引数が範囲外であった場合には <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。
+    バッファ自体は何の影響も受けません。<br>
+</div>
+<pre><span id="VALblit"><span class="keyword">val</span> blit</span> : <code class="type"><a href="Buffer.html#TYPEt">t</a> -> int -> string -> int -> int -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Buffer</span>.blit src srcoff dst dstoff len</code> はバッファ <code class="code">src</code> の現在の内容の <code class="code">srcoff</code> 番目の位置から <code class="code">len</code> 文字を、 <code class="code">dst</code> の <code class="code">dstoff</code> 番目にコピーします。
+<p>
+
+    <code class="code">srcoff</code> と <code class="code">len</code> がバッファ <code class="code">src</code> の適切な部分文字列を表さないか、 <code class="code">dstoff</code> と <code class="code">len</code> が <code class="code">dst</code> の適切な部分文字列を表さない場合には <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。<br>
+<b>Since</b> 3.11.2<br>
+</div>
+<pre><span id="VALnth"><span class="keyword">val</span> nth</span> : <code class="type"><a href="Buffer.html#TYPEt">t</a> -> int -> char</code></pre><div class="info">
+バッファの n 番目の文字を返します。
+    添字が範囲外の場合には <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALlength"><span class="keyword">val</span> length</span> : <code class="type"><a href="Buffer.html#TYPEt">t</a> -> int</code></pre><div class="info">
+バッファに現在格納されている文字数を返します。<br>
+</div>
+<pre><span id="VALclear"><span class="keyword">val</span> clear</span> : <code class="type"><a href="Buffer.html#TYPEt">t</a> -> unit</code></pre><div class="info">
+バッファを空にします。<br>
+</div>
+<pre><span id="VALreset"><span class="keyword">val</span> reset</span> : <code class="type"><a href="Buffer.html#TYPEt">t</a> -> unit</code></pre><div class="info">
+バッファを空にし、内部でバッファの内容を保持している文字列を開放し、内部文字列を <a href="Buffer.html#VALcreate"><code class="code"><span class="constructor">Buffer</span>.create</code></a> <code class="code">n</code> で確保された長さ <code class="code">n</code> の初期文字列と取り替えます。
+    長く使われ大きく伸張したバッファについては、 <code class="code">reset</code> を使うことでバッファの使用している空間を速やかに再利用させることができるようになります。<br>
+</div>
+<pre><span id="VALadd_char"><span class="keyword">val</span> add_char</span> : <code class="type"><a href="Buffer.html#TYPEt">t</a> -> char -> unit</code></pre><div class="info">
+<code class="code">add_char b c</code> はバッファ <code class="code">b</code> の末尾に文字 <code class="code">c</code> を追加します。<br>
+</div>
+<pre><span id="VALadd_string"><span class="keyword">val</span> add_string</span> : <code class="type"><a href="Buffer.html#TYPEt">t</a> -> string -> unit</code></pre><div class="info">
+<code class="code">add_string b s</code> はバッファ <code class="code">b</code> の末尾に文字列 <code class="code">s</code> を追加します。<br>
+</div>
+<pre><span id="VALadd_substring"><span class="keyword">val</span> add_substring</span> : <code class="type"><a href="Buffer.html#TYPEt">t</a> -> string -> int -> int -> unit</code></pre><div class="info">
+<code class="code">add_substring b s ofs len</code> は文字列 <code class="code">s</code> の <code class="code">ofs</code> 文字目から <code class="code">len</code> 文字の文字列を取り出し、それをバッファ <code class="code">b</code> の末尾に追加します。<br>
+</div>
+<pre><span id="VALadd_substitute"><span class="keyword">val</span> add_substitute</span> : <code class="type"><a href="Buffer.html#TYPEt">t</a> -> (string -> string) -> string -> unit</code></pre><div class="info">
+<code class="code">add_substitute b f s</code> は文字列パターン <code class="code">s</code> に置換処理をほどこしてバッファ <code class="code">b</code> の末尾に追加します。
+    置換処理では、パターン中から変数を探し出し、各変数名を <code class="code">f</code> に適用して得られた値で置き換えます。
+    文字列パターン中で、変数はエスケープされていない <code class="code">$</code> で始まる以下のいずれかです。
+<p>
+<ul>
+<li>アルファベット・数字・ <code class="code">_</code> の空でない並び</li>
+<li>丸括弧または波括弧で囲まれた任意の文字の並び</li>
+</ul>
+
+    バックスラッシュに後続する <code class="code">$</code> をエスケープされた <code class="code">$</code> とします。
+    これは <code class="code">$</code> そのものを表します。
+    変数名を囲む括弧の閉じ括弧が見つからない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALadd_buffer"><span class="keyword">val</span> add_buffer</span> : <code class="type"><a href="Buffer.html#TYPEt">t</a> -> <a href="Buffer.html#TYPEt">t</a> -> unit</code></pre><div class="info">
+<code class="code">add_buffer b1 b2</code> は バッファ <code class="code">b2</code> の現在の内容を <code class="code">b1</code> の末尾に追加します。
+    <code class="code">b2</code> は変更されません。<br>
+</div>
+<pre><span id="VALadd_channel"><span class="keyword">val</span> add_channel</span> : <code class="type"><a href="Buffer.html#TYPEt">t</a> -> <a href="Pervasives.html#TYPEin_channel">in_channel</a> -> int -> unit</code></pre><div class="info">
+<code class="code">add_channel b ic n</code> は入力チャネル <code class="code">ic</code> からちょうど <code class="code">n</code> 文字読み込み、それをバッファ <code class="code">b</code> の末尾に格納します。
+    チャネルが <code class="code">n</code> 文字以下しか格納していなかった場合には <code class="code"><span class="constructor">End_of_file</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALoutput_buffer"><span class="keyword">val</span> output_buffer</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> <a href="Buffer.html#TYPEt">t</a> -> unit</code></pre><div class="info">
+<code class="code">output_buffer oc b</code> はバッファ <code class="code">b</code> の現在の内容を出力チャネル <code class="code">oc</code> に書き込みます。<br>
+</div>
+</body></html>

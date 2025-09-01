@@ -1,0 +1,312 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>5.1&nbsp;高度な例：銀行口座</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch05.html" title="5.&nbsp;クラスとモジュールの高度な例"><link rel="prev" href="ch05.html" title="5.&nbsp;クラスとモジュールの高度な例"><link rel="next" href="ch05s02.html" title="5.2&nbsp;クラスを用いた簡単なモジュール"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.1&nbsp;高度な例：銀行口座 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05.html">前のページ</a>&nbsp;</td><th width="60%" align="center">5.&nbsp;クラスとモジュールの高度な例</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch05s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="5.1&nbsp;高度な例：銀行口座"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Exttended example: bank accounts"></a>5.1&nbsp;高度な例：銀行口座 </h2></div></div></div>
+    
+    <p>
+      この節では、次に示す最初の単純な銀行口座の定義の、改良、デバッグ、特化を通してオブジェクトと継承のほとんどの側面を明らかにしていきます（<a class="xref" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"> 3 章「<i>Caml におけるオブジェクト </i>」</a> の最後で定義した <code class="code">Euro</code> モジュールを再利用します）。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let euro = new Euro.c;;</code></strong>
+<code class="computeroutput">val euro : float -&gt; Euro.c = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let zero = euro 0.;;</code></strong>
+<code class="computeroutput">val zero : Euro.c = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let neg x = x#times (-1.);;</code></strong>
+<code class="computeroutput">val neg : &lt; times : float -&gt; 'a; .. &gt; -&gt; 'a = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class account =
+   object 
+     val mutable balance = zero
+     method balance = balance
+     method deposit x = balance &lt;- balance   plus x
+     method withdraw x =
+       if x leq balance then (balance &lt;- balance   plus (neg x); x) else zero
+   end;;</code></strong>
+<code class="computeroutput">class account :
+  object
+    val mutable balance : Euro.c
+    method balance : Euro.c
+    method deposit : Euro.c -&gt; unit
+    method withdraw : Euro.c -&gt; Euro.c
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let c = new account in c # deposit (euro 100.); c # withdraw (euro 50.);;</code></strong>
+<code class="computeroutput">- : Euro.c = &lt;obj&gt;</code>
+    </pre>
+    <p>
+      この定義を、利子を計算するメソッドで改良します。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class account_with_interests =
+   object (self)
+     inherit account
+     method private interest = self # deposit (self # balance # times 0.03)
+   end;;</code></strong>
+<code class="computeroutput">class account_with_interests :
+  object
+    val mutable balance : Euro.c
+    method balance : Euro.c
+    method deposit : Euro.c -&gt; unit
+    method private interest : unit
+    method withdraw : Euro.c -&gt; Euro.c
+  end</code>
+    </pre>
+    <p>
+      <code class="code">interest</code> メソッドを <code class="code">private</code> にしたのは、このメソッドは明らかに外部から自由に呼ばれるべきものではないからです。 ここで、このメソッドは口座の月次もしくは年次の口座更新を扱う子クラスからのみアクセス可能とします。
+    </p>
+    <p>
+      現在の定義のバグを直しましょう。 <code class="code">deposit</code> メソッドは負の金額を預金することでお金を引き出すことができてしまいます。 これを直接修正すると次のようになります。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class safe_account =
+   object
+     inherit account
+     method deposit x = if zero leq x then balance &lt;- balance plus x
+   end;;</code></strong>
+<code class="computeroutput">class safe_account :
+  object
+    val mutable balance : Euro.c
+    method balance : Euro.c
+    method deposit : Euro.c -&gt; unit
+    method withdraw : Euro.c -&gt; Euro.c
+  end</code>
+    </pre>
+    <p>
+      しかしながら、このバグは次の定義でより安全に修正できるかもしれません：
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class safe_account =
+   object
+     inherit account as unsafe
+     method deposit x =
+       if zero leq x then unsafe   deposit x
+       else raise (Invalid_argument "deposit")
+   end;;</code></strong>
+<code class="computeroutput">class safe_account :
+  object
+    val mutable balance : Euro.c
+    method balance : Euro.c
+    method deposit : Euro.c -&gt; unit
+    method withdraw : Euro.c -&gt; Euro.c
+  end</code>
+    </pre>
+    <p>
+      特に、この修正では <code class="code">deposit</code> メソッドの実装に関する知識が必要ありません。
+    </p>
+    <p>
+      操作の履歴を保持するため、クラスを <code class="code">mutable</code> なフィールド <code class="code">history</code> と <code class="code">private</code> なメソッド <code class="code">trace</code> で拡張し、操作をログに追加するようにします。 トレースされるメソッドは再定義されます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type 'a operation = Deposit of 'a | Retrieval of 'a;;</code></strong>
+<code class="computeroutput">type 'a operation = Deposit of 'a | Retrieval of 'a</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class account_with_history =
+   object (self) 
+     inherit safe_account as super  
+     val mutable history = []
+     method private trace x = history &lt;- x :: history
+     method deposit x = self trace (Deposit x);  super deposit x
+     method withdraw x = self trace (Retrieval x); super withdraw x
+     method history = List.rev history
+   end;;</code></strong>
+<code class="computeroutput">class account_with_history :
+  object
+    val mutable balance : Euro.c
+    val mutable history : Euro.c operation list
+    method balance : Euro.c
+    method deposit : Euro.c -&gt; unit
+    method history : Euro.c operation list
+    method private trace : Euro.c operation -&gt; unit
+    method withdraw : Euro.c -&gt; Euro.c
+  end</code>
+    </pre>
+    <p>
+      口座を開くとともに最初の金額を入金しておきたいと思う人もいるかもしれません。 最初の実装ではこの要求を扱っていませんが、これは初期化子を使うことで達成できます。
+</p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class account_with_deposit x =
+   object 
+     inherit account_with_history 
+     initializer balance &lt;- x 
+   end;;</code></strong>
+<code class="computeroutput">class account_with_deposit :
+  Euro.c -&gt;
+  object
+    val mutable balance : Euro.c
+    val mutable history : Euro.c operation list
+    method balance : Euro.c
+    method deposit : Euro.c -&gt; unit
+    method history : Euro.c operation list
+    method private trace : Euro.c operation -&gt; unit
+    method withdraw : Euro.c -&gt; Euro.c
+  end</code>
+    </pre>
+    <p>
+      こうした方がよいでしょう。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class account_with_deposit x =
+   object (self)
+     inherit account_with_history 
+     initializer self deposit x
+   end;;</code></strong>
+<code class="computeroutput">class account_with_deposit :
+  Euro.c -&gt;
+  object
+    val mutable balance : Euro.c
+    val mutable history : Euro.c operation list
+    method balance : Euro.c
+    method deposit : Euro.c -&gt; unit
+    method history : Euro.c operation list
+    method private trace : Euro.c operation -&gt; unit
+    method withdraw : Euro.c -&gt; Euro.c
+  end</code>
+    </pre>
+    <p>
+      実際、 <code class="code">deposit</code> の呼び出し時に自動的に安全性チェックとトレース出力が得られるため、後者のほうがより安全だといえます。 テストしてみましょう。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let ccp = new account_with_deposit (euro 100.) in 
+ let balance = ccp#withdraw (euro 50.) in
+ ccp#history;;</code></strong>
+<code class="computeroutput">Warning Y: unused variable balance.
+- : Euro.c operation list = [Deposit &lt;obj&gt;; Retrieval &lt;obj&gt;]</code>
+    </pre>
+    <p>
+      次の多相関数で口座を閉じることができます：
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let close c = c#withdraw (c#balance);;</code></strong>
+<code class="computeroutput">val close : &lt; balance : 'a; withdraw : 'a -&gt; 'b; .. &gt; -&gt; 'b = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      もちろん、これは全ての種類の口座に適用できます。
+    </p>
+    <p>
+      最後に、 口座のいくつかのバージョンを、通貨について抽象化されたモジュール <code class="code">Account</code> にまとめます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let today () = (01,01,2000) (* an approximation *)
+ module Account (M:MONEY) =
+   struct
+     type m = M.c
+     let m = new M.c
+     let zero = m 0. 
+         
+     class bank =
+       object (self) 
+         val mutable balance = zero
+         method balance = balance
+         val mutable history = []
+         method private trace x = history &lt;- x::history
+         method deposit x =
+           self trace (Deposit x);
+           if zero leq x then balance &lt;- balance   plus x
+           else raise (Invalid_argument "deposit")
+         method withdraw x =
+           if x leq balance then
+             (balance &lt;- balance   plus (neg x); self trace (Retrieval x); x)
+           else zero
+         method history = List.rev history
+       end
+         
+     class type client_view = 
+       object
+         method deposit : m -&gt; unit
+         method history : m operation list
+         method withdraw : m -&gt; m
+         method balance : m
+       end
+           
+     class virtual check_client x = 
+       let y = if (m 100.) leq x then x
+       else raise (Failure "Insufficient initial deposit") in
+       object (self) initializer self deposit y end
+         
+     module Client (B : sig class bank : client_view end) =
+       struct
+         class account x : client_view =
+           object
+             inherit B.bank
+             inherit check_client x
+           end
+             
+         let discount x =
+           let c = new account x in
+           if today() &lt; (1998,10,30) then c   deposit (m 100.); c
+       end
+   end;;</code></strong>
+    </pre>
+    <p>
+      これはモジュールを使ってひとつの単位とみなすことができるいくつかのクラス定義をグループ化する方法を示しています。 この単位は内部と外部両方で使うよう、銀行から提供されます。 この実装は通貨を抽象化したファンクタとして実装されているので、同じコードを異なる通貨の口座を提供するために使うことができます。
+    </p>
+    <p>
+      クラス <code class="code">bank</code> は銀行口座の<span class="emphasis"><em>実際の</em></span>実装です (インライン化することもできました) (FIXME:どういう意味だ？)。 これをさらなる拡張や改良等のために使うことになります。 逆に、顧客には顧客ビューのみが与えられます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module Euro_account = Account(Euro);;</code></strong>
+
+<code class="prompt">#</code><strong class="userinput"><code>module Client = Euro_account.Client (Euro_account);;</code></strong>
+
+<code class="prompt">#</code><strong class="userinput"><code>new Client.account (new Euro.c 100.);;</code></strong>
+    </pre>
+    <p>
+      これにより、顧客は自身の口座の <code class="code">balance</code> や <code class="code">history</code> に直接のアクセスをもつことはありません。 残高を変える唯一の方法はお金を預けるか引き出すことです。顧客に口座（たとえば販促のためのディスカウント口座）を作る能力だけでなく、クラスを与え、顧客が自分の口座をパーソナライズできるようにしているのが重要です。 例えば、顧客は <code class="code">deposit</code> と <code class="code">withdraw</code> メソッドを改良すれば自動的に彼自身の財務簿記ができるようになります。 一方、 <code class="code">discount</code> 関数は上のように、これ以上のパーソナライズの余地がないようになっています。
+    </p>
+    <p>
+      クライアントのビューを <code class="code">Client</code> ファンクタとして提供し、顧客の口座を、 <code class="code">bank</code> の特化の後に構築することができるようにしているのも重要です。拡張された口座の顧客ビューを初期化するにも、 <code class="code">Client</code> ファンクタを変更せずに、新しい定義を渡せばよいのです。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module Investment_account (M : MONEY) = 
+   struct
+     type m = M.c
+     module A = Account(M)
+         
+     class bank =
+       object
+         inherit A.bank as super
+         method deposit x =
+           if (new M.c 1000.) leq x then
+             print_string "Would you like to invest?";
+           super deposit x
+       end
+         
+     module Client = A.Client
+   end;;</code></strong>
+    </pre>
+    <p>
+      <code class="code">Client</code> ファンクタは、顧客に口座の新しい機能を与えることができるようになったときに再定義してもよいでしょう。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module Internet_account (M : MONEY) = 
+   struct
+     type m = M.c
+     module A = Account(M)
+
+     class bank =
+       object
+         inherit A.bank 
+         method mail s = print_string s
+       end
+         
+     class type client_view = 
+       object
+         method deposit : m -&gt; unit
+         method history : m operation list
+         method withdraw : m -&gt; m
+         method balance : m
+         method mail : string -&gt; unit
+       end
+           
+     module Client (B : sig class bank : client_view end) =
+       struct
+         class account x : client_view =
+           object
+             inherit B.bank
+             inherit A.check_client x
+           end
+       end
+   end;;</code></strong>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch05.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch05s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">5.&nbsp;クラスとモジュールの高度な例&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;5.2&nbsp;クラスを用いた簡単なモジュール</td></tr></table></div></body></html>

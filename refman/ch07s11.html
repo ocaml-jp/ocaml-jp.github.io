@@ -1,0 +1,65 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>7.11&nbsp;レコードの記法</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch07.html" title="7.&nbsp;Language extensions"><link rel="prev" href="ch07s10.html" title="7.10&nbsp;局所的 open"><link rel="next" href="ch07s12.html" title="7.12&nbsp;多相型アノテーション"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.11&nbsp;レコードの記法</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s10.html">前のページ</a>&nbsp;</td><th width="60%" align="center">7.&nbsp;Language extensions</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s12.html">次のページ</a></td></tr></table><hr></div><div class="section" title="7.11&nbsp;レコードの記法"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Record notations"></a>7.11&nbsp;レコードの記法</h2></div></div></div>
+    
+    <p>（OCaml 3.12 〜）</p>
+    <div class="syntax">
+      <table id="d4e8997">
+        <tbody>
+          <tr>
+            <td rowspan="2" valign="baseline"><a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a></td>
+            <td><span class="meta">::=</span></td>
+            <td><span class="meta">...</span></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>{ <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> <span class="meta">[</span> = <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a> <span class="meta">]</span> <span class="meta">{</span> ; <span class="meta">[</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> = <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a> <span class="meta">]</span> <span class="meta">}</span> <span class="meta">[</span> ; _ <span class="meta">]</span> }</td>
+          </tr>
+          <tr>
+            <td rowspan="3" valign="baseline"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+            <td><span class="meta">::=</span></td>
+            <td><span class="meta">...</span></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>{ <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> <span class="meta">[</span> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="meta">]</span> <span class="meta">{</span> ; <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> <span class="meta">[</span> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="meta">]</span> <span class="meta">}</span> }</td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>{ <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> with <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> <span class="meta">[</span> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="meta">]</span> <span class="meta">{</span> ; <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> <span class="meta">[</span> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="meta">]</span> <span class="meta">}</span> }</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+    <p>
+      レコードパターンやレコードを新たに構成する式で、単一の識別子 <code class="syntax"><a class="bnf-non-terminal" href="">id</a></code> は <code class="syntax"><a class="bnf-non-terminal" href="">id</a> = <a class="bnf-non-terminal" href="">id</a></code> を意味し、 修飾子付き識別子 <code class="syntax"><a class="bnf-non-terminal" href="">path</a>.<a class="bnf-non-terminal" href="">id</a></code> は <code class="syntax"><a class="bnf-non-terminal" href="">path</a>.<a class="bnf-non-terminal" href="">id</a> = <a class="bnf-non-terminal" href="">id</a></code> を意味します。例えば次のようなレコード型が宣言されているとします。
+    </p>
+    <pre class="programlisting">type point = { x: float; y: float }</pre>
+    <p>
+      すると次の式はすべて等価です。
+    </p>
+    <pre class="programlisting">
+let x = 1 and y = 2 in { x = x; y = y }
+let x = 1 and y = 2 in { x; y }
+let x = 1 and y = 2 in { x = x; y }
+    </pre>
+    <p>
+      同様に、次のふたつの関数も等価です。
+    </p>
+    <pre class="programlisting">
+fun {x = x; y = y} -&gt; x + y
+fun {x; y} -&gt; x + y
+    </pre>
+    <p>
+      また、レコードパターンを <code class="code">; _</code> を終えることで、パターン中にレコードのフィールドがすべては列挙されていず、また、それが意図通りであることを表すことができます。デフォルトではコンパイラは <code class="code">; _</code> を無視しますが、 <code class="code">; _</code> で終端することで、 <code class="option">-w</code> オプションの <code class="code">R</code> フラグがオンになっているとき、レコードパターンで対応するレコード型のフィールドをすべて列挙していないと表示される警告を表示しないようにできます。上の <code class="code">point</code> の例で、 <code class="code">R</code> フラグがオンになっていると
+    </p>
+    <pre class="programlisting">fun {x} -&gt; x + 1</pre>
+    <p>
+      は警告を表示しますが、
+    </p>
+    <pre class="programlisting">fun {x; _} -&gt; x + 1</pre>
+    <p>
+      は警告を表示しません。この警告は、レコード型に新たなフィールドを追加したときに、修正すべきパターンを見つけるのに役立ちます。
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s10.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s12.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">7.10&nbsp;局所的 <code class="code">open</code>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;7.12&nbsp;多相型アノテーション</td></tr></table></div></body></html>

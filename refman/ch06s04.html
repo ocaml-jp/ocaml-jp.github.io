@@ -1,0 +1,325 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>6.4&nbsp;型式</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch06.html" title="6.&nbsp;The Objective Caml language"><link rel="prev" href="ch06s03.html" title="6.3&nbsp;名前"><link rel="next" href="ch06s05.html" title="6.5&nbsp;定数"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.4&nbsp;型式 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s03.html">前のページ</a>&nbsp;</td><th width="60%" align="center">6.&nbsp;The Objective Caml language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s05.html">次のページ</a></td></tr></table><hr></div><div class="section" title="6.4&nbsp;型式"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:typexpr"></a>6.4&nbsp;型式 </h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch06s04.html#d4e3476">6.4.1. 型変数 </a></span></dt><dt><span class="section"><a href="ch06s04.html#d4e3486">6.4.2. 括弧付きの型 </a></span></dt><dt><span class="section"><a href="ch06s04.html#d4e3495">6.4.3. 関数型 </a></span></dt><dt><span class="section"><a href="ch06s04.html#d4e3551">6.4.4. タプル型 </a></span></dt><dt><span class="section"><a href="ch06s04.html#d4e3568">6.4.5. 構成された型 </a></span></dt><dt><span class="section"><a href="ch06s04.html#d4e3607">6.4.6. エイリアス型・再帰型 </a></span></dt><dt><span class="section"><a href="ch06s04.html#d4e3640">6.4.7. 多相バリアント型 </a></span></dt><dt><span class="section"><a href="ch06s04.html#d4e3727">6.4.8. オブジェクト型 </a></span></dt><dt><span class="section"><a href="ch06s04.html#d4e3767">6.4.9. # 型 </a></span></dt><dt><span class="section"><a href="ch06s04.html#d4e3810">6.4.10. バリアント型とレコード型 </a></span></dt></dl></div>
+  
+  <table id="d4e3303">
+    <tbody>
+      <tr>
+        <td rowspan="15" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--typexpr"></a>typexpr</span></td>
+        <td>::=</td>
+        <td><span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">_</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">(</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td>[ [ <span class="bnf-terminal">?</span> ] <a class="link" href="ch06s03.html#bnf--label-name"><span class="bnf-non-terminal">label-name</span></a> <span class="bnf-terminal">:</span> ] <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> { <span class="bnf-terminal">*</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> }<sup>+</sup></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">(</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> { <span class="bnf-terminal">,</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> } <span class="bnf-terminal">)</span> <a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">as '</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s04.html#bnf--polymorphic-variant-type"><span class="bnf-non-terminal">polymorphic-variant-type</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">&lt;</span> [ <span class="bnf-terminal">..</span> ] <span class="bnf-terminal">&gt;</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">&lt;</span> <a class="link" href="ch06s04.html#bnf--method-type"><span class="bnf-non-terminal">method-type</span></a> { <span class="bnf-terminal">;</span> <a class="link" href="ch06s04.html#bnf--method-type"><span class="bnf-non-terminal">method-type</span></a> } [ <span class="bnf-terminal">;</span> <span class="bnf-terminal">..</span> ] <span class="bnf-terminal">&gt;</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">#</span> <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">#</span> <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">(</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> { <span class="bnf-terminal">,</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> } <span class="bnf-terminal">)</span> <span class="bnf-terminal">#</span> <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a></td>
+      </tr>
+      <tr>
+        <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--poly-typexpr"></a>poly-typexpr</span></td>
+        <td>::=</td>
+        <td><a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td>{ <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> }<sup>+</sup> <span class="bnf-terminal">.</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a></td>
+      </tr>
+      <tr>
+        <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--method-type"></a>method-type</span></td>
+        <td>::=</td>
+        <td><a class="link" href="ch06s03.html#bnf--method-name"><span class="bnf-non-terminal">method-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    下のテーブルに、演算子と閉じていない型構成子の相対的な優先順位と結合性を示します。優先順位のものが先に来ます。 
+  </p>
+  <table id="d4e3455"><tbody>
+      <tr><th>演算子</th><th>結合性</th></tr>
+      <tr><td>型構成子の適用</td><td>-</td></tr>
+      <tr><td><code class="code">*</code></td><td>-</td></tr>
+      <tr><td><code class="code">-&gt;</code></td><td>右</td></tr>
+      <tr><td><code class="code">as</code></td><td>-</td></tr>
+  </tbody></table>
+  <p>
+    型式は、パターンや式における型制約と同じく、データの型の定義における型を表します。
+  </p>
+  <div class="section" title="6.4.1&nbsp;型変数"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3476"></a>6.4.1&nbsp;型変数 </h3></div></div></div>
+    
+    <p>
+      型式 <span class="bnf-terminal">'</span><a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> は、<a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> という名前の型変数を意味します。
+      型式 <span class="bnf-terminal">_</span> は無名の型変数を意味します。
+      型変数は、型定義においては型パラメータの名前であり、型制約においてはその型制約を満たすあらゆる型としてインスタンス化できる不特定の型を意味します。
+      通常、名前付き型変数のスコープは、その型変数を含む定義全体になります。
+      このスコープから外れると、型変数の名前は一般化されます。
+      無名の型変数にはこのような制約はありません。
+      次のような場合、名前付き型変数のスコープはその型変数の出現した型式内に限定されます。
+      1) 全称（陽に多相）の型変数、
+      2) パブリックメソッドの型指定にのみ現れる型変数（<a class="xref" href="ch06s09.html#sec:Method specification" title="メソッドの仕様">「メソッドの仕様 」</a> に書かれているように、これは全称の型変数になります）、
+      3) 別名として使われている型変数で、それを囲んだ定義において不正となるようなもの（つまり、別名の型変数が全称の型変数やローカルに定義された型を含む場合）。
+    </p>
+  </div>
+  <div class="section" title="6.4.2&nbsp;括弧付きの型"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3486"></a>6.4.2&nbsp;括弧付きの型 </h3></div></div></div>
+    
+    <p>
+      型式 <span class="bnf-terminal">(</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">)</span> は <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> と同じ型を示します。
+    </p>
+  </div>
+  <div class="section" title="6.4.3&nbsp;関数型"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3495"></a>6.4.3&nbsp;関数型 </h3></div></div></div>
+    
+    <p>
+      型式
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub> <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>2</sub>
+      は型<a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub>
+      の引数を取り、型
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>2</sub>
+      を返す関数の型を示します。
+    </p>
+    <p>
+      型式
+      <span class="bnf-terminal">~</span> <a class="link" href="ch06s03.html#bnf--label-name"><span class="bnf-non-terminal">label-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub> <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>2</sub>
+      も同じ関数型を示しますが、その引数は <a class="link" href="ch06s01.html#bnf--label"><span class="bnf-non-terminal">label</span></a> によってラベルづけされます。
+    </p>
+    <p>
+      型式
+      <span class="bnf-terminal">?</span> <a class="link" href="ch06s03.html#bnf--label-name"><span class="bnf-non-terminal">label-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub> <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>2</sub>
+      は省略可能なラベルつき引数
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub>
+      を受け取り型
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>2</sub>
+      を返す関数を示します。つまり、この関数の実際の型は
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub> <span class="bnf-terminal">option</span> <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>2</sub>
+      となります。
+    </p>
+  </div>
+  <div class="section" title="6.4.4&nbsp;タプル型"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3551"></a>6.4.4&nbsp;タプル型 </h3></div></div></div>
+    
+    <p>
+      型式
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub> <span class="bnf-terminal">*</span> ... <span class="bnf-terminal">*</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>n</sub>
+      はタプルの型を示し、その組の要素はそれぞれ
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub>, ..., <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>n</sub>
+      です。
+    </p>
+  </div>
+  <div class="section" title="6.4.5&nbsp;構成された型"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3568"></a>6.4.5&nbsp;構成された型 </h3></div></div></div>
+    
+    <p>
+      パラメータを持たない型構成子は上では <a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a> と表記されていますが、これは型式です。
+    </p>
+    <p>
+      型式
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a>
+      は
+      <a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a>
+      ひとつのパラメータを与えられた型構成子であり、単項型構成子
+      <a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a>
+      の型
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a>
+      への適用を示します。
+    </p>
+    <p>
+      型式
+      <span class="bnf-terminal">(</span>
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub>, ...,
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub><em class="parameter"><code>n</code></em></sub>
+      <span class="bnf-terminal">)</span>
+      <a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a>
+      は <em class="parameter"><code>n</code></em> 個のパラメータを与えられた型構成子であり、 <em class="parameter"><code>n</code></em> 項型構成子
+      <a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a>
+      の
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub>
+      から
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub><em class="parameter"><code>n</code></em></sub>
+      への適用を示します。
+    </p>
+  </div>
+  <div class="section" title="6.4.6&nbsp;エイリアス型・再帰型"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3607"></a>6.4.6&nbsp;エイリアス型・再帰型 </h3></div></div></div>
+    
+    <p>
+      型式
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">as</span> <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a>
+      は型
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a>
+      と同じ型を示し、なおかつ
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a>
+      および残りの部分において型変数
+      <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a>
+      を
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a>
+      に束縛します。 一般に別名のスコープは名前付きの型変数と同じで、それを囲む定義全体を含みます。型変数
+      <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a>
+      が
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a>
+      の中に実際に存在した場合には再帰的な型が生成されます。オブジェクトや多相バリアント型構成子を含まない再帰パスが存在する再帰型は、 <code class="option">-rectypes</code> モードが選択されている場合を除いて棄却されます。
+    </p>
+    <p>
+      もし
+      <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a>
+      が明らかに多相型を表していて、
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a>
+      がオブジェクトまたは多相バリアント型を表していた場合、
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a>
+      の列変数は
+      <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a>
+      によって捕捉され量化されます。
+    </p>
+  </div>
+  <div class="section" title="6.4.7&nbsp;多相バリアント型"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3640"></a>6.4.7&nbsp;多相バリアント型 </h3></div></div></div>
+    
+    <table id="d4e3642">
+      <tbody>
+        <tr>
+          <td rowspan="3" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--polymorphic-variant-type"></a>polymorphic-variant-type</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">[</span> [ <span class="bnf-terminal">|</span> ] <a class="link" href="ch06s04.html#bnf--tag-spec"><span class="bnf-non-terminal">tag-spec</span></a> { <span class="bnf-terminal">|</span> <a class="link" href="ch06s04.html#bnf--tag-spec"><span class="bnf-non-terminal">tag-spec</span></a> } <span class="bnf-terminal">]</span></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">[&gt;</span> [ <a class="link" href="ch06s04.html#bnf--tag-spec"><span class="bnf-non-terminal">tag-spec</span></a> ] { <span class="bnf-terminal">|</span> <a class="link" href="ch06s04.html#bnf--tag-spec"><span class="bnf-non-terminal">tag-spec</span></a> } <span class="bnf-terminal">]</span></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">[&lt;</span> [ <span class="bnf-terminal">|</span> ] <a class="link" href="ch06s04.html#bnf--tag-spec-full"><span class="bnf-non-terminal">tag-spec-full</span></a> { <span class="bnf-terminal">|</span> <a class="link" href="ch06s04.html#bnf--tag-spec-full"><span class="bnf-non-terminal">tag-spec-full</span></a> } [ <span class="bnf-terminal">&gt;</span> { <span class="bnf-terminal">`</span> <a class="link" href="ch06s03.html#bnf--tag-name"><span class="bnf-non-terminal">tag-name</span></a> }<sup>+</sup> ] <span class="bnf-terminal">]</span></td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--tag-spec"></a>tag-spec</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">`</span> <a class="link" href="ch06s03.html#bnf--tag-name"><span class="bnf-non-terminal">tag-name</span></a> [ <span class="bnf-terminal">of</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> ]</td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a></td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--tag-spec-full"></a>tag-spec-full</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">`</span> <a class="link" href="ch06s03.html#bnf--tag-name"><span class="bnf-non-terminal">tag-name</span></a> [ <span class="bnf-terminal">of</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> ] { <span class="bnf-terminal">&amp;</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> }</td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a></td>
+        </tr>
+
+      </tbody>
+    </table>
+    <p>
+      多相バリアント型は多相バリアントによって取ることのできる値を表します。
+    </p>
+    <p>
+      最初のケースは正確なバリアント型です。可能なタグとそれに対応する型がすべて既知で、すべて存在しています。その構造は完全に既知です。
+    </p>
+    <p>
+      二番目のケースは開いたバリアント型で、多相バリアント値を記述します。
+      これは、現れうるすべてのタグとそれに対応する型をすべて与えます。この型は、与えられたタグよりも多くのタグを含むバリアント型とも互換性があります。これの特殊な場合として不明型があり、一切のタグを定義しないもので、あらゆるバリアント型と互換性があります。
+    </p>
+    <p>
+      三番目のケースは閉じたバリアント型です。これは全ての可能なタグと関連した型、それから値の中に現れる可能性のあるタグについての情報を与えます。上記の正確なバリアント型は、すべての可能なタグが潜在的に存在する閉じたバリアント型の略記に過ぎません。
+    </p>
+    <p>
+      これら3つのケース全てで、タグは <code class="code">`<em class="parameter"><code>tag-name</code></em> [...]</code> の形式で直接指定されるか、型式によって間接的に表現されます。最後のケースでは、型式は正確なバリアント型に展開されなくてはなりません。そのタグ指定はその場所に展開されます。
+    </p>
+    <p>
+      バリアントタグの完全な指定は正確でない閉じた型でのみ利用されます。これは引数の型をすべて結合した型として考えることができ、仕様として列挙された型すべてを取ることを期待しています。
+    </p>
+    <p>
+      このような結合制約は充足不能であるかもしれません。そのような場合、対応するタグはこの型の値として利用できないことがあります。これは、これによってその型全体が妥当ではなくなるということではなく、他の利用可能なタグを依然として使うことができます。
+    </p>
+  </div>
+  <div class="section" title="6.4.8&nbsp;オブジェクト型"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3727"></a>6.4.8&nbsp;オブジェクト型 </h3></div></div></div>
+    
+    <p>
+      オブジェクト型
+      <span class="bnf-terminal">&lt;</span> <a class="link" href="ch06s04.html#bnf--method-type"><span class="bnf-non-terminal">method-type</span></a> { <span class="bnf-terminal">;</span> <a class="link" href="ch06s04.html#bnf--method-type"><span class="bnf-non-terminal">method-type</span></a> } <span class="bnf-terminal">&gt;</span>
+      はメソッド型のレコードです。
+    </p>
+    <p>
+      それぞれのメソッドは陽な多相型
+      { <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> }<sup>+</sup> <span class="bnf-terminal">.</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a>
+      を持つかもしれません。陽な多相変数は局所的なスコープを持ち、同じ位置に多相変数を持つ等価な型とだけ同一化することができます。
+    </p>
+    <p>
+      型
+      { <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> }<sup>+</sup> <span class="bnf-terminal">&lt;</span> <a class="link" href="ch06s04.html#bnf--method-type"><span class="bnf-non-terminal">method-type</span></a> { <span class="bnf-terminal">;</span> <a class="link" href="ch06s04.html#bnf--method-type"><span class="bnf-non-terminal">method-type</span></a> } <span class="bnf-terminal">..</span> <span class="bnf-terminal">&gt;</span>
+      は、
+      <a class="link" href="ch06s04.html#bnf--method-type"><span class="bnf-non-terminal">method-type</span></a><sub>1</sub>, ...,
+      <a class="link" href="ch06s04.html#bnf--method-type"><span class="bnf-non-terminal">method-type</span></a><sub><em class="parameter"><code>n</code></em></sub>
+      で表されたメソッドと関連付けられた型を持つオブジェクトの型です。他のメソッドが存在する可能性は <code class="code">..</code> で表現されています。この省略表現は実際には特殊な種類の型変数で（<span class="emphasis"><em>列変数</em></span> — row variable と呼ばれます）、他の任意個のメソッドを意味します。
+    </p>
+  </div>
+  <div class="section" title="6.4.9&nbsp;# 型"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3767"></a>6.4.9&nbsp;# 型 </h3></div></div></div>
+    
+    <p>
+      型 <span class="bnf-terminal">#</span> <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a>
+      は特殊な種類の略記です。この略記はクラス
+      <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a>
+      の子クラスに属するあらゆるオブジェクトの型を単一化したものです。この型は、型変数（子クラスに追加されているかもしれないメソッドを表現する省略記号）を隠蔽するよう、特別扱いされます。特に、省略記号がインスタンス化するとこの型は消滅します。個々の型式
+      <span class="bnf-terminal">#</span> <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a>
+      は新しい型変数を定義するので、型
+      <span class="bnf-terminal">#</span> <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a> <span class="bnf-terminal">-&gt;</span> <span class="bnf-terminal">#</span> <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a>
+      と型
+      <span class="bnf-terminal">(</span> <span class="bnf-terminal">#</span> <a class="link" href="ch06s03.html#bnf--class-path"><span class="bnf-non-terminal">class-path</span></a> <span class="bnf-terminal">as</span> <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> <span class="bnf-terminal">)</span> <span class="bnf-terminal">-&gt;</span> <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a>
+      は通常の場合、同一ではありません。 
+    </p>
+    <p>
+      多相バリアント型に対する #-型の利用は推奨されません。もし <code class="code">t</code> が正確なバリアント型なら <code class="code">#t</code> は <code class="code">[&lt; t]</code> に変換され、
+      <code class="code">#t[&gt; `tag<sub>1</sub> ...`tag<sub><em class="parameter"><code>k</code></em></sub>]</code> は <code class="code">[&lt; t &gt; `tag<sub>1</sub> ...`tag<sub><em class="parameter"><code>k</code></em></sub>]</code> に翻訳されます。
+    </p>
+  </div>
+  <div class="section" title="6.4.10&nbsp;バリアント型とレコード型"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3810"></a>6.4.10&nbsp;バリアント型とレコード型 </h3></div></div></div>
+    
+    <p>
+      バリアント型としてもレコード型としても表現（定義）されない型式は存在しません。なぜならこれらは常に名前が付いてい、利用に先立って定義され、名前によって参照されているからです。型の定義は<a class="xref" href="ch06s08.html#sec:Type definitions" title="6.8.1&nbsp;型定義"> 6.8.1 節「型定義 」</a>で説明されています。
+    </p>
+  </div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s03.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s05.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">6.3&nbsp;名前 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;6.5&nbsp;定数 </td></tr></table></div></body></html>

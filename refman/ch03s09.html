@@ -1,0 +1,43 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.9&nbsp;多重継承</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s08.html" title="3.8&nbsp;継承"><link rel="next" href="ch03s10.html" title="3.10&nbsp;パラメータ化されたクラス"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.9&nbsp;多重継承</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s08.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s10.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.9&nbsp;多重継承"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Inheritance"></a>3.9&nbsp;多重継承</h2></div></div></div>
+    
+    <p>
+      多重継承をすることもできます。同じメソッドの定義の内、最後のものだけが有効です。もし子クラスで参照可能な親クラスのメソッドが子クラスで再び定義された場合、メソッドは子クラスのものに上書きされます。しかし、親クラスの定義も、親クラスを識別子に束縛することにより用いることができます。次の例では、<code class="code">super</code> が親クラスである <code class="code">printable_point</code> に束縛されています。 <code class="code">super</code> は疑似的な変数名で、 <code class="code">super#print</code> のように親クラスのメソッドを呼び出すためにのみ用いることができます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class printable_colored_point y c = 
+   object (self)
+     val c = c
+     method color = c
+     inherit printable_point y as super
+     method print =
+       print_string "(";
+       super print;
+       print_string ", ";
+       print_string (self color);
+       print_string ")"
+   end;;</code></strong>
+<code class="computeroutput">class printable_colored_point :
+  int -&gt;
+  string -&gt;
+  object
+    val c : string
+    val mutable x : int
+    method color : string
+    method get_x : int
+    method move : int -&gt; unit
+    method print : unit
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let p' = new printable_colored_point 17 "red";;</code></strong>
+<code class="computeroutput">new point at (10, red)
+val p' : printable_colored_point = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>p'#print;;</code></strong>
+<code class="computeroutput">(10, red)- : unit = ()</code>
+    </pre>
+    <p>
+      親クラスのプライベートメソッドで、子クラスから隠蔽されているものは継承によって上書きされません。初期化子はプライベートメソッドと見なされるので、子クラスに至るクラス階層で定義されたすべての初期化子は、それが導入された順に評価されます。 
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s08.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s10.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.8&nbsp;継承&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.10&nbsp;パラメータ化されたクラス</td></tr></table></div></body></html>

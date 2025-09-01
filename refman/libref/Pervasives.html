@@ -1,0 +1,949 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Parsing.html">
+<link rel="next" href="Printexc.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><link title="例外" rel="Section" href="#2_">
+<link title="比較関数" rel="Section" href="#2_">
+<link title="真偽値の操作" rel="Section" href="#2_">
+<link title="整数演算" rel="Section" href="#2_">
+<link title="浮動小数点演算" rel="Section" href="#2_">
+<link title="文字列の演算" rel="Section" href="#2_">
+<link title="文字の演算" rel="Section" href="#2_">
+<link title="ユニットの演算" rel="Section" href="#2_">
+<link title="文字列変換関数" rel="Section" href="#2_">
+<link title="ペアの演算" rel="Section" href="#2_">
+<link title="リストの演算" rel="Section" href="#2_">
+<link title="入出力" rel="Section" href="#2_">
+<link title="汎用出力関数" rel="Section" href="#2_">
+<link title="ラージファイルの操作" rel="Section" href="#2_">
+<link title="リファレンス" rel="Section" href="#2_">
+<link title="書式指定文字列の操作" rel="Section" href="#2_">
+<link title="プログラムの停止" rel="Section" href="#2_">
+<link title="内部用、非一般ユーザー向け" rel="Section" href="#2_">
+<link title="標準出力への出力関数" rel="Subsection" href="#3_">
+<link title="標準エラー出力への出力関数" rel="Subsection" href="#3_">
+<link title="標準入力からの入力関数" rel="Subsection" href="#3_">
+<title>Pervasives</title>
+</head>
+<body>
+<div class="navbar"><a href="Parsing.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="Printexc.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Pervasives.html">Pervasives</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Pervasives: <code class="code"><span class="keyword">sig</span></code> <a href="Pervasives.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>初期状態で <code class="code"><span class="keyword">open</span></code> されているモジュール
+<p>
+
+   このモジュールは（数値、真偽値、文字列、例外、リファレンス、リスト、配列、入出力チャネルといった）組み込みの型に対する基本的な演算を提供しています。
+<p>
+
+   このモジュールはコンパイルを始めるときに毎回自動的に <code class="code"><span class="keyword">open</span></code> されます。
+   したがって、このモジュールの構成要素はすべて、 <code class="code"><span class="constructor">Pervasives</span></code> をつけずに参照することができます。<br>
+<hr width="100%">
+<br>
+<span id="2_"><h2>例外</h2></span><br>
+<pre><span id="VALraise"><span class="keyword">val</span> raise</span> : <code class="type">exn -> 'a</code></pre><div class="info">
+与えられた例外値を送出します。<br>
+</div>
+<pre><span id="VALinvalid_arg"><span class="keyword">val</span> invalid_arg</span> : <code class="type">string -> 'a</code></pre><div class="info">
+与えられた文字列で <code class="code"><span class="constructor">Invalid_argument</span></code> 例外を送出します。<br>
+</div>
+<pre><span id="VALfailwith"><span class="keyword">val</span> failwith</span> : <code class="type">string -> 'a</code></pre><div class="info">
+与えられた文字列で <code class="code"><span class="constructor">Failure</span></code> 例外を送出します。<br>
+</div>
+<pre><span id="EXCEPTIONExit"><span class="keyword">exception</span> Exit</span></pre>
+<div class="info">
+<code class="code"><span class="constructor">Exit</span></code> 例外を発生させるライブラリ関数はありません。
+    ユーザープログラムで使うために提供されている例外です。<br>
+</div>
+<br>
+<span id="2_"><h2>比較関数</h2></span><br>
+<pre><span id="VAL(=)"><span class="keyword">val</span> (=)</span> : <code class="type">'a -> 'a -> bool</code></pre><div class="info">
+<code class="code">e1 = e2</code> は <code class="code">e1</code> と <code class="code">e2</code> の構造的等価性を検査します。
+    （リファレンスや配列といった）変更可能な構造は、
+    ふたつのオブジェクトが物理的に同一のオブジェクトでなくても、
+    それぞれの現在の内容が構造的に等価であるとき、かつそのときに限り、等価と見做されます。
+    関数値同士を比較すると <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。
+    循環構造を持つデータ構造同士の比較は停止しないかもしれません。<br>
+</div>
+<pre><span id="VAL(<>)"><span class="keyword">val</span> (&lt;&gt;)</span> : <code class="type">'a -> 'a -> bool</code></pre><div class="info">
+<a href="Pervasives.html#VAL(=)"><code class="code">(=)</code></a> の否定です<br>
+</div>
+<pre><span id="VAL(<)"><span class="keyword">val</span> (&lt;)</span> : <code class="type">'a -> 'a -> bool</code></pre><div class="info">
+<a href="Pervasives.html#VAL(>=)"><code class="code">(&gt;=)</code></a> を参照<br>
+</div>
+<pre><span id="VAL(>)"><span class="keyword">val</span> (&gt;)</span> : <code class="type">'a -> 'a -> bool</code></pre><div class="info">
+<a href="Pervasives.html#VAL(>=)"><code class="code">(&gt;=)</code></a> を参照<br>
+</div>
+<pre><span id="VAL(<=)"><span class="keyword">val</span> (&lt;=)</span> : <code class="type">'a -> 'a -> bool</code></pre><div class="info">
+<a href="Pervasives.html#VAL(>=)"><code class="code">(&gt;=)</code></a> を参照<br>
+</div>
+<pre><span id="VAL(>=)"><span class="keyword">val</span> (&gt;=)</span> : <code class="type">'a -> 'a -> bool</code></pre><div class="info">
+構造的順序付け関数です。
+   整数、文字、文字列、浮動小数点数については通常の順序を返し、それらを拡張してその他の型に対しても全順序関係を定義しています。
+   この順序は <code class="code">( = )</code> と互換性があります。
+   <code class="code">( = )</code> の場合と同じく、変更可能な構造は、その要素により比較されます。
+   関数値同士の比較をすると <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。
+   循環構造の比較をすると停止しないかもしれません。<br>
+</div>
+<pre><span id="VALcompare"><span class="keyword">val</span> compare</span> : <code class="type">'a -> 'a -> int</code></pre><div class="info">
+<code class="code">x</code> と <code class="code">y</code> が等しい場合 <code class="code">compare x y</code> は <code class="code">0</code> を返し、 <code class="code">x</code> が <code class="code">y</code> より小さいときには負の整数、より大きいときには正の整数を返します。
+   <code class="code">compare</code> による順序は、上で定義した比較述語 <code class="code">=</code>、 <code class="code">&lt;</code>、 <code class="code">&gt;</code> と互換性がありますが、ただひとつ、浮動小数点値 <a href="Pervasives.html#VALnan"><code class="code">nan</code></a> の扱いだけが異なります。
+   比較述語では、 <code class="code">nan</code> をそれ自身を含むすべての浮動小数点値を異なるものとして扱いますが、それに対して <code class="code">compare</code> では <code class="code">nan</code> は自身と等しいものとし、他の如何なる浮動小数点値よりも小さいものとして扱います。
+   <code class="code">nan</code> をこのように扱うことで <code class="code">compare</code> 関数が全順序を定義することを保証しています。
+<p>
+
+   <code class="code">compare</code> を関数値に適用すると <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。
+   循環構造に適用すると停止しないかもしれません。
+<p>
+
+   <code class="code">compare</code> 関数は <a href="Set.Make.html"><code class="code"><span class="constructor">Set</span>.<span class="constructor">Make</span></code></a> や <a href="Map.Make.html"><code class="code"><span class="constructor">Map</span>.<span class="constructor">Make</span></code></a> ファンクタ、 <a href="List.html#VALsort"><code class="code"><span class="constructor">List</span>.sort</code></a> 関数や <a href="Array.html#VALsort"><code class="code"><span class="constructor">Array</span>.sort</code></a> 関数で要求される比較関数として使うことができます。<br>
+</div>
+<pre><span id="VALmin"><span class="keyword">val</span> min</span> : <code class="type">'a -> 'a -> 'a</code></pre><div class="info">
+ふたつの引数のうち、より小さいものを返します。
+   引数のいずれかが、浮動小数点値 <code class="code">nan</code> であった場合の結果は規定されていません。<br>
+</div>
+<pre><span id="VALmax"><span class="keyword">val</span> max</span> : <code class="type">'a -> 'a -> 'a</code></pre><div class="info">
+ふたつの引数のうち、より大きいものを返します。
+   引数のいずれかが、浮動小数点値 <code class="code">nan</code> であった場合の結果は規定されていません。<br>
+</div>
+<pre><span id="VAL(==)"><span class="keyword">val</span> (==)</span> : <code class="type">'a -> 'a -> bool</code></pre><div class="info">
+<code class="code">e1 == e2</code> は <code class="code">e1</code> と <code class="code">e2</code> の物理的等価性を検査します。
+   リファレンスや配列、文字列、変更可能なフィールドのあるレコードや変更可能なインスタンス変数のあるオブジェクトといった変更可能な型については、 <code class="code">e1</code> に対する物理的変更が <code class="code">e2</code> にも影響を与える場合、かつその場合にかぎり <code class="code">e1 == e2</code> は真になります。
+   変更不能な型については <code class="code">( == )</code> の結果は処理系依存になります。ただし、 <code class="code">e1 == e2</code> であれば <code class="code">compare e1 e2 = 0</code> となることは保証されます。<br>
+</div>
+<pre><span id="VAL(!=)"><span class="keyword">val</span> (!=)</span> : <code class="type">'a -> 'a -> bool</code></pre><div class="info">
+of <a href="Pervasives.html#VAL(==)"><code class="code">(==)</code></a> の否定。<br>
+</div>
+<br>
+<span id="2_"><h2>真偽値の操作</h2></span><br>
+<pre><span id="VALnot"><span class="keyword">val</span> not</span> : <code class="type">bool -> bool</code></pre><div class="info">
+論理否定です。<br>
+</div>
+<pre><span id="VAL(&&)"><span class="keyword">val</span> (&amp;&amp;)</span> : <code class="type">bool -> bool -> bool</code></pre><div class="info">
+論理積です。評価は左から右へ順に行なわれ、 <code class="code">e1 <span class="keywordsign">&amp;&amp;</span> e2</code> は、まず <code class="code">e1</code> を評価し、それが <code class="code"><span class="keyword">false</span></code> を返した場合には <code class="code">e2</code> はまったく評価されません。<br>
+</div>
+<pre><span id="VAL(&)"><span class="keyword">val</span> (&amp;)</span> : <code class="type">bool -> bool -> bool</code></pre><div class="info">
+<span class="warning">Deprecated.</span><a href="Pervasives.html#VAL(&&)"><code class="code">(<span class="keywordsign">&amp;&amp;</span>)</code></a> を代わりに使ってください。<br>
+</div>
+<pre><span id="VAL(||)"><span class="keyword">val</span> (||)</span> : <code class="type">bool -> bool -> bool</code></pre><div class="info">
+論理和です。評価は左から右へ順に行なわれ、 <code class="code">e1 <span class="keywordsign">||</span> e2</code> は、まず <code class="code">e1</code> を評価し、それが <code class="code"><span class="keyword">true</span></code> を返した場合には <code class="code">e2</code> はまったく評価されません。<br>
+</div>
+<pre><span id="VAL(or)"><span class="keyword">val</span> (or)</span> : <code class="type">bool -> bool -> bool</code></pre><div class="info">
+<span class="warning">Deprecated.</span><a href="Pervasives.html#VAL(||)"><code class="code">(<span class="keywordsign">||</span>)</code></a> を代わりに使ってください。<br>
+</div>
+<br>
+<span id="2_"><h2>整数演算</h2></span><br>
+<br>
+整数は 31 ビット幅です（64 ビットプロセッサでは 63 ビット幅なります）
+   すべての演算は 2<sup class="superscript">31</sup> （または 2<sup class="superscript">63</sup>）を法とした剰余を取ります。
+   オーバーフローが起こっても失敗しません。<br>
+<pre><span id="VAL(~-)"><span class="keyword">val</span> (~-)</span> : <code class="type">int -> int</code></pre><div class="info">
+単項の符号反転。 <code class="code"><span class="keywordsign">~-</span>e</code> の代わりに <code class="code">- e</code> と書くこともできます。<br>
+</div>
+<pre><span id="VAL(~+)"><span class="keyword">val</span> (~+)</span> : <code class="type">int -> int</code></pre><div class="info">
+単項の和。 <code class="code"><span class="keywordsign">~+</span>e</code> の代わりに <code class="code">+ e</code> と書くこともできます。<br>
+<b>Since</b> 3.12.0<br>
+</div>
+<pre><span id="VALsucc"><span class="keyword">val</span> succ</span> : <code class="type">int -> int</code></pre><div class="info">
+<code class="code">succ x</code> は <code class="code">x + 1</code> になります。<br>
+</div>
+<pre><span id="VALpred"><span class="keyword">val</span> pred</span> : <code class="type">int -> int</code></pre><div class="info">
+<code class="code">pred x</code> は <code class="code">x - 1</code> になります。<br>
+</div>
+<pre><span id="VAL(+)"><span class="keyword">val</span> (+)</span> : <code class="type">int -> int -> int</code></pre><div class="info">
+整数の和。<br>
+</div>
+<pre><span id="VAL(-)"><span class="keyword">val</span> (-)</span> : <code class="type">int -> int -> int</code></pre><div class="info">
+整数の差。<br>
+</div>
+<pre><span id="VAL( * )"><span class="keyword">val</span> ( * )</span> : <code class="type">int -> int -> int</code></pre><div class="info">
+整数の積。<br>
+</div>
+<pre><span id="VAL(/)"><span class="keyword">val</span> (/)</span> : <code class="type">int -> int -> int</code></pre><div class="info">
+整数の除算。第二引数が 0 のときには <code class="code"><span class="constructor">Division_by_zero</span></code> 例外が発生します。
+   整数の除算では、実際の商を零方向に丸めます。
+   より精確に言うと、 <code class="code">x &gt;= 0</code> かつ <code class="code">y &gt; 0</code> のとき、 <code class="code">x / y</code> は <code class="code">x</code> と <code class="code">y</code> の実際の商以下の最大の整数になります。
+   さらに、 <code class="code">(- x) / y = x / (- y) = - (x / y)</code> になります。<br>
+</div>
+<pre><span id="VAL(mod)"><span class="keyword">val</span> (mod)</span> : <code class="type">int -> int -> int</code></pre><div class="info">
+整数の剰余。 <code class="code">y</code> が 0 でないとき、 <code class="code">x <span class="keyword">mod</span> y</code> の結果は
+   <code class="code">x = (x / y) * y + x <span class="keyword">mod</span> y</code> かつ <code class="code">abs(x <span class="keyword">mod</span> y) &lt;= abs(y) - 1</code> という性質を満たします。
+   <code class="code">y = 0</code> のときは <code class="code"><span class="constructor">Division_by_zero</span></code> 例外が発生します。
+   <code class="code">x <span class="keyword">mod</span> y</code> は <code class="code">x &lt; 0</code> のときだけ負になることに注意してください。<br>
+</div>
+<pre><span id="VALabs"><span class="keyword">val</span> abs</span> : <code class="type">int -> int</code></pre><div class="info">
+引数の絶対値を返します。引数が <code class="code">min_int</code> のとき負の数が返ることがあることに注意してください。<br>
+</div>
+<pre><span id="VALmax_int"><span class="keyword">val</span> max_int</span> : <code class="type">int</code></pre><div class="info">
+表現可能な最大の整数。<br>
+</div>
+<pre><span id="VALmin_int"><span class="keyword">val</span> min_int</span> : <code class="type">int</code></pre><div class="info">
+表現可能な最小の整数。<br>
+</div>
+<br>
+<span id="7_"><div class="h7">ビット演算</div></span><br>
+<pre><span id="VAL(land)"><span class="keyword">val</span> (land)</span> : <code class="type">int -> int -> int</code></pre><div class="info">
+ビットごとの論理積。<br>
+</div>
+<pre><span id="VAL(lor)"><span class="keyword">val</span> (lor)</span> : <code class="type">int -> int -> int</code></pre><div class="info">
+ビットごとの論理和。<br>
+</div>
+<pre><span id="VAL(lxor)"><span class="keyword">val</span> (lxor)</span> : <code class="type">int -> int -> int</code></pre><div class="info">
+ビットごとの排他的論理和。<br>
+</div>
+<pre><span id="VALlnot"><span class="keyword">val</span> lnot</span> : <code class="type">int -> int</code></pre><div class="info">
+ビットごとの論理否定。<br>
+</div>
+<pre><span id="VAL(lsl)"><span class="keyword">val</span> (lsl)</span> : <code class="type">int -> int -> int</code></pre><div class="info">
+<code class="code">n <span class="keyword">lsl</span> m</code> は <code class="code">n</code> を左に <code class="code">m</code> ビットシフトします。
+    <code class="code">m &lt; 0</code> ないしは <code class="code">m &gt;= bitsize</code> のときの結果は規定されていません。
+    ここで、 <code class="code">bitsize</code> は 32 ビット環境では <code class="code">32</code>、 64 ビット環境では <code class="code">64</code> になります。<br>
+</div>
+<pre><span id="VAL(lsr)"><span class="keyword">val</span> (lsr)</span> : <code class="type">int -> int -> int</code></pre><div class="info">
+<code class="code">n <span class="keyword">lsr</span> m</code> は <code class="code">n</code> を右に <code class="code">m</code> ビットシフトします。
+    これは論理シフトで、 <code class="code">n</code> の符号によらず 0 が挿入されます。
+    <code class="code">m &lt; 0</code> ないしは <code class="code">m &gt;= bitsize</code> のときの結果は規定されていません。<br>
+</div>
+<pre><span id="VAL(asr)"><span class="keyword">val</span> (asr)</span> : <code class="type">int -> int -> int</code></pre><div class="info">
+<code class="code">n <span class="keyword">asr</span> m</code> は <code class="code">n</code> を右に <code class="code">m</code> ビットシフトします。
+    これは算術シフトで、 <code class="code">n</code> の符号ビットが複製されます。
+    <code class="code">m &lt; 0</code> ないしは <code class="code">m &gt;= bitsize</code> のときの結果は規定されていません。<br>
+</div>
+<br>
+<span id="2_"><h2>浮動小数点演算</h2></span>
+<p>
+
+    Caml の浮動小数点数は IEEE 754 標準の（64 ビット）倍精度数です。
+    浮動小数点演算はオーバーフローやアンダーフロー、零除算時に例外を発生させません。
+    代わりに、 <code class="code">1.0 /. 0.0</code> には <code class="code">infinitiy</code>、 <code class="code">-1.0 /. 0.0</code> には <code class="code">neg_infinity</code>、
+    <code class="code">0.0 /. 0.0</code> には <code class="code">nan</code> （非数 -- ``not a number''）といった、特別な IEEE
+    数値を返します。これらの数値は、浮動小数点演算により、およそ想像通りに波及していきます。
+    例えば <code class="code">1.0 /. infinity</code> は <code class="code">0.0</code> になり、 <code class="code">nan</code> を引数とした任意算術演算は結果として <code class="code">nan</code> を返します。<br>
+<pre><span id="VAL(~-.)"><span class="keyword">val</span> (~-.)</span> : <code class="type">float -> float</code></pre><div class="info">
+単項の符号反転。 <code class="code"><span class="keywordsign">~-.</span> e</code> の代わりに <code class="code">-. e</code> と書くこともできます。<br>
+</div>
+<pre><span id="VAL(~+.)"><span class="keyword">val</span> (~+.)</span> : <code class="type">float -> float</code></pre><div class="info">
+単項の和。 <code class="code"><span class="keywordsign">~+.</span> e</code> の代わりに <code class="code">+. e</code> と書くこともできます。<br>
+<b>Since</b> 3.12.0<br>
+</div>
+<pre><span id="VAL(+.)"><span class="keyword">val</span> (+.)</span> : <code class="type">float -> float -> float</code></pre><div class="info">
+浮動小数点数の加算。<br>
+</div>
+<pre><span id="VAL(-.)"><span class="keyword">val</span> (-.)</span> : <code class="type">float -> float -> float</code></pre><div class="info">
+浮動小数点数の減算。<br>
+</div>
+<pre><span id="VAL( *. )"><span class="keyword">val</span> ( *. )</span> : <code class="type">float -> float -> float</code></pre><div class="info">
+浮動小数点数の乗算。<br>
+</div>
+<pre><span id="VAL(/.)"><span class="keyword">val</span> (/.)</span> : <code class="type">float -> float -> float</code></pre><div class="info">
+浮動小数点数の除算。<br>
+</div>
+<pre><span id="VAL( ** )"><span class="keyword">val</span> ( ** )</span> : <code class="type">float -> float -> float</code></pre><div class="info">
+冪乗。<br>
+</div>
+<pre><span id="VALsqrt"><span class="keyword">val</span> sqrt</span> : <code class="type">float -> float</code></pre><div class="info">
+平方根。<br>
+</div>
+<pre><span id="VALexp"><span class="keyword">val</span> exp</span> : <code class="type">float -> float</code></pre><div class="info">
+指数関数。<br>
+</div>
+<pre><span id="VALlog"><span class="keyword">val</span> log</span> : <code class="type">float -> float</code></pre><div class="info">
+自然対数。<br>
+</div>
+<pre><span id="VALlog10"><span class="keyword">val</span> log10</span> : <code class="type">float -> float</code></pre><div class="info">
+底 10 の対数。<br>
+</div>
+<pre><span id="VALexpm1"><span class="keyword">val</span> expm1</span> : <code class="type">float -> float</code></pre><div class="info">
+<code class="code">expm1 x</code> は <code class="code">exp x -. 10</code> を計算します。
+   <code class="code">x</code> が 0.0 に近いときでも精確な結果を返します。<br>
+<b>Since</b> 3.12.0<br>
+</div>
+<pre><span id="VALlog1p"><span class="keyword">val</span> log1p</span> : <code class="type">float -> float</code></pre><div class="info">
+<code class="code">log1p x</code> は <code class="code">log(1.0 +. x)</code> （自然対数）を返します。
+   <code class="code">x</code> が 0.0 に近いときでも精確な結果を返します。<br>
+<b>Since</b> 3.12.0<br>
+</div>
+<pre><span id="VALcos"><span class="keyword">val</span> cos</span> : <code class="type">float -> float</code></pre><div class="info">
+余弦。引数はラジアン角です。<br>
+</div>
+<pre><span id="VALsin"><span class="keyword">val</span> sin</span> : <code class="type">float -> float</code></pre><div class="info">
+正弦。引数はラジアン角です。<br>
+</div>
+<pre><span id="VALtan"><span class="keyword">val</span> tan</span> : <code class="type">float -> float</code></pre><div class="info">
+正接。引数はラジアン角です。<br>
+</div>
+<pre><span id="VALacos"><span class="keyword">val</span> acos</span> : <code class="type">float -> float</code></pre><div class="info">
+逆余弦。引数は区間 <code class="code">[-1.0, 1.0]</code> になければなりません。
+   結果は <code class="code">0.0</code> から <code class="code">pi</code> までのラジアン角になります。<br>
+</div>
+<pre><span id="VALasin"><span class="keyword">val</span> asin</span> : <code class="type">float -> float</code></pre><div class="info">
+逆正弦。引数は区間 <code class="code">[-1.0, 1.0]</code> になければなりません。
+   結果は <code class="code">0.0</code> から <code class="code">pi</code> までのラジアン角になります。<br>
+</div>
+<pre><span id="VALatan"><span class="keyword">val</span> atan</span> : <code class="type">float -> float</code></pre><div class="info">
+逆正接。
+   結果は <code class="code">-pi/2</code> から <code class="code">pi/2</code> までのラジアン角になります。<br>
+</div>
+<pre><span id="VALatan2"><span class="keyword">val</span> atan2</span> : <code class="type">float -> float -> float</code></pre><div class="info">
+<code class="code">atan y x</code> は <code class="code">y /. x</code> の逆正接を返します。
+   <code class="code">x</code> と <code class="code">y</code> の符号が結果の象限を決めるのに使われます。
+   結果は <code class="code">-pi</code> から <code class="code">pi</code> までのラジアン角になります。<br>
+</div>
+<pre><span id="VALcosh"><span class="keyword">val</span> cosh</span> : <code class="type">float -> float</code></pre><div class="info">
+双曲線余弦関数。引数はラジアン角です。<br>
+</div>
+<pre><span id="VALsinh"><span class="keyword">val</span> sinh</span> : <code class="type">float -> float</code></pre><div class="info">
+双曲線正弦関数。引数はラジアン角です。<br>
+</div>
+<pre><span id="VALtanh"><span class="keyword">val</span> tanh</span> : <code class="type">float -> float</code></pre><div class="info">
+双曲線正接関数。引数はラジアン角です。<br>
+</div>
+<pre><span id="VALceil"><span class="keyword">val</span> ceil</span> : <code class="type">float -> float</code></pre><div class="info">
+引数を整数に切り上げます。
+   <code class="code">ceil f</code> は <code class="code">f</code> 以上の最小の整数を返します。結果は浮動小数点数として返ります。<br>
+</div>
+<pre><span id="VALfloor"><span class="keyword">val</span> floor</span> : <code class="type">float -> float</code></pre><div class="info">
+引数を整数に切り下げます。
+   <code class="code">floor f</code> は <code class="code">f</code> 以下の最大の整数を返します。結果は浮動小数点数として返ります。<br>
+</div>
+<pre><span id="VALabs_float"><span class="keyword">val</span> abs_float</span> : <code class="type">float -> float</code></pre><div class="info">
+<code class="code">abs_float f</code> は <code class="code">f</code> の絶対値を返します。<br>
+</div>
+<pre><span id="VALmod_float"><span class="keyword">val</span> mod_float</span> : <code class="type">float -> float -> float</code></pre><div class="info">
+<code class="code">mod_float a b</code> は <code class="code">a</code> を <code class="code">b</code> で割った余りを返します。
+   <code class="code">n</code> を商 <code class="code">a /. b</code> を零方向に丸めた整数とすると、戻り値は <code class="code">a -. n *. b</code> になります。<br>
+</div>
+<pre><span id="VALfrexp"><span class="keyword">val</span> frexp</span> : <code class="type">float -> float * int</code></pre><div class="info">
+<code class="code">frexp f</code> は <code class="code">f</code> の仮数部と指数部のペアを返します。
+   <code class="code">f</code> が 0 のとき、 <code class="code">f</code> の仮数部 <code class="code">x</code> と指数部 <code class="code">n</code> は 0 になります。
+   <code class="code">f</code> が 0 でないときは、 <code class="code">f = x *. 2 ** n</code> と <code class="code">0.5 &lt;= x &lt; 1.0</code> により定義されます。<br>
+</div>
+<pre><span id="VALldexp"><span class="keyword">val</span> ldexp</span> : <code class="type">float -> int -> float</code></pre><div class="info">
+<code class="code">ldexp x n</code> は <code class="code">x *. 2 ** n</code> を返します。<br>
+</div>
+<pre><span id="VALmodf"><span class="keyword">val</span> modf</span> : <code class="type">float -> float * float</code></pre><div class="info">
+<code class="code">modf</code> は <code class="code">f</code> の小数部と整数部のペアを返します。<br>
+</div>
+<pre><span id="VALfloat"><span class="keyword">val</span> float</span> : <code class="type">int -> float</code></pre><div class="info">
+<a href="Pervasives.html#VALfloat_of_int"><code class="code">float_of_int</code></a> と同じです。<br>
+</div>
+<pre><span id="VALfloat_of_int"><span class="keyword">val</span> float_of_int</span> : <code class="type">int -> float</code></pre><div class="info">
+整数を浮動小数点数に変換します。<br>
+</div>
+<pre><span id="VALtruncate"><span class="keyword">val</span> truncate</span> : <code class="type">float -> int</code></pre><div class="info">
+<a href="Pervasives.html#VALint_of_float"><code class="code">int_of_float</code></a> と同じです。<br>
+</div>
+<pre><span id="VALint_of_float"><span class="keyword">val</span> int_of_float</span> : <code class="type">float -> int</code></pre><div class="info">
+与えられた浮動小数点数値を整数に切り詰めます。
+   引数が <code class="code">nan</code> である場合や、表現可能な整数の範囲を越えた場合の結果は規定されていません。<br>
+</div>
+<pre><span id="VALinfinity"><span class="keyword">val</span> infinity</span> : <code class="type">float</code></pre><div class="info">
+正の無限大<br>
+</div>
+<pre><span id="VALneg_infinity"><span class="keyword">val</span> neg_infinity</span> : <code class="type">float</code></pre><div class="info">
+負の無限大<br>
+</div>
+<pre><span id="VALnan"><span class="keyword">val</span> nan</span> : <code class="type">float</code></pre><div class="info">
+<code class="code">0.0 /. 0.0</code> のような未定義の演算の結果を表す浮動小数点値です。
+   非数（``not a number''）を意味します。
+   <code class="code">nan</code> に対する浮動小数点演算はすべて <code class="code">nan</code> を返します。
+   比較に関しては、引数の一方ないしは両方が <code class="code">nan</code> のとき、
+   <code class="code">=</code>、 <code class="code">&lt;</code>、 <code class="code">&lt;=</code>、 <code class="code">&gt;</code>、 <code class="code">&gt;=</code> は <code class="code"><span class="keyword">false</span></code> を返し、 <code class="code">&lt;&gt;</code> は <code class="code"><span class="keyword">true</span></code> を返します。<br>
+</div>
+<pre><span id="VALmax_float"><span class="keyword">val</span> max_float</span> : <code class="type">float</code></pre><div class="info">
+<code class="code">float</code> 型で最大の有限の値。<br>
+</div>
+<pre><span id="VALmin_float"><span class="keyword">val</span> min_float</span> : <code class="type">float</code></pre><div class="info">
+<code class="code">float</code> 型で、零でない正の非正規化された最小の値。<br>
+</div>
+<pre><span id="VALepsilon_float"><span class="keyword">val</span> epsilon_float</span> : <code class="type">float</code></pre><div class="info">
+<code class="code">1.0</code> より大きくかつ浮動小数点数として精確に表せる最小の値と <code class="code">1.0</code> との差。<br>
+</div>
+<br><code><span id="TYPEfpclass"><span class="keyword">type</span> <code class="type"></code>fpclass</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">FP_normal</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >下記以外の通常の数である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">FP_subnormal</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >数値が 0.0 に非常に近く、精度が低くなっている</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">FP_zero</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >数が 0.0 ないしは -0.0 である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">FP_infinite</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >数が正／負の無限大である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">FP_nan</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >数ではない（Not a Number -- nan である）。未定義の演算の結果である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<a href="Pervasives.html#VALclassify_float"><code class="code">classify_float</code></a> 関数により特定された浮動小数点数の種別。<br>
+</div>
+
+<pre><span id="VALclassify_float"><span class="keyword">val</span> classify_float</span> : <code class="type">float -> <a href="Pervasives.html#TYPEfpclass">fpclass</a></code></pre><div class="info">
+与えられた浮動小数点数の種別（通常の数、非正規数、零、無限大、 NaN）を返します。<br>
+</div>
+<br>
+<span id="2_"><h2>文字列の演算</h2></span>
+<p>
+
+    <a href="String.html"><code class="code"><span class="constructor">String</span></code></a> モジュールでより多くの文字列演算が提供されています。<br>
+<pre><span id="VAL(^)"><span class="keyword">val</span> (^)</span> : <code class="type">string -> string -> string</code></pre><div class="info">
+文字列の連結。<br>
+</div>
+<br>
+<span id="2_"><h2>文字の演算</h2></span>
+<p>
+
+    <a href="Char.html"><code class="code"><span class="constructor">Char</span></code></a> モジュールでより多くの文字演算が提供されています。<br>
+<pre><span id="VALint_of_char"><span class="keyword">val</span> int_of_char</span> : <code class="type">char -> int</code></pre><div class="info">
+引数文字の ASCII コードを返します。<br>
+</div>
+<pre><span id="VALchar_of_int"><span class="keyword">val</span> char_of_int</span> : <code class="type">int -> char</code></pre><div class="info">
+与えられた ASCII コードに対応する文字を返します。
+   非数が 0--255 の範囲外であった場合には <code class="code"><span class="constructor">Invalid_argument</span> <span class="string">"char_of_int"</span></code> が発生します。<br>
+</div>
+<br>
+<span id="2_"><h2>ユニットの演算</h2></span><br>
+<pre><span id="VALignore"><span class="keyword">val</span> ignore</span> : <code class="type">'a -> unit</code></pre><div class="info">
+引数の値を捨てて <code class="code">()</code> を返します。
+   例えば <code class="code">ignore(f x)</code> は副作用のある関数 <code class="code">f</code> の結果を捨てます。
+   これは <code class="code">f x; ()</code> と等価ですが、こちらはコンパイラが警告を表示するかもしれません。
+   代わりに <code class="code">ignore(f x)</code> と書くと警告を避けることができます。<br>
+</div>
+<br>
+<span id="2_"><h2>文字列変換関数</h2></span><br>
+<pre><span id="VALstring_of_bool"><span class="keyword">val</span> string_of_bool</span> : <code class="type">bool -> string</code></pre><div class="info">
+真偽値の文字列表現を返します。<br>
+</div>
+<pre><span id="VALbool_of_string"><span class="keyword">val</span> bool_of_string</span> : <code class="type">string -> bool</code></pre><div class="info">
+与えられた文字列を真偽値に変換します。
+   引数が <code class="code"><span class="string">"true"</span></code> か <code class="code"><span class="string">"false"</span></code> でない場合には <code class="code"><span class="constructor">Invalid_argument</span> <span class="string">"bool_of_string"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALstring_of_int"><span class="keyword">val</span> string_of_int</span> : <code class="type">int -> string</code></pre><div class="info">
+整数の十進文字列表現を返します。<br>
+</div>
+<pre><span id="VALint_of_string"><span class="keyword">val</span> int_of_string</span> : <code class="type">string -> int</code></pre><div class="info">
+与えられた文字列を整数に変換します。
+   文字列は十進（デフォルト）または十六進（<code class="code">0x</code> ないしは <code class="code">0<span class="constructor">X</span></code> で始まっていた場合）または八進（<code class="code">0o</code> ないしは <code class="code">0<span class="constructor">O</span></code> で始まっていた場合）または二進（<code class="code">0b</code> ないしは <code class="code">0<span class="constructor">B</span></code> で始まっていた場合）で読み込まれます。
+   引数が整数の文字列表現として妥当なものでなかった場合や、引数の表す整数が <code class="code">int</code> 型で表現可能な範囲を越えていた場合には <code class="code"><span class="constructor">Failure</span> <span class="string">"int_of_string"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALstring_of_float"><span class="keyword">val</span> string_of_float</span> : <code class="type">float -> string</code></pre><div class="info">
+浮動小数点数の文字列表現を返します。<br>
+</div>
+<pre><span id="VALfloat_of_string"><span class="keyword">val</span> float_of_string</span> : <code class="type">string -> float</code></pre><div class="info">
+与えられた文字列を浮動小数点数に変換します。
+   引数が浮動小数点数の文字列表現として妥当なものでなかった場合には <code class="code"><span class="constructor">Failure</span> <span class="string">"float_of_string"</span></code> 例外が発生します。<br>
+</div>
+<br>
+<span id="2_"><h2>ペアの演算</h2></span><br>
+<pre><span id="VALfst"><span class="keyword">val</span> fst</span> : <code class="type">'a * 'b -> 'a</code></pre><div class="info">
+ペアの最初の要素を返します。<br>
+</div>
+<pre><span id="VALsnd"><span class="keyword">val</span> snd</span> : <code class="type">'a * 'b -> 'b</code></pre><div class="info">
+ペアの二番目の要素を返します。<br>
+</div>
+<br>
+<span id="2_"><h2>リストの演算</h2></span>
+<p>
+
+    <a href="List.html"><code class="code"><span class="constructor">List</span></code></a> モジュールでより多くのリスト演算が提供されています。<br>
+<pre><span id="VAL(@)"><span class="keyword">val</span> (@)</span> : <code class="type">'a list -> 'a list -> 'a list</code></pre><div class="info">
+リストの連結<br>
+</div>
+<br>
+<span id="2_"><h2>入出力</h2></span><br>
+<pre><span id="TYPEin_channel"><span class="keyword">type</span> <code class="type"></code>in_channel</span> </pre>
+<div class="info">
+入力チャネルの型。<br>
+</div>
+
+<pre><span id="TYPEout_channel"><span class="keyword">type</span> <code class="type"></code>out_channel</span> </pre>
+<div class="info">
+出力チャネルの型。<br>
+</div>
+
+<pre><span id="VALstdin"><span class="keyword">val</span> stdin</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a></code></pre><div class="info">
+プロセスの標準入力<br>
+</div>
+<pre><span id="VALstdout"><span class="keyword">val</span> stdout</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a></code></pre><div class="info">
+プロセスの標準出力<br>
+</div>
+<pre><span id="VALstderr"><span class="keyword">val</span> stderr</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a></code></pre><div class="info">
+プロセスの標準エラー出力<br>
+</div>
+<br>
+<span id="3_"><h3>標準出力への出力関数</h3></span><br>
+<pre><span id="VALprint_char"><span class="keyword">val</span> print_char</span> : <code class="type">char -> unit</code></pre><div class="info">
+標準出力へ文字を出力します。<br>
+</div>
+<pre><span id="VALprint_string"><span class="keyword">val</span> print_string</span> : <code class="type">string -> unit</code></pre><div class="info">
+標準出力へ文字列を出力します。<br>
+</div>
+<pre><span id="VALprint_int"><span class="keyword">val</span> print_int</span> : <code class="type">int -> unit</code></pre><div class="info">
+標準出力へ整数を十進形式で出力します。<br>
+</div>
+<pre><span id="VALprint_float"><span class="keyword">val</span> print_float</span> : <code class="type">float -> unit</code></pre><div class="info">
+標準出力へ浮動小数点数を十進形式で出力します。<br>
+</div>
+<pre><span id="VALprint_endline"><span class="keyword">val</span> print_endline</span> : <code class="type">string -> unit</code></pre><div class="info">
+標準出力に文字列と改行文字を出力し、標準出力をフラッシュします。<br>
+</div>
+<pre><span id="VALprint_newline"><span class="keyword">val</span> print_newline</span> : <code class="type">unit -> unit</code></pre><div class="info">
+標準出力に改行文字を出力し、標準出力をフラッシュします。
+    この関数を使うと標準出力の行バッファリングを模倣することができます。<br>
+</div>
+<br>
+<span id="3_"><h3>標準エラー出力への出力関数</h3></span><br>
+<pre><span id="VALprerr_char"><span class="keyword">val</span> prerr_char</span> : <code class="type">char -> unit</code></pre><div class="info">
+標準エラー出力へ文字を出力します。<br>
+</div>
+<pre><span id="VALprerr_string"><span class="keyword">val</span> prerr_string</span> : <code class="type">string -> unit</code></pre><div class="info">
+標準エラー出力へ文字列を出力します。<br>
+</div>
+<pre><span id="VALprerr_int"><span class="keyword">val</span> prerr_int</span> : <code class="type">int -> unit</code></pre><div class="info">
+標準エラー出力へ整数を十進形式で出力します。<br>
+</div>
+<pre><span id="VALprerr_float"><span class="keyword">val</span> prerr_float</span> : <code class="type">float -> unit</code></pre><div class="info">
+標準エラー出力へ浮動小数点数を十進形式で出力します。<br>
+</div>
+<pre><span id="VALprerr_endline"><span class="keyword">val</span> prerr_endline</span> : <code class="type">string -> unit</code></pre><div class="info">
+標準エラー出力へ文字列と改行文字を出力し標準エラー出力をフラッシュします。<br>
+</div>
+<pre><span id="VALprerr_newline"><span class="keyword">val</span> prerr_newline</span> : <code class="type">unit -> unit</code></pre><div class="info">
+標準エラー出力へ改行文字を出力し標準エラー出力をフラッシュします。<br>
+</div>
+<br>
+<span id="3_"><h3>標準入力からの入力関数</h3></span><br>
+<pre><span id="VALread_line"><span class="keyword">val</span> read_line</span> : <code class="type">unit -> string</code></pre><div class="info">
+標準出力をフラッシュしてから標準入力から改行文字が現れるまで文字を読み込みます。
+    読み込んだ文字列から終端の改行文字を除いたものを返します。<br>
+</div>
+<pre><span id="VALread_int"><span class="keyword">val</span> read_int</span> : <code class="type">unit -> int</code></pre><div class="info">
+標準出力をフラッシュしてから標準入力から一行読み込み、それを整数に変換して返します。
+    読み込んだ行が整数の文字列表現として妥当なものでない場合は
+    <code class="code"><span class="constructor">Failure</span> <span class="string">"int_of_string"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALread_float"><span class="keyword">val</span> read_float</span> : <code class="type">unit -> float</code></pre><div class="info">
+標準出力をフラッシュしてから標準入力から一行読み込み、それを浮動小数点数に変換して返します。
+    読み込んだ行が浮動小数点数の文字列表現として妥当なものでない場合の結果は規定されていません。<br>
+</div>
+<br>
+<span id="2_"><h2>汎用出力関数</h2></span><br>
+<br><code><span id="TYPEopen_flag"><span class="keyword">type</span> <code class="type"></code>open_flag</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Open_rdonly</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >読み込み用に開く</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Open_wronly</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >書き込み用に開く</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Open_append</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >追記用に開く（常にファイル終端に書き込む）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Open_creat</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ファイルが存在しない場合は作成する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Open_trunc</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ファイルが存在した場合には空にする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Open_excl</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >Open_creat が指定されていてファイルがすでに存在した場合には失敗する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Open_binary</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >バイナリモードで開く（変換を行なわない）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Open_text</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >テキストモードで開く（変換を行なう可能性がある）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Open_nonblock</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ノンブロッキングモードで開く</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<a href="Pervasives.html#VALopen_out_gen"><code class="code">open_out_gen</code></a> と <a href="Pervasives.html#VALopen_in_gen"><code class="code">open_in_gen</code></a> に指定するモードです。<br>
+</div>
+
+<pre><span id="VALopen_out"><span class="keyword">val</span> open_out</span> : <code class="type">string -> <a href="Pervasives.html#TYPEout_channel">out_channel</a></code></pre><div class="info">
+名前のついたファイルを書き込み用に開き、そのファイルに対する出力チャネルの、出力位置をファイルの先頭に設定したものを返します。
+    ファイルが既に存在した場合、長さは 0 に切り詰められます。
+    存在しなかった場合には新たに作成されます。
+    ファイルが開けなかった場合には <code class="code"><span class="constructor">Sys_error</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALopen_out_bin"><span class="keyword">val</span> open_out_bin</span> : <code class="type">string -> <a href="Pervasives.html#TYPEout_channel">out_channel</a></code></pre><div class="info">
+<a href="Pervasives.html#VALopen_out"><code class="code">open_out</code></a> と同じですが、ファイルをバイナリモードで開きます。
+    書き込み時に変換は行なわれません。
+    テキストモードとバイナリモードを区別しない OS では、この関数は <a href="Pervasives.html#VALopen_out"><code class="code">open_out</code></a> と同じように振る舞います。<br>
+</div>
+<pre><span id="VALopen_out_gen"><span class="keyword">val</span> open_out_gen</span> : <code class="type"><a href="Pervasives.html#TYPEopen_flag">open_flag</a> list -> int -> string -> <a href="Pervasives.html#TYPEout_channel">out_channel</a></code></pre><div class="info">
+<code class="code">open_out_gen mode perm filename</code> は名前のついたファイルを書き込み用に開きます。
+    <code class="code">mode</code> にはモードを指定します。
+    <code class="code">perm</code> にはファイルが作成されるときのパーミッションを指定します。
+    <a href="Pervasives.html#VALopen_out"><code class="code">open_out</code></a> と <a href="Pervasives.html#VALopen_out_bin"><code class="code">open_out_bin</code></a> はこの関数を特殊化したものです。<br>
+</div>
+<pre><span id="VALflush"><span class="keyword">val</span> flush</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> unit</code></pre><div class="info">
+与えられた出力チャネルのバッファをフラッシュし、出力待ちになっていた書き込みを実行します。
+    対話的なプログラムは標準出力と標準エラー出力が適切なタイミングでフラッシュされるよう注意しなければなりません。<br>
+</div>
+<pre><span id="VALflush_all"><span class="keyword">val</span> flush_all</span> : <code class="type">unit -> unit</code></pre><div class="info">
+すべての出力チャネルをフラッシュします。エラーは無視します。<br>
+</div>
+<pre><span id="VALoutput_char"><span class="keyword">val</span> output_char</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> char -> unit</code></pre><div class="info">
+与えられた出力チャネルに文字を出力します。<br>
+</div>
+<pre><span id="VALoutput_string"><span class="keyword">val</span> output_string</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> string -> unit</code></pre><div class="info">
+与えられた出力チャネルに文字列を出力します。<br>
+</div>
+<pre><span id="VALoutput"><span class="keyword">val</span> output</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> string -> int -> int -> unit</code></pre><div class="info">
+<code class="code">output oc buf pos len</code> は文字列 <code class="code">buf</code> の <code class="code">pos</code> 番目から <code class="code">len</code>
+   文字を与えられた出力ポート <code class="code">oc</code> に書き込みます。
+   <code class="code">pos</code> と <code class="code">len</code> が <code class="code">buf</code> の妥当な部分文字列を表さない場合には
+   <code class="code"><span class="constructor">Invalid_argument</span> <span class="string">"output"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALoutput_byte"><span class="keyword">val</span> output_byte</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> int -> unit</code></pre><div class="info">
+8 ビット整数値を（そのコードに対応する文字として）与えられた出力チャネルに書き込みます。
+    与えられた整数は 256 を法とした剰余を取ってから出力します。<br>
+</div>
+<pre><span id="VALoutput_binary_int"><span class="keyword">val</span> output_binary_int</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> int -> unit</code></pre><div class="info">
+与えられた入力チャネルに整数をバイナリ形式（4 バイト、ビッグエンディアン）で書き込みます。
+   整数は 2<sup class="superscript">32</sup> を法とした剰余を取ってから出力します。
+   書き込んだものを確実に読み戻す方法は <a href="Pervasives.html#VALinput_binary_int"><code class="code">input_binary_int</code></a> 関数だけです。
+   出力形式は同一のバージョンの Objective Caml であればすべての計算機で互換性があります。<br>
+</div>
+<pre><span id="VALoutput_value"><span class="keyword">val</span> output_value</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> 'a -> unit</code></pre><div class="info">
+任意の型の構造化された値の外部表現をチャネルに書き出します。
+    構造の循環と共有関係は保存されます。出力したオブジェクトは
+    <a href="Pervasives.html#VALinput_value"><code class="code">input_value</code></a> 関数で読み戻すことができます。
+    より詳しくは <a href="Marshal.html"><code class="code"><span class="constructor">Marshal</span></code></a> モジュールの説明を読んでください。
+    <a href="Pervasives.html#VALoutput_value"><code class="code">output_value</code></a> は <a href="Marshal.html#VALto_channel"><code class="code"><span class="constructor">Marshal</span>.to_channel</code></a> に空のフラグリストを与えたものと等価です。<br>
+</div>
+<pre><span id="VALseek_out"><span class="keyword">val</span> seek_out</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> int -> unit</code></pre><div class="info">
+<code class="code">seek_out chan pos</code> はチャネル <code class="code">chan</code> の書き込み位置を <code class="code">pos</code> に設定します。
+    これは通常のファイルに対してだけ働きます。
+    他の種類のファイル（例えば、端末やパイプ、ソケット）に対する振る舞いは規定されていません。<br>
+</div>
+<pre><span id="VALpos_out"><span class="keyword">val</span> pos_out</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> int</code></pre><div class="info">
+与えられたチャネルの現在の書き込み位置を返します。
+    <code class="code"><span class="constructor">Open_append</span></code> フラグを指定して開いたチャネルに対しては動作しません（結果は規定されていません）。<br>
+</div>
+<pre><span id="VALout_channel_length"><span class="keyword">val</span> out_channel_length</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> int</code></pre><div class="info">
+与えられたチャネルが開いている、通常のファイルのサイズ（文字数）を返します。
+    チャネルの開いているファイルが通常のファイルでない場合は意味のない値が返ります。<br>
+</div>
+<pre><span id="VALclose_out"><span class="keyword">val</span> close_out</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> unit</code></pre><div class="info">
+与えられたチャネルを、バッファをフラッシュして閉じます。
+    閉じた出力チャネルに <code class="code">close_out</code> や <code class="code">flush</code> 以外の出力関数を適用すると
+    <code class="code"><span class="constructor">Sys_error</span></code> 例外が発生します。この二関数は閉じたチャネルに適用しても何もしません。
+    バッファをフラッシュするときやファイルを閉じるときに OS
+    エラーが通知した場合、この関数は <code class="code"><span class="constructor">Sys_error</span></code> 例外を発生させる可能性があります。<br>
+</div>
+<pre><span id="VALclose_out_noerr"><span class="keyword">val</span> close_out_noerr</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> unit</code></pre><div class="info">
+<code class="code">close_out</code> と同じですが、エラーをすべて無視します。<br>
+</div>
+<pre><span id="VALset_binary_mode_out"><span class="keyword">val</span> set_binary_mode_out</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> bool -> unit</code></pre><div class="info">
+<code class="code">set_binary_mode_out oc <span class="keyword">true</span></code> はチャネル <code class="code">oc</code> をバイナリモードに設定します。
+    これにより書き込み時の変換が行なわれなくなります。
+    <code class="code">set_binary_mode_out oc <span class="keyword">false</span></code> とすると、チャネル <code class="code">oc</code> をテキストモードに設定します。
+    これにより OS 依存で出力中に変換が行なわれるようになります。
+    例えば Windows 上では行末が <code class="code">\n</code> から <code class="code">\r\n</code> に変換されます。
+    この関数はテキストモードとバイナリモードを区別しない OS では何の効果もありません。<br>
+</div>
+<br>
+<span id="7_"><div class="h7">汎用入力関数</div></span><br>
+<pre><span id="VALopen_in"><span class="keyword">val</span> open_in</span> : <code class="type">string -> <a href="Pervasives.html#TYPEin_channel">in_channel</a></code></pre><div class="info">
+名前のついたファイルを読み込み用に開き、そのファイルに対する入力チャネルの、読み込み位置をファイルの先頭に設定したものを返します。
+    ファイルが開けなかった場合には <code class="code"><span class="constructor">Sys_error</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALopen_in_bin"><span class="keyword">val</span> open_in_bin</span> : <code class="type">string -> <a href="Pervasives.html#TYPEin_channel">in_channel</a></code></pre><div class="info">
+<a href="Pervasives.html#VALopen_in"><code class="code">open_in</code></a> と同じですが、ファイルはバイナリモードで開かれます。
+    読み込み時に変換は行なわれません。
+    テキストモードとバイナリモードを区別しない OS では、この関数は <a href="Pervasives.html#VALopen_in"><code class="code">open_in</code></a> と同じように振る舞います。<br>
+</div>
+<pre><span id="VALopen_in_gen"><span class="keyword">val</span> open_in_gen</span> : <code class="type"><a href="Pervasives.html#TYPEopen_flag">open_flag</a> list -> int -> string -> <a href="Pervasives.html#TYPEin_channel">in_channel</a></code></pre><div class="info">
+<code class="code">open_in_gen mode perm filename</code> は名前のついたファイルを開きます。
+    <code class="code">mode</code> と <code class="code">perm</code> にはファイルのモードとパーミッションを指定します。
+    <a href="Pervasives.html#VALopen_in"><code class="code">open_in</code></a> と <a href="Pervasives.html#VALopen_in_bin"><code class="code">open_in_bin</code></a> はこの関数を特殊化したものです。<br>
+</div>
+<pre><span id="VALinput_char"><span class="keyword">val</span> input_char</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> char</code></pre><div class="info">
+与えられた入力チャネルから文字をひとつ読み込みます。
+    読み込める文字がなかった場合には <code class="code"><span class="constructor">End_of_file</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALinput_line"><span class="keyword">val</span> input_line</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> string</code></pre><div class="info">
+与えられた入力チャネルから改行文字が現れるまで文字を読み込み、そこから末尾の改行文字を除いた文字列を返します。
+    行の先頭でファイル終端に達した場合には <code class="code"><span class="constructor">End_of_file</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALinput"><span class="keyword">val</span> input</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> string -> int -> int -> int</code></pre><div class="info">
+<code class="code">input ic buf pos len</code> は与えられたチャネル <code class="code">ic</code> から <code class="code">len</code> 文字読み込み、文字列
+    <code class="code">buf</code> の <code class="code">pos</code> 文字目以降に格納します。
+    実際に読み込んだ文字数（<code class="code">0</code> 以上 <code class="code">len</code> 以下）を返します。
+    戻り値が <code class="code">0</code> 以上 <code class="code">len</code> 未満のときは、充分な文字がなかったか、分割して読み込んだ方がよいと処理系が判斷したかで、要求された <code class="code">len</code> 文字がすべては読まれなかったということです。
+    必要であれば、残りの文字を読み込むために <code class="code">input</code> を再度呼び出さなければなりません
+    （ちょうど <code class="code">len</code> 文字読み込む方法については <a href="Pervasives.html#VALreally_input"><code class="code">really_input</code></a>
+    も参照してください）。 <code class="code">pos</code> と <code class="code">len</code> が <code class="code">buf</code> の有効な部分文字列を表さない場合には
+    <code class="code"><span class="constructor">Invalid_argument</span> <span class="string">"input"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALreally_input"><span class="keyword">val</span> really_input</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> string -> int -> int -> unit</code></pre><div class="info">
+<code class="code">input ic buf pos len</code> は与えられたチャネル <code class="code">ic</code> から <code class="code">len</code> 文字読み込み、文字列
+    <code class="code">buf</code> の <code class="code">pos</code> 文字目以降に格納します。
+    <code class="code">len</code> 文字読み込む前にファイル終端に達した場合には <code class="code"><span class="constructor">End_of_file</span></code> 例外が発生します。
+    <code class="code">pos</code> と <code class="code">len</code> が <code class="code">buf</code> の有効な部分文字列を表さない場合には
+    <code class="code"><span class="constructor">Invalid_argument</span> <span class="string">"really_input"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALinput_byte"><span class="keyword">val</span> input_byte</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> int</code></pre><div class="info">
+<a href="Pervasives.html#VALinput_char"><code class="code">input_char</code></a> と同じですが、文字を表わす 8 ビット整数を返します。
+    ファイル終端に達した場合には <code class="code"><span class="constructor">End_of_file</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALinput_binary_int"><span class="keyword">val</span> input_binary_int</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> int</code></pre><div class="info">
+与えられた入力チャネルからバイナリ形式（4 バイト、ビッグエンディアン）でエンコードされた整数を読み込みます。
+    <a href="Pervasives.html#VALoutput_binary_int"><code class="code">output_binary_int</code></a> を参照してください。
+    整数の読み込み中にファイル終端に達した場合には <code class="code"><span class="constructor">End_of_file</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALinput_value"><span class="keyword">val</span> input_value</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> 'a</code></pre><div class="info">
+<a href="Pervasives.html#VALoutput_value"><code class="code">output_value</code></a> の生成したオブジェクトの外部表現を読み込み、それに対応する値を返します。
+    この関数は <a href="Marshal.html#VALfrom_channel"><code class="code"><span class="constructor">Marshal</span>.from_channel</code></a> と同じです。
+    特に型安全性の欠如などについて、より詳しくは <a href="Marshal.html"><code class="code"><span class="constructor">Marshal</span></code></a> モジュールの説明を参照してください。<br>
+</div>
+<pre><span id="VALseek_in"><span class="keyword">val</span> seek_in</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> int -> unit</code></pre><div class="info">
+<code class="code">seek_in chan pos</code> はチャネル <code class="code">chan</code> の読み込み位置を <code class="code">pos</code> に設定します。
+    この関数は通常のファイルに対してのみ動作します。
+    他の種類のファイルに適用した場合の振る舞いは規定されていません。<br>
+</div>
+<pre><span id="VALpos_in"><span class="keyword">val</span> pos_in</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> int</code></pre><div class="info">
+与えられたチャネルの現在の読み込み位置を返します。<br>
+</div>
+<pre><span id="VALin_channel_length"><span class="keyword">val</span> in_channel_length</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> int</code></pre><div class="info">
+与えられたチャネルが開いている通常のファイルのサイズ（文字数）を返します。
+    通常のファイル以外を開いているチャネルの場合、戻り値に意味はありません。
+    結果として返っていくサイズは、テキストモードで開いているチャネルで行なわれる行末の変換を考慮していません。<br>
+</div>
+<pre><span id="VALclose_in"><span class="keyword">val</span> close_in</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> unit</code></pre><div class="info">
+与えられたチャネルを閉じます。
+    既に閉じたチャネルに <code class="code">close_in</code> 以外の関数を適用すると <code class="code"><span class="constructor">Sys_error</span></code> 例外が発生します。
+    既に閉じたチャネルに <code class="code">close_in</code> を適用しても何も起こりません。
+    OS がエラーを通知してきた場合には <code class="code">close_in</code> が <code class="code"><span class="constructor">Sys_error</span></code> 例外を発生させる可能性があることに注意してください。<br>
+</div>
+<pre><span id="VALclose_in_noerr"><span class="keyword">val</span> close_in_noerr</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> unit</code></pre><div class="info">
+<code class="code">close_in</code> と同じですがエラーをすべて無視します。<br>
+</div>
+<pre><span id="VALset_binary_mode_in"><span class="keyword">val</span> set_binary_mode_in</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> bool -> unit</code></pre><div class="info">
+<code class="code">set_binary_mode_out oc <span class="keyword">true</span></code> とするとチャネル <code class="code">oc</code> をバイナリモードに設定します。 
+    これにより読み込み時の変換が行なわれなくなります。
+    <code class="code">set_binary_mode_out oc <span class="keyword">false</span></code> とすると、チャネル <code class="code">oc</code> をテキストモードに設定します。 
+    これにより OS 依存で読み込み中に変換が行なわれるようになります。
+    例えば Windows 上では行末が <code class="code">\r\n</code> から <code class="code">\n</code> に変換されます。
+    この関数はテキストモードとバイナリモードを区別しない OS では何の効果もありません。<br>
+</div>
+<br>
+<span id="2_"><h2>ラージファイルの操作</h2></span><br>
+<pre><span class="keyword">module</span> <a href="Pervasives.LargeFile.html">LargeFile</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Pervasives.LargeFile.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+ラージファイルの操作。
+</div>
+<br>
+<span id="2_"><h2>リファレンス</h2></span><br>
+<br><code><span id="TYPEref"><span class="keyword">type</span> <code class="type">'a</code> ref</span> = {</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>contents&nbsp;: <code class="type">'a</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info">
+型 <code class="code"><span class="keywordsign">'</span>a</code> の値を格納するリファレンス（変更可能な間接セル）の型。<br>
+</div>
+
+<pre><span id="VALref"><span class="keyword">val</span> ref</span> : <code class="type">'a -> 'a <a href="Pervasives.html#TYPEref">ref</a></code></pre><div class="info">
+与えられた値を格納にた新しいリファレンスを返します。<br>
+</div>
+<pre><span id="VAL(!)"><span class="keyword">val</span> (!)</span> : <code class="type">'a <a href="Pervasives.html#TYPEref">ref</a> -> 'a</code></pre><div class="info">
+<code class="code">!r</code> はリファレンス <code class="code">r</code> の現在の内容を返します。
+    <code class="code"><span class="keyword">fun</span> r <span class="keywordsign">-&gt;</span> r.contents</code> と等価です。<br>
+</div>
+<pre><span id="VAL(:=)"><span class="keyword">val</span> (:=)</span> : <code class="type">'a <a href="Pervasives.html#TYPEref">ref</a> -> 'a -> unit</code></pre><div class="info">
+<code class="code">r := a</code> は リファレンスに <code class="code">a</code> の値を格納します。
+    <code class="code"><span class="keyword">fun</span> r v <span class="keywordsign">-&gt;</span> r.contents &lt;- v</code> と等価です。<br>
+</div>
+<pre><span id="VALincr"><span class="keyword">val</span> incr</span> : <code class="type">int <a href="Pervasives.html#TYPEref">ref</a> -> unit</code></pre><div class="info">
+与えられたリファレンスに格納された値をインクリメントします。
+    <code class="code"><span class="keyword">fun</span> r <span class="keywordsign">-&gt;</span> r := succ !r</code> と等価です。<br>
+</div>
+<pre><span id="VALdecr"><span class="keyword">val</span> decr</span> : <code class="type">int <a href="Pervasives.html#TYPEref">ref</a> -> unit</code></pre><div class="info">
+与えられたリファレンスに格納された値をデクリメントします。
+    <code class="code"><span class="keyword">fun</span> r <span class="keywordsign">-&gt;</span> r := pred !r</code> と等価です。<br>
+</div>
+<br>
+<span id="2_"><h2>書式指定文字列の操作</h2></span><br>
+<br>
+書式指定文字列は <a href="Scanf.html"><code class="code"><span class="constructor">Scanf</span></code></a> モジュールの書式付き入力関数群と、
+    <a href="Printf.html"><code class="code"><span class="constructor">Printf</span></code></a> モジュールと <a href="Format.html"><code class="code"><span class="constructor">Format</span></code></a> モジュールで定義された書式付き出力関数群を使って
+    データを読み書きするのに使われます。<br>
+<br>
+書式指定文字列は <code class="code">(<span class="keywordsign">'</span>a, <span class="keywordsign">'</span>b, <span class="keywordsign">'</span>c, <span class="keywordsign">'</span>d, <span class="keywordsign">'</span>e, <span class="keywordsign">'</span>f) format6</code>
+    という一般的で非常に多相的な型をしています。
+    <code class="code">format6</code> 型は組み込みの型です。
+    より単純化した <code class="code">format</code> 型と <code class="code">format4</code> 型は、 Objective Caml
+    の以前のリリースとの互換性のために提供されています。
+    <code class="code"><span class="keywordsign">'</span>a</code> は書式のパラメータの型で、 <code class="code"><span class="keywordsign">'</span>c</code> は printf 形式の関数の結果の型、
+    <code class="code"><span class="keywordsign">'</span>b</code> は <code class="code">%a</code> や <code class="code">%t</code> に対応する表示関数の最初の引数の型です。<br>
+<pre><span id="TYPEformat4"><span class="keyword">type</span> <code class="type">('a, 'b, 'c, 'd)</code> format4</span> = <code class="type">('a, 'b, 'c, 'c, 'c, 'd) format6</code> </pre>
+
+<pre><span id="TYPEformat"><span class="keyword">type</span> <code class="type">('a, 'b, 'c)</code> format</span> = <code class="type">('a, 'b, 'c, 'c) <a href="Pervasives.html#TYPEformat4">format4</a></code> </pre>
+
+<pre><span id="VALstring_of_format"><span class="keyword">val</span> string_of_format</span> : <code class="type">('a, 'b, 'c, 'd, 'e, 'f) format6 -> string</code></pre><div class="info">
+書式指定文字列を文字列に変換します。<br>
+</div>
+<pre><span id="VALformat_of_string"><span class="keyword">val</span> format_of_string</span> : <code class="type">('a, 'b, 'c, 'd, 'e, 'f) format6 -> ('a, 'b, 'c, 'd, 'e, 'f) format6</code></pre><div class="info">
+<code class="code">format_of_string s</code> は文字列リテラル <code class="code">s</code> を読み取って書式指定文字列を返します。<br>
+</div>
+<pre><span id="VAL(^^)"><span class="keyword">val</span> (^^)</span> : <code class="type">('a, 'b, 'c, 'd, 'e, 'f) format6 -><br>       ('f, 'b, 'c, 'e, 'g, 'h) format6 -> ('a, 'b, 'c, 'd, 'g, 'h) format6</code></pre><div class="info">
+<code class="code">f1 ^^ f2</code> は書式指定 <code class="code">f1</code> と <code class="code">f2</code> を連結します。
+    結果の書式指定は <code class="code">f1</code> からの引数を受け付け、その次に <code class="code">f2</code> からの引数を受け付けます。<br>
+</div>
+<br>
+<span id="2_"><h2>プログラムの停止</h2></span><br>
+<pre><span id="VALexit"><span class="keyword">val</span> exit</span> : <code class="type">int -> 'a</code></pre><div class="info">
+プロセスを停止し、与えられた状態コードを OS に返します。
+    一般には 0 はエラーのないことを表し、小さな正の整数は失敗を表します。
+    開いていた出力チャネルは <code class="code">flush_all</code> を使ってすべてフラッシュされます。
+    プログラムが正常に終了するときには暗黙に <code class="code">exit 0</code> が実行されます。
+    それよりも前に、捕捉されない例外によりプログラムが停止した場合には、暗黙の
+    <code class="code">exit 2</code> が実行されます。<br>
+</div>
+<pre><span id="VALat_exit"><span class="keyword">val</span> at_exit</span> : <code class="type">(unit -> unit) -> unit</code></pre><div class="info">
+与えられた関数がプログラムの停止時に呼び出されるように登録します。
+    <code class="code">at_exit</code> によって登録された関数は、 <a href="Pervasives.html#VALexit"><code class="code">exit</code></a> が呼び出されるか、プログラムが正常に終了するか、捕捉されない例外により終了するときに呼び出されます。
+    関数群は「後入れ先出し」（LIFO）順で実行されます。すなわち、いちばん最後に
+    <code class="code">at_exit</code> で登録された関数が最初に呼び出されます。<br>
+</div>
+<br>
+<span id="2_"><h2>内部用、非一般ユーザー向け</h2></span><br>
+<pre><span id="VALvalid_float_lexem"><span class="keyword">val</span> valid_float_lexem</span> : <code class="type">string -> string</code></pre><pre><span id="VALunsafe_really_input"><span class="keyword">val</span> unsafe_really_input</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> string -> int -> int -> unit</code></pre><pre><span id="VALdo_at_exit"><span class="keyword">val</span> do_at_exit</span> : <code class="type">unit -> unit</code></pre></body></html>

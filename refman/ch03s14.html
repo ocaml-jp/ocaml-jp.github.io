@@ -1,0 +1,141 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.14&nbsp;オブジェクトの複製</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s13.html" title="3.13&nbsp;関数型オブジェクト"><link rel="next" href="ch03s15.html" title="3.15&nbsp;再帰クラス"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.14&nbsp;オブジェクトの複製</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s13.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s15.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.14&nbsp;オブジェクトの複製"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Cloning objects"></a>3.14&nbsp;オブジェクトの複製</h2></div></div></div>
+    
+    <p>
+      関数型のオブジェクトも命令型のオブジェクトも、どちらも複製することができます。ライブラリ関数の <code class="code">Oo.copy</code> はオブジェクトの「浅い」コピーを作ります。つまり、もとのオブジェクトと同じ内容のオブジェクトを返します。インスタンス変数はコピーされますが、その内容は共有されます。複製されたオブジェクトのインスタンス変数を（メソッド呼び出しを介して）変更しても、もとのオブジェクトのインスタンス変数は変化しません。逆の場合同じです。もちろん、より深いレベルでの代入（例えばインスタンス変数が参照セルであった場合）は、もとのオブジェクトと複製の両方に影響を与えます。
+    </p>
+    <p>
+      <code class="code">Oo.copy</code> の型は次のようになります。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>Oo.copy;;</code></strong>
+<code class="computeroutput">- : (&lt; .. &gt; as 'a) -&gt; 'a = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      型に現れる <code class="code">as</code> というキーワードは型変数 <code class="code">'a</code> をオブジェクトの型 <code class="code">&lt; .. &gt;</code> に束縛します。したがって、 <code class="code">Oo.copy</code> は任意のメソッド（<code class="code">..</code> で表されています）を持つオブジェクトを引数に取り、同じ型のオブジェクトを返すことになります。 <code class="code">Oo.copy</code> の型は <code class="code">&lt; .. &gt; -&gt; &lt; .. &gt;</code> ではありません。なぜなら、二つの <code class="code">..</code> は異るメソッドの組合わせを表すからです。 <code class="code">..</code> は実際には型変数のように振舞います。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let p = new point 5;;</code></strong>
+<code class="computeroutput">val p : point = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let q = Oo.copy p;;</code></strong>
+<code class="computeroutput">val q : point = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>q#move 7; (p#get_x, q#get_x);;</code></strong>
+<code class="computeroutput">- : int * int = (5, 12)</code>
+    </pre>
+    <p>
+      <code class="code">p</code> のクラスで <code class="code">{&lt; &gt;}</code> を返すよう定義されたメソッド <code class="code">copy</code> を公開メソッドとして定義していたとすると、 <code class="code">Oo.copy p</code> は <code class="code">p#copy</code> と同じように振舞います。
+    </p>
+    <p>
+      オブジェクトは汎用比較関数 <code class="code">=</code> と <code class="code">&lt;&gt;</code> を使って比較することができます。ふたつのオブジェクトが等しいのは、オブジェクト同士が物理的に等しい場合です。特に、オブジェクトとその複製は等しくありません。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let q = Oo.copy p;;</code></strong>
+<code class="computeroutput">val q : point = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>p = q, p = p;;</code></strong>
+<code class="computeroutput">- : bool * bool = (false, true)</code>
+    </pre>
+    <p>
+      <code class="code">&lt;</code>、 <code class="code">&lt;=</code> といった他の汎用の比較関数もオブジェクトに対して用いることができます。 <code class="code">&lt;</code> の意味は規定されていませんが、全順序を与えることが保証されています。オブジェクト間の順序は、オブジェクトの生成時に決定され、インスタンス変数が変化しても順序が変化することはありません。
+    </p>
+    <p>
+      <code class="code">Oo.copy</code> と <code class="code">{&lt; &gt;}</code> は似た所があります。どちらも、オブジェクト内で、インスタンス変数を変えない自分自身のコピーを生成するのに使えます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class copy =
+   object
+     method copy = {&lt; &gt;}
+   end;;</code></strong>
+<code class="computeroutput">class copy : object ('a) method copy : 'a end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class copy =
+   object (self)
+     method copy = Oo.copy self
+   end;;</code></strong>
+<code class="computeroutput">class copy : object ('a) method copy : 'a end</code>
+    </pre>
+    <p>
+      しかし、 <code class="code">{&lt; ... &gt;}</code> だけがインスタンス変数を書き換えられ、 <code class="code">Oo.copy</code> だけが、コピーしたいオブジェクトの外で使えます。
+    </p>
+    <p>
+      複製を使うとオブジェクトの状態を保存したり、過去の状態に復帰させたりする仕組みを提供することもできます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class backup = 
+   object (self : 'mytype)
+     val mutable copy = None
+     method save = copy &lt;- Some {&lt; copy = None &gt;}
+     method restore = match copy with Some x -&gt; x | None -&gt; self
+   end;;</code></strong>
+<code class="computeroutput">class backup :
+  object ('a)
+    val mutable copy : 'a option
+    method restore : 'a
+    method save : unit
+  end</code>
+    </pre>
+    <p>
+      上の例では、バックアップを一つだけ作ります。多重継承を用いて、どんなクラスにもバックアップ機能を付け加えることができます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ['a] backup_ref x = object inherit ['a] ref x inherit backup end;;</code></strong>
+<code class="computeroutput">class ['a] backup_ref :
+  'a -&gt;
+  object ('b)
+    val mutable copy : 'b option
+    val mutable x : 'a
+    method get : 'a
+    method restore : 'b
+    method save : unit
+    method set : 'a -&gt; unit
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let rec get p n = if n = 0 then p # get else get (p # restore) (n-1);;</code></strong>
+<code class="computeroutput">val get : (&lt; get : 'b; restore : 'a; .. &gt; as 'a) -&gt; int -&gt; 'b = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let p = new backup_ref 0  in
+ p # save; p # set 1; p # save; p # set 2; 
+ [get p 0; get p 1; get p 2; get p 3; get p 4];;</code></strong>
+<code class="computeroutput">- : int list = [2; 1; 1; 1; 1]</code>
+    </pre>
+    <p>
+      すべてのコピーを保持するようなバックアップ機能を考えることもできます（すべてのバックアップを除去するメソッドを付け加えました）。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class backup = 
+   object (self : 'mytype)
+     val mutable copy = None
+     method save = copy &lt;- Some {&lt; &gt;}
+     method restore = match copy with Some x -&gt; x | None -&gt; self
+     method clear = copy &lt;- None
+   end;;</code></strong>
+<code class="computeroutput">class backup :
+  object ('a)
+    val mutable copy : 'a option
+    method clear : unit
+    method restore : 'a
+    method save : unit
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class ['a] backup_ref x = object inherit ['a] ref x inherit backup end;;</code></strong>
+<code class="computeroutput">class ['a] backup_ref :
+  'a -&gt;
+  object ('b)
+    val mutable copy : 'b option
+    val mutable x : 'a
+    method clear : unit
+    method get : 'a
+    method restore : 'b
+    method save : unit
+    method set : 'a -&gt; unit
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let p = new backup_ref 0  in
+ p # save; p # set 1; p # save; p # set 2; 
+ [get p 0; get p 1; get p 2; get p 3; get p 4];;</code></strong>
+<code class="computeroutput">- : int list = [2; 1; 0; 0; 0]</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s13.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s15.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.13&nbsp;関数型オブジェクト&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.15&nbsp;再帰クラス</td></tr></table></div></body></html>

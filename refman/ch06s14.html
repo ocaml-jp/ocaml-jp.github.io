@@ -1,0 +1,38 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>6.14&nbsp;Compilation units</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.70.0"><link rel="start" href="index.html" title=" The Objective Caml system release 3.11"><link rel="up" href="ch06.html" title="6.&nbsp;The Objective Caml language"><link rel="prev" href="ch06s13.html" title="6.13&nbsp;Module Expressions"><link rel="next" href="ch07.html" title="7.&nbsp;Language extensions"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.14&nbsp;Compilation units</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s13.html">Prev</a>&nbsp;</td><th width="60%" align="center">6.&nbsp;The Objective Caml language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07.html">Next</a></td></tr></table><hr></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e3538"></a>6.14&nbsp;Compilation units</h2></div></div></div>
+  
+<pre class="programlisting">
+                    unit-interface ::=  { specification  [;;] } 
+               unit-implementation ::=  { definition  [;;] }    
+</pre>
+<p>
+Compilation units bridge the module system and the separate compilation
+system. A compilation unit is composed of two parts: an interface and an
+implementation. The interface contains a sequence of specifications, just as
+the inside of a sig ... end signature expression. The implementation contains a
+sequence of definitions, just as the inside of a struct ... end module
+expression. A compilation unit also has a name unit-name, derived from the
+names of the files containing the interface and the implementation (see chapter
+8 for more details). A compilation unit behaves roughly as the module
+definition 
+module unit-name : sig  unit-interface end = struct  unit-implementation end
+</p>
+<p>
+A compilation unit can refer to other compilation units by their names, as if
+they were regular modules. For instance, if U is a compilation unit that
+defines a type t, other compilation units can refer to that type under the name
+U.t; they can also refer to U as a whole structure. Except for names of other
+compilation units, a unit interface or unit implementation must not have any
+other free variables. In other terms, the type-checking and compilation of an
+interface or implementation proceeds in the initial environment 
+</p>
+<pre class="programlisting">
+   name_1 : sig  specification_1 end ...  name_n : sig  specification_n end 
+</pre>
+<p>
+where name_1 ...  name_n are the names of the other compilation units
+available in the search path (see chapter 8 for more details) and
+specification_1 ...  specification_n are their respective interfaces.
+</p>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s13.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">6.13&nbsp;Module Expressions&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;7.&nbsp;Language extensions</td></tr></table></div></body></html>

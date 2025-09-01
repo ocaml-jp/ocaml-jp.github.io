@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="ArrayLabels.html">
+<link rel="next" href="Bigarray.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><link title="算術演算" rel="Section" href="#2_">
+<link title="比較と検査" rel="Section" href="#2_">
+<link title="文字列との変換" rel="Section" href="#2_">
+<link title="数値型との変換" rel="Section" href="#2_">
+<link title="ビット指向の演算" rel="Section" href="#2_">
+<title>Big_int</title>
+</head>
+<body>
+<div class="navbar"><a href="ArrayLabels.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="Bigarray.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Big_int.html">Big_int</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Big_int: <code class="code"><span class="keyword">sig</span></code> <a href="Big_int.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>任意精度整数の演算
+<p>
+
+    多倍長整数（<code class="code">big_int</code> 型）は任意の大きさの符号付き整数です。<br>
+<hr width="100%">
+<pre><span id="TYPEbig_int"><span class="keyword">type</span> <code class="type"></code>big_int</span> </pre>
+<div class="info">
+多倍長整数の型。<br>
+</div>
+
+<pre><span id="VALzero_big_int"><span class="keyword">val</span> zero_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+多倍長整数の <code class="code">0</code>。<br>
+</div>
+<pre><span id="VALunit_big_int"><span class="keyword">val</span> unit_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+多倍長整数の <code class="code">1</code>。<br>
+</div>
+<br>
+<span id="2_"><h2>算術演算</h2></span><br>
+<pre><span id="VALminus_big_int"><span class="keyword">val</span> minus_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+単項の符号反転。<br>
+</div>
+<pre><span id="VALabs_big_int"><span class="keyword">val</span> abs_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+絶対値。<br>
+</div>
+<pre><span id="VALadd_big_int"><span class="keyword">val</span> add_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+加算。<br>
+</div>
+<pre><span id="VALsucc_big_int"><span class="keyword">val</span> succ_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+後者関数（足す 1）。<br>
+</div>
+<pre><span id="VALadd_int_big_int"><span class="keyword">val</span> add_int_big_int</span> : <code class="type">int -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+通常の整数と多倍長整数の加算。<br>
+</div>
+<pre><span id="VALsub_big_int"><span class="keyword">val</span> sub_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+減算。<br>
+</div>
+<pre><span id="VALpred_big_int"><span class="keyword">val</span> pred_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+前者関数（引く 1）。<br>
+</div>
+<pre><span id="VALmult_big_int"><span class="keyword">val</span> mult_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+多倍長整数同士の乗算。<br>
+</div>
+<pre><span id="VALmult_int_big_int"><span class="keyword">val</span> mult_int_big_int</span> : <code class="type">int -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+通常の整数と多倍長整数の乗算。<br>
+</div>
+<pre><span id="VALsquare_big_int"><span class="keyword">val</span> square_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+与えられた多倍長整数の平方を返します。<br>
+</div>
+<pre><span id="VALsqrt_big_int"><span class="keyword">val</span> sqrt_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+<code class="code">sqrt_big_int a</code> は <code class="code">a</code> の整数の平方根、すなわち、
+    <code class="code">r * r &lt;= a</code> なる最大の <code class="code">r</code> を返します。
+    <code class="code">a</code> が負の場合には <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALquomod_big_int"><span class="keyword">val</span> quomod_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> * <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+多倍長整数同士のユークリッド除算。
+    戻り値の最初の要素は商で、二番目の要素は余りです。
+    <code class="code">(q, r) = quomod_big_int a b</code> とすると、 <code class="code">a = q * b + r</code> かつ <code class="code">0 &lt;= r &lt; <span class="keywordsign">|</span>b<span class="keywordsign">|</span></code>
+    となります。除数が 0 の場合には <code class="code"><span class="constructor">Division_by_zero</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALdiv_big_int"><span class="keyword">val</span> div_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+多倍長整数同士のユークリッド除算における商。
+    これは上の <code class="code">quomod_big_int</code> の戻り値の最初の要素 <code class="code">q</code> です。<br>
+</div>
+<pre><span id="VALmod_big_int"><span class="keyword">val</span> mod_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+多倍長整数同士のユークリッド除算における余り。
+    これは上の <code class="code">quomod_big_int</code> の戻り値の二番目の要素 <code class="code">r</code> です。<br>
+</div>
+<pre><span id="VALgcd_big_int"><span class="keyword">val</span> gcd_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+ふたつの多倍長整数の最大公約数。<br>
+</div>
+<pre><span id="VALpower_int_positive_int"><span class="keyword">val</span> power_int_positive_int</span> : <code class="type">int -> int -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><pre><span id="VALpower_big_int_positive_int"><span class="keyword">val</span> power_big_int_positive_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> int -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><pre><span id="VALpower_int_positive_big_int"><span class="keyword">val</span> power_int_positive_big_int</span> : <code class="type">int -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><pre><span id="VALpower_big_int_positive_big_int"><span class="keyword">val</span> power_big_int_positive_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+累乗関数。
+    第一引数 <code class="code">a</code> の第二引数 <code class="code">b</code> 乗を表す多倍長整数を返します。
+    関数ごとに <code class="code">a</code>、 <code class="code">b</code> が通常の整数か多倍長整数かは異なります。
+    <code class="code">b</code> が負の場合には <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。<br>
+</div>
+<br>
+<span id="2_"><h2>比較と検査</h2></span><br>
+<pre><span id="VALsign_big_int"><span class="keyword">val</span> sign_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> int</code></pre><div class="info">
+与えられた多倍長整数が 0 であれば <code class="code">0</code> を返し、正であれば <code class="code">1</code> を返し、負であれば
+    <code class="code">-1</code> を返します。<br>
+</div>
+<pre><span id="VALcompare_big_int"><span class="keyword">val</span> compare_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> int</code></pre><div class="info">
+<code class="code">compare_big_int a b</code> は <code class="code">a</code> と <code class="code">b</code> が等しければ <code class="code">0</code> を返し、
+    <code class="code">a</code> が <code class="code">b</code> よりも大きければ <code class="code">1</code> を返し、 <code class="code">a</code> が <code class="code">b</code> より小さければ <code class="code">-1</code> を返します。<br>
+</div>
+<pre><span id="VALeq_big_int"><span class="keyword">val</span> eq_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> bool</code></pre><pre><span id="VALle_big_int"><span class="keyword">val</span> le_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> bool</code></pre><pre><span id="VALge_big_int"><span class="keyword">val</span> ge_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> bool</code></pre><pre><span id="VALlt_big_int"><span class="keyword">val</span> lt_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> bool</code></pre><pre><span id="VALgt_big_int"><span class="keyword">val</span> gt_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> bool</code></pre><div class="info">
+多倍長整数同士の通常の比較述語。<br>
+</div>
+<pre><span id="VALmax_big_int"><span class="keyword">val</span> max_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+引数のうちより大きい方を返します。<br>
+</div>
+<pre><span id="VALmin_big_int"><span class="keyword">val</span> min_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+引数のうちより小さい方を返します。<br>
+</div>
+<pre><span id="VALnum_digits_big_int"><span class="keyword">val</span> num_digits_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> int</code></pre><div class="info">
+与えられた多倍長整数を格納するのに使っている計算機の語数を返します。<br>
+</div>
+<br>
+<span id="2_"><h2>文字列との変換</h2></span><br>
+<pre><span id="VALstring_of_big_int"><span class="keyword">val</span> string_of_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> string</code></pre><div class="info">
+与えられた多倍長整数の十進文字列表現を返します。<br>
+</div>
+<pre><span id="VALbig_int_of_string"><span class="keyword">val</span> big_int_of_string</span> : <code class="type">string -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+十進表現の文字列を多倍長整数に変換します。
+    文字列は省略可能な <code class="code">-</code> または <code class="code">+</code> の符号から始まり、それに十進数字がひとつ以上続きます。<br>
+</div>
+<br>
+<span id="2_"><h2>数値型との変換</h2></span><br>
+<pre><span id="VALbig_int_of_int"><span class="keyword">val</span> big_int_of_int</span> : <code class="type">int -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+通常の整数から多倍長整数に変換します。<br>
+</div>
+<pre><span id="VALis_int_big_int"><span class="keyword">val</span> is_int_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> bool</code></pre><div class="info">
+与えられた多倍長整数が <code class="code">int</code> 型の通常の整数で精度を失わずに表現できる程度に小さいか検査します。
+    32 ビットプラットフォームでは
+    <code class="code">is_int_big_int a</code> は <code class="code">a</code> が -2<sup class="superscript">30</sup> から 2<sup class="superscript">30</sup> - 1 の範囲にある場合、かつその場合に限り <code class="code"><span class="keyword">true</span></code> を返し、
+    64 ビットプラットフォームでは <code class="code">a</code> が -2<sup class="superscript">62</sup> から 2<sup class="superscript">62</sup> - 1 の範囲にある場合、かつその場合に限り <code class="code"><span class="keyword">true</span></code> を返します。<br>
+</div>
+<pre><span id="VALint_of_big_int"><span class="keyword">val</span> int_of_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> int</code></pre><div class="info">
+多倍長整数を <code class="code">int</code> 型の通常の整数に変換します。
+    引数が通常の整数で表現できない場合には <code class="code"><span class="constructor">Failure</span> <span class="string">"int_of_big_int"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALbig_int_of_int32"><span class="keyword">val</span> big_int_of_int32</span> : <code class="type">int32 -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+32 ビット整数を多倍長整数に変換します。<br>
+</div>
+<pre><span id="VALbig_int_of_nativeint"><span class="keyword">val</span> big_int_of_nativeint</span> : <code class="type">nativeint -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+ネイティブ整数を多倍長整数に変換します。<br>
+</div>
+<pre><span id="VALbig_int_of_int64"><span class="keyword">val</span> big_int_of_int64</span> : <code class="type">int64 -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+64 ビット整数を多倍長整数に変換します。<br>
+</div>
+<pre><span id="VALint32_of_big_int"><span class="keyword">val</span> int32_of_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> int32</code></pre><div class="info">
+多倍長整数を 32 ビット整数に変換します。
+    引数が [-2<sup class="superscript">31</sup>, 2<sup class="superscript">31</sup>-1] の区間にない場合には <code class="code"><span class="constructor">Failure</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALnativeint_of_big_int"><span class="keyword">val</span> nativeint_of_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> nativeint</code></pre><div class="info">
+多倍長整数をネイティブ整数に変換します。
+    引数が [<a href="Nativeint.html#VALmin_int"><code class="code"><span class="constructor">Nativeint</span>.min_int</code></a>, <a href="Nativeint.html#VALmax_int"><code class="code"><span class="constructor">Nativeint</span>.max_int</code></a>]
+    の区間にない場合には <code class="code"><span class="constructor">Failure</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALint64_of_big_int"><span class="keyword">val</span> int64_of_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> int64</code></pre><div class="info">
+多倍長整数を 64 ビット整数に変換します。
+    引数が [-2<sup class="superscript">63</sup>, 2<sup class="superscript">63</sup>-1] の区間にない場合には <code class="code"><span class="constructor">Failure</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALfloat_of_big_int"><span class="keyword">val</span> float_of_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> float</code></pre><div class="info">
+与えられた多倍長整数を近似する浮動小数点数を返します。<br>
+</div>
+<br>
+<span id="2_"><h2>ビット指向の演算</h2></span><br>
+<pre><span id="VALand_big_int"><span class="keyword">val</span> and_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+ビットごとの論理積。
+    引数は 0 以上でなければなりません。<br>
+</div>
+<pre><span id="VALor_big_int"><span class="keyword">val</span> or_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+ビットごとの論理和。
+    引数は 0 以上でなければなりません。<br>
+</div>
+<pre><span id="VALxor_big_int"><span class="keyword">val</span> xor_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a> -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+ビットごとの排他的論理和。
+    引数は 0 以上でなければなりません。<br>
+</div>
+<pre><span id="VALshift_left_big_int"><span class="keyword">val</span> shift_left_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> int -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+<code class="code">shift_left_big_int b n</code> は <code class="code">b</code> を左に <code class="code">n</code> ピットシフトしたものを返します。
+    これは <code class="code">2^n</code> を掛けることと等価です。<br>
+</div>
+<pre><span id="VALshift_right_big_int"><span class="keyword">val</span> shift_right_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> int -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+<code class="code">shift_right_big_int b n</code> は <code class="code">b</code> を右に <code class="code">n</code> ビットシフトしたものを返します。
+    これは <code class="code">2^n</code> で割り、結果を負の無限大に向かって丸めることと等価です。<br>
+</div>
+<pre><span id="VALshift_right_towards_zero_big_int"><span class="keyword">val</span> shift_right_towards_zero_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> int -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+<code class="code">shift_right_towards_zero_big_int b n</code> は
+    <code class="code">b</code> を右に <code class="code">n</code> ビットシフトしたものを返します。
+    シフト処理は <code class="code">b</code> の絶対値に対して行なわれ、戻り値は <code class="code">b</code> と同じ符号になります。
+    これは、 <code class="code">2^n</code> で割り、結果を 0 に向かって丸めることと等価です。<br>
+</div>
+<pre><span id="VALextract_big_int"><span class="keyword">val</span> extract_big_int</span> : <code class="type"><a href="Big_int.html#TYPEbig_int">big_int</a> -> int -> int -> <a href="Big_int.html#TYPEbig_int">big_int</a></code></pre><div class="info">
+<code class="code">extract_big_int bi ofs n</code> は多倍長整数 <code class="code">bi</code> の二進表現の <code class="code">ofs</code> ビット目から
+    <code class="code">ofs + n - 1</code> ビット目に対応する非負の数値を返します。
+    <code class="code">bi</code> が負の場合、二の補数表現が使われます。<br>
+</div>
+</body></html>

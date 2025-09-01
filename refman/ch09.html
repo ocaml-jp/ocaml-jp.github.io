@@ -1,0 +1,144 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>9.&nbsp;トップレベルシステム（ocaml）</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="pt03.html" title="パート&nbsp;III.&nbsp;The Objective Caml tools"><link rel="prev" href="ch08s04.html" title="8.4&nbsp;よくあるエラー"><link rel="next" href="ch09s01.html" title="9.1&nbsp;オプション"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">9.&nbsp;トップレベルシステム（<span class="command"><strong>ocaml</strong></span>）</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08s04.html">前のページ</a>&nbsp;</td><th width="60%" align="center">パート&nbsp;III.&nbsp;The Objective Caml tools</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch09s01.html">次のページ</a></td></tr></table><hr></div><div class="chapter" title="9.&nbsp;トップレベルシステム（ocaml）"><div class="titlepage"><div><div><h2 class="title"><a name="d4e10434"></a>9.&nbsp;トップレベルシステム（<span class="command"><strong>ocaml</strong></span>）</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch09s01.html">9.1. オプション</a></span></dt><dt><span class="section"><a href="ch09s02.html">9.2. トップレベル指示子</a></span></dt><dt><span class="section"><a href="ch09s03.html">9.3. トップレベルとモジュールシステム</a></span></dt><dt><span class="section"><a href="ch09s04.html">9.4. よくあるエラー</a></span></dt><dt><span class="section"><a href="ch09s05.html">9.5. カスタムトップレベルの作成: <span class="command"><strong>ocamlmktop</strong></span></a></span></dt><dt><span class="section"><a href="ch09s06.html">9.6. オプション</a></span></dt></dl></div>
+  
+  <p>
+    本章では Objective Caml のトップレベルシステムについて解説します。
+    トップレベルシステムを使うと Objective Caml システムを REPL （read-eval-print loop）を介して対話的に利用することができます。
+    このモードでは、システムは入力から Caml のフレーズを繰り返し読み込み、型を検査してコンパイルして評価し、戻り値があればそれに対して推論された型と結果の値を表示します。
+    システムはフレーズを読み込む前にプロンプトとして <code class="prompt">#</code> を表示します。
+    
+  </p>
+  <p>
+    トップレベルに複数行にわたる入力を与えることもできます。
+    入力は <code class="code">;;</code> （ダブルセミコロン）で終端します。
+    トップレベルへの入力は以下の構文で表されるフレーズをひとつ以上並べたものです。
+    
+  </p>
+  <table id="d4e10441">
+    <tbody>
+      <tr>
+        <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--toplevel-input"></a>toplevel-input</span></td>
+        <td>::=</td>
+        <td>{ <a class="link" href="ch09.html#bnf--toplevel-phrase"><span class="bnf-non-terminal">toplevel-phrase</span></a> } <span class="bnf-terminal">;;</span></td>
+      </tr>
+      <tr>
+        <td rowspan="3" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--toplevel-phrase"></a>toplevel-phrase</span></td>
+        <td>::=</td>
+        <td><a class="link" href="ch06s11.html#bnf--definition"><span class="bnf-non-terminal">definition</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s07.html#bnf--expr"><span class="bnf-non-terminal">expr</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">#</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> <a class="link" href="ch09.html#bnf--directive-argument"><span class="bnf-non-terminal">directive-argument</span></a></td>
+      </tr>
+      <tr>
+        <td rowspan="4" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--directive-argument"></a>directive-argument</span></td>
+        <td>::=</td>
+        <td>ϵ</td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s01.html#bnf--string-literal"><span class="bnf-non-terminal">string-literal</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s01.html#bnf--integer-literal"><span class="bnf-non-terminal">integer-literal</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s03.html#bnf--value-path"><span class="bnf-non-terminal">value-path</span></a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    フレーズには、翻訳単位の実装やモジュール式 <code class="syntax">struct <span class="meta">...</span> end</code> と同じく定義を書くことができます。
+    定義では値、型、例外、モジュール、モジュール型の名前を束縛することができます。
+    トップレベルシステムは束縛を行なうと、定義された名前の型と、値が存在すればそれを表示します。
+    
+  </p>
+  <p>
+    <code class="code">open</code> 指示子（<a class="xref" href="ch06s11.html" title="6.11&nbsp;モジュール式"> 6.11 節「モジュール式 」</a> 参照） や値式（<a class="xref" href="ch06s07.html" title="6.7&nbsp;式"> 6.7 節「式 」</a> 参照）を書くこともできます。
+    式は単純にそのまま評価され、束縛は行なわれず、その式の値が表示されます。
+    
+  </p>
+  <p>
+    最後に、フレーズには <code class="code">#</code> で始まるトップレベル指示子もあります。
+    この指示子でトップレベルの動作を制御します。
+    指示子については <a class="xref" href="ch09s02.html" title="9.2&nbsp;トップレベル指示子"> 9.2 節「トップレベル指示子」</a> で説明します。
+    
+  </p>
+  <div class="note" title="Unix" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Unix"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Unix</th></tr><tr><td align="left" valign="top">
+    
+    <p>
+      トップレベルシステムは以下のように <span class="command"><strong>ocaml</strong></span> コマンドで起動します。 
+      
+    </p>
+    <pre class="programlisting">
+ocaml <em class="replaceable"><code>options</code></em> <em class="replaceable"><code>objects</code></em>                # interactive mode
+ocaml <em class="replaceable"><code>options</code></em> <em class="replaceable"><code>objects</code></em> <em class="replaceable"><code>scriptfile</code></em>     # script mode
+    </pre>
+    <p>
+      <em class="replaceable"><code>options</code></em> については後で説明します。
+      <em class="replaceable"><code>objects</code></em> は <code class="filename">.cmo</code> ないしは <code class="filename">.cma</code> で終わるファイル名です。
+      これらのファイルは <em class="replaceable"><code>options</code></em> が設定されると直ちにインタプリタに読み込まれます。
+      <em class="replaceable"><code>scriptfile</code></em> は拡張子が <code class="filename">.cmo</code> でも <code class="filename">.cma</code> でもない任意のファイル名です。
+      
+    </p>
+    <p>
+      コマンドラインで <em class="replaceable"><code>scriptfile</code></em> が与えられなかった場合には、トップレベルシステムは対話モードに入ります。
+      この場合には、フレーズを標準入力から読み込み、結果を標準出力に、エラーを標準エラーに出力します。
+      標準入力からファイル終端を受け取ると <span class="command"><strong>ocaml</strong></span> コマンドは終了します（<a class="xref" href="ch09s02.html" title="9.2&nbsp;トップレベル指示子"> 9.2 節「トップレベル指示子」</a> の <code class="code">#quit</code> 指示子も参照してください）。
+      
+    </p>
+    <p>
+      カレントディレクトリに <code class="filename">.ocamlinit</code> ファイルが存在する場合には、起動時に（フレーズを読み込む前に）、<a class="xref" href="ch09s02.html" title="9.2&nbsp;トップレベル指示子"> 9.2 節「トップレベル指示子」</a> の <code class="code">#use</code> 指示子を使った場合と同様に、そのファイルの内容を Objective Caml のフレーズの並びとして読み込んで評価します。
+      このフレーズの評価結果は表示されません。
+      カレントディレクトリに <code class="filename">.ocamlinit</code> ファイルが存在せず、ユーザーのホームディレクトリ（環境変数 <code class="envar">HOME</code> の値）に <code class="filename">.ocamlinit</code> が存在する場合には、こちらを読み込んで実行します。
+      
+    </p>
+    <p>
+      トップレベルシステムには行編集機能はありませんが、 <span class="command"><strong>ledit</strong></span> や <span class="command"><strong>ocaml2</strong></span>、 <span class="command"><strong>rlwrap</strong></span> といった行エディタと組み合わせて使うのは簡単です（Caml Hump を参照してください）
+      また別の選択肢として、 Gnu Emacs から <span class="command"><strong>ocaml</strong></span> を起動すれば、 Emacs の編集機能をすべて使うことができます（<code class="code">inf-caml</code> ライブラリの <code class="code">run-caml</code> コマンド）。
+      
+    </p>
+    <p>
+      現在のフレーズの構文解析中、コンパイル中、評価中のいかなる時にでも <span class="keycap"><strong>ctrl</strong></span>+<span class="keycap"><strong>C</strong></span> で（より正確に言えば、 <span class="command"><strong>ocaml</strong></span> コマンドに <code class="code">INTR</code> シグナルを送信することで）トップレベルを中断することができます。
+      トップレベルシステムは直ちに <code class="prompt">#</code> プロンプトに戻ります。
+      
+    </p>
+    <p>
+      コマンドラインで <span class="command"><strong>ocaml</strong></span> に <em class="replaceable"><code>scriptfile</code></em> 引数が与えられていた場合には、トップレベルシステムはスクリプトモードになります。
+      この場合には、 <code class="code">#use</code> 指示子（<a class="xref" href="ch09s02.html" title="9.2&nbsp;トップレベル指示子"> 9.2 節「トップレベル指示子」</a>）を使った場合と同様に、そのファイルの内容を Objective Caml のフレーズの並びとして読み込んで評価します。
+      ファイルの終端に達すると <span class="command"><strong>ocaml</strong></span> コマンドは直ちに終了し、標準入力からはフレーズを読み込みません。
+      <code class="code">Sys.argv</code> には、コマンドラインから Objective Caml への引数を除き、スクリプトファイルの名前が <code class="code">Sys.argv.(0)</code> に入るようにしたものが格納されます。
+      
+    </p>
+    <p>
+      スクリプトモードでは、スクリプトファイルの最初の行が <code class="code">#!</code> で始まる場合、その行を無視します。
+      したがって、スクリプトファイル自体を実行可能にし、最初の行を <code class="code">#!/usr/local/bin/ocaml</code> として、スクリプトファイルの実行時に自動的にトップレベルシステムを呼び出すことも可能です。
+      ただし、 Objective Caml のインストールでは、ほとんどの場合 <span class="command"><strong>ocaml</strong></span> コマンド自体が <code class="code">#!</code> スクリプトであり、また、 Unix カーネルは通常入れ子になった <code class="code">#!</code> スクリプトを扱いません。
+      これについてはスクリプトの最初の行を次のようにすれば解決できます。
+      
+    </p>
+    <pre class="programlisting">#!/usr/local/bin/ocamlrun /usr/local/bin/ocaml</pre>
+  </td></tr></table></div>
+  <div class="note" title="Windows" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Windows"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Windows</th></tr><tr><td align="left" valign="top">
+    
+    <p>
+      上記の Unix 版と同様に動作するテキストベースの <span class="command"><strong>ocaml.exe</strong></span> に加え、 GUI 版のトップレベルである <span class="command"><strong>ocaml.exe</strong></span> を使うこともできます。
+      Windows のファイルマネージャやプログラムマネージャから起動してください。
+      テキストウィンドウが表示され、その中でコマンドを入力、編集し、トップレベルからの応答を見ることができます。
+      
+    </p>
+  </td></tr></table></div>
+  
+  
+  
+  
+  
+  
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08s04.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch09s01.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">8.4&nbsp;よくあるエラー&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;9.1&nbsp;オプション</td></tr></table></div></body></html>
