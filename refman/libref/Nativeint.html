@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Mutex.html">
+<link rel="next" href="Num.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><title>Nativeint</title>
+</head>
+<body>
+<div class="navbar"><a href="Mutex.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="Num.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Nativeint.html">Nativeint</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Nativeint: <code class="code"><span class="keyword">sig</span></code> <a href="Nativeint.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>プロセッサネイティブな整数
+<p>
+
+    このモジュールは <code class="code">nativeint</code> 型の符号付き 32 ビット整数（32 ビットプラットフォームの場合）または符号付き 64 ビット整数（64 ビットプラットフォームの場合）の演算を提供します。
+    この整数型は C コンパイラの <code class="code">long</code> 整数型とちょうど同じ幅になります。
+    <code class="code">nativeint</code> 型上の算術演算はすべて、プロセッサの語長に応じて 2<sup class="superscript">32</sup> ないしは 2<sup class="superscript">64</sup> を法とした剰余を取ります。
+<p>
+
+    性能についての注意: <code class="code">nativeint</code> 型の値は <code class="code">int</code> 型の値よりもメモリ空間を多く消費し、一般に算術演算もより低速です。
+    アプリケーションで <code class="code">int</code> 型よりも高い精度が必要な場合にだけ
+    <code class="code">nativeint</code> 型を使うようにしてください。<br>
+<hr width="100%">
+<pre><span id="VALzero"><span class="keyword">val</span> zero</span> : <code class="type">nativeint</code></pre><div class="info">
+ネイティブ整数の 0。<br>
+</div>
+<pre><span id="VALone"><span class="keyword">val</span> one</span> : <code class="type">nativeint</code></pre><div class="info">
+ネイティブ整数の 1。<br>
+</div>
+<pre><span id="VALminus_one"><span class="keyword">val</span> minus_one</span> : <code class="type">nativeint</code></pre><div class="info">
+ネイティブ整数の -1。<br>
+</div>
+<pre><span id="VALneg"><span class="keyword">val</span> neg</span> : <code class="type">nativeint -> nativeint</code></pre><div class="info">
+単項の符号反転。<br>
+</div>
+<pre><span id="VALadd"><span class="keyword">val</span> add</span> : <code class="type">nativeint -> nativeint -> nativeint</code></pre><div class="info">
+加算。<br>
+</div>
+<pre><span id="VALsub"><span class="keyword">val</span> sub</span> : <code class="type">nativeint -> nativeint -> nativeint</code></pre><div class="info">
+減算。<br>
+</div>
+<pre><span id="VALmul"><span class="keyword">val</span> mul</span> : <code class="type">nativeint -> nativeint -> nativeint</code></pre><div class="info">
+乗算。<br>
+</div>
+<pre><span id="VALdiv"><span class="keyword">val</span> div</span> : <code class="type">nativeint -> nativeint -> nativeint</code></pre><div class="info">
+整数の除算。第二引数が 0 のときは <code class="code"><span class="constructor">Division_by_zero</span></code> 例外が発生します。
+    この関数は <a href="Pervasives.html#VAL(/)"><code class="code">(/)</code></a> と同じく、実数の商を 0 方向に丸めます。<br>
+</div>
+<pre><span id="VALrem"><span class="keyword">val</span> rem</span> : <code class="type">nativeint -> nativeint -> nativeint</code></pre><div class="info">
+整数の余り。
+    <code class="code">y</code> が 0 でないとき、 <code class="code"><span class="constructor">Nativeint</span>.rem x y</code> は次の性質を満たします。
+    すなわち、 <code class="code">x = <span class="constructor">Nativeint</span>.add (<span class="constructor">Nativeint</span>.mul (<span class="constructor">Nativeint</span>.div x y) y) (<span class="constructor">Nativeint</span>.rem x y)</code> になります。
+    <code class="code">y = 0</code> の場合は <code class="code"><span class="constructor">Division_by_zero</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALsucc"><span class="keyword">val</span> succ</span> : <code class="type">nativeint -> nativeint</code></pre><div class="info">
+後者関数。 <code class="code"><span class="constructor">Nativeint</span>.succ x</code> は <code class="code"><span class="constructor">Nativeint</span>.add x <span class="constructor">Nativeint</span>.one</code> になります。<br>
+</div>
+<pre><span id="VALpred"><span class="keyword">val</span> pred</span> : <code class="type">nativeint -> nativeint</code></pre><div class="info">
+前者関数。 <code class="code"><span class="constructor">Nativeint</span>.pred x</code> は <code class="code"><span class="constructor">Nativeint</span>.sub x <span class="constructor">Nativeint</span>.one</code> になります。<br>
+</div>
+<pre><span id="VALabs"><span class="keyword">val</span> abs</span> : <code class="type">nativeint -> nativeint</code></pre><div class="info">
+引数の絶対値を返します。<br>
+</div>
+<pre><span id="VALsize"><span class="keyword">val</span> size</span> : <code class="type">int</code></pre><div class="info">
+ネイティブ整数のビット幅を返します。
+    32 ビットプラットフォームでは <code class="code">32</code>、 64 ビットプラットフォームでは <code class="code">64</code> になります。<br>
+</div>
+<pre><span id="VALmax_int"><span class="keyword">val</span> max_int</span> : <code class="type">nativeint</code></pre><div class="info">
+ネイティブ整数で表せる最大の整数です。
+    32 ビットプラットフォームでは 2<sup class="superscript">31</sup> - 1、 64 ビットプラットフォームでは 2<sup class="superscript">63</sup> - 1 になります。<br>
+</div>
+<pre><span id="VALmin_int"><span class="keyword">val</span> min_int</span> : <code class="type">nativeint</code></pre><div class="info">
+ネイティブ整数で表せる最小の整数です。
+    32 ビットプラットフォームでは - 2<sup class="superscript">31</sup>、 64 ビットプラットフォームでは - 2<sup class="superscript">63</sup> になります。<br>
+</div>
+<pre><span id="VALlogand"><span class="keyword">val</span> logand</span> : <code class="type">nativeint -> nativeint -> nativeint</code></pre><div class="info">
+ビットごとの論理積。<br>
+</div>
+<pre><span id="VALlogor"><span class="keyword">val</span> logor</span> : <code class="type">nativeint -> nativeint -> nativeint</code></pre><div class="info">
+ビットごとの論理和。<br>
+</div>
+<pre><span id="VALlogxor"><span class="keyword">val</span> logxor</span> : <code class="type">nativeint -> nativeint -> nativeint</code></pre><div class="info">
+ビットごとの排他的論理和。<br>
+</div>
+<pre><span id="VALlognot"><span class="keyword">val</span> lognot</span> : <code class="type">nativeint -> nativeint</code></pre><div class="info">
+ビットごとの論理否定。<br>
+</div>
+<pre><span id="VALshift_left"><span class="keyword">val</span> shift_left</span> : <code class="type">nativeint -> int -> nativeint</code></pre><div class="info">
+<code class="code"><span class="constructor">Nativeint</span>.shift_left x y</code> は <code class="code">x</code> を左に <code class="code">y</code> ビットシフトします。
+    <code class="code">y &lt; 0</code> と <code class="code">y &gt;= bitsize</code> のときの結果は規定されていません。
+    ここで <code class="code">bitsize</code> は 32 ビットプラットフォームでは <code class="code">32</code>、 64 ビットプラットフォームでは <code class="code">64</code> です。<br>
+</div>
+<pre><span id="VALshift_right"><span class="keyword">val</span> shift_right</span> : <code class="type">nativeint -> int -> nativeint</code></pre><div class="info">
+<code class="code"><span class="constructor">Nativeint</span>.shift_right x y</code> は <code class="code">x</code> を右に <code class="code">y</code> ビットシフトします。
+    これは算術シフトです。
+    すなわち、 <code class="code">x</code> の符号ビットを複製して空いたビットを埋めます。
+    <code class="code">y &lt; 0</code> と <code class="code">y &gt;= bitsize</code> のときの結果は規定されていません。<br>
+</div>
+<pre><span id="VALshift_right_logical"><span class="keyword">val</span> shift_right_logical</span> : <code class="type">nativeint -> int -> nativeint</code></pre><div class="info">
+<code class="code"><span class="constructor">Nativeint</span>.shift_right_logical x y</code> は <code class="code">x</code> を右に <code class="code">y</code> ビットシフトします。
+    これは論理シフトです。
+    すなわち、 <code class="code">x</code> の符号によらず空いたビットを 0 で埋めます。
+    <code class="code">y &lt; 0</code> と <code class="code">y &gt;= bitsize</code> のときの結果は規定されていません。<br>
+</div>
+<pre><span id="VALof_int"><span class="keyword">val</span> of_int</span> : <code class="type">int -> nativeint</code></pre><div class="info">
+与えられた（<code class="code">int</code> 型の）整数をネイティブ整数に変換します。<br>
+</div>
+<pre><span id="VALto_int"><span class="keyword">val</span> to_int</span> : <code class="type">nativeint -> int</code></pre><div class="info">
+与えられた（<code class="code">nativeint</code> 型の）ネイティブ整数を（<code class="code">int</code> 型の）整数に変換します。
+    上位ビットは変換により失われます。<br>
+</div>
+<pre><span id="VALof_float"><span class="keyword">val</span> of_float</span> : <code class="type">float -> nativeint</code></pre><div class="info">
+与えられた浮動小数点数をネイティブ整数に変換します。
+    仮数部は切り捨てられます（0 に向かって切り捨てます）。
+    変換後の数が [<a href="Nativeint.html#VALmin_int"><code class="code"><span class="constructor">Nativeint</span>.min_int</code></a>, <a href="Nativeint.html#VALmax_int"><code class="code"><span class="constructor">Nativeint</span>.max_int</code></a>] の範囲外だった場合の結果は未定義です。<br>
+</div>
+<pre><span id="VALto_float"><span class="keyword">val</span> to_float</span> : <code class="type">nativeint -> float</code></pre><div class="info">
+与えられたネイティブ整数を浮動小数点数に変換します。<br>
+</div>
+<pre><span id="VALof_int32"><span class="keyword">val</span> of_int32</span> : <code class="type">int32 -> nativeint</code></pre><div class="info">
+与えられた（<code class="code">int32</code> 型の） 32 ビット整数をネイティブ整数に変換します。<br>
+</div>
+<pre><span id="VALto_int32"><span class="keyword">val</span> to_int32</span> : <code class="type">nativeint -> int32</code></pre><div class="info">
+与えられたネイティブ整数を（<code class="code">int32</code> 型の） 32 ビット整数に変換します。
+    64 ビットプラットフォームでは、引数のネイティブ整数の 2<sup class="superscript">32</sup> を法とした剰余を取ります。
+    すなわち、上位 32 ビットが失われます。
+    32 ビットプラットフォームでは、変換は正確に行なわれます。<br>
+</div>
+<pre><span id="VALof_string"><span class="keyword">val</span> of_string</span> : <code class="type">string -> nativeint</code></pre><div class="info">
+与えられた文字列をネイティブ整数に変換します。
+    文字列は十進（デフォルト）、または文字列が <code class="code">0x</code>、 <code class="code">0o</code>、 <code class="code">0b</code> で始まっていた場合には順に十六進、八進、二進で読み込まれます。
+    与えられた文字列が整数の表現として妥当でない場合や、 <code class="code">nativeint</code> で表せる範囲を越えていた場合には <code class="code"><span class="constructor">Failure</span> <span class="string">"int_of_string"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALto_string"><span class="keyword">val</span> to_string</span> : <code class="type">nativeint -> string</code></pre><div class="info">
+引数の符号付き十進数としての文字列表現を返します。<br>
+</div>
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> = <code class="type">nativeint</code> </pre>
+<div class="info">
+ネイティブ整数の型の別名。<br>
+</div>
+
+<pre><span id="VALcompare"><span class="keyword">val</span> compare</span> : <code class="type"><a href="Nativeint.html#TYPEt">t</a> -> <a href="Nativeint.html#TYPEt">t</a> -> int</code></pre><div class="info">
+<a href="Pervasives.html#VALcompare"><code class="code">compare</code></a> と同じ仕様のネイティブ整数の比較関数です。
+    型 <code class="code">t</code> に加えてこの関数があることにより、 <code class="code"><span class="constructor">Nativeint</span></code> モジュールを
+    <a href="Set.Make.html"><code class="code"><span class="constructor">Set</span>.<span class="constructor">Make</span></code></a> や <a href="Map.Make.html"><code class="code"><span class="constructor">Map</span>.<span class="constructor">Make</span></code></a> といったファンクタに渡すことができるようになっています。<br>
+</div>
+</body></html>

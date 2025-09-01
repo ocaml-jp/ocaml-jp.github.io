@@ -1,0 +1,186 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>21.&nbsp;unix ライブラリ: UNIX システムコール</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="pt04.html" title="パート&nbsp;IV.&nbsp;The Objective Caml library"><link rel="prev" href="ch20s01.html" title="20.1&nbsp;Conventions"><link rel="next" href="ch22.html" title="22.&nbsp;num ライブラリ: 任意精度の有理数算術"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">21.&nbsp;<code class="code">unix</code> ライブラリ: UNIX システムコール</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch20s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">パート&nbsp;IV.&nbsp;The Objective Caml library</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch22.html">次のページ</a></td></tr></table><hr></div><div class="chapter" title="21.&nbsp;unix ライブラリ: UNIX システムコール"><div class="titlepage"><div><div><h2 class="title"><a name="d4e14156"></a>21.&nbsp;<code class="code">unix</code> ライブラリ: UNIX システムコール</h2></div></div></div>
+  
+  <p>
+    <code class="code">unix</code> ライブラリを使うと Objective Caml プログラムから多くの Unix システムコールや、システムに関係したライブラリ関数を使用することができるようになります。この章では <code class="code">unix</code> モジュールで提供される関数を簡単に解説します。これらの関数の動作について詳しいことは Unix の man ページのセクション 2 及び 3 を参照してください。
+    
+  </p>
+  <p>
+    すべての Un*x でこれらの関数がすべて利用可能であるとは限りません。使用できない関数がある場合、その関数を呼び出すと <code class="code">Invalid_arg</code> 例外が発生します。
+  </p>
+  <p>
+    <code class="code">unix</code> ライブラリを使用するプログラムは次のようにリンクしてください。 
+  </p>
+  <pre class="screen">
+ocamlc <em class="replaceable"><code>other options</code></em> unix.cma <em class="replaceable"><code>other files</code></em>
+ocamlopt <em class="replaceable"><code>other options</code></em> unix.cmxa <em class="replaceable"><code>other files</code></em>
+  </pre>
+  <p>
+    <code class="code">unix</code> ライブラリを対話式システムで利用する場合は以下のようにしてください。 
+  </p>
+  <pre class="screen">
+ocamlmktop -o mytop unix.cma
+./mytop
+  </pre>
+  <p>
+    （C ライブラリのダイナミックリンクをサポートしているプラットフォームでは） <span class="command"><strong>ocaml</strong></span> を起動したあと <strong class="userinput"><code>#load "unix.cma";;</code></strong> と入力しても構いません。
+  </p>
+  <div class="note" title="Windows" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Windows"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Windows</th></tr><tr><td align="left" valign="top">
+    
+    <p>
+      Windows 版 Objective Caml では Unix システムコールをかなり完璧にエミュレーションしたものが提供されています。Windows 環境でサポートされていない関数についてのより詳しい情報は本章の末尾に挙げてあります。
+  </p>
+  </td></tr></table></div>
+  <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><a href="./libref/Unix.html" class="libref">Unix</a> モジュール: Unix system calls 
+    </li><li class="listitem"><a href="./libref/UnixLabels.html" class="libref">UnixLabels</a> モジュール: Labeled Unix system calls
+    </li></ul></div>
+  <div class="note" title="Windows" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Windows"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Windows</th></tr><tr><td align="left" valign="top">
+    
+    <p>
+      Cygwin 版 Objective Caml では Unix モジュールの関数はすべて完全に実装されています。 Win32 ネイティブ版では一部しか実装されていません。以下の関数は Win32 版では一部又は全部が実装されていません。ここに記載されていない関数は完全に実装されていて、この章で既に解説したように動作します。
+    </p>
+    <table id="d4e14188">
+      <thead>
+        <tr><th>関数 </th><th>コメント </th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code class="function">fork</code></td>
+          <td>
+            実装されていません。 <code class="code">create_process</code> かスレッドを使ってください。
+            
+        </td></tr>
+        <tr><td><code class="function">wait</code></td>
+          <td>実装されていません。 <code class="code">waitpid</code> を使ってください。
+            
+        </td></tr>
+        <tr><td><code class="function">waitpid</code></td>
+          <td>与えられた PID のみを待つことができます。任意の子プロセスの終了を待つことはできません。
+            
+        </td></tr>
+        <tr><td><code class="function">getppid</code></td>
+          <td>
+            実装されていません（Windows 環境では無意味です）。
+            
+        </td></tr>
+        <tr><td><code class="function">nice</code></td>
+          <td>
+            実装されていません。
+            
+        </td></tr>
+        <tr><td><code class="function">truncate</code>, <code class="function">ftruncate</code></td>
+          <td>実装されていません。
+            
+        </td></tr>
+        <tr><td><code class="function">link</code>, <code class="function">symlink</code>, <code class="function">readlink</code></td>
+          <td>
+            実装されていません（Windows にリンクはありません）。
+            
+        </td></tr>
+        <tr><td><code class="function">access</code></td>
+          <td>
+            実行パーミッション <code class="code">X_OK</code> をテストすることはできません。
+            代わりに読み込みパーミッションをテストします。
+        </td></tr>
+        <tr><td><code class="function">fchmod</code></td>
+          <td>
+            実装されていません。
+            
+        </td></tr>
+        <tr><td><code class="function">chown</code>, <code class="function">fchown</code></td>
+          <td>
+            実装されていません（DOS のファイルシステムでは意味を持ちません）。
+            
+        </td></tr>
+        <tr><td><code class="function">umask</code></td>
+          <td>
+            実装されていません。
+            
+        </td></tr>
+        <tr>
+          <td><code class="function">set_nonblock</code>, <code class="function">clear_nonblock</code></td>
+          <td>
+            ダミー関数として実装されています。非同期 I/O の代わりにスレッドを使ってください。
+            
+        </td></tr>
+        <tr>
+          <td><code class="function">rewinddir</code></td>
+          <td>
+            実装されていません。代わりにディレクトリを開き直してください。
+            
+        </td></tr>
+        <tr>
+          <td><code class="function">mkfifo</code></td>
+          <td>
+            実装されていません。
+            
+        </td></tr>
+        <tr>
+          <td><code class="function">kill</code>, <code class="function">pause</code></td>
+          <td>
+            実装されていません（Windows にはプロセス間シグナルはありません）。
+            
+        </td></tr>
+        <tr>
+          <td><code class="function">alarm</code>, <code class="function">times</code></td>
+          <td>
+            実装されていません。
+            
+        </td></tr>
+        <tr>
+          <td><code class="function">getitimer</code>, <code class="function">setitimer</code></td>
+          <td>
+            実装されていません。
+            
+        </td></tr>
+        <tr>
+          <td><code class="function">getuid</code>, <code class="function">getgid</code></td>
+          <td>
+            常に 1 が返ります。
+            
+        </td></tr>
+        <tr>
+          <td><code class="function">getgid</code>, <code class="function">getegid</code>, <code class="function">getgroups</code></td>
+          <td>
+            実装されていません。
+            
+        </td></tr>
+        <tr>
+          <td><code class="function">setuid</code>, <code class="function">setgid</code></td>
+          <td>
+            実装されていません。
+            
+        </td></tr>
+        <tr>
+          <td><code class="function">getpwnam</code>, <code class="function">getpwuid</code></td>
+          <td>
+            常に <code class="code">Not_found</code> 例外が発生します。
+            
+        </td></tr>
+        <tr>
+          <td><code class="function">getgrnam</code>, <code class="function">getgrgid</code></td>
+          <td>
+            常に <code class="code">Not_found</code> 例外が発生します。
+            
+        </td></tr>
+        <tr><td><code class="code">type <span class="type">socket_domain</span></code></td>
+          <td>
+            <code class="code">PF_UNIX</code> ドメインと <code class="code">PF_INET6</code> ドメインはサポートされていません。 <code class="code">PF_INET</code> は完全にサポートされています。
+            
+        </td></tr>
+        <tr>
+          <td><code class="function">establish_server</code></td>
+          <td>
+            実装されていません。スレッドを使ってください。
+            
+        </td></tr>
+        <tr>
+          <td>端末関数 (<code class="code">tc<em class="replaceable"><code>*</code></em></code>)</td>
+          <td>
+            実装されていません。
+            
+        </td></tr>
+      </tbody>
+    </table>
+  </td></tr></table></div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch20s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt04.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch22.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">20.1&nbsp;Conventions&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;22.&nbsp;<code class="code">num</code> ライブラリ: 任意精度の有理数算術</td></tr></table></div></body></html>

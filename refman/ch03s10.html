@@ -1,0 +1,146 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.10&nbsp;パラメータ化されたクラス</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s09.html" title="3.9&nbsp;多重継承"><link rel="next" href="ch03s11.html" title="3.11&nbsp;多相メソッド"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.10&nbsp;パラメータ化されたクラス</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s09.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s11.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.10&nbsp;パラメータ化されたクラス"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Parameterized classes"></a>3.10&nbsp;パラメータ化されたクラス</h2></div></div></div>
+    
+    <p>
+      参照セルはオブジェクトとして実装できます。しかし、素朴な定義は型チェックを通過できません。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ref x_init =
+   object 
+     val mutable x = x_init
+     method get = x
+     method set y = x &lt;- y
+   end;;</code></strong>
+<code class="computeroutput">Some type variables are unbound in this type:
+  class ref :
+    'a -&gt;
+    object val mutable x : 'a method get : 'a method set : 'a -&gt; unit end
+The method get has type 'a where 'a is unbound</code>
+    </pre>
+    <p>
+      その理由は、セルに保存された値の型が指定されていないためメソッドの一つが多相型であるためです。したがって、保存される値の型をクラスがパラメータとして持つか、クラスの型が単相型に束縛されなければなりません。単相型として定義するには次のようにします。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ref (x_init:int) =
+   object 
+     val mutable x = x_init
+     method get = x
+     method set y = x &lt;- y
+   end;;</code></strong>
+<code class="computeroutput">class ref :
+  int -&gt;
+  object val mutable x : int method get : int method set : int -&gt; unit end</code>
+    </pre>
+    <p>
+      直接生成されたオブジェクトはクラス型を定義しないので、この制限はありません。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let new_ref x_init =
+   object 
+     val mutable x = x_init
+     method get = x
+     method set y = x &lt;- y
+   end;;</code></strong>
+<code class="computeroutput">val new_ref : 'a -&gt; &lt; get : 'a; set : 'a -&gt; unit &gt; = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      一方、多相的な参照のクラス定義では、その型変数を明示する必要があります。クラスの型変数は常に <code class="code">[</code> と <code class="code">]</code> の間に列挙しなくてはいけません。この型パラメータはクラス本体のどこかで型制約によって束縛されていなければなりません。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ['a] ref x_init = 
+   object 
+     val mutable x = (x_init : 'a)
+     method get = x
+     method set y = x &lt;- y
+   end;;</code></strong>
+<code class="computeroutput">class ['a] ref :
+  'a -&gt; object val mutable x : 'a method get : 'a method set : 'a -&gt; unit end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let r = new ref 1 in r#set 2; (r#get);;</code></strong>
+<code class="computeroutput">- : int = 2</code>
+    </pre>
+    <p>
+      宣言中の型パラメータが実際にクラス定義の本体で制約を受けるかもしれません。クラス型中では、型パラメータの実際の値は <code class="code">constraint</code> 節で表示されます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ['a] ref_succ (x_init:'a) = 
+   object
+     val mutable x = x_init + 1
+     method get = x
+     method set y = x &lt;- y
+   end;;</code></strong>
+<code class="computeroutput">class ['a] ref_succ :
+  'a -&gt;
+  object
+    constraint 'a = int
+    val mutable x : int
+    method get : int
+    method set : int -&gt; unit
+  end</code>
+    </pre>
+    <p>
+      もっと複雑な例を考えましょう。「点」オブジェクトと、その任意のサブオブジェクトを中心とする「円」を定義することを考えましょう。  <code class="code">move</code> メソッドには型制約を追加しなければなりません。というのは、クラス型の型パラメータでは束縛されない自由変数があってはならないからです。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ['a] circle (c : 'a) =
+   object 
+     val mutable center = c
+     method center = center
+     method set_center c = center &lt;- c
+     method move = (center move : int -&gt; unit)
+   end;;</code></strong>
+<code class="computeroutput">class ['a] circle :
+  'a -&gt;
+  object
+    constraint 'a = &lt; move : int -&gt; unit; .. &gt;
+    val mutable center : 'a
+    method center : 'a
+    method move : int -&gt; unit
+    method set_center : 'a -&gt; unit
+  end</code>
+    </pre>
+    <p>
+      他にも、以下に示すように <code class="code">constraint</code> 節を用いて <code class="code">circle</code> クラスを定義することもできます。 <code class="code">constraint</code> 節で用いられている <code class="code">#point</code> という型は、 <code class="code">point</code> クラスを定義する時に自動的に定義されます。この型は <code class="code">point</code> クラスの任意の子クラスに属するオブジェクトと単一化します。 <code class="code">#point</code> は実際には <code class="code">&lt; get_x : int; move : int -&gt; unit; .. &gt;</code> という型の略記です。この表記を用いると、次のような <code class="code">circle</code> クラスの定義を得ることができます。このクラス定義は、引数に対して若干以前よりも強い制約を科します。というのは <code class="code">center</code> が <code class="code">get_x</code> メソッドを持つことを求めているからです。
+</p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ['a] circle (c : 'a) =
+   object 
+     constraint 'a =  point
+     val mutable center = c
+     method center = center
+     method set_center c = center &lt;- c
+     method move = center move
+   end;;</code></strong>
+<code class="computeroutput">class ['a] circle :
+  'a -&gt;
+  object
+    constraint 'a = #point
+    val mutable center : 'a
+    method center : 'a
+    method move : int -&gt; unit
+    method set_center : 'a -&gt; unit
+  end</code>
+    </pre>
+    <p>
+      <code class="code">colored_circle</code> クラスは <code class="code">circle</code> クラスの特殊化したもので、「中心」の型が <code class="code">#colored_point</code> に単一化されることを求めます。また、 <code class="code">color</code> メソッドを持っています。パラメータ付きクラスを継承する場合、型変数を再び明示する必要があります。型変数は、以前と同様に <code class="code">[</code> と <code class="code">]</code> の間に書きます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ['a] colored_circle c =
+   object
+     constraint 'a =  colored_point
+     inherit ['a] circle c
+     method color = center color
+   end;;</code></strong>
+<code class="computeroutput">class ['a] colored_circle :
+  'a -&gt;
+  object
+    constraint 'a = #colored_point
+    val mutable center : 'a
+    method center : 'a
+    method color : string
+    method move : int -&gt; unit
+    method set_center : 'a -&gt; unit
+  end</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s09.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s11.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.9&nbsp;多重継承&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.11&nbsp;多相メソッド</td></tr></table></div></body></html>

@@ -1,0 +1,83 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>2.3&nbsp;ファンクタ</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch02.html" title="2.&nbsp;モジュールシステム"><link rel="prev" href="ch02s02.html" title="2.2&nbsp;シグネチャ"><link rel="next" href="ch02s04.html" title="2.4&nbsp;ファンクタを使った型の抽象化"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.3&nbsp;ファンクタ </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s02.html">前のページ</a>&nbsp;</td><th width="60%" align="center">2.&nbsp;モジュールシステム </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02s04.html">次のページ</a></td></tr></table><hr></div><div class="section" title="2.3&nbsp;ファンクタ"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Functors"></a>2.3&nbsp;ファンクタ </h2></div></div></div>
+    
+    <p>
+      ファンクタはストラクチャからストラクチャへの「関数」であり、パラメータ化されたストラクチャを表現するために使用されます。
+      例えば、ストラクチャ <em class="parameter"><code>B</code></em> によりパラメータ化された ストラクチャ <em class="parameter"><code>A</code></em> は、単純に仮引数 <em class="parameter"><code>B</code></em> （ストラクチャ <em class="parameter"><code>B</code></em> のシグネチャを持つことが期待される) を持ち、実際のファンクタ <em class="parameter"><code>A</code></em> を返すファンクタ <em class="parameter"><code>F</code></em> として表現されます。
+      そのようなファンクタ <em class="parameter"><code>F</code></em> があるとき、 <em class="parameter"><code>F</code></em> に対していくつかの <em class="parameter"><code>B</code></em> の実装 <em class="parameter"><code>B<sub>1</sub></code></em> ... <em class="parameter"><code>B<sub><em class="parameter"><code>n</code></em></sub></code></em> を適用することで、対応するストラクチャ <em class="parameter"><code>A<sub>1</sub></code></em> ... <em class="parameter"><code>A<sub><em class="parameter"><code>n</code></em></sub></code></em> が得られます。
+    </p>
+    <p>
+      具体的な例として、ソート済リストとして実装した集合を考えます。
+      ここで考える集合は集合要素の型と、集合要素の型の上の順序付け関数でパラメータ化されています。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type comparison = Less | Equal | Greater;;</code></strong>
+<code class="computeroutput">type comparison = Less | Equal | Greater</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>module type ORDERED_TYPE =
+   sig
+     type t
+     val compare: t -&gt; t -&gt; comparison
+   end;;</code></strong>
+<code class="computeroutput">module type ORDERED_TYPE = sig type t val compare : t -&gt; t -&gt; comparison end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>module Set =
+   functor (Elt: ORDERED_TYPE) -&gt;
+     struct
+       type element = Elt.t
+       type set = element list
+       let empty = []
+       let rec add x s =
+         match s with
+           [] -&gt; [x]
+         | hd::tl -&gt;
+            match Elt.compare x hd with
+              Equal   -&gt; s         (* x is already in s *)
+            | Less    -&gt; x :: s    (* x is smaller than all elements of s *)
+            | Greater -&gt; hd :: add x tl
+       let rec member x s =
+         match s with
+           [] -&gt; false
+         | hd::tl -&gt;
+             match Elt.compare x hd with
+               Equal   -&gt; true     (* x belongs to s *)
+             | Less    -&gt; false    (* x is smaller than all elements of s *)
+             | Greater -&gt; member x tl
+     end;;</code></strong>
+<code class="computeroutput">module Set :
+  functor (Elt : ORDERED_TYPE) -&gt;
+    sig
+      type element = Elt.t
+      type set = element list
+      val empty : 'a list
+      val add : Elt.t -&gt; Elt.t list -&gt; Elt.t list
+      val member : Elt.t -&gt; Elt.t list -&gt; bool
+    end</code>
+    </pre>
+    <p>
+      このように定義したファンクタ <code class="code">Set</code> を <code class="code">ORDERED_TYPE</code> を実装したストラクチャに適用することにより、その型に対する集合演算を得ることが出来ます。
+</p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module OrderedString =
+   struct
+     type t = string
+     let compare x y = if x = y then Equal else if x &lt; y then Less else Greater
+   end;;</code></strong>
+<code class="computeroutput">module OrderedString :
+  sig type t = string val compare : 'a -&gt; 'a -&gt; comparison end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>module StringSet = Set(OrderedString);;</code></strong>
+<code class="computeroutput">module StringSet :
+  sig
+    type element = OrderedString.t
+    type set = element list
+    val empty : 'a list
+    val add : OrderedString.t -&gt; OrderedString.t list -&gt; OrderedString.t list
+    val member : OrderedString.t -&gt; OrderedString.t list -&gt; bool
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>StringSet.member "bar" (StringSet.add "foo" StringSet.empty);;</code></strong>
+<code class="computeroutput">- : bool = false</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s02.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch02.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02s04.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">2.2&nbsp;シグネチャ &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;2.4&nbsp;ファンクタを使った型の抽象化 </td></tr></table></div></body></html>

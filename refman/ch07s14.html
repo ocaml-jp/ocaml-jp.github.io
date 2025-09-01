@@ -1,0 +1,220 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>7.14&nbsp;第一級のモジュール</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch07.html" title="7.&nbsp;Language extensions"><link rel="prev" href="ch07s13.html" title="7.13&nbsp;型変数の命名"><link rel="next" href="ch07s15.html" title="7.15&nbsp;モジュールの型の復元"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.14&nbsp;第一級のモジュール</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s13.html">前のページ</a>&nbsp;</td><th width="60%" align="center">7.&nbsp;Language extensions</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s15.html">次のページ</a></td></tr></table><hr></div><div class="section" title="7.14&nbsp;第一級のモジュール"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:First-class modules"></a>7.14&nbsp;第一級のモジュール</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch07s14.html#d4e9263">7.14.1. 簡単な例</a></span></dt><dt><span class="section"><a href="ch07s14.html#d4e9271">7.14.2. 高度な例</a></span></dt></dl></div>
+    
+    <p>（OCaml 3.12 〜）</p>
+    <div class="syntax">
+      <table id="d4e9163">
+        <tbody>
+          <tr>
+            <td rowspan="2" valign="baseline"><a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a></td>
+            <td><span class="meta">::=</span></td>
+            <td><span class="meta">...</span></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>( module <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type">package-type</a> )</td>
+          </tr>
+          <tr>
+            <td rowspan="2" valign="baseline"><a class="bnf-non-terminal" href="ch06s11.html#bnf--module-expr">module-expr</a></td>
+            <td><span class="meta">::=</span></td>
+            <td><span class="meta">...</span></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>( val <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> : <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type">package-type</a> )</td>
+          </tr>
+          <tr>
+            <td rowspan="2" valign="baseline"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+            <td><span class="meta">::=</span></td>
+            <td><span class="meta">...</span></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>( module <a class="bnf-non-terminal" href="ch06s11.html#bnf--module-expr">module-expr</a> : <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type">package-type</a> )</td>
+          </tr>
+          <tr>
+            <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--package-type"></a>package-type</span></td>
+            <td><span class="meta">::=</span></td>
+            <td><a class="bnf-non-terminal" href="ch06s03.html#bnf--modtype-path">modtype-path</a></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td><a class="bnf-non-terminal" href="ch06s03.html#bnf--modtype-path">modtype-path</a> with <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type-constraint">package-type-constraint</a> <span class="meta">{</span> and <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type-constraint">package-type-constraint</a> <span class="meta">}</span></td>
+          </tr>
+          <tr>
+            <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--package-type-constraint"></a>package-type-constraint</span></td>
+            <td><span class="meta">::=</span></td>
+            <td>type <a class="bnf-non-terminal" href="ch06s03.html#bnf--typeconstr-name">typeconstr-name</a> = <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      一般にモジュールは静的な要素であると考えられています。この拡張では、モジュールを第一級の値として扱えるようにします。この値は動的にモジュールに戻すことができます。
+      
+    </p>
+    <p>
+      式 <code class="syntax">( module <a class="bnf-non-terminal" href="ch06s11.html#bnf--module-expr">module-expr</a> : <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type">package-type</a> )</code> は、モジュール式 <a class="bnf-non-terminal" href="ch06s11.html#bnf--module-expr">module-expr</a> の表すモジュール（ストラクチャないしはファンクタ）をカプセル化した値に変換します。この値の型は <code class="syntax">( module <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type">package-type</a> )</code> です。
+      
+    </p>
+    <p>
+      モジュール式 <code class="syntax">( val <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> : <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type">package-type</a> )</code> は逆に、式 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> を評価し（この値の型は <code class="syntax">module <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type">package-type</a></code> でなければなりません）、その値にカプセル化されているモジュールを取り出します。
+      
+    </p>
+    <p>
+      式 <code class="syntax">( module <a class="bnf-non-terminal" href="ch06s11.html#bnf--module-expr">module-expr</a> : <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type">package-type</a> )</code> や、モジュール式 <code class="syntax">( val <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> : <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type">package-type</a> )</code>、 型式 <code class="syntax">( module <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type">package-type</a> )</code> に現れる <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type">package-type</a> 構文クラスはモジュール型のうち、バラメータ型のない、名前のついたモジュール型だけを表します。型検査においては、パッケージ型はモジュール型の名前のパス等価性により比較され、型制約は通常の型の等価性で検査されます。
+      
+    </p>
+    <p>
+      モジュール式 <code class="syntax">( val <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> : <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type">package-type</a> )</code> をファンクタの本体部分で使うことはできません。これを適用可能なファンクタと組み合わせると型システムの健全性が損なわれるからです。ただし、 <code class="syntax">let <code class="varname">M</code> = ( val <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> : <a class="bnf-non-terminal" href="ch07s14.html#bnf--package-type">package-type</a> ) in <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub></code> のような、局所モジュール束縛の文脈では自由に使うことができます。
+      
+    </p>
+    <div class="section" title="7.14.1&nbsp;簡単な例"><div class="titlepage"><div><div><h3 class="title"><a name="d4e9263"></a>7.14.1&nbsp;簡単な例</h3></div></div></div>
+      
+      <p>
+        典型的な第一級モジュールの使用例は、あるシグネチャの複数の実装を実行時に選択することです。各々の実装は第一級モジュールにカプセル化できるストラクチャで、ハッシュテーブルのようなデータ構造に格納されます。
+        
+      </p>
+      <pre class="programlisting">
+module type DEVICE = sig ... end
+let devices : (string, module DEVICE) Hashtbl.t = Hashtbl.create 17
+
+module SVG = struct ... end
+let _ = Hashtbl.add devices "SVG" (module SVG : DEVICE)
+
+module PDF = struct ... end
+let _ = Hashtbl.add devices "PDF" (module PDF: DEVICE)
+      </pre>
+      <p>
+        例えば、コマンドライン引数で実装を選択することができます。
+        
+      </p>
+      <pre class="programlisting">
+module Device =
+  (val (try Hashtbl.find devices (parse_cmdline())
+        with Not_found -&gt; eprintf "Unknown device %s\n"; exit 2)
+   : DEVICE)
+      </pre>
+      <p>
+        また、関数内で実装を選択することもできます。
+        
+      </p>
+      <pre class="programlisting">
+let draw_using_device device_name picture =
+  let module Device =
+    (val (Hashtbl.find_devices device_name) : DEVICE)
+  in
+    Device.draw picture
+      </pre>
+    </div>
+    <div class="section" title="7.14.2&nbsp;高度な例"><div class="titlepage"><div><div><h3 class="title"><a name="d4e9271"></a>7.14.2&nbsp;高度な例</h3></div></div></div>
+      
+      <p>
+        第一級のモジュールを使うと、ファンクタを使わずにコード断片をモジュール内でパラメータ化することができます。
+        
+      </p>
+      <pre class="programlisting">
+let sort (type s) set l =
+  let module Set = (val set : Set.S with type elt = s) in
+  Set.elements (List.fold_right Set.add l Set.empty)
+      </pre>
+      <p>
+        この関数に対して推論される型は <code class="code">(module Set.S with type elt = ’a) -&gt; ’a list -&gt; ’a list</code> です。この関数を使うには <code class="code">Set.Make</code> ファンクタをラップします。
+        
+      </p>
+      <pre class="programlisting">
+let make_set (type s) cmp =
+  let module S = Set.Make(struct
+    type t = s
+    let compare = cmp
+  end) in
+  (module S : Set.S with type elt = s)
+      </pre>
+      <p>
+        この関数の型は <code class="code">(’a -&gt; ’a -&gt; int) -&gt; (module Set.S with type elt = ’a)</code> です。
+        
+      </p>
+      <p>
+        第一級モジュールの別の高度な利用法として、存在型を表現するというものがあります。特に、これは一般化代数データ型（GADT）を模倣するのに使うことができます。これを示すために、まず型の等価性を表す型を定義します。
+        
+      </p>
+      <pre class="programlisting">
+module TypEq : sig
+  type ('a, 'b) t
+  val apply: ('a, 'b) t -&gt; 'a -&gt; 'b
+  val refl: ('a, 'a) t
+  val sym: ('a, 'b) t -&gt; ('b, 'a) t
+end = struct
+  type ('a, 'b) t = ('a -&gt; 'b) * ('b -&gt; 'a)
+  let refl = (fun x -&gt; x), (fun x -&gt; x)
+  let apply (f, _) x = f x
+  let sym (f, g) = (g, f)
+end
+      </pre>
+      <p>
+        次に、型構成子から型パラメータの情報が得られるような代数データ型を定義します。
+        
+      </p>
+      <pre class="programlisting">
+module rec Typ : sig
+  module type PAIR = sig
+    type t and t1 and t2
+    val eq: (t, t1 * t2) TypEq.t
+    val t1: t1 Typ.typ
+    val t2: t2 Typ.typ
+  end
+
+  type 'a typ =
+    | Int of ('a, int) TypEq.t
+    | String of ('a, string) TypEq.t
+    | Pair of (module PAIR with type t = 'a)
+end = Typ
+      </pre>
+      <p>
+        <code class="code">'a typ</code> 型の値が型 <code class="code">'a</code> の実行時の表現になるものとします。 <code class="code">Int</code> と <code class="code">String</code> 構成子は簡単で、型パラメータ <code class="code">'a</code> と、基盤の型 <code class="code">int</code> （または <code class="code">string</code>）との等価性を与えるだけです。 <code class="code">Pair</code> 構成子はもっと複雑です。型パラメータ <code class="code">'a</code> と <code class="code">t1 * t2</code> という形式の型の等価性に、 <code class="code">t1</code> と <code class="code">t2</code> の表現を加えたものを与えたいのですが、 <code class="code">t1</code> と <code class="code">t2</code> は与えられていません。このコードでは、第一級のモジュールを使って存在型を模倣しています。
+        
+      </p>
+      <p>
+        <code class="code">'a typ</code> 型の値は次のようにして構成します。
+        
+      </p>
+      <pre class="programlisting">
+let int = Typ.Int TypEq.refl
+
+let str = Typ.String TypEq.refl
+
+let pair (type s1) (type s2) t1 t2 =
+  let module P = struct
+    type t = s1 * s2
+    type t1 = s1
+    type t2 = s2
+    let eq = TypEq.refl
+    let t1 = t1
+    let t2 = t2
+  end in
+  let pair = (module P : Typ.PAIR with type t = s1 * s2) in
+  Typ.Pair pair
+      </pre>
+      <p>
+        最後に、例として、ある型 <code class="code">'a</code> の実行時表現とその型の値を取り、その値を文字列として整形して返す多相関数を示します。
+        
+      </p>
+      <pre class="programlisting">
+open Typ
+let rec to_string: 'a. 'a Typ.typ -&gt; 'a -&gt; string =
+  fun (type s) t x -&gt;
+    match t with
+    | Int eq -&gt; string_of_int (TypEq.apply eq x)
+    | String eq -&gt; Printf.sprintf "%S" (TypEq.apply eq x)
+    | Pair p -&gt;
+        let module P = (val p : PAIR with type t = s) in
+        let (x1, x2) = TypEq.apply P.eq x in
+        Printf.sprintf "(%s,%s)" (to_string P.t1 x1) (to_string P.t2 x2)
+      </pre>
+      <p>
+        多相再帰を使うために多相型アノテーションを使っていることに注意してください。
+        
+      </p>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s13.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s15.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">7.13&nbsp;型変数の命名&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;7.15&nbsp;モジュールの型の復元</td></tr></table></div></body></html>

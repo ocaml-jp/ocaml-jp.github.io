@@ -1,0 +1,44 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>7.12&nbsp;多相型アノテーション</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch07.html" title="7.&nbsp;Language extensions"><link rel="prev" href="ch07s11.html" title="7.11&nbsp;レコードの記法"><link rel="next" href="ch07s13.html" title="7.13&nbsp;型変数の命名"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.12&nbsp;多相型アノテーション</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s11.html">前のページ</a>&nbsp;</td><th width="60%" align="center">7.&nbsp;Language extensions</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s13.html">次のページ</a></td></tr></table><hr></div><div class="section" title="7.12&nbsp;多相型アノテーション"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Explicit polymorphic type annotations"></a>7.12&nbsp;多相型アノテーション</h2></div></div></div>
+    
+    <p>（OCaml 3.12 〜）</p>
+    <div class="syntax">
+      <table id="d4e9092">
+        <tbody>
+          <tr>
+            <td rowspan="2" valign="baseline"><a class="bnf-non-terminal" href="ch06s07.html#bnf--let-binding">let-binding</a></td>
+            <td><span class="meta">::=</span></td>
+            <td><span class="meta">...</span></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td><a class="bnf-non-terminal" href="ch06s03.html#bnf--value-name">value-name</a> : <a class="bnf-non-terminal" href="ch06s04.html#bnf--poly-typexpr">poly-typexpr</a> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      <code class="code">let</code> 定義中の多相型アノテーションは多相メソッドのように振る舞います。これにより、定義された値が多相的であることを要求し、（<code class="code">let rec</code> 中で）再帰的に現れた場合に多相性を使うことができます。ただし、これは通常の多相型であり、自身の任意のインスタンスと単一化できるだけであることに注意してください。
+    </p>
+    <p>
+      この機能の利用法はふたつあります。ひとつは多相再帰です。
+    </p>
+    <pre class="programlisting">
+type 'a t = Leaf of 'a | Node of ('a * 'a) t
+  let rec depth : 'a. 'a t -&gt; 'b = function
+      Leaf _ -&gt; 1
+    | Node x -&gt; 1 + depth x
+    </pre>
+    <p>
+      ここで、 <code class="code">'b</code> は多相的であると指定していないことに注意してください。 <code class="code">'b</code> は <code class="code">int</code> に単一化されます。
+    </p>
+    <p>
+      もうひとつの利用法は、ある定義が充分に多相的であることを保証するものです。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let id : ’a. ’a -&gt; ’a = <span class="warned">fun x -&gt; x+1</span> ;;</code></strong>
+<code class="computeroutput">Error: This definition has type int -&gt; int which is less general than
+         ’a. ’a -&gt; ’a</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s11.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s13.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">7.11&nbsp;レコードの記法&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;7.13&nbsp;型変数の命名</td></tr></table></div></body></html>

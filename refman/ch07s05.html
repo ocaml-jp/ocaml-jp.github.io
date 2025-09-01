@@ -1,0 +1,12 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>7.5&nbsp;表明の検査</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch07.html" title="7.&nbsp;Language extensions"><link rel="prev" href="ch07s04.html" title="7.4&nbsp;範囲パターン"><link rel="next" href="ch07s06.html" title="7.6&nbsp;遅延評価"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.5&nbsp;表明の検査</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s04.html">前のページ</a>&nbsp;</td><th width="60%" align="center">7.&nbsp;Language extensions</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s06.html">次のページ</a></td></tr></table><hr></div><div class="section" title="7.5&nbsp;表明の検査"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e8660"></a>7.5&nbsp;表明の検査</h2></div></div></div>
+    
+    <p>（OCaml 1.06 〜）</p>
+    <p>
+      Objective Caml にはデバッグ用の表明を検査するための <code class="code">assert</code> 構文があります。式 <code class="syntax">assert <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></code> は式 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> を評価し、それが <code class="code">true</code> に評価された場合 <code class="code">()</code> を返します。それ以外の場合には、式の場所とソースファイルの名前を引数として <code class="code">Assert_failure</code> 例外を発生させます。表明の検査は <code class="option">-noassert</code> オプションで無効にすることができます。
+    </p>
+    <p>
+      特別な場合として、 <code class="code">assert false</code> は <code class="code">raise (Assert_failure ...)</code> に簡約されます。この式は多相的です（また <code class="option">-noassert</code> オプションで無効化されません）。
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s04.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s06.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">7.4&nbsp;範囲パターン&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;7.6&nbsp;遅延評価</td></tr></table></div></body></html>

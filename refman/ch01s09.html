@@ -1,0 +1,30 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>1.9&nbsp;スタンドアロン Caml プログラム</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch01.html" title="1.&nbsp;The core language"><link rel="prev" href="ch01s08.html" title="1.8&nbsp;pretty-print と構文解析"><link rel="next" href="ch02.html" title="2.&nbsp;モジュールシステム"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">1.9&nbsp;スタンドアロン Caml プログラム </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01s08.html">前のページ</a>&nbsp;</td><th width="60%" align="center">1.&nbsp;The core language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="1.9&nbsp;スタンドアロン Caml プログラム"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Standalone Caml programs"></a>1.9&nbsp;スタンドアロン Caml プログラム </h2></div></div></div>
+    
+    <p>
+      今までは対話式システムですべての例を実行してきました。Caml のコードは、バッチコンパイラ <span class="command"><strong>ocamlc</strong></span> または <span class="command"><strong>ocamlopt</strong></span> を使用することで分割コンパイルも出来、非対話的に実行することも出来ます。ソースコードのファイルは拡張子を <code class="filename">.ml</code> としてください。ソースコードは文の列から成り、実行時にソースコードの上から順に評価していきます。対話環境と異なり、型や値が自動的に表示されることはありません。何か出力するにはプログラムから表示関数を呼んでください。以下にフィボナッチ数列を表示するスタンドアロンプログラムの例を示します。 
+    </p>
+    <pre class="programlisting">
+(* File fib.ml *)
+let rec fib n =
+  if n &lt; 2 then 1 else fib(n-1) + fib(n-2);;
+let main () =
+  let arg = int_of_string Sys.argv.(1) in
+  print_int(fib arg);
+  print_newline();
+  exit 0;;
+main ();;
+    </pre>
+    <p>
+      <code class="code">Sys.argv</code> はコマンドライン引数を格納した文字列の配列です。 <code class="code">Sys.argv.(1)</code> はその配列の先頭の引数の文字列です。
+      このプログラムは以下のようにしてコンパイルして実行します。
+    </p>
+    <pre class="programlisting">
+$ ocamlc -o fib fib.ml
+$ ./fib 10
+89
+$ ./fib 20
+10946
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch01s08.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch01.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">1.8&nbsp;pretty-print と構文解析 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;2.&nbsp;モジュールシステム </td></tr></table></div></body></html>

@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Arith_status.html">
+<link rel="next" href="ArrayLabels.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><link title="整列" rel="Section" href="#2_">
+<title>Array</title>
+</head>
+<body>
+<div class="navbar"><a href="Arith_status.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="ArrayLabels.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Array.html">Array</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Array: <code class="code"><span class="keyword">sig</span></code> <a href="Array.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>配列の操作<br>
+<hr width="100%">
+<pre><span id="VALlength"><span class="keyword">val</span> length</span> : <code class="type">'a array -> int</code></pre><div class="info">
+与えられた配列の長さ（要素数）を返します。<br>
+</div>
+<pre><span id="VALget"><span class="keyword">val</span> get</span> : <code class="type">'a array -> int -> 'a</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.get a n</code> は配列 <code class="code">a</code> の <code class="code">n</code> 番目の要素を返します。
+    最初の要素は 0 番目で、最後の要素は <code class="code"><span class="constructor">Array</span>.length a - 1</code> 番目です。
+    <code class="code"><span class="constructor">Array</span>.get a n</code> の代わりに <code class="code">a.(n)</code> と書くこともできます。
+<p>
+
+    <code class="code">n</code> が 0 から <code class="code">(<span class="constructor">Array</span>.length a - 1)</code> の範囲にない場合には <code class="code"><span class="constructor">Invalid_argument</span> <span class="string">"index out of bounds"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALset"><span class="keyword">val</span> set</span> : <code class="type">'a array -> int -> 'a -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.set a n x</code> は <code class="code">a</code> を破壊的に変更し、 <code class="code">n</code> 番目の要素を <code class="code">x</code> で置き換えます。
+    <code class="code"><span class="constructor">Array</span>.set a n x</code> の代わりに <code class="code">a.(n) &lt;- x</code> と書くこともできます。
+<p>
+
+    <code class="code">n</code> が 0 から <code class="code">(<span class="constructor">Array</span>.length a - 1)</code> の範囲にない場合には <code class="code"><span class="constructor">Invalid_argument</span> <span class="string">"index out of bounds"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALmake"><span class="keyword">val</span> make</span> : <code class="type">int -> 'a -> 'a array</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.make n x</code> は長さ <code class="code">n</code> の配列を新たに作り、その要素を <code class="code">x</code> で初期化します。
+    この配列の要素はすべて <code class="code">x</code> と（述語 <code class="code">==</code> の意味で）物理的に等価です。
+    そのため、 <code class="code">x</code> が変更可能な場合、 <code class="code">x</code> はこの配列の全要素で共有されるため、
+    配列の要素のいずれかを介して <code class="code">x</code> を変更すると配列の要素がすべて同時に変更されます。
+<p>
+
+    <code class="code">n &lt; 0</code> か <code class="code">n &gt; <span class="constructor">Sys</span>.max_array_length</code> の場合には <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。
+    <code class="code">x</code> が <code class="code">float</code> 型である場合には、配列の最大サイズは <code class="code"><span class="constructor">Sys</span>.max_array_length / 2</code>
+    になります。<br>
+</div>
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">int -> 'a -> 'a array</code></pre><div class="info">
+<span class="warning">Deprecated.</span><code class="code"><span class="constructor">Array</span>.create</code> は <a href="Array.html#VALmake"><code class="code"><span class="constructor">Array</span>.make</code></a> の別名です。<br>
+</div>
+<pre><span id="VALinit"><span class="keyword">val</span> init</span> : <code class="type">int -> (int -> 'a) -> 'a array</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.init n f</code> は長さ <code class="code">n</code> の配列を作成し、 <code class="code">i</code> 番目の要素を <code class="code">f i</code> の戻り値で初期化します。
+    言い換えると、 <code class="code">f</code> を整数 <code class="code">0</code> から <code class="code">n - 1</code> に適用して、その結果を表にします。
+<p>
+
+    <code class="code">n &lt; 0</code> か <code class="code">n &gt; <span class="constructor">Sys</span>.max_array_length</code> の場合には <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。
+    <code class="code">x</code> が <code class="code">float</code> 型である場合には、配列の最大サイズは <code class="code"><span class="constructor">Sys</span>.max_array_length / 2</code><br>
+</div>
+<pre><span id="VALmake_matrix"><span class="keyword">val</span> make_matrix</span> : <code class="type">int -> int -> 'a -> 'a array array</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.make_matrix dimx dimy</code> は、最初の次元が <code class="code">dimx</code>、二番目の次元が <code class="code">dimy</code> であるような二次元配列（配列の配列）を返します。
+    この行列の要素はすべて <code class="code">e</code> に物理的に等価な要素で初期化されます。
+    行列 <code class="code">m</code> の <code class="code">(x, y)</code> 要素は <code class="code">m.(x).(y)</code> でアクセスできます。
+<p>
+
+    <code class="code">dimx</code> か <code class="code">dimy</code> のいずれかが負であるか <code class="code"><span class="constructor">Sys</span>.max_array_length</code> より大きい場合には <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。
+    <code class="code">e</code> の値が浮動小数点数であった場合には、最大要素数は <code class="code"><span class="constructor">Sys</span>.max_array_length / 2</code> になります。<br>
+</div>
+<pre><span id="VALcreate_matrix"><span class="keyword">val</span> create_matrix</span> : <code class="type">int -> int -> 'a -> 'a array array</code></pre><div class="info">
+<span class="warning">Deprecated.</span><code class="code"><span class="constructor">Array</span>.create_matrix</code> は <a href="Array.html#VALmake_matrix"><code class="code"><span class="constructor">Array</span>.make_matrix</code></a> の別名です。<br>
+</div>
+<pre><span id="VALappend"><span class="keyword">val</span> append</span> : <code class="type">'a array -> 'a array -> 'a array</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.append v1 v2</code> は配列 <code class="code">v1</code> と <code class="code">v2</code> を連結した新しい配列を返します。<br>
+</div>
+<pre><span id="VALconcat"><span class="keyword">val</span> concat</span> : <code class="type">'a array list -> 'a array</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.append</code> と同じですが、配列のリストを連結します。<br>
+</div>
+<pre><span id="VALsub"><span class="keyword">val</span> sub</span> : <code class="type">'a array -> int -> int -> 'a array</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.sub a start len</code> は、長さ <code class="code">len</code> で、配列 <code class="code">a</code> の <code class="code">start</code> 番目から
+    <code class="code">start + len - 1</code> 番目の要素までを含む新しい配列を返します。
+<p>
+
+    <code class="code">start</code> と <code class="code">len</code> が <code class="code">a</code> の有効な部分配列を表さない場合、すなわち、
+    <code class="code">start &lt; 0</code> である場合や、 <code class="code">len &lt; 0</code> の場合、 <code class="code">start + len &gt; <span class="constructor">Array</span>.length a</code>
+    である場合には <code class="code"><span class="constructor">Invalid_argument</span> <span class="string">"Array.sub"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALcopy"><span class="keyword">val</span> copy</span> : <code class="type">'a array -> 'a array</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.copy a</code> は配列 <code class="code">a</code> のコピー、すなわち、 <code class="code">a</code> と同じ要素を格納した新しい配列を返します。<br>
+</div>
+<pre><span id="VALfill"><span class="keyword">val</span> fill</span> : <code class="type">'a array -> int -> int -> 'a -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.fill a ofs len x</code> は配列 <code class="code">a</code> を破壊的に変更し、 <code class="code">a</code> の
+    <code class="code">ofs</code> から <code class="code">ofs + len - 1</code> 番目に <code class="code">x</code> を格納します。
+<p>
+
+    <code class="code">ofs</code> と <code class="code">len</code> が <code class="code">a</code> の有効な部分配列を表さない場合には
+    <code class="code"><span class="constructor">Invalid_argument</span> <span class="string">"Array.fill"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALblit"><span class="keyword">val</span> blit</span> : <code class="type">'a array -> int -> 'a array -> int -> int -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.blit v1 o1 v2 o2 len</code> は配列 <code class="code">v1</code> の <code class="code">o1</code> 番目の要素から
+    <code class="code">len</code> 個の要素を、配列 <code class="code">v2</code> の <code class="code">o2</code> 番目にコピーします。
+    この関数は <code class="code">v1</code> と <code class="code">v2</code> が同一の配列で、コピー元とコピー先の区間に重なりがあった場合にも正しく動作します。
+<p>
+
+    <code class="code">o1</code> と <code class="code">len</code> が <code class="code">v1</code> の有効な部分配列を表さない場合や、
+    <code class="code">o2</code> と <code class="code">len</code> が <code class="code">v2</code> の有効な部分配列を表さない場合は
+    <code class="code"><span class="constructor">Invalid_argument</span> <span class="string">"Array.blit"</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALto_list"><span class="keyword">val</span> to_list</span> : <code class="type">'a array -> 'a list</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.to_list a</code> は <code class="code">a</code> の全要素のリストを返します。<br>
+</div>
+<pre><span id="VALof_list"><span class="keyword">val</span> of_list</span> : <code class="type">'a list -> 'a array</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.of_list l</code> は <code class="code">l</code> のすべての要素を格納した新たな配列を返します。<br>
+</div>
+<pre><span id="VALiter"><span class="keyword">val</span> iter</span> : <code class="type">('a -> unit) -> 'a array -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.iter f a</code> は関数 <code class="code">f</code> を <code class="code">a</code> のすべての要素に順に適用します。
+    これは、 <code class="code">f a.(0); f a.(1); ...; f a.(<span class="constructor">Array</span>.length a - 1); ()</code> と等価です。<br>
+</div>
+<pre><span id="VALmap"><span class="keyword">val</span> map</span> : <code class="type">('a -> 'b) -> 'a array -> 'b array</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.map f a</code> は <code class="code">a</code> の全要素に関数 <code class="code">f</code> を適用し、その戻り値で配列を作ります。
+    <code class="code">[| f a.(0); f a.(1); ...; f a.(<span class="constructor">Array</span>.length a - 1) |]</code> と等価です。<br>
+</div>
+<pre><span id="VALiteri"><span class="keyword">val</span> iteri</span> : <code class="type">(int -> 'a -> unit) -> 'a array -> unit</code></pre><div class="info">
+<a href="Array.html#VALiter"><code class="code"><span class="constructor">Array</span>.iter</code></a> と同じですが、関数の第一引数として要素の添字を渡し、第二引数として要素自体を渡します。<br>
+</div>
+<pre><span id="VALmapi"><span class="keyword">val</span> mapi</span> : <code class="type">(int -> 'a -> 'b) -> 'a array -> 'b array</code></pre><div class="info">
+<a href="Array.html#VALmap"><code class="code"><span class="constructor">Array</span>.map</code></a> と同じですが、関数の第一引数として要素の添字を渡し、第二引数として要素自体を渡します。<br>
+</div>
+<pre><span id="VALfold_left"><span class="keyword">val</span> fold_left</span> : <code class="type">('a -> 'b -> 'a) -> 'a -> 'b array -> 'a</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.fold_left</code> は
+    <code class="code">f (... (f (f x a.(0)) a.(1)) ...) a.(n-1)</code> を計算します。
+    ここで <code class="code">n</code> は配列 <code class="code">a</code> の長さです。<br>
+</div>
+<pre><span id="VALfold_right"><span class="keyword">val</span> fold_right</span> : <code class="type">('a -> 'b -> 'b) -> 'a array -> 'b -> 'b</code></pre><div class="info">
+<code class="code"><span class="constructor">Array</span>.fold_right f a x</code> は
+    <code class="code">f a.(0) (f a.(1) ( ... (f a.(n-1) x) ...))</code> を計算します。
+    ここで <code class="code">n</code> は配列 <code class="code">a</code> の長さです。<br>
+</div>
+<br>
+<span id="2_"><h2>整列</h2></span><br>
+<pre><span id="VALsort"><span class="keyword">val</span> sort</span> : <code class="type">('a -> 'a -> int) -> 'a array -> unit</code></pre><div class="info">
+配列を比較関数に関して昇順に整列させます。
+    比較関数は引数が等しい場合には 0 を返し、第一引数がより大きい場合には正の整数を返し、第一引数がより小さい場合には負の整数を返さなければなりません（完全な仕様については下を見て下さい）。
+    例えば <a href="Pervasives.html#VALcompare"><code class="code">compare</code></a> は、浮動小数点数の NaN がデータに現れない場合には適切な比較関数です。
+    <code class="code"><span class="constructor">Array</span>.sort</code> を呼び出すと、配列は昇順に破壊的に変更されます。
+    <code class="code"><span class="constructor">Array</span>.sort</code> は一定のヒープ空間を使い、（最悪の場合）対数オーダーのスタック空間を使います。
+<p>
+
+    現在の実装はヒープソートを使っています。この実装は一定のスタック空間で実行できます。
+<p>
+
+    比較関数の仕様:
+    <code class="code">a</code> を配列とし、 <code class="code">cmp</code> を比較関数とします。 <code class="code">a</code> 中のすべての <code class="code">x</code>、 <code class="code">y</code>、 <code class="code">x</code> について以下を満たさなければなりません。
+<p>
+<ul>
+<li><code class="code">cmp y x</code> &lt; 0 の場合、かつその場合にかぎり <code class="code">cmp x y</code> &gt; 0</li>
+<li><code class="code">cmp x y</code> &gt;= 0 かつ <code class="code">cmp y z</code> &gt;= 0 のとき <code class="code">cmp x z</code> &gt;= 0</li>
+</ul>
+
+    <code class="code"><span class="constructor">Array</span>.sort</code> から返ると、 <code class="code">a</code> はもとと等しい要素を格納し、有効な添字 i、 j について要素が次の条件を満たすように並べ換えられたものになります。
+<p>
+<ul>
+<li>i &gt;= j の場合、かつその場合に限り、 <code class="code">cmp a.(i) a.(j)</code> &gt;= 0。</li>
+</ul>
+<br>
+</div>
+<pre><span id="VALstable_sort"><span class="keyword">val</span> stable_sort</span> : <code class="type">('a -> 'a -> int) -> 'a array -> unit</code></pre><div class="info">
+<a href="Array.html#VALsort"><code class="code"><span class="constructor">Array</span>.sort</code></a> と同じですが、整列アルゴリズムが安定で（すなわち、等しいと判定された要素はもとの順序が保たれます）、一定のヒープ空間で実行できることが保証されません。
+<p>
+
+    現在の実装はマージソートです。
+    この実装は、配列の長さを <code class="code">n</code> としたとき、 <code class="code">n / 2</code> 語のヒープ空間を使います。
+    多くの場合、 <a href="Array.html#VALsort"><code class="code"><span class="constructor">Array</span>.sort</code></a> の実装よりも高速です。<br>
+</div>
+<pre><span id="VALfast_sort"><span class="keyword">val</span> fast_sort</span> : <code class="type">('a -> 'a -> int) -> 'a array -> unit</code></pre><div class="info">
+<a href="Array.html#VALsort"><code class="code"><span class="constructor">Array</span>.sort</code></a> か <a href="Array.html#VALstable_sort"><code class="code"><span class="constructor">Array</span>.stable_sort</code></a> のうち、典型的な入力に対してより高速な方と同じです。<br>
+</div>
+</body></html>

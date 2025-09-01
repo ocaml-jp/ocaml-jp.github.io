@@ -1,0 +1,320 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>6.6&nbsp;パターン</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch06.html" title="6.&nbsp;The Objective Caml language"><link rel="prev" href="ch06s05.html" title="6.5&nbsp;定数"><link rel="next" href="ch06s07.html" title="6.7&nbsp;式"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.6&nbsp;パターン </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s05.html">前のページ</a>&nbsp;</td><th width="60%" align="center">6.&nbsp;The Objective Caml language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s07.html">次のページ</a></td></tr></table><hr></div><div class="section" title="6.6&nbsp;パターン"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e3872"></a>6.6&nbsp;パターン </h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch06s06.html#d4e4030">6.6.1. 変数パターン </a></span></dt><dt><span class="section"><a href="ch06s06.html#d4e4037">6.6.2. 定数パターン </a></span></dt><dt><span class="section"><a href="ch06s06.html#d4e4040">6.6.3. alias パターン </a></span></dt><dt><span class="section"><a href="ch06s06.html#d4e4060">6.6.4. 括弧つきのパターン</a></span></dt><dt><span class="section"><a href="ch06s06.html#d4e4085">6.6.5. or パターン </a></span></dt><dt><span class="section"><a href="ch06s06.html#d4e4144">6.6.6. バリアントパターン </a></span></dt><dt><span class="section"><a href="ch06s06.html#d4e4201">6.6.7. 多相バリアントパターン </a></span></dt><dt><span class="section"><a href="ch06s06.html#d4e4215">6.6.8. バリアント略記パターン </a></span></dt><dt><span class="section"><a href="ch06s06.html#d4e4281">6.6.9. タプルパターン </a></span></dt><dt><span class="section"><a href="ch06s06.html#d4e4316">6.6.10. レコードパターン </a></span></dt><dt><span class="section"><a href="ch06s06.html#d4e4363">6.6.11. 配列パターン </a></span></dt></dl></div>
+  
+
+  <table id="d4e3874">
+    <tbody>
+      <tr>
+        <td rowspan="16" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--pattern"></a>pattern</span></td>
+        <td>::=</td>
+        <td><a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">_</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s05.html#bnf--constant"><span class="bnf-non-terminal">constant</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> <span class="bnf-terminal">as</span> <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">(</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">(</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> <span class="bnf-terminal">|</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s03.html#bnf--constr"><span class="bnf-non-terminal">constr</span></a> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">`</span> <a class="link" href="ch06s03.html#bnf--tag-name"><span class="bnf-non-terminal">tag-name</span></a> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">#</span> <a class="link" href="ch06s03.html#bnf--typeconstr-name"><span class="bnf-non-terminal">typeconstr-name</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> { <span class="bnf-terminal">,</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> }</td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">{</span> <a class="link" href="ch06s03.html#bnf--field"><span class="bnf-non-terminal">field</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> { <span class="bnf-terminal">;</span> <a class="link" href="ch06s03.html#bnf--field"><span class="bnf-non-terminal">field</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> } <span class="bnf-terminal">}</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">[</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> { <span class="bnf-terminal">;</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> } <span class="bnf-terminal">]</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> <span class="bnf-terminal">::</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">[|</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> { <span class="bnf-terminal">;</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a> } <span class="bnf-terminal">|]</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">lazy</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    下の表は、閉じてないパターン構文の場合の演算子の結合性と優先順位を示しています。 優先度が高いものが先に来ます。 
+  </p>
+  <table id="d4e4005">
+    <tbody>
+      
+      <tr><th>演算子</th><th>結合性</th></tr>
+      
+      <tr><td>構成子の適用</td><td>-</td></tr>
+      <tr><td><code class="code">::</code></td><td>右</td></tr>
+      <tr><td><code class="code">,</code></td><td>--</td></tr>
+      <tr><td><code class="code">｜</code></td><td>左</td></tr>
+      <tr><td><code class="code">as</code></td><td>-</td></tr>
+    </tbody>
+  </table>
+  <p>
+    パターンは、与えられた形のデータ構造を選択し、データ構造の要素を識別子に束縛します。この選択操作をパターンマッチングと呼びます。処理結果は「この値は、このパターンにはマッチしない」 か、「この値はこのパターンにマッチするから、ある名前をその値に束縛する」のどちらかになります。 
+  </p>
+  <div class="section" title="6.6.1&nbsp;変数パターン"><div class="titlepage"><div><div><h3 class="title"><a name="d4e4030"></a>6.6.1&nbsp;変数パターン </h3></div></div></div>
+    
+    <p>
+      変数名から成るパターンは全ての値にマッチし、その値にその名前を束縛します。 パターン <span class="bnf-terminal">_</span> も全ての値にマッチしますが、名前を束縛しません。 
+    </p>
+    <p>
+      パターンは<span class="emphasis"><em>線形</em></span>です。すなわち、同一の変数がパターンに複数回現れることは出来ません。特に、パターンのみを使ってデータ構造間の等価性を検査することは出来ません（そのためには <span class="bnf-terminal">when</span> 使います）。 
+    </p>
+  </div>
+  <div class="section" title="6.6.2&nbsp;定数パターン"><div class="titlepage"><div><div><h3 class="title"><a name="d4e4037"></a>6.6.2&nbsp;定数パターン </h3></div></div></div>
+    
+    <p>
+      定数からなるパターンは、値がこの定数に等しいときにマッチします。
+    </p>
+  </div>
+  <div class="section" title="6.6.3&nbsp;alias パターン"><div class="titlepage"><div><div><h3 class="title"><a name="d4e4040"></a>6.6.3&nbsp;alias パターン </h3></div></div></div>
+    
+    <p>
+      パターン
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> <span class="bnf-terminal">as</span> <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a>
+      は、
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> 
+      と同じ値にマッチします。
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> 
+      にマッチした場合、
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> 
+      に対するマッチングによる束縛に加えて、名前
+      <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a>
+      にもマッチした値が束縛されます。 
+    </p>
+  </div>
+  <div class="section" title="6.6.4&nbsp;括弧つきのパターン"><div class="titlepage"><div><div><h3 class="title"><a name="d4e4060"></a>6.6.4&nbsp;括弧つきのパターン</h3></div></div></div>
+    
+    <p>
+      パターン
+      <span class="bnf-terminal">(</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> <span class="bnf-terminal">)</span>
+      は、
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a>
+      と同じ値にマッチします。 括弧つきのパターンには、
+      <span class="bnf-terminal">(</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">)</span>
+      の様に型制約をつける事が出来ます。 この型制約は
+      <span class="bnf-terminal">(</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> <span class="bnf-terminal">)</span>
+      が
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a>
+      と互換性があることを強制します。 
+    </p>
+  </div>
+  <div class="section" title="6.6.5&nbsp;or パターン"><div class="titlepage"><div><div><h3 class="title"><a name="d4e4085"></a>6.6.5&nbsp;or パターン </h3></div></div></div>
+    
+    <p>
+      パターン
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> <span class="bnf-terminal">|</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>2</sub>
+      は、二つのパターン
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub>
+      と
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>2</sub>
+      の論理和を表します。 値が、
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> <span class="bnf-terminal">|</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>2</sub>
+      にマッチするとは、
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub>
+      にマッチするか、
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>2</sub>
+      にマッチすることを言います。 二つのサブパターン
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub>
+      と
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>2</sub>
+      は、同じ型を持つ値を示す、全く同じ識別子を束縛しなければなりません。
+    </p>
+    <p>
+      (旧) ``or'' パターンに対するマッチングによる束縛は、 まず pattern1 によるマッチングによって束縛されるか、 pattern2 によるマッチングによって束縛されるかのどちらかです。 両方が成功した場合は、どちらの束縛が選択されるかは未定義です。 
+    </p>
+    <p>
+      マッチングは左から右に行なわれます。
+
+      より正確に言うと、ある値 <em class="parameter"><code>v</code></em> が
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> <span class="bnf-terminal">|</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>2</sub>
+      にマッチするとき、
+      <em class="parameter"><code>v</code></em> が
+    <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub>
+    にマッチするときは
+    <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub>
+    による束縛が行なわれ、そうでなければ <em class="parameter"><code>v</code></em> は
+    <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>2</sub>
+    にマッチし、
+    <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>2</sub>
+    によって束縛が行われます。
+    
+    </p>
+  </div>
+  <div class="section" title="6.6.6&nbsp;バリアントパターン"><div class="titlepage"><div><div><h3 class="title"><a name="d4e4144"></a>6.6.6&nbsp;バリアントパターン </h3></div></div></div>
+    
+    <p>
+      パターン
+      <a class="link" href="ch06s03.html#bnf--constr"><span class="bnf-non-terminal">constr</span></a> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub>
+      は、構成子が
+      <a class="link" href="ch06s03.html#bnf--constr"><span class="bnf-non-terminal">constr</span></a>
+      と等しく、引数が
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub>
+      にマッチする任意のバリアントにマッチします。
+      
+    </p>
+    <p>
+      パターン
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub>
+      <span class="bnf-terminal">::</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a>
+      は、頭部が
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub>
+      にマッチし、尾部が
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>2</sub>
+      にマッチする、空でないリストにマッチします。
+      
+    </p>
+    <p>
+      パターン
+      <span class="bnf-terminal">[</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> <span class="bnf-terminal">;</span> ...  <span class="bnf-terminal">;</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub><em class="parameter"><code>n</code></em></sub> <span class="bnf-terminal">]</span>
+      は長さが <em class="parameter"><code>n</code></em> で、要素が順に、
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub>
+      ...
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub><em class="parameter"><code>n</code></em></sub>
+      にマッチするリストにマッチします。
+      このパターンは
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> <span class="bnf-terminal">::</span> ...  <span class="bnf-terminal">::</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub><em class="parameter"><code>n</code></em></sub> <span class="bnf-terminal">::</span> <span class="bnf-terminal">[]</span>
+      と同じように振舞います。
+      
+    </p>
+  </div>
+  <div class="section" title="6.6.7&nbsp;多相バリアントパターン"><div class="titlepage"><div><div><h3 class="title"><a name="d4e4201"></a>6.6.7&nbsp;多相バリアントパターン </h3></div></div></div>
+    
+    <p>
+      パターン
+      <span class="bnf-terminal">`</span> <a class="link" href="ch06s03.html#bnf--tag-name"><span class="bnf-non-terminal">tag-name</span></a> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub>
+      はタグが <a class="link" href="ch06s03.html#bnf--tag-name"><span class="bnf-non-terminal">tag-name</span></a> に等しく、引数が 
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub>
+      にマッチするすべての多相バリアントにマッチします。
+      
+    </p>
+  </div>
+  <div class="section" title="6.6.8&nbsp;バリアント略記パターン"><div class="titlepage"><div><div><h3 class="title"><a name="d4e4215"></a>6.6.8&nbsp;バリアント略記パターン </h3></div></div></div>
+    
+    <p>
+      型
+      <span class="bnf-terminal">(</span>
+      <span class="bnf-terminal">'a</span> <span class="bnf-terminal">,</span> <span class="bnf-terminal">'b</span> <span class="bnf-terminal">,</span>
+      ...<span class="bnf-terminal">)</span>
+      <a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a>
+      <span class="bnf-terminal">=</span>
+      <span class="bnf-terminal">[</span>
+      <span class="bnf-terminal">`</span>
+      <a class="link" href="ch06s03.html#bnf--tag-name"><span class="bnf-non-terminal">tag-name</span></a><sub>1</sub>
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub>
+      <span class="bnf-terminal">|</span> ... <span class="bnf-terminal">|</span>
+      <span class="bnf-terminal">`</span>
+      <a class="link" href="ch06s03.html#bnf--tag-name"><span class="bnf-non-terminal">tag-name</span></a><sub><em class="parameter"><code>n</code></em></sub>
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub><em class="parameter"><code>n</code></em></sub>
+      <span class="bnf-terminal">]</span>
+      が定義されているとき、パターン
+      <span class="bnf-terminal">#</span> <a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a> は
+      or パターン
+      <span class="bnf-terminal">(</span>
+      <span class="bnf-terminal">`</span>
+      <a class="link" href="ch06s03.html#bnf--tag-name"><span class="bnf-non-terminal">tag-name</span></a><sub>1</sub>
+      <span class="bnf-terminal">(</span> <span class="bnf-terminal">_</span> <span class="bnf-terminal">:</span>
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub>
+      <span class="bnf-terminal">)</span>
+      <span class="bnf-terminal">|</span> ... <span class="bnf-terminal">|</span>
+      <span class="bnf-terminal">`</span>
+      <a class="link" href="ch06s03.html#bnf--tag-name"><span class="bnf-non-terminal">tag-name</span></a><sub><em class="parameter"><code>n</code></em></sub>
+      <span class="bnf-terminal">(</span> <span class="bnf-terminal">_</span> <span class="bnf-terminal">:</span>
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub><em class="parameter"><code>n</code></em></sub>
+      <span class="bnf-terminal">)</span>
+      <span class="bnf-terminal">)</span>
+      の略記法になります。
+      このパターンは型が 
+      <span class="bnf-terminal">#</span> <a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a>
+      であるすべての値にマッチします。
+      
+    </p>
+  </div>
+  <div class="section" title="6.6.9&nbsp;タプルパターン"><div class="titlepage"><div><div><h3 class="title"><a name="d4e4281"></a>6.6.9&nbsp;タプルパターン </h3></div></div></div>
+    
+    <p>
+      パターン
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub>
+      <span class="bnf-terminal">,</span> ... <span class="bnf-terminal">,</span>  <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub><em class="parameter"><code>n</code></em></sub>
+      は要素が各々
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> から
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub><em class="parameter"><code>n</code></em></sub> までにマッチする <em class="parameter"><code>n</code></em> 要素のタプルにマッチします。
+      すなわち、このパターンはタプル値 <code class="code">(<em class="parameter"><code>v<sub>1</sub></code></em>, ..., <em class="parameter"><code>v<sub><em class="parameter"><code>n</code></em></sub></code></em>)</code>
+      について <em class="parameter"><code>i</code></em> = 1, ..., <em class="parameter"><code>n</code></em> なる <em class="parameter"><code>v</code></em><sub><em class="parameter"><code>i</code></em></sub> が
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub><em class="parameter"><code>i</code></em></sub>
+      にマッチするようなタプルにマッチします。
+      
+    </p>
+  </div>
+  <div class="section" title="6.6.10&nbsp;レコードパターン"><div class="titlepage"><div><div><h3 class="title"><a name="d4e4316"></a>6.6.10&nbsp;レコードパターン </h3></div></div></div>
+    
+    <p>
+      パターン
+      <span class="bnf-terminal">{</span> <a class="link" href="ch06s03.html#bnf--field"><span class="bnf-non-terminal">field</span></a><sub>1</sub> <span class="bnf-terminal">=</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> <span class="bnf-terminal">;</span> ... <span class="bnf-terminal">;</span> <a class="link" href="ch06s03.html#bnf--field"><span class="bnf-non-terminal">field</span></a><sub><em class="parameter"><code>n</code></em></sub> <span class="bnf-terminal">=</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub><em class="parameter"><code>n</code></em></sub> <span class="bnf-terminal">}</span>
+      は、少なくとも
+      <a class="link" href="ch06s03.html#bnf--field"><span class="bnf-non-terminal">field</span></a><sub>1</sub>
+      から
+      <a class="link" href="ch06s03.html#bnf--field"><span class="bnf-non-terminal">field</span></a><sub><em class="parameter"><code>n</code></em></sub>
+      を定義したレコードで、
+      <em class="parameter"><code>i</code></em> = 1, ..., <em class="parameter"><code>n</code></em> なる
+      <a class="link" href="ch06s03.html#bnf--field"><span class="bnf-non-terminal">field</span></a><sub><em class="parameter"><code>i</code></em></sub>
+      が
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub><em class="parameter"><code>n</code></em></sub>
+      にマッチするような値であるとき、このパターンにマッチする。
+      レコード値は
+      <a class="link" href="ch06s03.html#bnf--field"><span class="bnf-non-terminal">field</span></a><sub>1</sub>, ..., 
+      <a class="link" href="ch06s03.html#bnf--field"><span class="bnf-non-terminal">field</span></a><sub><em class="parameter"><code>n</code></em></sub>
+      以外の値も定義していてもかまいません。
+      ただし、そのようなフィールドに対応する値はマッチングでは無視されます。
+      
+    </p>
+  </div>
+  <div class="section" title="6.6.11&nbsp;配列パターン"><div class="titlepage"><div><div><h3 class="title"><a name="d4e4363"></a>6.6.11&nbsp;配列パターン </h3></div></div></div>
+    
+    <p>
+      <span class="bnf-terminal">[|</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub>1</sub> <span class="bnf-terminal">;</span> ... <span class="bnf-terminal">;</span> <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub><em class="parameter"><code>n</code></em></sub> <span class="bnf-terminal">|]</span>
+      長さ <em class="parameter"><code>n</code></em> の配列で、 <em class="parameter"><code>i</code></em> = 1, ..., <em class="parameter"><code>n</code></em> なる <em class="parameter"><code>i</code></em> について、配列の <em class="parameter"><code>i</code></em> 番目の要素が
+      <a class="link" href="ch06s06.html#bnf--pattern"><span class="bnf-non-terminal">pattern</span></a><sub><em class="parameter"><code>i</code></em></sub>
+      にマッチするような配列にマッチします。
+      
+    </p>
+  </div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s05.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s07.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">6.5&nbsp;定数 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;6.7&nbsp;式 </td></tr></table></div></body></html>

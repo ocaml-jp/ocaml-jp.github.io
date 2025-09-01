@@ -1,0 +1,184 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>10.2&nbsp;オプション</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch10.html" title="10.&nbsp;ランタイムシステム（ocamlrun）"><link rel="prev" href="ch10s01.html" title="10.1&nbsp;概要"><link rel="next" href="ch10s03.html" title="10.3&nbsp;共有ライブラリの動的読み込み"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">10.2&nbsp;オプション</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch10s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">10.&nbsp;ランタイムシステム（<span class="command"><strong>ocamlrun</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch10s03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="10.2&nbsp;オプション"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:ocamlrun:options"></a>10.2&nbsp;オプション</h2></div></div></div>
+    
+    <p>
+      <span class="command"><strong>ocamlrun</strong></span> の認識するコマンドラインオプションは以下の通りです。
+      
+    </p>
+    <div class="variablelist"><dl><dt><span class="term"><code class="option">-b</code></span></dt><dd>
+          <p>
+            捕捉されなかった例外によりプログラムが終了する場合、実行の詳細なバックトレースとして、例外の起こった場所と、そのときの関数呼び出しを表示します。
+            バックトレースは実行可能バイトコードファイルにデバッグ情報が含まれる場合、すなわち、 <span class="command"><strong>ocamlc</strong></span> に <code class="option">-g</code> オプションを指定してバイトコードをコンパイル・リンクした場合にだけ表示されます。
+            このオプションは環境変数 <code class="envar">OCAMLRUNPARAM</code> に <code class="code">b</code> フラグを設定するのと等価です（下記参照）。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-I</code> <em class="replaceable"><code>dir</code></em></span></dt><dd>
+          <p>
+            動的読み込みされるライブラリを探索する際に標準の探索パスに加えてディレクトリ <em class="replaceable"><code>dir</code></em> も探索します（<a class="xref" href="ch10s03.html" title="10.3&nbsp;共有ライブラリの動的読み込み"> 10.3 節「共有ライブラリの動的読み込み」</a> 参照）。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-p</code></span></dt><dd>
+          <p>
+            このバージョンの <span class="command"><strong>ocamlrun</strong></span> に含まれるプリミティブ関数の名前を表示し終了します。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-v</code></span></dt><dd>
+          <p>
+            メモリマネージャの進捗メッセージを標準エラー出力に表示させるようにします。
+            これは、環境変数 <code class="envar">OCAMLRUNPARAM</code> に <code class="code">v=63</code> を設定することと等価です（下記参照）。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-version</code></span></dt><dd>
+          <p>
+            バージョンを表示して終了します。
+            
+          </p>
+        </dd><dt><span class="term"><code class="option">-vnum</code></span></dt><dd>
+          <p>
+            バージョン番号を短かい形式で表示して終了します。
+            
+          </p>
+        </dd></dl></div>
+    <p>
+      以下の環境変数も参照します。 
+      
+    </p>
+    <div class="variablelist"><dl><dt><span class="term"><code class="envar">CAML_LD_LIBRARY_PATH</code></span></dt><dd>
+          <p>
+            動的読み込みされるライブラリの探索パス用の追加のディレクトリ（<a class="xref" href="ch10s03.html" title="10.3&nbsp;共有ライブラリの動的読み込み"> 10.3 節「共有ライブラリの動的読み込み」</a> 参照）。
+            
+          </p>
+        </dd><dt><span class="term"><code class="envar">OCAMLLIB</code></span></dt><dd>
+          <p>
+            Objective Caml の標準ライブラリの格納されているディレクトリ（<code class="envar">OCAMLLIB</code> が設定されていない場合には、代わりに <code class="envar">CAMLLIB</code> が使われます）。
+            動的読み込み時に <code class="filename">ld.conf</code> 設定ファイルの場所を特定するために使われます（<a class="xref" href="ch10s03.html" title="10.3&nbsp;共有ライブラリの動的読み込み"> 10.3 節「共有ライブラリの動的読み込み」</a> を参照）。
+            設定されていなかった場合には Objective Caml をコンパイルしたときに指定したライブラリディレクトリが使われます。
+            
+          </p>
+        </dd><dt><span class="term"><code class="envar">OCAMLRUNPARAM</code></span></dt><dd>
+          <p>
+            ランタイムシステムのオプションとガーベジコレクションのパラメータを設定します（<code class="envar">OCAMLRUNPARAM</code> が設定されていない場合、代わりに <code class="envar">CAMLRUNPARAM</code> が使われます）
+            この変数の値はパラメータの指定を並べたものでなければなりません。
+            パラメータ指定は、オプションを表す文字に <code class="code">=</code> を続け、次に十進数値（または <code class="code">0x</code> を前置した十六進数値）、その後に省略可能な乗数を続けたものです。
+            オプションはここのつあり、そのうちむっつは <a href="./libref/Gc.html" class="libref">Gc</a> モジュールに説明されているレコード型 <code class="code">control</code> のフィールドに対応します。
+            
+          </p>
+          <div class="variablelist"><dl><dt><span class="term"><code class="code">b</code></span></dt><dd>
+                <p>
+                  （バックトレース）捕捉されない例外でプログラムが終了するときにバックトレースを表示するようにします。
+                  このオプションは引数を取りません。
+                  
+                </p>
+              </dd><dt><span class="term"><code class="code">p</code></span></dt><dd>
+                <p>
+                  （構文解析器のトレース） <span class="command"><strong>ocamlyacc</strong></span> で生成した構文解析器用のデバッグ機能を有効にします。
+                  このオプションを有効にすると、構文解析を実行するプッシュダウンオートマトンがアクション部のトレースを表示するようになります。
+                  このオプションは引数を取りません。
+                  
+                </p>
+              </dd><dt><span class="term"><code class="code">s</code></span></dt><dd>
+                <p>
+                  （<code class="code">minor_heap_size</code>）マイナーヒープの大きさ（語単位）。
+                  
+                </p>
+              </dd><dt><span class="term">i</span></dt><dd>
+                <p>
+                  （<code class="code">major_heap_increment</code> メジャーヒープ拡張時の追加サイズのデフォルト（語単位）。
+                  
+                </p>
+              </dd><dt><span class="term"><code class="code">o</code></span></dt><dd>
+                <p>
+                  （<code class="code">space_overhead</code>）メジャー GC のスピード設定。
+                  
+                </p>
+              </dd><dt><span class="term"><code class="code">O</code></span></dt><dd>
+                <p>
+                  （<code class="code">max_overhead</code>）ヒープコンパクションの発動条件の設定。
+                  
+                </p>
+              </dd><dt><span class="term"><code class="code">v</code></span></dt><dd>
+                <p>
+                  （<code class="code">verbose</code>）標準エラーに出力される GC のメッセージの種類。このオプションの値は以下の値の和になります。
+                </p>
+                <div class="variablelist"><dl><dt><span class="term">1 (= 0x001)</span></dt><dd>
+                      <p>
+                        メジャー GC サイクルの開始。
+                        
+                      </p>
+                    </dd><dt><span class="term">2 (= 0x002)</span></dt><dd>
+                      <p>
+                        マイナーコレクション、及びメジャーGCのスライス。
+                        
+                      </p>
+                    </dd><dt><span class="term">4 (= 0x004)</span></dt><dd>
+                      <p>
+                        ヒープの増減。
+                        
+                      </p>
+                    </dd><dt><span class="term">8 (= 0x008)</span></dt><dd>
+                      <p>
+                        スタックとメモリマネージャーテーブルのリサイズ。
+                        
+                      </p>
+                    </dd><dt><span class="term">16 (= 0x010)</span></dt><dd>
+                      <p>
+                        ヒープのコンパクション。
+                        
+                      </p>
+                    </dd><dt><span class="term">32 (= 0x020)</span></dt><dd>
+                      <p>
+                        GC パラメータの変更。
+                        
+                      </p>
+                    </dd><dt><span class="term">64 (= 0x040)</span></dt><dd>
+                      <p>
+                        メジャー GC のスライスサイズの計算。
+                        
+                      </p>
+                    </dd><dt><span class="term">128 (= 0x080)</span></dt><dd>
+                      <p>
+                        ファイナライズ関数の呼び出し。
+                        
+                      </p>
+                    </dd><dt><span class="term">256 (= 0x100)</span></dt><dd>
+                      <p>
+                        起動メッセージ（バイトコードの読み込み、共有ライブラリの解決）。
+                        
+                      </p>
+                    </dd></dl></div>
+              </dd><dt><span class="term"><code class="code">l</code></span></dt><dd>
+                <p>
+                  （<code class="code">stack_limit</code>）スタックサイズの限界（語単位）。 
+                  
+                </p>
+              </dd><dt><span class="term"><code class="code">h</code></span></dt><dd>
+                <p>
+                  メジャーヒープの初期サイズ（語単位）。 
+                  
+                </p>
+              </dd></dl></div>
+          <p>
+            乗数は <code class="code">k</code>、 <code class="code">M</code>、 <code class="code">G</code> のいずれかで、
+            それぞれ 2<sup>10</sup>、 2<sup>20</sup>、 2<sup>30</sup> になります。
+            例えば、 32 ビット計算機の <span class="command"><strong>bash</strong></span> で
+          </p>
+          <pre class="programlisting">export OCAMLRUNPARAM='b,s=256k,v=1'</pre>
+          <p>
+            を実行すると、以降の <code class="code">ocamlrun</code> の実行では、例外が捕捉されなかった場合にはバックトレースを表示し、マイナーヒープの初期サイズを 1 メガバイトに設定し、メジャー GC の各サイクルの開始時とヒープサイズの変更時、コンパクションの発動時にメッセージを表示します。
+            
+          </p>
+        </dd><dt><span class="term"><code class="envar">CAMLRUNPARAM</code></span></dt><dd>
+          <p>
+            <code class="envar">OCAMLRUNPARAM</code> が環境中に設定されていない場合には
+            <code class="envar">CAMLRUNPARAM</code> が代わりに使われます。
+            <code class="envar">CAMLRUNPARAM</code> も設定されていない場合にはデフォルト値が使われます。
+            
+          </p>
+        </dd><dt><span class="term"><code class="envar">PATH</code></span></dt><dd>
+          <p>
+            実行可能バイトコードファイルを探索するディレクトリのリストです。 
+            
+          </p>
+        </dd></dl></div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch10s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch10.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch10s03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">10.1&nbsp;概要&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;10.3&nbsp;共有ライブラリの動的読み込み</td></tr></table></div></body></html>

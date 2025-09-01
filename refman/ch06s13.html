@@ -1,0 +1,215 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>6.13&nbsp;Module Expressions</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.70.0"><link rel="start" href="index.html" title=" The Objective Caml system release 3.11"><link rel="up" href="ch06.html" title="6.&nbsp;The Objective Caml language"><link rel="prev" href="ch06s12.html" title="6.12&nbsp;Module types"><link rel="next" href="ch06s14.html" title="6.14&nbsp;Compilation units"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.13&nbsp;Module Expressions</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s12.html">Prev</a>&nbsp;</td><th width="60%" align="center">6.&nbsp;The Objective Caml language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s14.html">Next</a></td></tr></table><hr></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e3477"></a>6.13&nbsp;Module Expressions</h2></div></div></div>
+  
+<p>
+Module expressions are the module-level equivalent of value expressions: they
+evaluate to modules, thus providing implementations for the specifications
+expressed in module types.
+</p>
+<pre class="programlisting">
+ module-expr ::=  module-path                                                 
+              |   struct { definition [';;'] | expr ';;' } end
+              |   functor ( module-name :  module-type ) -&gt;  module-expr      
+              |   module-expr (  module-expr )                                
+              |   ( module-expr )                                             
+              |   ( module-expr :  module-type )                              
+definition ::=  let [rec] let-binding   { and let-binding }                 
+              |   external value-name :  typexpr =  external-declaration      
+              |   type-definition                                             
+              |   exception-definition                                        
+              |   class-definition                                            
+              |   classtype-definition                                        
+              |   module module-name  { ( module-name :  module-type ) }  [ :
+                       module-type ]  =  module-expr 
+              |   module type modtype-name =  module-type                     
+              |   open module-path                                            
+              |   include module-expr                                         
+</pre>
+<div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3481"></a>Simple module expressions</h3></div></div></div>
+
+<p>
+The expression module-path evaluates to the module bound to the name
+module-path.
+</p>
+<p>
+The expression ( module-expr ) evaluates to the same module as module-expr.
+</p>
+<p>
+The expression ( module-expr :  module-type ) checks that the type of
+module-expr is a subtype of module-type, that is, that all components specified
+in module-type are implemented in module-expr, and their implementation meets
+the requirements given in module-type. In other terms, it checks that the
+implementation module-expr meets the type specification module-type. The whole
+expression evaluates to the same module as module-expr, except that all
+components not specified in module-type are hidden and can no longer be
+accessed.
+</p>
+</div>
+<div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3486"></a>Structures</h3></div></div></div>
+
+<p>
+Structures struct ... end are collections of definitions for value names,
+type names, exceptions, module names and module type names. The definitions are
+evaluated in the order in which they appear in the structure. The scope of the
+bindings performed by the definitions extend to the end of the structure. As a
+consequence, a definition may refer to names bound by earlier definitions in
+the same structure.
+</p>
+<p>
+For compatibility with toplevel phrases (chapter~\ref{c:camllight})
+and with Caml Light, an optional ";;" is allowed after each
+definition in a structure. The ";;" has no semantic meaning. Also for
+compatibility, expr ;; is allowed as a component of a structure,
+meaning let _ = expr, i.e. evaluate @expr@ for its side-effects.
+In this case, the ";;" of the previous component is not optional.
+</p>
+<p>
+A value definition let [rec] let-binding  { and let-binding } bind value
+names in the same way as a let ... in ... expression (see section 6.7.1). The
+value names appearing in the left-hand sides of the bindings are bound to the
+corresponding values in the right-hand sides.
+</p>
+<p>
+A value definition external value-name :  typexpr =  external-declaration
+implements value-name as the external function specified in
+external-declaration (see chapter 18).
+</p>
+<div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e3492"></a>Type definitions</h4></div></div></div>
+
+<p>
+A definition of one or several type components is written type typedef  { and
+typedef } and consists of a sequence of mutually recursive definitions of type
+names.
+</p>
+</div>
+<div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e3495"></a>Exception definitions</h4></div></div></div>
+
+<p>
+Exceptions are defined with the syntax exception constr-decl or exception
+constr-name =  constr.
+</p>
+</div>
+<div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e3498"></a>Class definitions</h4></div></div></div>
+
+<p>
+A definition of one or several classes is written class class-binding  { and
+class-binding } and consists of a sequence of mutually recursive definitions of
+class names. Class definitions are described more precisely in section 6.9.3.
+</p>
+</div>
+<div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e3501"></a>Class type definitions</h4></div></div></div>
+
+<p>
+A definition of one or several classes is written class type classtype-def  {
+and classtype-def } and consists of a sequence of mutually recursive
+definitions of class type names. Class type definitions are described more
+precisely in section 6.9.5.
+</p>
+</div>
+<div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e3504"></a>Module definitions</h4></div></div></div>
+
+<p>
+The basic form for defining a module component is module module-name = 
+module-expr, which evaluates module-expr and binds the result to the name
+module-name.
+</p>
+<p>
+One can write 
+</p>
+<pre class="programlisting">
+               module module-name :  module-type =  module-expr 
+</pre>
+<p>
+instead of 
+</p>
+<pre class="programlisting">
+             module module-name = (  module-expr :  module-type ). 
+</pre>
+<p>
+Another derived form is 
+</p>
+<pre class="programlisting">
+        module module-name (  name_1 :  module-type_1 ) ... (  name_n : 
+                       module-type_n ) =  module-expr 
+</pre>
+<p>
+which is equivalent to 
+</p>
+<pre class="programlisting">
+      module module-name = functor (  name_1 :  module-type_1 ) -&gt; ... -&gt; 
+                                module-expr 
+</pre>
+</div>
+<div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e3515"></a>Module type definitions</h4></div></div></div>
+
+<p>
+A definition for a module type is written module type modtype-name = 
+module-type. It binds the name modtype-name to the module type denoted by the
+expression module-type.
+</p>
+</div>
+<div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e3518"></a>Opening a module path</h4></div></div></div>
+
+<p>
+The expression open module-path in a structure does not define any components
+nor perform any bindings. It simply affects the parsing of the following items
+of the structure, allowing components of the module denoted by module-path to
+be referred to by their simple names name instead of path accesses module-path
+.  name. The scope of the open stops at the end of the structure expression.
+</p>
+</div>
+<div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e3521"></a>Including the components of another structure</h4></div></div></div>
+
+<p>
+The expression include  module-expr in a structure re-exports in the current
+structure all definitions of the structure denoted by module-expr. For
+instance, if the identifier S is bound to the module 
+</p>
+<pre class="programlisting">
+        struct type t = int  let x = 2 end
+</pre>
+<p>
+the module expression 
+</p>
+<pre class="programlisting">
+        struct include S  let y = (x + 1 : t) end
+</pre>
+<p>
+is equivalent to the module expression 
+</p>
+<pre class="programlisting">
+        struct type t = int  let x = 2  let y = (x + 1 : t) end
+</pre>
+<p>
+The difference between open and include is that open simply provides short
+names for the components of the opened structure, without defining any
+components of the current structure, while include also adds definitions for
+the components of the included structure.
+</p>
+</div>
+</div>
+<div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d4e3530"></a>Functors</h3></div></div></div>
+
+<div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e3532"></a>Functor definition</h4></div></div></div>
+
+<p>
+The expression functor ( module-name :  module-type ) -&gt;  module-expr
+evaluates to a functor that takes as argument modules of the type
+module-type_1, binds module-name to these modules, evaluates module-expr in the
+extended environment, and returns the resulting modules as results. No
+restrictions are placed on the type of the functor argument; in particular, a
+functor may take another functor as argument ("higher-order" functor).
+</p>
+</div>
+<div class="section" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="d4e3535"></a>Functor application</h4></div></div></div>
+
+<p>
+The expression module-expr_1 (  module-expr_2 ) evaluates module-expr_1 to a
+functor and module-expr_2 to a module, and applies the former to the latter.
+The type of module-expr_2 must match the type expected for the arguments of the
+functor module-expr_1.
+</p>
+</div>
+</div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s12.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s14.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">6.12&nbsp;Module types&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;6.14&nbsp;Compilation units</td></tr></table></div></body></html>

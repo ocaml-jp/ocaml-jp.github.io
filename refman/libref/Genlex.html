@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Gc.html">
+<link rel="next" href="Graphics.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><title>Genlex</title>
+</head>
+<body>
+<div class="navbar"><a href="Gc.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="Graphics.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Genlex.html">Genlex</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Genlex: <code class="code"><span class="keyword">sig</span></code> <a href="Genlex.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>汎用字句解析器
+<p>
+
+    このモジュールでは、単純な「標準の」字句解析器を、文字のストリームからトークンのストリームへの関数として実装します。
+    この字句解析器は Caml の字句規約をおおよそ実装しつつ、目的の言語の予約語をパラメータとして与えることができるようになっています。
+<p>
+
+    例: 電卓用の字句解析器は次のようにして作ることができます。
+<p>
+
+   <pre></pre><code class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;lexer&nbsp;=&nbsp;make_lexer&nbsp;[<span class="string">"+"</span>;<span class="string">"-"</span>;<span class="string">"*"</span>;<span class="string">"/"</span>;<span class="string">"let"</span>;<span class="string">"="</span>;&nbsp;<span class="string">"("</span>;&nbsp;<span class="string">")"</span>]&nbsp;&nbsp;</code><pre></pre>
+<p>
+
+    これに対応する構文解析器は、 <code class="code">token stream</code> から、例えば <code class="code">int</code>
+    への関数とすると、次のような規則を持ったものになるでしょう。
+<p>
+
+   <pre></pre><code class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;parse_expr&nbsp;=&nbsp;<span class="keyword">parser</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">'</span><span class="constructor">Int</span>&nbsp;n&nbsp;&gt;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;n<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;[&lt;&nbsp;<span class="keywordsign">'</span><span class="constructor">Kwd</span>&nbsp;<span class="string">"("</span>;&nbsp;n&nbsp;=&nbsp;parse_expr;&nbsp;<span class="keywordsign">'</span><span class="constructor">Kwd</span>&nbsp;<span class="string">")"</span>&nbsp;&gt;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;n<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;[&lt;&nbsp;n1&nbsp;=&nbsp;parse_expr;&nbsp;n2&nbsp;=&nbsp;parse_remainder&nbsp;n1&nbsp;&gt;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;n2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">and</span>&nbsp;parse_remainder&nbsp;n1&nbsp;=&nbsp;<span class="keyword">parser</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&lt;&nbsp;<span class="keywordsign">'</span><span class="constructor">Kwd</span>&nbsp;<span class="string">"+"</span>;&nbsp;n2&nbsp;=&nbsp;parse_expr&nbsp;&gt;]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;n1+n2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;...<br>
+&nbsp;&nbsp;&nbsp;</code><pre></pre><br>
+<hr width="100%">
+<br><code><span id="TYPEtoken"><span class="keyword">type</span> <code class="type"></code>token</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Kwd</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Ident</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Int</span> <span class="keyword">of</span> <code class="type">int</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Float</span> <span class="keyword">of</span> <code class="type">float</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">String</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Char</span> <span class="keyword">of</span> <code class="type">char</code></code></td>
+
+</tr></table>
+
+<div class="info">
+トークンの型。種別には次のものがあります。
+    <code class="code"><span class="constructor">Int</span></code> と <code class="code"><span class="constructor">Float</span></code> はそれぞれ整数と浮動小数点数です。
+    <code class="code"><span class="constructor">String</span></code> はダブルクォートでくくった文字列リテラルです。
+    <code class="code"><span class="constructor">Char</span></code> はシングルクォートでくくった文字リテラルです。
+    <code class="code"><span class="constructor">Ident</span></code> は識別子（英文字、数字、下線、クォートの並びか、 <code class="code">+</code> や <code class="code">*</code> といった「演算子文字」の並び）です。
+    <code class="code"><span class="constructor">Kwd</span></code> は予約語（識別子か、 <code class="code">(</code> や <code class="code">}</code> のような単一の特殊文字）です。<br>
+</div>
+
+<pre><span id="VALmake_lexer"><span class="keyword">val</span> make_lexer</span> : <code class="type">string list -> char <a href="Stream.html#TYPEt">Stream.t</a> -> <a href="Genlex.html#TYPEtoken">token</a> <a href="Stream.html#TYPEt">Stream.t</a></code></pre><div class="info">
+字句解析関数を作成します。第一引数は予約語のリストです。
+    識別子 <code class="code">s</code> がこのリストに含まれていた場合、戻り値のストリーム内でその識別子は <code class="code"><span class="constructor">Kwd</span> s</code> になります。
+    そうでなければ <code class="code"><span class="constructor">Ident</span> s</code> になります。
+    特殊文字 <code class="code">s</code> がこのリストに含まれていた場合、戻り値のストリーム内でその識別子は <code class="code"><span class="constructor">Kwd</span> s</code> になります。
+    そうでなければ字句エラー（<code class="code"><span class="constructor">Parse_error</span></code> 例外）が発生します。
+    空白と改行は読み飛ばされます。
+    <code class="code">(*</code> と <code class="code">*)</code> で区切られたコメントも同じく読み飛ばされます。
+    コメントは入れ子にすることができます。<br>
+</div>
+</body></html>

@@ -1,0 +1,156 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>1.8&nbsp;pretty-print と構文解析</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch01.html" title="1.&nbsp;The core language"><link rel="prev" href="ch01s07.html" title="1.7&nbsp;数式の記号処理"><link rel="next" href="ch01s09.html" title="1.9&nbsp;スタンドアロン Caml プログラム"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">1.8&nbsp;pretty-print と構文解析 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01s07.html">前のページ</a>&nbsp;</td><th width="60%" align="center">1.&nbsp;The core language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch01s09.html">次のページ</a></td></tr></table><hr></div><div class="section" title="1.8&nbsp;pretty-print と構文解析"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Pretty-printing and parsing"></a>1.8&nbsp;pretty-print と構文解析 </h2></div></div></div>
+    
+    <p>
+      上の例からわかるように、式が大きくなるにつれて加速度的に式の内部表現（<span class="emphasis"><em>抽象構文</em></span> — abstract syntax とも言う）を読み書きするするのが大変になります。抽象構文と<span class="emphasis"><em>具象構文</em></span>（concrete syntax）を行き来するための表示関数と構文解析器が必要です（ここでは、具象構文は <code class="code">2*x+1</code> のような、馴染みのある代数表記にすることにします）。
+    </p>
+    <p>
+      表示関数が不要な括弧を出力しないように、演算子の優先順位（つまり <code class="code">*</code> が <code class="code">+</code> より強いということ）を導入します。
+      そのために、表示関数では現代の演算子の優先度を保存しておき、次の演算子の優先順位が前の演算子よりも低い場合にのみ括弧を表示するようにします。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let print_expr exp =
+   (* Local function definitions *)
+   let open_paren prec op_prec =
+     if prec &gt; op_prec then print_string "(" in
+   let close_paren prec op_prec =
+     if prec &gt; op_prec then print_string ")" in
+   let rec print prec exp =     (* prec is the current precedence *)
+     match exp with
+       Const c -&gt; print_float c
+     | Var v -&gt; print_string v
+     | Sum(f, g) -&gt;
+         open_paren prec 0;
+         print 0 f; print_string " + "; print 0 g;
+         close_paren prec 0
+     | Diff(f, g) -&gt;
+         open_paren prec 0;
+         print 0 f; print_string " - "; print 1 g;
+         close_paren prec 0
+     | Prod(f, g) -&gt;
+         open_paren prec 2;
+         print 2 f; print_string " * "; print 2 g;
+         close_paren prec 2
+     | Quot(f, g) -&gt;
+         open_paren prec 2;
+         print 2 f; print_string " / "; print 3 g;
+         close_paren prec 2
+   in print 0 exp;;</code></strong>
+<code class="computeroutput">val print_expr : expression -&gt; unit = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let e = Sum(Prod(Const 2.0, Var "x"), Const 1.0);;</code></strong>
+<code class="computeroutput">val e : expression = Sum (Prod (Const 2., Var "x"), Const 1.)</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>print_expr e; print_newline();;</code></strong>
+<code class="computeroutput">2. * x + 1.
+- : unit = ()</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>print_expr (deriv e "x"); print_newline();;</code></strong>
+<code class="computeroutput">2. * 1. + 0. * x + 0.
+- : unit = ()</code>
+    </pre>
+    <p>
+      （具象構文から抽象構文に変換）する構文解析は、大抵表示よりも大変です。
+      Caml には構文解析器を書くためのツールがあります。
+      ひとつは字句解析器生成系 Lex と構文解析器生成系 Yacc の Caml 版で（<a class="xref" href="ch12.html" title="12.&nbsp;字句解析器、構文解析器生成器（ocamllex、 ocamlyacc）"> 12 章「<i>字句解析器、構文解析器生成器（ocamllex、 ocamlyacc）</i>」</a>参照）、 LALR(1) の言語をプッシュダウンオートマトンを使って扱います。
+      もうひとつは、あらかじめ定義された（文字やトークンの）ストリーム型と、それに対するパターンマッチを使う方法で、 LL(1) の言語に対する再帰下降型構文解析器を書くのに便利です。
+      <span class="command"><strong>ocamllex</strong></span> と <span class="command"><strong>ocamlyacc</strong></span> を使う例は <a class="xref" href="ch12.html" title="12.&nbsp;字句解析器、構文解析器生成器（ocamllex、 ocamlyacc）"> 12 章「<i>字句解析器、構文解析器生成器（ocamllex、 ocamlyacc）</i>」</a> にあります。
+      ここではストリームパーサーを使います。
+      ストリームパーサー用の構文補助は Camlp4 プリプロセッサにより提供されています。
+      Camlp4 は対話環境のトップレベルで次のように <code class="code">#load</code> 指示子を使うことで読み込むことができます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>#load "camlp4o.cma";;</code></strong>
+<code class="computeroutput">	Camlp4 Parsing version 3.05 (2002-07-22)</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>open Genlex;;
+
+ let lexer = make_lexer ["("; ")"; "+"; "-"; "*"; "/"];;</code></strong>
+<code class="computeroutput">val lexer : char Stream.t -&gt; Genlex.token Stream.t = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      字句解析（入力テキストをトークンのストリームに変換する）段階では、標準ライブラリモジュール <code class="code">Genlex</code> で提供される「汎用」字句解析器を使います。
+      <code class="code">make_lexer</code> 関数はキーワードのリストを受け取り、入力の文字ストリームを受け取ってトークン列に分解する字句解析関数を返します。
+      トークンは識別子、キーワード、リテラル（整数、浮動小数点数、文字、文字列）のいずれかです。
+      空白とコメントは読み飛ばされます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let token_stream = lexer(Stream.of_string "1.0 +x");;</code></strong>
+<code class="computeroutput">val token_stream : Genlex.token Stream.t = &lt;abstr&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>Stream.next token_stream;;</code></strong>
+<code class="computeroutput">- : Genlex.token = Float 1.</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>Stream.next token_stream;;</code></strong>
+<code class="computeroutput">- : Genlex.token = Kwd "+"</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>Stream.next token_stream;;</code></strong>
+<code class="computeroutput">- : Genlex.token = Ident "x"</code>
+    </pre>
+    <p>
+      構文解析自体はトークンのストリームをパターンマッチすることで行います。通常再帰下降構文解析器には、演算子の優先順位や結合性を反映するため、いくつかの仲介関数があります。ストリームのパターンマッチングは普通のデータ構造に対するものよりも強力で、パターン内部で解析関数を再帰的に呼び出し、入力の下位要素に対してマッチさせることができます。詳しくは<a class="xref" href="ch07s02.html" title="7.2&nbsp;ストリームとストリームパーサー"> 7.2 節「ストリームとストリームパーサー」</a>を参照してください。
+    </p>
+    <p>
+      対話式システムのトップレベルでストリームパーザを使用するためには Camlp4 プリプロセッサをロードする必要があります。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>#load"camlp4o.cma";;</code></strong>
+<code class="computeroutput">	Camlp4 Parsing version 3.05 (2002-07-22)</code>
+    </pre>
+    <p>
+      それからパーザを定義します。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let rec parse_expr = parser
+     [&lt; e1 = parse_mult; e = parse_more_adds e1 &gt;] -&gt; e
+ and parse_more_adds e1 = parser
+     [&lt; 'Kwd "+"; e2 = parse_mult; e = parse_more_adds (Sum(e1, e2)) &gt;] -&gt; e
+   | [&lt; 'Kwd "-"; e2 = parse_mult; e = parse_more_adds (Diff(e1, e2)) &gt;] -&gt; e
+   | [&lt; &gt;] -&gt; e1
+ and parse_mult = parser
+     [&lt; e1 = parse_simple; e = parse_more_mults e1 &gt;] -&gt; e
+ and parse_more_mults e1 = parser
+     [&lt; 'Kwd "*"; e2 = parse_simple; e = parse_more_mults (Prod(e1, e2)) &gt;] -&gt; e
+   | [&lt; 'Kwd "/"; e2 = parse_simple; e = parse_more_mults (Quot(e1, e2)) &gt;] -&gt; e
+   | [&lt; &gt;] -&gt; e1
+ and parse_simple = parser
+     [&lt; 'Ident s &gt;] -&gt; Var s
+   | [&lt; 'Int i &gt;] -&gt; Const(float i)
+   | [&lt; 'Float f &gt;] -&gt; Const f
+   | [&lt; 'Kwd "("; e = parse_expr; 'Kwd ")" &gt;] -&gt; e;;</code></strong>
+<code class="computeroutput">val parse_expr : Genlex.token Stream.t -&gt; expression = &lt;fun&gt;
+val parse_more_adds : expression -&gt; Genlex.token Stream.t -&gt; expression =
+  &lt;fun&gt;
+val parse_mult : Genlex.token Stream.t -&gt; expression = &lt;fun&gt;
+val parse_more_mults : expression -&gt; Genlex.token Stream.t -&gt; expression =
+  &lt;fun&gt;
+val parse_simple : Genlex.token Stream.t -&gt; expression = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let parse_expression = parser [&lt; e = parse_expr; _ = Stream.empty &gt;] -&gt; e;;</code></strong>
+<code class="computeroutput">val parse_expression : Genlex.token Stream.t -&gt; expression = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      字句解析器と構文解析器を組み合わせ、文字列から計算式を読む関数を得ることが出来ました。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let read_expression s = parse_expression(lexer(Stream.of_string s));;</code></strong>
+<code class="computeroutput">val read_expression : string -&gt; expression = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>read_expression "2*(x+y)";;</code></strong>
+<code class="computeroutput">- : expression = Prod (Const 2., Sum (Var "x", Var "y"))</code>
+    </pre>
+    <p>
+      ちょっとしたクイズです。なぜ以下の 2 つの例は結果が異なるのでしょう。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>read_expression "x - 1";;</code></strong>
+<code class="computeroutput">- : expression = Diff (Var "x", Const 1.)</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>read_expression "x-1";;</code></strong>
+<code class="computeroutput">Exception: Stream.Error "".</code>
+    </pre>
+    <p>
+      答えです。 Genlex の字句解析器は負の整数を 1 つの整数として判断します。<code class="code">x-1</code> は <code class="code">Ident "x"</code> というトークンの後に <code class="code">Int(-1)</code> というトークンがあると見なされたわけです。この文はどの構文解析の規則にも該当しません。 <code class="code">x - 1</code> は、2 つ目の空白の影響で <code class="code">Ident "x"</code>、<code class="code">Kwd "-"</code>、<code class="code">Int(1)</code> と見なされたのです。
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch01s07.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch01.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch01s09.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">1.7&nbsp;数式の記号処理 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;1.9&nbsp;スタンドアロン Caml プログラム </td></tr></table></div></body></html>

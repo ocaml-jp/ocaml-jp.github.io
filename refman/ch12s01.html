@@ -1,0 +1,26 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>12.1&nbsp;Overview of ocamllex</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch12.html" title="12.&nbsp;字句解析器、構文解析器生成器（ocamllex、 ocamlyacc）"><link rel="prev" href="ch12.html" title="12.&nbsp;字句解析器、構文解析器生成器（ocamllex、 ocamlyacc）"><link rel="next" href="ch12s02.html" title="12.2&nbsp;Syntax of lexer definitions"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">12.1&nbsp;Overview of ocamllex</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12.html">前のページ</a>&nbsp;</td><th width="60%" align="center">12.&nbsp;字句解析器、構文解析器生成器（ocamllex、 ocamlyacc）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch12s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="12.1&nbsp;Overview of ocamllex"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e11532"></a>12.1&nbsp;Overview of ocamllex</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch12s01.html#d4e11539">12.1.1. Options</a></span></dt></dl></div>
+    
+    <p>
+      ocamllex は lex のように、正規表現の集合と、それに対応するセマンティクスから字句解析器を生成します。入力ファイルが lexer.mll であるとき、以下のようにして字句解析器の Caml コードファイル lexer.ml を生成することができます。
+    </p>
+    <pre class="programlisting">ocamllex lexer.mll</pre>
+    <p>
+      このファイルでは字句解析器の定義で、エントリーポイントあたり 1 つの関数が定義されています。それぞれの関数名はエントリーポイントの名前と同じです。それぞれの字句解析関数は字句解析バッファを引数に取り、それぞれ関連付けられたエントリーポイントの文法属性を返します。
+    </p>
+    <p>
+      字句解析バッファは標準ライブラリ Lexing モジュール内で抽象データ型 (abstract data type) として実装されています。Lexing.from_channel 、Lexing.from_string 、Lexing.from_function はそれぞれ入力チャンネル、文字列、読み込み関数を読んで、字句解析バッファを返します (Lexing モジュールの解説は 20 章にあります) 。
+    </p>
+    <p>
+使用する際は ocamlyacc で生成されるパーザと結合して、構文解析器で定義されている型 token に属する値をセマンティクスに基づいて計算します (ocamlyacc については後述) 。
+    </p>
+    <div class="section" title="12.1.1&nbsp;Options"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11539"></a>12.1.1&nbsp;Options</h3></div></div></div>
+      
+      <p>
+        ocamllexは、以下のコマンドラインオプションをサポートします。
+      </p>
+      <div class="variablelist"><dl><dt><span class="term">-o output-file</span></dt><dd><p> ocamllexによって生成されるファイルの名前を指定します。デフォルトは、ocamllex lexer.mllで起動された場合はlexer.mlです。</p></dd><dt><span class="term">-ml</span></dt><dd><p> Camlのビルトインのオートマトンインタプリタを使用しないコード生成します。その代わり、オートマトンはCamlの関数にエンコードされます。このオプションは、ocamllexのデバッグに便利ですが、通常用いることはお勧めしません。
+          </p></dd><dt><span class="term">-q</span></dt><dd><p>Quietモード。ocamllexは通常、標準出力に情報を表示します。-qが使われた場合はこれらが表示されなくなります。 :-version|バージョンを表示し終了します。</p></dd></dl></div>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch12.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch12s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">12.&nbsp;字句解析器、構文解析器生成器（ocamllex、 ocamlyacc）&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;12.2&nbsp;Syntax of lexer definitions</td></tr></table></div></body></html>

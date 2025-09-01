@@ -1,0 +1,41 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>22.&nbsp;num ライブラリ: 任意精度の有理数算術</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="pt04.html" title="パート&nbsp;IV.&nbsp;The Objective Caml library"><link rel="prev" href="ch21.html" title="21.&nbsp;unix ライブラリ: UNIX システムコール"><link rel="next" href="ch23.html" title="23.&nbsp;str ライブラリ: 正規表現と文字列処理"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">22.&nbsp;<code class="code">num</code> ライブラリ: 任意精度の有理数算術</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch21.html">前のページ</a>&nbsp;</td><th width="60%" align="center">パート&nbsp;IV.&nbsp;The Objective Caml library</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch23.html">次のページ</a></td></tr></table><hr></div><div class="chapter" title="22.&nbsp;num ライブラリ: 任意精度の有理数算術"><div class="titlepage"><div><div><h2 class="title"><a name="d4e14318"></a>22.&nbsp;<code class="code">num</code> ライブラリ: 任意精度の有理数算術</h2></div></div></div>
+  
+  <p>
+    <code class="code">num</code> ライブラリは任意精度の整数と有理数の算術を提供します。
+    
+  </p>
+  <p>
+    このライブラリで提供される関数のより詳細なドキュメントは
+    <em class="citetitle">The CAML Numbers Reference Manual</em>
+    by Valérie Ménissier-Morain,
+    technical report 141, INRIA, july 1992 にあります
+    （<a class="ulink" href="ftp://ftp.inria.fr/INRIA/publication/RT/RT-0141.ps.gz" target="_top"><code class="uri">ftp://ftp.inria.fr/INRIA/publication/RT/RT-0141.ps.gz</code></a>
+    から電子版が利用できます)。
+    
+  </p>
+  <p>
+    <code class="code">num</code> ライブラリを使用するプログラムは以下のようにリンクしてください。 
+    
+  </p>
+  <pre class="screen">
+ocamlc <em class="replaceable"><code>other options</code></em> nums.cma <em class="replaceable"><code>other files</code></em>
+ocamlopt <em class="replaceable"><code>other options</code></em> nums.cmxa <em class="replaceable"><code>other files</code></em>
+  </pre>
+  <p>
+    <code class="code">nums</code> ライブラリを対話式システムで使う場合は以下のようにしてください。 
+    
+  </p>
+  <pre class="screen">
+ocamlmktop -o mytop nums.cma
+./mytop
+  </pre>
+  <p>
+    または（C ライブラリのダイナミックリンクをサポートしているプラットフォームでは） <span class="command"><strong>ocaml</strong></span> を起動したあと <strong class="userinput"><code>#load "nums.cma";;</code></strong> と入力してください。
+  </p>
+  <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><a href="./libref/Num.html" class="libref">Num</a> モジュール: 任意精度の数の演算
+    </li><li class="listitem"><a href="./libref/Big_int.html" class="libref">Big_int</a> モジュール: 任意精度整数の演算
+    </li><li class="listitem"><a href="./libref/Arith_status.html" class="libref">Arith_status</a> モジュール: 有理数の演算を制御するフラグ
+    </li></ul></div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch21.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt04.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch23.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">21.&nbsp;<code class="code">unix</code> ライブラリ: UNIX システムコール&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;23.&nbsp;<code class="code">str</code> ライブラリ: 正規表現と文字列処理</td></tr></table></div></body></html>

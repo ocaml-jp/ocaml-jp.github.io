@@ -1,0 +1,92 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>1.4&nbsp;レコードとバリアント</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch01.html" title="1.&nbsp;The core language"><link rel="prev" href="ch01s03.html" title="1.3&nbsp;値としての関数"><link rel="next" href="ch01s05.html" title="1.5&nbsp;命令型の機能"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">1.4&nbsp;レコードとバリアント </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01s03.html">前のページ</a>&nbsp;</td><th width="60%" align="center">1.&nbsp;The core language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch01s05.html">次のページ</a></td></tr></table><hr></div><div class="section" title="1.4&nbsp;レコードとバリアント"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Records and variants"></a>1.4&nbsp;レコードとバリアント </h2></div></div></div>
+    
+    <p>
+      ユーザ定義データ構造にはレコードとバリアントがあり、ともに <code class="code">type</code> 宣言で定義できます。ここでは有理数を表すレコード型を宣言してみます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type ratio = {num: int; denum: int};;</code></strong>
+<code class="computeroutput">type ratio = { num : int; denum : int; } </code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let add_ratio r1 r2 =
+   {num = r1.num * r2.denum + r2.num * r1.denum;
+    denum = r1.denum * r2.denum};;</code></strong>
+<code class="computeroutput">val add_ratio : ratio -&gt; ratio -&gt; ratio = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>add_ratio {num=1; denum=3} {num=2; denum=5};;</code></strong>
+<code class="computeroutput">- : ratio = {num = 11; denum = 15}</code>
+    </pre>
+    <p>
+      バリアント型の宣言には、その型の値が取りうる形を全て並べます。
+      それぞれのケースは構成子と呼ばれる名前で識別されます。構成子は、そのバリアント型の値を構成するためと、パターンマッチングのために使われます。構成子の名前は変数名と区別するため大文字で書きます（変数名は小文字で始まります）。以下に（整数と浮動小数点数の）数値を混ぜて計算するためのバリアント型を示します。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type number = Int of int | Float of float | Error;;</code></strong>
+<code class="computeroutput">type number = Int of int | Float of float | Error</code>
+    </pre>
+    <p>
+      この宣言は <code class="code">number</code> 型が、整数か浮動小数点数か（0 除算などの）不正な演算を表す定数 <code class="code">Error</code> の 3 つしか取りえないことを意味します。
+    </p>
+    <p>
+      列挙型はバリアントの特殊な場合で、すべての選択肢が定数の場合です。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type sign = Positive | Negative;;</code></strong>
+<code class="computeroutput">type sign = Positive | Negative</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let sign_int n = if n &gt;= 0 then Positive else Negative;;</code></strong>
+<code class="computeroutput">val sign_int : int -&gt; sign = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      <code class="code">number</code> 型の算術演算を定義するには、2 つの <code class="code">number</code> 型値に対してパターンマッチングを用います。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let add_num n1 n2 =
+   match (n1, n2) with
+      (Int i1, Int i2) -&gt;
+       (* Check for overflow of integer addition *)
+       if sign_int i1 = sign_int i2 &amp;&amp; sign_int(i1 + i2) &lt;&gt; sign_int i1
+       then Float(float i1 +. float i2)
+       else Int(i1 + i2)
+   | (Int i1, Float f2) -&gt; Float(float i1 +. f2)
+   | (Float f1, Int i2) -&gt; Float(f1 +. float i2)
+   | (Float f1, Float f2) -&gt; Float(f1 +. f2)
+   | (Error, _) -&gt; Error
+   | (_, Error) -&gt; Error;;</code></strong>
+<code class="computeroutput">val add_num : number -&gt; number -&gt; number = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>add_num (Int 123) (Float 3.14159);;</code></strong>
+<code class="computeroutput">- : number = Float 126.14159</code>
+    </pre>
+    <p>
+      バリアント型の主な用途は再帰的なデータ構造の記述です。例として二分木を考えてみましょう。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>type 'a btree = Empty | Node of 'a * 'a btree * 'a btree;;</code></strong>
+<code class="computeroutput">type 'a btree = Empty | Node of 'a * 'a btree * 'a btree</code>
+    </pre>
+    <p>
+      これは、<code class="code">'a</code> 型（任意の型）の値を持つ二分木は、空（<code class="code">Empty</code>）か、 <code class="code">'a</code> 型の値と 2 つの部分木を持つ節（<code class="code">Node</code>）で構成されるという意味です。部分木もまた <code class="code">'a</code> 型の値を格納する <code class="code">'a btree</code> 型なります。
+    </p>
+    <p>
+      二分木の処理は、データ構造の型定義に従うような再帰関数で自然に表現出来ます。例として、ソートされた二分木に探索と挿入を行う関数を示します（右の部分木の要素が左の部分木の要素より大きいものとします）
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let rec member x btree =
+   match btree with
+     Empty -&gt; false
+   | Node(y, left, right) -&gt;
+       if x = y then true else
+       if x &lt; y then member x left else member x right;;</code></strong>
+<code class="computeroutput">val member : 'a -&gt; 'a btree -&gt; bool = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let rec insert x btree =
+   match btree with
+     Empty -&gt; Node(x, Empty, Empty)
+   | Node(y, left, right) -&gt;
+       if x &lt;= y then Node(y, insert x left, right)
+                 else Node(y, left, insert x right);;</code></strong>
+<code class="computeroutput">val insert : 'a -&gt; 'a btree -&gt; 'a btree = &lt;fun&gt;</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch01s03.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch01.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch01s05.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">1.3&nbsp;値としての関数 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;1.5&nbsp;命令型の機能 </td></tr></table></div></body></html>

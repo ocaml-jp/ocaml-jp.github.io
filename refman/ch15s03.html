@@ -1,0 +1,83 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>15.3&nbsp;Custom generators</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch15.html" title="15.&nbsp;ドキュメント生成器（ocamldoc）"><link rel="prev" href="ch15s02.html" title="15.2&nbsp;Syntax of documentation comments"><link rel="next" href="ch15s04.html" title="15.4&nbsp;Adding command line options"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">15.3&nbsp;Custom generators</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch15s02.html">前のページ</a>&nbsp;</td><th width="60%" align="center">15.&nbsp;ドキュメント生成器（<span class="command"><strong>ocamldoc</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch15s04.html">次のページ</a></td></tr></table><hr></div><div class="section" title="15.3&nbsp;Custom generators"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e12637"></a>15.3&nbsp;Custom generators</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch15s03.html#d4e12645">15.3.1. The generator class</a></span></dt><dt><span class="section"><a href="ch15s03.html#d4e12653">15.3.2. Handling custom tags</a></span></dt></dl></div>
+    
+    <p>
+      OCamldoc operates in two steps: 
+    </p>
+    <div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">analysis of the source files;</li><li class="listitem">generation of documentation, through a documentation generator,  which is an object of class Odoc_args.class_generator.</li></ol></div>
+    <p>
+      Users can provide their own documentation generator to be used during step 2 instead of the default generators. All the information retrieved during the analysis step is available through the Odoc_info module, which gives access to all the types and functions representing the elements found in the given modules, with their associated description.
+    </p>
+    <p>
+      The files you can used to define custom generators are installed in the ocamldoc sub-directory of the OCaml standard library.
+    </p>
+    <div class="section" title="15.3.1&nbsp;The generator class"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12645"></a>15.3.1&nbsp;The generator class</h3></div></div></div>
+      
+      <p>
+        A generator class is a class of type Odoc_args.doc_generator. It has only one method
+        </p><pre class="programlisting">generator : Odoc_info.Module.t_module list -&gt; unit</pre><p>
+        This method will be called with the list of analysed and possibly merged
+        Odoc_info.t_module structures. Of course the class can have other methods, but the object of this class must be coerced to Odoc_args.doc_generator before being passed to the function
+        </p><pre class="programlisting">Odoc_args.set_doc_generator : Odoc_args.doc_generator -&gt; unit</pre><p>
+        which installs the new documentation generator.
+      </p>
+      <p>
+        The following example shows how to define and install a new documentation generator. See the odoc_fhtml generator (in the Ocamldoc Hump) for a complete example. 
+      </p>
+      <pre class="programlisting">
+class my_doc_gen =
+  object
+    (* ... *)
+
+    method generate module_list =
+      (* ... *)
+      ()
+
+    (* ... *)
+  end
+
+let my_generator = new my_doc_gen
+let _ = Odoc_args.set_doc_generator (my_generator :&gt; Odoc_args.doc_generator)
+</pre>
+      <p>
+        Note: The new class can inherit from Odoc_html.html, Odoc_latex.latex, Odoc_man.man, Odoc_texi.texi or Odoc_dot.dot, and redefine only some methods to benefit from the existing methods.
+      </p>
+    </div>
+    <div class="section" title="15.3.2&nbsp;Handling custom tags"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12653"></a>15.3.2&nbsp;Handling custom tags</h3></div></div></div>
+      
+      <p>
+        Making a custom generator handle custom tags (see 15.2.5) is very simple.
+      </p>
+      <div class="section" title="For HTML"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12656"></a>For HTML</h4></div></div></div>
+        
+        <p>
+          Here is how to develop a HTML generator handling your custom tags.
+        </p>
+        <p>
+          The class Odoc_html.html inherits from the class Odoc_html.info, containing a field tag_functions which is a list pairs composed of a custom tag (e.g. 'foo') and a function taking a text and returning HTML code (of type string). To handle a new tag bar, create a HTML generator class from the existing one and complete the tag_functions field: 
+        </p>
+        <pre class="programlisting">
+class my_gen =
+  object(self)
+    inherit Odoc_html.html
+
+    (** Return HTML code for the given text of a bar tag. *)
+    method html_of_bar t = (* your code here *)
+
+    initializer
+      tag_functions &lt;- ("bar", self#html_of_bar) :: tag_functions
+  end
+</pre>
+        <p>
+          Another method of the class Odoc_html.info will look for the function associated to a custom tag and apply it to the text given to the tag. If no function is associated to a custom tag, then the method prints a warning message on stderr.
+        </p>
+      </div>
+      <div class="section" title="For other generators"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12662"></a>For other generators</h4></div></div></div>
+        
+        <p>
+          As for the HTML custom generator, you can define a new LaTeX(resp. man) generator by inheriting from the class Odoc_latex.latex (resp. Odoc_man.man) and adding your own tag handler to the field tag_functions.
+        </p>
+      </div>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch15s02.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch15.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch15s04.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">15.2&nbsp;Syntax of documentation comments&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;15.4&nbsp;Adding command line options</td></tr></table></div></body></html>

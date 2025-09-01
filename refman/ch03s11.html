@@ -1,0 +1,171 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.11&nbsp;多相メソッド</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s10.html" title="3.10&nbsp;パラメータ化されたクラス"><link rel="next" href="ch03s12.html" title="3.12&nbsp;型変換の使用"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.11&nbsp;多相メソッド</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s10.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s12.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.11&nbsp;多相メソッド"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Polymorphic methods"></a>3.11&nbsp;多相メソッド</h2></div></div></div>
+    
+    <p>
+      パラメータ付きクラスも内容については多相的ですが、メソッドの使用に関して多相性を認めるには不十分です。
+    </p>
+    <p>
+典型的な例として、反復子を定義します。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>List.fold_left;;</code></strong>
+<code class="computeroutput">- : ('a -&gt; 'b -&gt; 'a) -&gt; 'a -&gt; 'b list -&gt; 'a = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class ['a] intlist (l : int list) =
+   object
+     method empty = (l = [])
+     method fold f (accu : 'a) = List.fold_left f accu l
+   end;;</code></strong>
+<code class="computeroutput">class ['a] intlist :
+  int list -&gt;
+  object method empty : bool method fold : ('a -&gt; int -&gt; 'a) -&gt; 'a -&gt; 'a end</code>
+    </pre>
+    <p>
+      少し見たところ、この多相的な反復子が定義できたように見えます。しかし、実際はそうではありません。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let l = new intlist [1; 2; 3];;</code></strong>
+<code class="computeroutput">val l : '_a intlist = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>l#fold (fun x y -&gt; x+y) 0;;</code></strong>
+<code class="computeroutput">- : int = 6</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>l;;</code></strong>
+<code class="computeroutput">- : int intlist = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>l#fold (fun s x -&gt; s ^ string_of_int x ^ " ") "";;</code></strong>
+<code class="computeroutput">This expression has type int but is here used with type string</code>
+    </pre>
+    <p>
+      上記の反復子の処理を見ると、最初は正常に動作しています。しかし、オブジェクト自体は多相的ではないため（多相的なのは構成子だけです）一度 <code class="code">fold</code> メソッドが使うと個々のオブジェクトの <code class="code">fold</code> の型が固定されてしまい、次に文字列の反復子として使おうとすると失敗するのです。
+    </p>
+    <p>
+      このような問題が生じるのは、量化子を書く場所が間違っているためです。クラスを多相的にしたいのではなく、 <code class="code">fold</code> メソッドを多相的にしたいのです。これは、メソッド定義で多相型を明示することにより可能になります。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class intlist (l : int list) =
+   object
+     method empty = (l = [])
+     method fold : 'a. ('a -&gt; int -&gt; 'a) -&gt; 'a -&gt; 'a =
+       fun f accu -&gt; List.fold_left f accu l
+   end;;</code></strong>
+<code class="computeroutput">class intlist :
+  int list -&gt;
+  object method empty : bool method fold : ('a -&gt; int -&gt; 'a) -&gt; 'a -&gt; 'a end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let l = new intlist [1; 2; 3];;</code></strong>
+<code class="computeroutput">val l : intlist = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>l#fold (fun x y -&gt; x+y) 0;;</code></strong>
+<code class="computeroutput">- : int = 6</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>l#fold (fun s x -&gt; s ^ string_of_int x ^ " ") "";;</code></strong>
+<code class="computeroutput">- : string = "1 2 3 "</code>
+    </pre>
+    <p>
+      ここでコンパイラの表示したクラス型を見て分かるように、クラス定義では多相メソッド型を明示しなければならないのに対し、クラス型では量化された型変数<sup>[<a name="d4e1189" href="#ftn.d4e1189" class="footnote">1</a>]</sup>は暗黙のままになっています。
+        なぜ型を明示して定義する必要があるのでしょうか。問題は <code class="code">(int -&gt; int -&gt; int) -&gt; int -&gt; int</code> も <code class="code">fold</code> の型としては正しいのですが、それが突然われわれの与えた多相型に適合しなくなってしまうのです（型変数の自動インスタンス化はトップレベルの型変数に対してのみ働き、それ以外の量化子には働きません。内側の量化子の自動インスタンス化は決定不能問題です）。
+        そのためコンパイラはどちらの型も選ぶことができず助けを求めてくるのです。
+    </p>
+    <p>
+      ただし、もし継承や自分自身への型制約によってメソッドの型が分っている時には、型を完全に省略することができます。メソッドを上書きする例を示します。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class intlist_rev l =
+   object
+     inherit intlist l
+     method fold f accu = List.fold_left f accu (List.rev l)
+   end;;</code></strong>
+    </pre>
+    <p>
+      次の表記法では、記述と定義を分離しています。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class type ['a] iterator =
+   object method fold : ('b -&gt; 'a -&gt; 'b) -&gt; 'b -&gt; 'b end;;</code></strong>
+
+<code class="prompt">#</code><strong class="userinput"><code>class intlist l =
+   object (self : int #iterator)
+     method empty = (l = [])
+     method fold f accu = List.fold_left f accu l
+   end;;</code></strong>
+    </pre>
+    <p>
+      <code class="code">(self : int #iterator)</code> という表記に注意して下さい。これはこのオブジェクトが <code class="code">iterator</code> クラス型のインタフェースを実装していることを保障します。
+    </p>
+    <p>
+      多相メソッドは通常のメソッドと同じように呼び出すことができますが、型推論には制限があります。特に、多相メソッドは呼び出される地点で型が分っていなくてはいけないという制限です。そうでないと、メソッドは単相型を持つと仮定され、型が適合しなくなります。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let sum lst = lst#fold (fun x y -&gt; x+y) 0;;</code></strong>
+<code class="computeroutput">val sum : &lt; fold : (int -&gt; int -&gt; int) -&gt; int -&gt; 'a; .. &gt; -&gt; 'a = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>sum l;;</code></strong>
+<code class="computeroutput">This expression has type intlist but is here used with type
+  &lt; fold : (int -&gt; int -&gt; int) -&gt; int -&gt; 'a; .. &gt;
+Types for method fold are incompatible</code>
+    </pre>
+    <p>
+      この問題は簡単に解決できます。引数の型に制約を課せばよいのです。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let sum (lst : _ #iterator) = lst#fold (fun x y -&gt; x+y) 0;;</code></strong>
+<code class="computeroutput">val sum : int #iterator -&gt; int = &lt;fun&gt;</code>
+    </pre>
+    <p>
+もちろん、制約はメソッドの型を明示することでも指定できます。ただし型変数が量化されている必要があります。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let sum lst =
+   (lst : &lt; fold : 'a. ('a -&gt; _ -&gt; 'a) -&gt; 'a -&gt; 'a; .. &gt;)#fold (+) 0;;</code></strong>
+<code class="computeroutput">val sum : &lt; fold : 'a. ('a -&gt; int -&gt; 'a) -&gt; 'a -&gt; 'a; .. &gt; -&gt; int = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      多相メソッドを使うと、メソッドが任意の部分型を引数として取るようにできます。 3.8 節で述べたように、関数にはあるクラスの任意の部分型を引数に取るものがありました。同じことがメソッドについても実現できます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class type point0 = object method get_x : int end;;</code></strong>
+<code class="computeroutput">class type point0 = object method get_x : int end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class distance_point x =
+   object
+     inherit point x
+     method distance : 'a. ( point0 as 'a) -&gt; int =
+       fun other -&gt; abs (other get_x - x)
+   end;;</code></strong>
+<code class="computeroutput">class distance_point :
+  int -&gt;
+  object
+    val mutable x : int
+    method distance : #point0 -&gt; int
+    method get_offset : int
+    method get_x : int
+    method move : int -&gt; unit
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let p = new distance_point 3 in
+ (p#distance (new point 8), p#distance (new colored_point 1 "blue"));;</code></strong>
+<code class="computeroutput">- : int * int = (5, 2)</code>
+    </pre>
+    <p>
+      ここで、型変数 <code class="code">'a</code> が <code class="code">point0</code> 型の部分型を表すことを示すために、 <code class="code">(#point0 as 'a)</code> という構文を用いました。量化子と同じくこの表記もクラス使用では省略することができます。オブジェクトのフィールド内で多相性を使いたい場合には、それぞれ別個に量化子を指定しなければなりません。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class multi_poly =
+   object
+     method m1 : 'a. (&lt; n1 : 'b. 'b -&gt; 'b; .. &gt; as 'a) -&gt; _ =
+       fun o -&gt; o n1 true, o n1 "hello"
+     method m2 : 'a 'b. (&lt; n2 : 'b -&gt; bool; .. &gt; as 'a) -&gt; 'b -&gt; _ =
+       fun o x -&gt; o n2 x
+   end;;</code></strong>
+<code class="computeroutput">class multi_poly :
+  object
+    method m1 : &lt; n1 : 'a. 'a -&gt; 'a; .. &gt; -&gt; bool * string
+    method m2 : &lt; n2 : 'b -&gt; bool; .. &gt; -&gt; 'b -&gt; bool
+  end</code>
+    </pre>
+    <p>
+      メソッド <code class="code">m1</code> では <code class="code">o</code> は 少なくともそれ自体多相的なメソッド <code class="code">n1</code> をもつオブジェクトでなくてはいけません。一方、メソッド <code class="code">m2</code> では <code class="code">n2</code> の引数と <code class="code">x</code> は同じ型を持たなくてはならず、その型変数は <code class="code">'a</code> と同じレベルで量化されています。
+    </p>
+  <div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.d4e1189" href="#d4e1189" class="para">1</a>] </sup>訳注: 一般に量化は全称(∀)と存在(∃)の両方を指しますが、ここでは全称のみを意味し、関数適用のたびに型変数を違う型に束縛可能な多相関数を意味します。</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s10.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s12.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.10&nbsp;パラメータ化されたクラス&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.12&nbsp;型変換の使用</td></tr></table></div></body></html>

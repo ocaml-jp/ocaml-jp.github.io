@@ -1,0 +1,90 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>28.&nbsp;LablTk ライブラリ: Tcl/Tk GUI インタフェース</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="pt04.html" title="パート&nbsp;IV.&nbsp;The Objective Caml library"><link rel="prev" href="ch27.html" title="27.&nbsp;dynlink ライブラリ：オブジェクトファイルの動的読み込みと動的リンク"><link rel="next" href="ch29.html" title="29.&nbsp;bigarray ライブラリ"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">28.&nbsp;<code class="code">LablTk</code> ライブラリ: Tcl/Tk GUI インタフェース</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch27.html">前のページ</a>&nbsp;</td><th width="60%" align="center">パート&nbsp;IV.&nbsp;The Objective Caml library</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch29.html">次のページ</a></td></tr></table><hr></div><div class="chapter" title="28.&nbsp;LablTk ライブラリ: Tcl/Tk GUI インタフェース"><div class="titlepage"><div><div><h2 class="title"><a name="d4e14505"></a>28.&nbsp;<code class="code">LablTk</code> ライブラリ: Tcl/Tk GUI インタフェース</h2></div></div></div>
+  
+  <p>
+    <code class="code">labltk</code> ライブラリを使うと Objective Caml プログラムから Tcl/Tk にアクセスすることがてきます。
+    このインタフェースは自動的に生成されます。関数の動作の詳細は、Tcl/Tk の本や man ページを参照してください。
+    関数の型を調べるために <span class="command"><strong>ocamlbrowser</strong></span> を使うのもよいでしょう。
+    型はライブラリ自身の最もよいドキュメントです。
+    
+  </p>
+  <p>
+    <code class="code">labltk</code> ライブラリを使用するプログラムは以下のようにリンクしてください。
+  </p>
+  <pre class="programlisting">
+ocamlc <em class="replaceable"><code>other options</code></em> -I +labltk labltk.cma <em class="replaceable"><code>other files</code></em>
+ocamlopt <em class="replaceable"><code>other options</code></em> -I +labltk labltk.cmxa <em class="replaceable"><code>other files</code></em>
+  </pre>
+  <div class="note" title="Unix" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Unix"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Unix</th></tr><tr><td align="left" valign="top">
+    
+    <p>
+      <code class="code">labltk</code> ライブラリは Tcl 7.5/Tk4.1 から Tcl/Tk 8.4 までの Tcl/Tk がインストールされたすべてのシステムで使用することができます。ベータ版には互換性に問題があるものもあるので注意してください。
+      
+    </p>
+    <p>
+      ライブラリが正しくコンパイルされなかった場合には、 <code class="filename">configure</code> スクリプトを <code class="option">-tkdefs <em class="replaceable"><code>switches</code></em></code> をつけてもう一度実行してください。 <em class="replaceable"><code>swiches</code></em> は、<code class="filename">tcl.h</code> と <code class="filename">tk.h</code> への C 言語スタイルのインクルードパスのリストです。例えば <code class="code">'-I/usr/local/include/tcl8.4 -I/usr/local/include/tk8.4'</code> などです。
+      
+    </p>
+    <p>
+      <code class="code">labltk</code> ライブラリをトップレベルから使いやすくするためのスクリプトがインストールされています。
+      
+    </p>
+    <div class="variablelist"><dl><dt><span class="term"><span class="command"><strong>labltk</strong></span></span></dt><dd>
+          <p>
+            これは <code class="code">labltk</code> ライブラリを含んだトップレベル環境で、様々なモジュールを使えるようにパスがあらかじめ設定されています。
+            この環境には <code class="code">Unix</code> ライブラリと <code class="code">Str</code> ライブラリを使うためのコードも含まれています。
+            <span class="command"><strong>labltk</strong></span> は、 <span class="command"><strong>ocaml</strong></span> コマンドの代わりに使うことができます。
+            
+          </p>
+        </dd></dl></div>
+  </td></tr></table></div>
+  <div class="note" title="Windows" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Windows"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Windows</th></tr><tr><td align="left" valign="top">
+    
+    <p>
+      <code class="code">labltk</code> ライブラリは、 Tcl/Tk 8.4 を使うようにあらかじめコンパイルされています。
+      まず始めに Tcl/Tk 8.4 をインストールします。
+      Tcl/Tk 8.4 は <a class="ulink" href="http://www.activestate.com/products/ActiveTcl/" target="_top"><code class="uri">http://www.activestate.com/products/ActiveTcl/</code></a> からダウンロードすることができます。
+      インストールが終わったら、（Tcl のインストール先の <code class="filename">bin</code> ディレクトリにある） <code class="filename">tcl84.dll</code> と <code class="filename">tk84.dll</code> をパスに含まれるディレクトリに置きます。
+      
+    </p>
+    <p>
+      特別なトップレベル環境は用意されていませんが、通常のトップレベル環境から次のコマンドを入力することでライブラリをロードすることができます。
+      
+    </p>
+    <pre class="screen">
+# #directory "+labltk";;
+# #load "labltk.cma";;
+    </pre>
+    <p>
+      コマンドラインから直接ロードすることもできます。
+      
+    </p>
+    <pre class="screen">
+<code class="prompt">C:\ocaml\bin&gt;</code> ocaml -I +labltk labltk.cma
+    </pre>
+  </td></tr></table></div>
+  <p>
+    <code class="code">labltk</code> ライブラリは多くのモジュールから構成されています。
+    
+  </p>
+  <pre class="literallayout">
+Bell                Imagebitmap         Place
+Button              Imagephoto          Radiobutton
+Canvas              Label               Scale
+Checkbutton         Listbox             Scrollbar
+Clipboard           Menu                Selection
+Dialog              Menubutton          Text
+Entry               Message             Tk
+Focus               Option              Tkwait
+Frame               Optionmenu          Toplevel
+Grab                Pack                Winfo
+Grid                Palette             Wm
+  </pre>
+  <p>
+    これらのモジュールについてここで詳細に述べるのは現実的ではありませんので、 <code class="code">Tk</code> モジュールの中のいくつかの基本的な関数を述べることにします。ただし、その他の多くのモジュールについても Tcl の man ページをそれぞれのモジュールの名前で探せば情報を見つけることができます。
+    
+  </p>
+  <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">The <a href="./libref/Tk.html" class="libref">Tk</a> library: Basic functions and types for LablTk
+    </li></ul></div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch27.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt04.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch29.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">27.&nbsp;<code class="code">dynlink</code> ライブラリ：オブジェクトファイルの動的読み込みと動的リンク&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;29.&nbsp;<code class="code">bigarray</code> ライブラリ</td></tr></table></div></body></html>

@@ -1,0 +1,135 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>29.2&nbsp;Caml-C インタフェースでの bigarray</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch29.html" title="29.&nbsp;bigarray ライブラリ"><link rel="prev" href="ch29s01.html" title="29.1&nbsp;Bigarray モジュール: 大規模な多次元数値配列"><link rel="next" href="apa.html" title="付録A"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">29.2&nbsp;Caml-C インタフェースでの bigarray </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch29s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">29.&nbsp;<code class="code">bigarray</code> ライブラリ</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="apa.html">次のページ</a></td></tr></table><hr></div><div class="section" title="29.2&nbsp;Caml-C インタフェースでの bigarray"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e14595"></a>29.2&nbsp;Caml-C インタフェースでの bigarray </h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch29s02.html#d4e14599">29.2.1. ヘッダファイル </a></span></dt><dt><span class="section"><a href="ch29s02.html#d4e14603">29.2.2. C や Fortran から Caml の bigarray にアクセスする </a></span></dt><dt><span class="section"><a href="ch29s02.html#d4e14685">29.2.3. C や Fortran の配列を Caml の bigarray に包む</a></span></dt></dl></div>
+    
+    <p>
+      C や Fortran のコードと Caml のインタフェースとなる C のスタブコードについては<a class="xref" href="ch18.html" title="18.&nbsp;C と Objective Caml のインタフェース"> 18 章「<i>C と Objective Caml のインタフェース</i>」</a> で述べました。
+      そこから bigarray を利用するには次のようにします。
+      
+    </p>
+    <div class="section" title="29.2.1&nbsp;ヘッダファイル"><div class="titlepage"><div><div><h3 class="title"><a name="d4e14599"></a>29.2.1&nbsp;ヘッダファイル </h3></div></div></div>
+      
+      <p>
+        C スタブファイルでは <code class="filename">&lt;caml/bigarray.h&gt;</code> をインクルードしなければなりません。
+        このファイルは以下で述べる関数と定数、マクロを宣言しています。
+        
+      </p>
+    </div>
+    <div class="section" title="29.2.2&nbsp;C や Fortran から Caml の bigarray にアクセスする"><div class="titlepage"><div><div><h3 class="title"><a name="d4e14603"></a>29.2.2&nbsp;C や Fortran から Caml の bigarray にアクセスする </h3></div></div></div>
+      
+      <p>
+        <em class="replaceable"><code>v</code></em> が bigarray を表す Caml の <span class="type">value</span> であるとき、式 <code class="code">Data_bigarray_val(<em class="replaceable"><code>v</code></em>)</code> は bigarray のデータ部分へのポインタを返します。
+        このポインタは <span class="type">void *</span> 型で、 <span class="type">double []</span> や <span class="type">char [][10]</span> といった適切な C の配列の型へとキャストすることができます。
+        
+      </p>
+      <p>
+        次のようにして Caml の bigarray の情報を C から取り出すことができます。
+      </p>
+      <table id="d4e14614">
+        <thead>
+          <tr><th>C の式</th><th>戻り値</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code class="code">Bigarray_val(<em class="replaceable"><code>v</code></em>)-&gt;num_dims</code></td>
+            <td>次元数</td></tr>
+          <tr>
+            <td><code class="code">Bigarray_val(<em class="replaceable"><code>v</code></em>)-&gt;dim[<em class="replaceable"><code>i</code></em>]</code></td>
+            <td><em class="replaceable"><code>i</code></em> 次元目</td></tr>
+          <tr>
+            <td><code class="code">Bigarray_val(<em class="replaceable"><code>v</code></em>)-&gt;flags &amp; BIGARRAY_KIND_MASK</code></td>
+            <td>配列の要素の種類</td></tr>
+      </tbody></table>
+      <p>
+        配列の要素の種類は、次の定数のうちのいずかです。
+        
+      </p>
+      <table id="d4e14638"><tbody>
+          <tr><th>定数</th><th>要素の種類</th></tr>
+          <tr><td><code class="constant">BIGARRAY_FLOAT32</code></td>
+            <td>32 ビット単精度浮動小数点数</td></tr>
+          <tr><td><code class="constant">BIGARRAY_FLOAT64</code></td>
+            <td>64 ビット倍精度浮動小数点数</td></tr>
+          <tr><td><code class="constant">BIGARRAY_SINT8</code></td>
+            <td>8 ビット符号付き整数</td></tr>
+          <tr><td><code class="constant">BIGARRAY_UINT8</code></td>
+            <td>8 ビット符号なし整数</td></tr>
+          <tr><td><code class="constant">BIGARRAY_SINT16</code></td>
+            <td>16 ビット符号付き整数</td></tr>
+          <tr><td><code class="constant">BIGARRAY_UINT16</code></td>
+            <td>16 ビット符号なし整数</td></tr>
+          <tr><td><code class="constant">BIGARRAY_INT32</code></td>
+            <td>32 ビット符号付き整数</td></tr>
+          <tr><td><code class="constant">BIGARRAY_INT64</code></td>
+            <td>64 ビット符号付き整数</td></tr>
+          <tr><td><code class="constant">BIGARRAY_CAML_INT</code></td>
+            <td>31 ビットまたは 63 ビットの符号付き整数</td></tr>
+          <tr><td><code class="constant">BIGARRAY_NATIVE_INT</code></td>
+            <td>32ビットか64ビットの（プラットフォームネイティブな）整数</td></tr>
+      </tbody></table>
+      <p>
+        以下は、 2 次元の bigarray を C と Fortran の関数に渡す例です。
+      </p>
+      <pre class="programlisting">
+extern void my_c_function(double * data, int dimx, int dimy);
+extern void my_fortran_function_(double * data, int * dimx, int * dimy);
+
+value caml_stub(value bigarray)
+{
+  int dimx = Bigarray_val(bigarray)-&gt;dim[0];
+  int dimy = Bigarray_val(bigarray)-&gt;dim[1];
+  /* C passes scalar parameters by value */
+  my_c_function(Data_bigarray_val(bigarray), dimx, dimy);
+  /* Fortran passes all parameters by reference */
+  my_fortran_function_(Data_bigarray_val(bigarray), &amp;dimx, &amp;dimy);
+  return Val_unit;
+}
+</pre>
+    </div>
+    <div class="section" title="29.2.3&nbsp;C や Fortran の配列を Caml の bigarray に包む"><div class="titlepage"><div><div><h3 class="title"><a name="d4e14685"></a>29.2.3&nbsp;C や Fortran の配列を Caml の bigarray に包む</h3></div></div></div>
+      
+      <p>
+        既にメモリ領域が割り当てられた C や Fortran の配列へのポインタ <em class="replaceable"><code>p</code></em> を
+        <code class="function">alloc_bigarray</code> 関数や <code class="function">alloc_bigarray_dims</code> 関数を使って Caml の世界に返すことができます。
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"><code class="code">alloc_bigarray(<em class="replaceable"><code>kind</code></em> | <em class="replaceable"><code>layout</code></em>, <em class="replaceable"><code>numdims</code></em>, <em class="replaceable"><code>p</code></em>, <em class="replaceable"><code>dims</code></em>)</code></span></dt><dd>
+            <p>
+              <em class="replaceable"><code>p</code></em> の指すデータを Caml の bligarray に包んだものを返します。
+              <em class="replaceable"><code>kind</code></em> は配列の要素の種類です（上の <code class="constant">BIGARRAY_<em class="replaceable"><code>*</code></em></code> 定数のいずれか）。
+              <em class="replaceable"><code>layout</code></em> は C レイアウトの配列に対しては
+              <code class="constant">BIGARRAY_C_LAYOUT</code>、 Fortran レイアウトの配列に対しては
+              <code class="constant">BIGARRAY_FORTRAN_LAYOUT</code> を指定します。
+              <em class="replaceable"><code>numdims</code></em> は配列の次元数です。
+              <em class="replaceable"><code>dims</code></em> は長さ <em class="replaceable"><code>numdims</code></em> の整数の配列で、配列の各次元のサイズを指定します。
+              
+            </p>
+          </dd><dt><span class="term"><code class="code">alloc_bigarray_dims(<em class="replaceable"><code>kind</code></em> | <em class="replaceable"><code>layout</code></em>, <em class="replaceable"><code>numdims</code></em>, <em class="replaceable"><code>p</code></em>, (long) <em class="replaceable"><code>dim<sub>1</sub></code></em>, (long) <em class="replaceable"><code>dim<sub>2</sub></code></em>, ..., (long) <em class="replaceable"><code>dim<sub><em class="replaceable"><code>numdims</code></em></sub></code></em>)</code></span></dt><dd>
+            <p>
+              <code class="function">alloc_bigarray</code> と同じですが、配列の各次元のサイズを配列としてではなく、関数呼び出しの引数として渡します。
+                 
+            </p>
+          </dd></dl></div>
+      <p>
+        以下に、例として、静的に割り当てた C や Fortran の配列を Caml から利用できるようにする方法を示します。
+        
+      </p>
+<pre class="programlisting">
+extern long my_c_array[100][200];
+extern float my_fortran_array_[300][400];
+
+value caml_get_c_array(value unit)
+{
+  long dims[2];
+  dims[0] = 100; dims[1] = 200;
+  return alloc_bigarray(BIGARRAY_NATIVE_INT | BIGARRAY_C_LAYOUT,
+                        2, my_c_array, dims);
+}
+
+value caml_get_fortran_array(value unit)
+{
+  return alloc_bigarray_dims(BIGARRAY_FLOAT32 | BIGARRAY_FORTRAN_LAYOUT,
+                             2, my_fortran_array_, 300L, 400L);
+}
+</pre>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch29s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch29.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="apa.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">29.1&nbsp;Bigarray モジュール: 大規模な多次元数値配列&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;付録A </td></tr></table></div></body></html>

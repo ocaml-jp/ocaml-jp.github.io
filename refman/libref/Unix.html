@@ -1,0 +1,2848 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Tk.html">
+<link rel="next" href="UnixLabels.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><link title="エラーの報告" rel="Section" href="#2_">
+<link title="プロセスの環境へのアクセス" rel="Section" href="#2_">
+<link title="プロセス処理" rel="Section" href="#2_">
+<link title="標準入出力関数とのインタフェース" rel="Section" href="#2_">
+<link title="seek と truncate" rel="Section" href="#2_seektruncate">
+<link title="ファイルの状態" rel="Section" href="#2_">
+<link title="ラージファイルの操作" rel="Section" href="#2_">
+<link title="ファイル名に対する操作" rel="Section" href="#2_">
+<link title="ファイル記述子に対する操作" rel="Section" href="#2_">
+<link title="ディレクトリ" rel="Section" href="#2_">
+<link title="パイプとリダイレクト" rel="Section" href="#2_">
+<link title="高レベルのプロセスとリダイレクトの管理" rel="Section" href="#2_">
+<link title="シンボリックリンク" rel="Section" href="#2_">
+<link title="polling" rel="Section" href="#2_polling">
+<link title="ロック" rel="Section" href="#2_">
+<link title="シグナル" rel="Section" href="#2_">
+<link title="時間関数" rel="Section" href="#2_">
+<link title="ユーザー ID とグループ ID" rel="Section" href="#2_IDID">
+<link title="インターネットアドレス" rel="Section" href="#2_">
+<link title="ソケット" rel="Section" href="#2_">
+<link title="ソケットオプション" rel="Section" href="#2_">
+<link title="高レベルネットワーク接続関数" rel="Section" href="#2_">
+<link title="ホストデータベースとプロトコルデータベース" rel="Section" href="#2_">
+<link title="端末インタフェース" rel="Section" href="#2_">
+<link title="基本入出力" rel="Subsection" href="#6_">
+<link title="ファイルのパーミッションと所有権" rel="Subsection" href="#6_">
+<title>Unix</title>
+</head>
+<body>
+<div class="navbar"><a href="Tk.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="UnixLabels.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Unix.html">Unix</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Unix: <code class="code"><span class="keyword">sig</span></code> <a href="Unix.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>Unix システムインタフェース<br>
+<hr width="100%">
+<br>
+<span id="2_"><h2>エラーの報告</h2></span><br>
+<br><code><span id="TYPEerror"><span class="keyword">type</span> <code class="type"></code>error</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">E2BIG</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >引数リストが長過ぎる</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EACCES</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >パーミッション違反</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EAGAIN</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >リソースが一時的に利用不可である。乞再試行</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EBADF</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >不正なファイル記述子</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EBUSY</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >リソースが利用不可である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ECHILD</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >子プロセスが存在しない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EDEADLK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >リソースのデッドロックの可能性があった</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EDOM</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >数学関数等の引数が定義外である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EEXIST</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ファイルが既に存在する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EFAULT</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >不正なアドレス</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EFBIG</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ファイルが大き過ぎる</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EINTR</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >関数がシグナルにより中断された</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EINVAL</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >不正な引数</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EIO</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ハードウェア入出力エラー</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EISDIR</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ディレクトリである</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EMFILE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >プロセスのオープンしているファイルが多過ぎる</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EMLINK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >リンクが多過ぎる</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENAMETOOLONG</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ファイル名が長過ぎる</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENFILE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >システム中で開いているファイルが多過ぎる</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENODEV</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >そのようなデバイスは存在しない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENOENT</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >そのようなファイルないしディレクトリは存在しない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENOEXEC</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >実行ファイルではない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENOLCK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ロックを利用できない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENOMEM</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >十分なメモリがない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENOSPC</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >デバイスに空きがない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENOSYS</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >機能がサポートされていない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENOTDIR</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ディレクトリではない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENOTEMPTY</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ディレクトリが空ではない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENOTTY</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >不適切な ioctl</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENXIO</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >そのようなデバイスやアドレスが存在しない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EPERM</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >操作が許可されていない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EPIPE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >パイプの切断</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ERANGE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >結果が大き過ぎる</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EROFS</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ファイルシステムが読み込み専用である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ESPIPE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >パイプなどに対する不正な seek</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ESRCH</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >そのようなプロセスは存在しない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EXDEV</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >不正なリンク</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EWOULDBLOCK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >操作がブロックする可能性があった</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EINPROGRESS</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >操作が進行中である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EALREADY</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >操作が既に進行中である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENOTSOCK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケット以外に対するソケット操作</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EDESTADDRREQ</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >送り先アドレスが必要である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EMSGSIZE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >メッセージが長過ぎる</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EPROTOTYPE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケットに対する適切でないプロトコル</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENOPROTOOPT</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >プロトコルが利用可能ではない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EPROTONOSUPPORT</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >プロトコルがサポートされていない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ESOCKTNOSUPPORT</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >サポートされていないソケット種別</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EOPNOTSUPP</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケットでサポートされない操作</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EPFNOSUPPORT</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >サポートされないプロトコルファミリ</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EAFNOSUPPORT</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >プロトコルファミリでサポートされないアドレスファミリ</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EADDRINUSE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >アドレスが既に使用中である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EADDRNOTAVAIL</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >所望のアドレスを割り当てられなかった</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENETDOWN</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ネットワークが不通である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENETUNREACH</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ネットワークに到達不能である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENETRESET</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >リセットによりネットワーク接続が切断された</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ECONNABORTED</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >自ホストのソフトウェアにより接続が中断された</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ECONNRESET</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >接続先により接続がリセットされた</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENOBUFS</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >バッファ領域不足</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EISCONN</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケットが既に接続済みである</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ENOTCONN</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケットが接続されていない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ESHUTDOWN</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケットの切断後には送信できない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ETOOMANYREFS</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >参照が多過ぎて結合できない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ETIMEDOUT</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >接続がタイムアウトした</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ECONNREFUSED</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >接続が拒否された</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EHOSTDOWN</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >宛先ホストがダウンしている</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EHOSTUNREACH</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >宛先ホストへの経路が存在しない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ELOOP</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >シンボリックリンクの参照が深過ぎる</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EOVERFLOW</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ファイルの大きさまたは位置が表現不可能である</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">EUNKNOWNERR</span> <span class="keyword">of</span> <code class="type">int</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >未知のエラー</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+エラーコードの型。
+    POSIX 標準で定義されたエラーおよび UNIX98、 BSD で定義された追加のエラーです。
+    それ以外のエラーは EUNKNOWNERR に対応づけられます。<br>
+</div>
+
+<pre><span id="EXCEPTIONUnix_error"><span class="keyword">exception</span> Unix_error</span> <span class="keyword">of</span> <code class="type"><a href="Unix.html#TYPEerror">error</a> * string * string</code></pre>
+<div class="info">
+以下のシステムコールでエラーが起こった場合に発生します。
+    最初の要素はエラーコード、次の要素は関数名、最後の要素は関数に文字列引数があればそのいずれか、なければ空文字列です。<br>
+</div>
+<pre><span id="VALerror_message"><span class="keyword">val</span> error_message</span> : <code class="type"><a href="Unix.html#TYPEerror">error</a> -> string</code></pre><div class="info">
+与えられたエラーの説明文字列を返します。<br>
+</div>
+<pre><span id="VALhandle_unix_error"><span class="keyword">val</span> handle_unix_error</span> : <code class="type">('a -> 'b) -> 'a -> 'b</code></pre><div class="info">
+<code class="code">handle_unix_error f x</code> は <code class="code">f</code> を <code class="code">x</code> に適用してその戻り値を返します。
+    <code class="code"><span class="constructor">Unix_error</span></code> 例外が発生した場合には、そのエラーの説明文字列を表示し、終了コード 2 で終了します。<br>
+</div>
+<br>
+<span id="2_"><h2>プロセスの環境へのアクセス</h2></span><br>
+<pre><span id="VALenvironment"><span class="keyword">val</span> environment</span> : <code class="type">unit -> string array</code></pre><div class="info">
+プロセスの環境を「値=名前」の形式の文字列の配列で返します。<br>
+</div>
+<pre><span id="VALgetenv"><span class="keyword">val</span> getenv</span> : <code class="type">string -> string</code></pre><div class="info">
+プロセスの環境で変数に対応づけられた値を返します。
+    変数が未束縛の場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します
+    （この関数は <a href="Sys.html#VALgetenv"><code class="code"><span class="constructor">Sys</span>.getenv</code></a> とまったく同じです）。<br>
+</div>
+<pre><span id="VALputenv"><span class="keyword">val</span> putenv</span> : <code class="type">string -> string -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Unix</span>.putenv name value</code> は変数に対応づけられた値をプロセスの環境に設定します。
+    <code class="code">name</code> は環境変数の名前で、 <code class="code">value</code> はそれに新たに対応づけられる値です。<br>
+</div>
+<br>
+<span id="2_"><h2>プロセス処理</h2></span><br>
+<br><code><span id="TYPEprocess_status"><span class="keyword">type</span> <code class="type"></code>process_status</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">WEXITED</span> <span class="keyword">of</span> <code class="type">int</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><code class="code">exit</code> によりプロセスが正常に終了した。引数は終了コード</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">WSIGNALED</span> <span class="keyword">of</span> <code class="type">int</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >プロセスがシグナルにより kill された。引数はシグナル番号</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">WSTOPPED</span> <span class="keyword">of</span> <code class="type">int</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >プロセスがシグナルにより停止した。引数はシグナル番号</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+プログラムの終了ステータスです。
+    標準のシグナル番号の定義については <a href="Sys.html"><code class="code"><span class="constructor">Sys</span></code></a> モジュールを参照してください。
+    シグナル番号は OS で使われるものとは異なることに注意してください。<br>
+</div>
+
+<br><code><span id="TYPEwait_flag"><span class="keyword">type</span> <code class="type"></code>wait_flag</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">WNOHANG</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >子プロセスがいずれも終了していない場合にはブロックしない。
+    ただし、プロセス ID が 0 の場合は直ちに返る</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">WUNTRACED</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >子プロセスが STOP シグナルを受け取った場合にも報告する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<a href="Unix.html#VALwaitpid"><code class="code"><span class="constructor">Unix</span>.waitpid</code></a> 用のフラグです。<br>
+</div>
+
+<pre><span id="VALexecv"><span class="keyword">val</span> execv</span> : <code class="type">string -> string array -> 'a</code></pre><div class="info">
+<code class="code">execv prog args</code> はファイル <code class="code">prog</code> 中のプログラムを、現在の環境で、引数 <code class="code">args</code> で実行します。
+    <code class="code">execv*</code> 系の関数は返りません。
+    実行に成功した場合には、現在のプログラムが新しいプログラムで置き換えられます。
+    失敗した場合には <a href="Unix.html#EXCEPTIONUnix_error"><code class="code"><span class="constructor">Unix</span>.<span class="constructor">Unix_error</span></code></a> 例外が発生します。<br>
+</div>
+<pre><span id="VALexecve"><span class="keyword">val</span> execve</span> : <code class="type">string -> string array -> string array -> 'a</code></pre><div class="info">
+<a href="Unix.html#VALexecv"><code class="code"><span class="constructor">Unix</span>.execv</code></a> と同じですが、第三引数としてプログラム実行時の環境を受け取ります。<br>
+</div>
+<pre><span id="VALexecvp"><span class="keyword">val</span> execvp</span> : <code class="type">string -> string array -> 'a</code></pre><div class="info">
+<a href="Unix.html#VALexecv"><code class="code"><span class="constructor">Unix</span>.execv</code></a> と同じですが、プログラムをパスから探索します。<br>
+</div>
+<pre><span id="VALexecvpe"><span class="keyword">val</span> execvpe</span> : <code class="type">string -> string array -> string array -> 'a</code></pre><div class="info">
+<a href="Unix.html#VALexecve"><code class="code"><span class="constructor">Unix</span>.execve</code></a> と同じですが、プログラムをパスから探索します。<br>
+</div>
+<pre><span id="VALfork"><span class="keyword">val</span> fork</span> : <code class="type">unit -> int</code></pre><div class="info">
+新しいプロセスを fork します。
+    子プロセスでは戻り値は 0 になり、親プロセスでは戻り値は子プロセスのプロセス ID になります。<br>
+</div>
+<pre><span id="VALwait"><span class="keyword">val</span> wait</span> : <code class="type">unit -> int * <a href="Unix.html#TYPEprocess_status">process_status</a></code></pre><div class="info">
+子プロセスのいずれかが終了するまで待ち、子プロセスのプロセス ID と終了ステータスを返します。<br>
+</div>
+<pre><span id="VALwaitpid"><span class="keyword">val</span> waitpid</span> : <code class="type"><a href="Unix.html#TYPEwait_flag">wait_flag</a> list -> int -> int * <a href="Unix.html#TYPEprocess_status">process_status</a></code></pre><div class="info">
+<a href="Unix.html#VALwait"><code class="code"><span class="constructor">Unix</span>.wait</code></a> と同じですが、与えられたプロセス ID の子プロセスを待ちます。
+   プロセス ID として <code class="code">-1</code> を指定すると任意の子プロセスを待ち、
+    <code class="code">0</code> を指定すると現在のプロセスと同一のプロセスグループの任意の子プロセスを待ちます。
+    負のプロセス ID はプロセスグループを表します。
+    フラグのリストには子プロセスを待たずに直ちに返るか、子プロセスの停止も報告するかを指定します。<br>
+</div>
+<pre><span id="VALsystem"><span class="keyword">val</span> system</span> : <code class="type">string -> <a href="Unix.html#TYPEprocess_status">process_status</a></code></pre><div class="info">
+与えられたプログラムを実行し、それが終了するまで待ち、そのプログラムの終了ステータスを返します。
+    引数の文字列は <code class="code">/bin/sh</code> により解釈されるため、リダイレクトやクォート、変数等を含めることができます。
+    戻り値 <code class="code"><span class="constructor">WEXITED</span> 127</code> はシェルを実行できなかったことを意味します。<br>
+</div>
+<pre><span id="VALgetpid"><span class="keyword">val</span> getpid</span> : <code class="type">unit -> int</code></pre><div class="info">
+現在のプロセスのプロセス ID を返します。<br>
+</div>
+<pre><span id="VALgetppid"><span class="keyword">val</span> getppid</span> : <code class="type">unit -> int</code></pre><div class="info">
+親プロセスのプロセス ID を返します。<br>
+</div>
+<pre><span id="VALnice"><span class="keyword">val</span> nice</span> : <code class="type">int -> int</code></pre><div class="info">
+プロセスの優先度を変更します。
+    引数の整数値が nice 値に加えられます（nice 値が高いほど優先度が低いことを意味します）。
+    変更後の nice 値を返します。<br>
+</div>
+<br>
+<span id="6_"><h6>基本入出力</h6></span><br>
+<pre><span id="TYPEfile_descr"><span class="keyword">type</span> <code class="type"></code>file_descr</span> </pre>
+<div class="info">
+ファイル記述子を表す抽象型<br>
+</div>
+
+<pre><span id="VALstdin"><span class="keyword">val</span> stdin</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a></code></pre><div class="info">
+標準入力のファイル記述子。<br>
+</div>
+<pre><span id="VALstdout"><span class="keyword">val</span> stdout</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a></code></pre><div class="info">
+標準出力のファイル記述子。<br>
+</div>
+<pre><span id="VALstderr"><span class="keyword">val</span> stderr</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a></code></pre><div class="info">
+標準エラーのファイル記述子。<br>
+</div>
+<br><code><span id="TYPEopen_flag"><span class="keyword">type</span> <code class="type"></code>open_flag</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">O_RDONLY</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >読み込み用に開く</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">O_WRONLY</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >書き込み用に開く</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">O_RDWR</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >読み書き両用に開く</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">O_NONBLOCK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >non-blocking モードで開く</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">O_APPEND</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >追記用に開く</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">O_CREAT</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >存在しなかった場合には作成する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">O_TRUNC</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >存在した場合は長さを 0 に切り詰める</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">O_EXCL</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >存在した場合には失敗する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">O_NOCTTY</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >このデバイスを制御端末にしない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">O_DSYNC</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >同期データ入出力の完了を以て書き込みを完了する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">O_SYNC</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >同期ファイル入出力の完了を以て書き込みを完了する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">O_RSYNC</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >書き込みの終了を待ってから読み込む（O_SYNC / O_DSYNC 指定に依存します）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<a href="Unix.html#VALopenfile"><code class="code"><span class="constructor">Unix</span>.openfile</code></a> 用のフラグです。<br>
+</div>
+
+<pre><span id="TYPEfile_perm"><span class="keyword">type</span> <code class="type"></code>file_perm</span> = <code class="type">int</code> </pre>
+<div class="info">
+ファイルのアクセス権限の型です。例えば <code class="code">0o640</code> は、ユーザには読み書き権限、グループからは読み込み権限、それ以外には権限なしを表します。<br>
+</div>
+
+<pre><span id="VALopenfile"><span class="keyword">val</span> openfile</span> : <code class="type">string -> <a href="Unix.html#TYPEopen_flag">open_flag</a> list -> <a href="Unix.html#TYPEfile_perm">file_perm</a> -> <a href="Unix.html#TYPEfile_descr">file_descr</a></code></pre><div class="info">
+与えられたフラグに従って指定の名前のファイルを開きます。
+    第三引数はファイルを作成する場合のパーミッションです。
+    ファイルに対する記述子を返します。<br>
+</div>
+<pre><span id="VALclose"><span class="keyword">val</span> close</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> unit</code></pre><div class="info">
+ファイル記述子を閉じます。<br>
+</div>
+<pre><span id="VALread"><span class="keyword">val</span> read</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> string -> int -> int -> int</code></pre><div class="info">
+<code class="code">read fd buff ofs len</code> はファイル記述子 <code class="code">fd</code> から <code class="code">len</code> 文字読み込み、文字列
+    <code class="code">buf</code> の <code class="code">ofs</code> 文字目以降に格納します。
+    実際に読み込まれた文字数を返します。<br>
+</div>
+<pre><span id="VALwrite"><span class="keyword">val</span> write</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> string -> int -> int -> int</code></pre><div class="info">
+<code class="code">write fd buff ofs len</code> は文字列 <code class="code">buff</code> の <code class="code">ofs</code> 文字目から <code class="code">len</code> 文字を取り出し、ファイル記述子 <code class="code">fd</code> に書き込みます。
+    戻り値は実際に書き込まれた文字数です。
+    文字がすべて書き込まれるかエラーが起こるまで書き込み処理を繰り返します。<br>
+</div>
+<pre><span id="VALsingle_write"><span class="keyword">val</span> single_write</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> string -> int -> int -> int</code></pre><div class="info">
+<code class="code">write</code> と同じですが、一度だけ書き込みます。
+    したがって、エラーが起こった場合には <code class="code">single_write</code> ではデータがまったく書き込まれないことが保証されます。<br>
+</div>
+<br>
+<span id="2_"><h2>標準入出力関数とのインタフェース</h2></span><br>
+<pre><span id="VALin_channel_of_descr"><span class="keyword">val</span> in_channel_of_descr</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Pervasives.html#TYPEin_channel">in_channel</a></code></pre><div class="info">
+与えられたファイル記述子から読み込む入力チャネルを作成します。
+    初期状態ではチャネルはバイナリモードです。
+    テキストモードにするには <code class="code">set_binary_mode_in ic <span class="keyword">false</span></code> としてください。<br>
+</div>
+<pre><span id="VALout_channel_of_descr"><span class="keyword">val</span> out_channel_of_descr</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Pervasives.html#TYPEout_channel">out_channel</a></code></pre><div class="info">
+与えられたファイル記述子に書き込む出力チャネルを作成します。
+    初期状態ではチャネルはバイナリモードです。
+    テキストモードにするには <code class="code">set_binary_mode_out ic <span class="keyword">false</span></code> としてください。<br>
+</div>
+<pre><span id="VALdescr_of_in_channel"><span class="keyword">val</span> descr_of_in_channel</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> <a href="Unix.html#TYPEfile_descr">file_descr</a></code></pre><div class="info">
+与えられた入力チャネルに対するファイル記述子を返します。<br>
+</div>
+<pre><span id="VALdescr_of_out_channel"><span class="keyword">val</span> descr_of_out_channel</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> <a href="Unix.html#TYPEfile_descr">file_descr</a></code></pre><div class="info">
+与えられた出力チャネルに対するファイル記述子を返します。<br>
+</div>
+<br>
+<span id="2_seektruncate"><h2>seek と truncate</h2></span><br>
+<br><code><span id="TYPEseek_command"><span class="keyword">type</span> <code class="type"></code>seek_command</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SEEK_SET</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ファイルの先頭からの相対位置で位置を表す</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SEEK_CUR</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >現在の位置からの相対位置で位置を表す</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SEEK_END</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ファイル終端からの相対位置で位置を表す</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<a href="Unix.html#VALlseek"><code class="code"><span class="constructor">Unix</span>.lseek</code></a> の位置指定用モードです。<br>
+</div>
+
+<pre><span id="VALlseek"><span class="keyword">val</span> lseek</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> int -> <a href="Unix.html#TYPEseek_command">seek_command</a> -> int</code></pre><div class="info">
+ファイル記述子の現在位置を設定します。<br>
+</div>
+<pre><span id="VALtruncate"><span class="keyword">val</span> truncate</span> : <code class="type">string -> int -> unit</code></pre><div class="info">
+与えられた名前のファイルを指定のサイズに切り詰めます。<br>
+</div>
+<pre><span id="VALftruncate"><span class="keyword">val</span> ftruncate</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> int -> unit</code></pre><div class="info">
+与えられたファイル記述子に対応するファイルを指定のサイズに切り詰めます。<br>
+</div>
+<br>
+<span id="2_"><h2>ファイルの状態</h2></span><br>
+<br><code><span id="TYPEfile_kind"><span class="keyword">type</span> <code class="type"></code>file_kind</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">S_REG</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >通常のファイル</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">S_DIR</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ディレクトリ</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">S_CHR</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >キャラクタデバイス</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">S_BLK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ブロックデバイス</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">S_LNK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >シンボリックリンク</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">S_FIFO</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >名前付きパイプ</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">S_SOCK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケット</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+
+<br><code><span id="TYPEstats"><span class="keyword">type</span> <code class="type"></code>stats</span> = {</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>st_dev&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >デバイス番号</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>st_ino&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >inode 番号</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>st_kind&nbsp;: <code class="type"><a href="Unix.html#TYPEfile_kind">file_kind</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ファイルの種類</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>st_perm&nbsp;: <code class="type"><a href="Unix.html#TYPEfile_perm">file_perm</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >アクセス権限</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>st_nlink&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >リンクの数</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>st_uid&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >所有者のユーザー ID</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>st_gid&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ファイルのグループ ID</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>st_rdev&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >デバイスのマイナ番号</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>st_size&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >バイト単位での大きさ</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>st_atime&nbsp;: <code class="type">float</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >最終アクセス時刻</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>st_mtime&nbsp;: <code class="type">float</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >最終修正時刻</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>st_ctime&nbsp;: <code class="type">float</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >最後に状態が変更された時刻</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+<div class="info">
+<a href="Unix.html#VALstat"><code class="code"><span class="constructor">Unix</span>.stat</code></a> の呼び出しで返る情報。<br>
+</div>
+
+<pre><span id="VALstat"><span class="keyword">val</span> stat</span> : <code class="type">string -> <a href="Unix.html#TYPEstats">stats</a></code></pre><div class="info">
+与えられた名前のファイルの情報を返します。<br>
+</div>
+<pre><span id="VALlstat"><span class="keyword">val</span> lstat</span> : <code class="type">string -> <a href="Unix.html#TYPEstats">stats</a></code></pre><div class="info">
+<a href="Unix.html#VALstat"><code class="code"><span class="constructor">Unix</span>.stat</code></a> と同じですが、ファイルがシンボリックリンクであった場合、そのリンク自体の情報を返します。<br>
+</div>
+<pre><span id="VALfstat"><span class="keyword">val</span> fstat</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEstats">stats</a></code></pre><div class="info">
+与えられたファイル記述子に対応するファイルの情報を返します。<br>
+</div>
+<pre><span id="VALisatty"><span class="keyword">val</span> isatty</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> bool</code></pre><div class="info">
+与えられたファイル記述子が端末かコンソールウィンドウを指していた場合に <code class="code"><span class="keyword">true</span></code>
+    を返します。そうでなければ <code class="code"><span class="keyword">false</span></code> を返します。<br>
+</div>
+<br>
+<span id="2_"><h2>ラージファイルの操作</h2></span><br>
+<pre><span class="keyword">module</span> <a href="Unix.LargeFile.html">LargeFile</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Unix.LargeFile.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+ラージファイルに対するファイル操作。
+</div>
+<br>
+<span id="2_"><h2>ファイル名に対する操作</h2></span><br>
+<pre><span id="VALunlink"><span class="keyword">val</span> unlink</span> : <code class="type">string -> unit</code></pre><div class="info">
+与えられた名前のファイルを削除します。<br>
+</div>
+<pre><span id="VALrename"><span class="keyword">val</span> rename</span> : <code class="type">string -> string -> unit</code></pre><div class="info">
+<code class="code">rename old <span class="keyword">new</span></code> は <code class="code">old</code> のファイル名を <code class="code"><span class="keyword">new</span></code> に変更します。<br>
+</div>
+<pre><span id="VALlink"><span class="keyword">val</span> link</span> : <code class="type">string -> string -> unit</code></pre><div class="info">
+<code class="code">link source dest</code> は <code class="code">source</code> というファイルへのハードリンクを <code class="code">dest</code> という名前で作成します。<br>
+</div>
+<br>
+<span id="6_"><h6>ファイルのパーミッションと所有権</h6></span><br>
+<br><code><span id="TYPEaccess_permission"><span class="keyword">type</span> <code class="type"></code>access_permission</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">R_OK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >読み込み権限</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">W_OK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >書き込み権限</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">X_OK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >実行権限</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">F_OK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ファイルが存在するかどうか</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<a href="Unix.html#VALaccess"><code class="code"><span class="constructor">Unix</span>.access</code></a> 用のフラグ。<br>
+</div>
+
+<pre><span id="VALchmod"><span class="keyword">val</span> chmod</span> : <code class="type">string -> <a href="Unix.html#TYPEfile_perm">file_perm</a> -> unit</code></pre><div class="info">
+与えられた名前のファイルのパーミッションを変更します。<br>
+</div>
+<pre><span id="VALfchmod"><span class="keyword">val</span> fchmod</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEfile_perm">file_perm</a> -> unit</code></pre><div class="info">
+現在開いているファイルのパーミッションを変更します。<br>
+</div>
+<pre><span id="VALchown"><span class="keyword">val</span> chown</span> : <code class="type">string -> int -> int -> unit</code></pre><div class="info">
+与えられた名前のファイルの所有者のユーザー ID とグループ ID を変更します。<br>
+</div>
+<pre><span id="VALfchown"><span class="keyword">val</span> fchown</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> int -> int -> unit</code></pre><div class="info">
+現在開いているファイルの所有者のユーザー ID とグループ ID を変更します。<br>
+</div>
+<pre><span id="VALumask"><span class="keyword">val</span> umask</span> : <code class="type">int -> int</code></pre><div class="info">
+プロセスの umask を変更し、変更前の umask を返します。<br>
+</div>
+<pre><span id="VALaccess"><span class="keyword">val</span> access</span> : <code class="type">string -> <a href="Unix.html#TYPEaccess_permission">access_permission</a> list -> unit</code></pre><div class="info">
+与えられた名前のファイルが指定のパーミッションを持つか確認します。
+    指定のパーミッションを持たない場合には <code class="code"><span class="constructor">Unix_error</span></code> 例外が発生します。<br>
+</div>
+<br>
+<span id="2_"><h2>ファイル記述子に対する操作</h2></span><br>
+<pre><span id="VALdup"><span class="keyword">val</span> dup</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEfile_descr">file_descr</a></code></pre><div class="info">
+与えられたファイル記述子と同一のファイルを参照する新たなファイル記述子を返します。<br>
+</div>
+<pre><span id="VALdup2"><span class="keyword">val</span> dup2</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEfile_descr">file_descr</a> -> unit</code></pre><div class="info">
+<code class="code">dup2 fd1 fd2</code> は <code class="code">fd1</code> を <code class="code">fd2</code> に複製します。
+    <code class="code">fd2</code> が既に開かれていた場合には <code class="code">fd2</code> を閉じます。<br>
+</div>
+<pre><span id="VALset_nonblock"><span class="keyword">val</span> set_nonblock</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> unit</code></pre><div class="info">
+与えられたファイル記述子の non-blocking フラグを立てます。
+    non-blocking フラグが設定されていると、読み込み時にそのファイル記述子に読み込み可能なデータがない場合に、読み込みがブロックする代わりに
+    <code class="code"><span class="constructor">EAGAIN</span></code> または <code class="code"><span class="constructor">EWOULDBLOCK</span></code> エラーが発生します。
+    書き込み時に書き込める領域がない場合にも
+    <code class="code"><span class="constructor">EAGAIN</span></code> または <code class="code"><span class="constructor">EWOULDBLOCK</span></code> エラーが発生します。<br>
+</div>
+<pre><span id="VALclear_nonblock"><span class="keyword">val</span> clear_nonblock</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> unit</code></pre><div class="info">
+与えられたファイル記述子の non-blocking フラグを落とします。
+    <a href="Unix.html#VALset_nonblock"><code class="code"><span class="constructor">Unix</span>.set_nonblock</code></a> を参照してください。<br>
+</div>
+<pre><span id="VALset_close_on_exec"><span class="keyword">val</span> set_close_on_exec</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> unit</code></pre><div class="info">
+与えられたファイル記述子の close-on-exec フラグを立てます。
+    close-on-exec フラグの立ったファイル記述子は、現在のプロセスが <code class="code">exec*</code>
+    系の関数を使って別のプログラムを起動すると自動的に閉じられます。<br>
+</div>
+<pre><span id="VALclear_close_on_exec"><span class="keyword">val</span> clear_close_on_exec</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> unit</code></pre><div class="info">
+与えられたファイル記述子の close-on-exec フラグを落とします。
+    <a href="Unix.html#VALset_close_on_exec"><code class="code"><span class="constructor">Unix</span>.set_close_on_exec</code></a> を参照してください。<br>
+</div>
+<br>
+<span id="2_"><h2>ディレクトリ</h2></span><br>
+<pre><span id="VALmkdir"><span class="keyword">val</span> mkdir</span> : <code class="type">string -> <a href="Unix.html#TYPEfile_perm">file_perm</a> -> unit</code></pre><div class="info">
+与えられたパーミッションでディレクトリを作成します。<br>
+</div>
+<pre><span id="VALrmdir"><span class="keyword">val</span> rmdir</span> : <code class="type">string -> unit</code></pre><div class="info">
+空のディレクトリを削除します。<br>
+</div>
+<pre><span id="VALchdir"><span class="keyword">val</span> chdir</span> : <code class="type">string -> unit</code></pre><div class="info">
+現在のプロセスの作業ディレクトリを変更します。<br>
+</div>
+<pre><span id="VALgetcwd"><span class="keyword">val</span> getcwd</span> : <code class="type">unit -> string</code></pre><div class="info">
+現在の作業ディレクトリの名前を返します。<br>
+</div>
+<pre><span id="VALchroot"><span class="keyword">val</span> chroot</span> : <code class="type">string -> unit</code></pre><div class="info">
+現在のプロセスのルートディレクトリを変更します。<br>
+</div>
+<pre><span id="TYPEdir_handle"><span class="keyword">type</span> <code class="type"></code>dir_handle</span> </pre>
+<div class="info">
+ディレクトリ記述子の型。<br>
+</div>
+
+<pre><span id="VALopendir"><span class="keyword">val</span> opendir</span> : <code class="type">string -> <a href="Unix.html#TYPEdir_handle">dir_handle</a></code></pre><div class="info">
+ディレクトリ記述子を開きます。<br>
+</div>
+<pre><span id="VALreaddir"><span class="keyword">val</span> readdir</span> : <code class="type"><a href="Unix.html#TYPEdir_handle">dir_handle</a> -> string</code></pre><div class="info">
+ディレクトリの次のエントリを返します。<br>
+<b>Raises</b> <code>End_of_file</code> ディレクトリの終端に達していた場合<br>
+</div>
+<pre><span id="VALrewinddir"><span class="keyword">val</span> rewinddir</span> : <code class="type"><a href="Unix.html#TYPEdir_handle">dir_handle</a> -> unit</code></pre><div class="info">
+ディレクトリ記述子の位置をディレクトリの先頭に再設定します。<br>
+</div>
+<pre><span id="VALclosedir"><span class="keyword">val</span> closedir</span> : <code class="type"><a href="Unix.html#TYPEdir_handle">dir_handle</a> -> unit</code></pre><div class="info">
+ディレクトリ記述子を閉じます。<br>
+</div>
+<br>
+<span id="2_"><h2>パイプとリダイレクト</h2></span><br>
+<pre><span id="VALpipe"><span class="keyword">val</span> pipe</span> : <code class="type">unit -> <a href="Unix.html#TYPEfile_descr">file_descr</a> * <a href="Unix.html#TYPEfile_descr">file_descr</a></code></pre><div class="info">
+パイプを作成します。戻り値の最初の要素は読み込み用のファイル記述子、すなわちパイプの出口で、二番目の要素は書き込み用のファイル記述子、すなわちパイプの入口です。<br>
+</div>
+<pre><span id="VALmkfifo"><span class="keyword">val</span> mkfifo</span> : <code class="type">string -> <a href="Unix.html#TYPEfile_perm">file_perm</a> -> unit</code></pre><div class="info">
+指定のパーミッションで名前付きパイプを作成します。<br>
+</div>
+<br>
+<span id="2_"><h2>高レベルのプロセスとリダイレクトの管理</h2></span><br>
+<pre><span id="VALcreate_process"><span class="keyword">val</span> create_process</span> : <code class="type">string -><br>       string array -> <a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEfile_descr">file_descr</a> -> int</code></pre><div class="info">
+<code class="code">create_process prog args new_stdin new_stdout new_stderr</code>
+    は新しいプロセスを fork してファイル <code class="code">prog</code> 中のプログラムを引数
+    <code class="code">args</code> で実行します。新しいプロセスのプロセス ID が即座に返り、新しいプロセスは現在のプロセスと並列に実行されます。
+    新しいプロセスの標準入力と出力は <code class="code">new_stdin</code>、 <code class="code">new_stdout</code>、 <code class="code">new_stderr</code>
+    の記述子に接続されます。例えば <code class="code">new_stdout</code> に <code class="code">stdout</code> を渡すと新しいプロセスの標準出力はリダイレクトされず、現在のプロセスと同じになります。
+    実行ファイル <code class="code">prog</code> はパスから探索されます。
+    新しいプロセスは現在のプロセスと同じ環境を持ちます。<br>
+</div>
+<pre><span id="VALcreate_process_env"><span class="keyword">val</span> create_process_env</span> : <code class="type">string -><br>       string array -><br>       string array -> <a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEfile_descr">file_descr</a> -> int</code></pre><div class="info">
+<code class="code">create_process_env prog args env new_stdin new_stdout new_stderr</code>
+    は <a href="Unix.html#VALcreate_process"><code class="code"><span class="constructor">Unix</span>.create_process</code></a> と同様の動作をしますが、追加の引数として <code class="code">env</code>
+    でプログラムの環境を指定することができます。<br>
+</div>
+<pre><span id="VALopen_process_in"><span class="keyword">val</span> open_process_in</span> : <code class="type">string -> <a href="Pervasives.html#TYPEin_channel">in_channel</a></code></pre><div class="info">
+高レベルのパイプとプロセスの管理。
+    この関数は与えられたコマンドを現在のプログラムと並列に実行します。
+    実行するコマンドの標準出力はパイプにリダイレクトされ、それを戻り値の入力チャネルから読むことができます。
+    コマンドは <a href="Unix.html#VALsystem"><code class="code"><span class="constructor">Unix</span>.system</code></a> と同じく <code class="code">/bin/sh</code> により解釈されます。<br>
+</div>
+<pre><span id="VALopen_process_out"><span class="keyword">val</span> open_process_out</span> : <code class="type">string -> <a href="Pervasives.html#TYPEout_channel">out_channel</a></code></pre><div class="info">
+<a href="Unix.html#VALopen_process_in"><code class="code"><span class="constructor">Unix</span>.open_process_in</code></a> と同じですがコマンドの標準入力をパイプにリダイレクトします。
+    戻り値の出力チャネルに書き込まれたデータは実行したコマンドの標準入力に送られます。
+    警告: 出力チャネルへの書き込みはバッファリングされます。正しく同期していることを保証するためには適切なタイミングで <a href="Pervasives.html#VALflush"><code class="code">flush</code></a> を呼び出すようにしてください。<br>
+</div>
+<pre><span id="VALopen_process"><span class="keyword">val</span> open_process</span> : <code class="type">string -> <a href="Pervasives.html#TYPEin_channel">in_channel</a> * <a href="Pervasives.html#TYPEout_channel">out_channel</a></code></pre><div class="info">
+<a href="Unix.html#VALopen_process_out"><code class="code"><span class="constructor">Unix</span>.open_process_out</code></a> と同じですが、コマンドの標準入力と標準出力の両方を戻り値のチャネルに接続されたパイプにリダイレクトします。
+    入力チャネルはコマンドの出力に接続され、出力チャネルはコマンドの入力に接続されます。<br>
+</div>
+<pre><span id="VALopen_process_full"><span class="keyword">val</span> open_process_full</span> : <code class="type">string -><br>       string array -><br>       <a href="Pervasives.html#TYPEin_channel">in_channel</a> * <a href="Pervasives.html#TYPEout_channel">out_channel</a> * <a href="Pervasives.html#TYPEin_channel">in_channel</a></code></pre><div class="info">
+<a href="Unix.html#VALopen_process"><code class="code"><span class="constructor">Unix</span>.open_process</code></a> とほぼ同じですが、第二引数でコマンドに渡す環境を指定します。
+    戻り値の三つ組は順に、コマンドの標準出力、標準入力、標準エラーに接続されたチャネルになります。<br>
+</div>
+<pre><span id="VALclose_process_in"><span class="keyword">val</span> close_process_in</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> <a href="Unix.html#TYPEprocess_status">process_status</a></code></pre><div class="info">
+<a href="Unix.html#VALopen_process_in"><code class="code"><span class="constructor">Unix</span>.open_process_in</code></a> によって開いたチャネルを閉じます。
+    コマンドの終了を待ち、終了ステータスを返します。<br>
+</div>
+<pre><span id="VALclose_process_out"><span class="keyword">val</span> close_process_out</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> <a href="Unix.html#TYPEprocess_status">process_status</a></code></pre><div class="info">
+<a href="Unix.html#VALopen_process_out"><code class="code"><span class="constructor">Unix</span>.open_process_out</code></a> によって開いたチャネルを閉じます。
+    コマンドの終了を待ち、終了ステータスを返します。<br>
+</div>
+<pre><span id="VALclose_process"><span class="keyword">val</span> close_process</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> * <a href="Pervasives.html#TYPEout_channel">out_channel</a> -> <a href="Unix.html#TYPEprocess_status">process_status</a></code></pre><div class="info">
+<a href="Unix.html#VALopen_process"><code class="code"><span class="constructor">Unix</span>.open_process</code></a> によって開いたチャネルを閉じます。
+    コマンドの終了を待ち、終了ステータスを返します。<br>
+</div>
+<pre><span id="VALclose_process_full"><span class="keyword">val</span> close_process_full</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> * <a href="Pervasives.html#TYPEout_channel">out_channel</a> * <a href="Pervasives.html#TYPEin_channel">in_channel</a> -><br>       <a href="Unix.html#TYPEprocess_status">process_status</a></code></pre><div class="info">
+<a href="Unix.html#VALopen_process_full"><code class="code"><span class="constructor">Unix</span>.open_process_full</code></a> によって開いたチャネルを閉じます。
+    コマンドの終了を待ち、終了ステータスを返します。<br>
+</div>
+<br>
+<span id="2_"><h2>シンボリックリンク</h2></span><br>
+<pre><span id="VALsymlink"><span class="keyword">val</span> symlink</span> : <code class="type">string -> string -> unit</code></pre><div class="info">
+<code class="code">symlink source dest</code> はファイル <code class="code">source</code> のシンボリックリンク <code class="code">dest</code> を作成します。<br>
+</div>
+<pre><span id="VALreadlink"><span class="keyword">val</span> readlink</span> : <code class="type">string -> string</code></pre><div class="info">
+リンクの内容を読み込みます。<br>
+</div>
+<br>
+<span id="2_polling"><h2>polling</h2></span><br>
+<pre><span id="VALselect"><span class="keyword">val</span> select</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> list -><br>       <a href="Unix.html#TYPEfile_descr">file_descr</a> list -><br>       <a href="Unix.html#TYPEfile_descr">file_descr</a> list -><br>       float -> <a href="Unix.html#TYPEfile_descr">file_descr</a> list * <a href="Unix.html#TYPEfile_descr">file_descr</a> list * <a href="Unix.html#TYPEfile_descr">file_descr</a> list</code></pre><div class="info">
+いずれかのチャネルで何らかの入出力操作が可能になるまで待ちます。
+    引数のみっつのリストは順に、読み込みチェックをする記述子の集合、書き込みチェックをする記述子の集合、例外的状況をチェックする記述子の集合です。
+    第四引数には最大停止時間を秒単位で指定します。
+    負の数を指定するとタイムアウトしなくなります（無限に待ちます）。
+    戻り値は記述子の集合の三つ組です。
+    それぞれの要素は順に、読み込み可能になったものの集合、書き込み可能になったものの集合、例外的状況が保留されているものの集合です。<br>
+</div>
+<br>
+<span id="2_"><h2>ロック</h2></span><br>
+<br><code><span id="TYPElock_command"><span class="keyword">type</span> <code class="type"></code>lock_command</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">F_ULOCK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ロックを解除する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">F_LOCK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >書き込みロック。既にロックされていた場合にはブロックする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">F_TLOCK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >書き込みロック。既にロックされていた場合には失敗する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">F_TEST</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >他のプロセスによりロックされているか検査する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">F_RLOCK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >読み込みロック。既にロックされていた場合にはブロックする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">F_TRLOCK</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >読み込みロック、既にロックされていた場合には失敗する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<a href="Unix.html#VALlockf"><code class="code"><span class="constructor">Unix</span>.lockf</code></a> 用のコマンド。<br>
+</div>
+
+<pre><span id="VALlockf"><span class="keyword">val</span> lockf</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPElock_command">lock_command</a> -> int -> unit</code></pre><div class="info">
+<code class="code">lockf fd cmd size</code> は <code class="code">fd</code> として open されているファイルの領域をロックします。
+    ロックされるのは、現在の読み込み／書き込み位置から、 <code class="code">size</code> が正の場合には前方に
+    <code class="code">size</code> バイト、負の場合には後方に <code class="code">size</code> バイト、 0 の場合はファイル終端までの領域になります。
+    書き込みロックは、他のプロセスがその領域に対して読み込み・書き込みロックを獲得できないようにします。
+    読み込みロックは、他のプロセスはその領域に対する書き込みロックを獲得できませんが、読み込みロックは獲得できます。
+<p>
+
+    <code class="code"><span class="constructor">F_LOCK</span></code> と <code class="code"><span class="constructor">F_TLOCK</span></code> コマンドは指定の領域を書き込みロックしようとし、
+    <code class="code"><span class="constructor">F_RLOCK</span></code> と <code class="code"><span class="constructor">F_TRLOCK</span></code> コマンドは指定の領域を読み込みロックしようとします。
+    他のプロセスが既にロックを獲得していて現在のプロセスがロックを獲得できない場合、
+    <code class="code"><span class="constructor">F_LOCK</span></code> と <code class="code"><span class="constructor">F_RLOCK</span></code> はロックが解除されるまでブロックし、
+    <code class="code"><span class="constructor">F_TLOCK</span></code> と <code class="code"><span class="constructor">F_TRLOCK</span></code> は即座に例外を発生させ失敗します。
+    <code class="code"><span class="constructor">F_ULOCK</span></code> は現在のプロセスが指定の領域に獲得しているすべてのロックを解除します。
+    <code class="code"><span class="constructor">F_TEST</span></code> は実際にロックを行なわずに指定の領域に対して書き込みロックを獲得できるか検査します。
+    <code class="code"><span class="constructor">F_TEST</span></code> はロックが獲得できる場合には直ちに返り、そうでない場合には失敗します。<br>
+</div>
+<br>
+<span id="2_"><h2>シグナル</h2></span>
+<p>
+
+    注意: シグナルハンドラの設定は <a href="Sys.html#VALsignal"><code class="code"><span class="constructor">Sys</span>.signal</code></a> と <a href="Sys.html#VALset_signal"><code class="code"><span class="constructor">Sys</span>.set_signal</code></a> で行ないます。<br>
+<pre><span id="VALkill"><span class="keyword">val</span> kill</span> : <code class="type">int -> int -> unit</code></pre><div class="info">
+<code class="code">kill pid <span class="keyword">sig</span></code> はシグナル番号 <code class="code"><span class="keyword">sig</span></code> をプロセス ID が <code class="code">pid</code> のプロセスに送ります。<br>
+</div>
+<br><code><span id="TYPEsigprocmask_command"><span class="keyword">type</span> <code class="type"></code>sigprocmask_command</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SIG_SETMASK</span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SIG_BLOCK</span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SIG_UNBLOCK</span></code></td>
+
+</tr></table>
+
+
+<pre><span id="VALsigprocmask"><span class="keyword">val</span> sigprocmask</span> : <code class="type"><a href="Unix.html#TYPEsigprocmask_command">sigprocmask_command</a> -> int list -> int list</code></pre><div class="info">
+<code class="code">sigprocmask cmd sigs</code> はブロックされるシグナルの集合を変更します。
+    <code class="code">cmd</code> が <code class="code"><span class="constructor">SIG_SETMASK</span></code> の場合、ブロックされるシグナルは <code class="code">sigs</code> に指定されたものになります。
+    <code class="code">cmd</code> が <code class="code"><span class="constructor">SIG_BLOCK</span></code> の場合、 <code class="code">sigs</code> 中のシグナルがブロックされるシグナルに追加されます。
+    <code class="code">cmd</code> が <code class="code"><span class="constructor">SIG_UNBLOCK</span></code> の場合、 <code class="code">sigs</code> 中のシグナルはブロックされるシグナルから取り除かれます。
+    <code class="code">sigprocmask</code> は変更前の値を返します。<br>
+</div>
+<pre><span id="VALsigpending"><span class="keyword">val</span> sigpending</span> : <code class="type">unit -> int list</code></pre><div class="info">
+ブロックされるシグナルのうち、現在保留されているものの集合を返します。<br>
+</div>
+<pre><span id="VALsigsuspend"><span class="keyword">val</span> sigsuspend</span> : <code class="type">int list -> unit</code></pre><div class="info">
+<code class="code">sigsuspend sigs</code> はブロックされるシグナルの集合を <code class="code">sigs</code>
+    の値に不可分に設定し、無視されず、ブロックもされないシグナルが送信されてくるまで待ちます。
+    この関数から返るときにブロックされるシグナルは以前の値に戻ります。<br>
+</div>
+<pre><span id="VALpause"><span class="keyword">val</span> pause</span> : <code class="type">unit -> unit</code></pre><div class="info">
+無視されず、ブロックもされないシグナルが送信されてくるまで待ちます。<br>
+</div>
+<br>
+<span id="2_"><h2>時間関数</h2></span><br>
+<br><code><span id="TYPEprocess_times"><span class="keyword">type</span> <code class="type"></code>process_times</span> = {</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>tms_utime&nbsp;: <code class="type">float</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >プロセスのユーザー時間</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>tms_stime&nbsp;: <code class="type">float</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >プロセスのシステム時間</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>tms_cutime&nbsp;: <code class="type">float</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >子プロセスのユーザー時間</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>tms_cstime&nbsp;: <code class="type">float</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >子プロセスのシステム時間</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+<div class="info">
+プロセスの実行時間（CPU 時間）。<br>
+</div>
+
+<br><code><span id="TYPEtm"><span class="keyword">type</span> <code class="type"></code>tm</span> = {</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>tm_sec&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >秒: 0..60</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>tm_min&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >分: 0..59</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>tm_hour&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >時: 0..23</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>tm_mday&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >日: 1..31</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>tm_mon&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >月: 0..11</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>tm_year&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >年 - 1900</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>tm_wday&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >曜日（日曜日が 0）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>tm_yday&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >通算日: 0..365</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>tm_isdst&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >夏時間中かどうか</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+<div class="info">
+時刻と日付を表す型。<br>
+</div>
+
+<pre><span id="VALtime"><span class="keyword">val</span> time</span> : <code class="type">unit -> float</code></pre><div class="info">
+1970 年 1 月 1 日 00:00:00 GMT から現在までの経過秒数。<br>
+</div>
+<pre><span id="VALgettimeofday"><span class="keyword">val</span> gettimeofday</span> : <code class="type">unit -> float</code></pre><div class="info">
+<a href="Unix.html#VALtime"><code class="code"><span class="constructor">Unix</span>.time</code></a> と同じですが、分解能が 1 秒より上です。<br>
+</div>
+<pre><span id="VALgmtime"><span class="keyword">val</span> gmtime</span> : <code class="type">float -> <a href="Unix.html#TYPEtm">tm</a></code></pre><div class="info">
+<a href="Unix.html#VALtime"><code class="code"><span class="constructor">Unix</span>.time</code></a> の返した秒数を日付と時刻に変換します。
+    UTC （協定世界時）すなわち GMT を仮定しています。<br>
+</div>
+<pre><span id="VALlocaltime"><span class="keyword">val</span> localtime</span> : <code class="type">float -> <a href="Unix.html#TYPEtm">tm</a></code></pre><div class="info">
+<a href="Unix.html#VALtime"><code class="code"><span class="constructor">Unix</span>.time</code></a> の返した秒数を日付と時刻に変換します。
+    地域時間を仮定しています。<br>
+</div>
+<pre><span id="VALmktime"><span class="keyword">val</span> mktime</span> : <code class="type"><a href="Unix.html#TYPEtm">tm</a> -> float * <a href="Unix.html#TYPEtm">tm</a></code></pre><div class="info">
+<code class="code">tm</code> 引数で指定された日付と時刻を <a href="Unix.html#VALtime"><code class="code"><span class="constructor">Unix</span>.time</code></a> の返す秒数に変換します。
+    <code class="code">tm</code> の <code class="code">tm_isdst</code>、 <code class="code">tm_wday</code>、 <code class="code">tm_yday</code> フィールドは無視されます。
+    さらに、 <code class="code">tm</code> の <code class="code">tm_wday</code>、 <code class="code">tm_yday</code>、 <code class="code">tm_isdst</code> を他のフィールドから再計算し、それ以外のフィールドを正規化したものを返します（例えば、 10 月 40 日が 11 月 9 日の変換されるなど）。
+    <code class="code">tm</code> 引数は地域時間として解釈します。<br>
+</div>
+<pre><span id="VALalarm"><span class="keyword">val</span> alarm</span> : <code class="type">int -> int</code></pre><div class="info">
+<code class="code"><span class="constructor">SIGALRM</span></code> シグナルを与えられた秒数後に設定します。<br>
+</div>
+<pre><span id="VALsleep"><span class="keyword">val</span> sleep</span> : <code class="type">int -> unit</code></pre><div class="info">
+与えられた秒数だけ実行を中断します。<br>
+</div>
+<pre><span id="VALtimes"><span class="keyword">val</span> times</span> : <code class="type">unit -> <a href="Unix.html#TYPEprocess_times">process_times</a></code></pre><div class="info">
+現在のプロセスの実行時間を返します。<br>
+</div>
+<pre><span id="VALutimes"><span class="keyword">val</span> utimes</span> : <code class="type">string -> float -> float -> unit</code></pre><div class="info">
+ファイルの最終アクセス時刻（第二引数）と最終修正時刻（第三引数）を設定します。
+    時刻は 1970 年 1 月 1 日 00:00:00 GMT からの経過秒数で表します。
+    <code class="code">0.0</code> は現在時刻と解釈されます。<br>
+</div>
+<br><code><span id="TYPEinterval_timer"><span class="keyword">type</span> <code class="type"></code>interval_timer</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ITIMER_REAL</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >実時間に沿ってタイマーの値が減少し、指定時間経過した後に <code class="code"><span class="constructor">SIGALRM</span></code> シグナルを送信する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ITIMER_VIRTUAL</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >プロセスの仮想時間に沿ってタイマーの値が減少し、指定時間経過した後に <code class="code"><span class="constructor">SIGALRM</span></code> シグナルを送信する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ITIMER_PROF</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >プロファイリング用。プロセス自体の実行中とそのプロセスの代わりにシステムが実行中の場合にタイマーの値が減少し、指定時間経過した後に <code class="code"><span class="constructor">SIGPROF</span></code> シグナルを送信する。</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+インターバルタイマーの種類。<br>
+</div>
+
+<br><code><span id="TYPEinterval_timer_status"><span class="keyword">type</span> <code class="type"></code>interval_timer_status</span> = {</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>it_interval&nbsp;: <code class="type">float</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >期間</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>it_value&nbsp;: <code class="type">float</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >現在のタイマーの値</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+<div class="info">
+インターバルタイマーの状態を表す型。<br>
+</div>
+
+<pre><span id="VALgetitimer"><span class="keyword">val</span> getitimer</span> : <code class="type"><a href="Unix.html#TYPEinterval_timer">interval_timer</a> -> <a href="Unix.html#TYPEinterval_timer_status">interval_timer_status</a></code></pre><div class="info">
+与えられたインターバルタイマーの現在の状態を返します。<br>
+</div>
+<pre><span id="VALsetitimer"><span class="keyword">val</span> setitimer</span> : <code class="type"><a href="Unix.html#TYPEinterval_timer">interval_timer</a> -><br>       <a href="Unix.html#TYPEinterval_timer_status">interval_timer_status</a> -> <a href="Unix.html#TYPEinterval_timer_status">interval_timer_status</a></code></pre><div class="info">
+<code class="code">setitimer t s</code> はインターバルタイマーの状態を設定し、変更前の状態を返します。
+    引数 <code class="code">s</code> は次のように解釈されます。
+    <code class="code">s.it_value</code> は 0 でなければ次のタイマーの時間になります。
+    <code class="code">s.it_interval</code> は 0 でなければ、現在のタイマーが完了したあとに <code class="code">it_value</code> を再設定するときに使われます。
+    <code class="code">s.it_value</code> を 0 にするとタイマーを無効にします。
+    <code class="code">s.it_interval</code> を 0 にすると現在のタイマーが完了した後にタイマーが無効になります。<br>
+</div>
+<br>
+<span id="2_IDID"><h2>ユーザー ID とグループ ID</h2></span><br>
+<pre><span id="VALgetuid"><span class="keyword">val</span> getuid</span> : <code class="type">unit -> int</code></pre><div class="info">
+プロセスを実行しているユーザーのユーザー ID を返します。<br>
+</div>
+<pre><span id="VALgeteuid"><span class="keyword">val</span> geteuid</span> : <code class="type">unit -> int</code></pre><div class="info">
+プロセスの実効ユーザー ID を返します。<br>
+</div>
+<pre><span id="VALsetuid"><span class="keyword">val</span> setuid</span> : <code class="type">int -> unit</code></pre><div class="info">
+プロセスのユーザー ID と実効ユーザー ID を設定します。<br>
+</div>
+<pre><span id="VALgetgid"><span class="keyword">val</span> getgid</span> : <code class="type">unit -> int</code></pre><div class="info">
+プロセスを実行しているユーザーのグループ ID を返します。<br>
+</div>
+<pre><span id="VALgetegid"><span class="keyword">val</span> getegid</span> : <code class="type">unit -> int</code></pre><div class="info">
+実行中のプロセスの実効グループ ID を返します。<br>
+</div>
+<pre><span id="VALsetgid"><span class="keyword">val</span> setgid</span> : <code class="type">int -> unit</code></pre><div class="info">
+プロセスのグループ ID と実効グループ ID を設定します。<br>
+</div>
+<pre><span id="VALgetgroups"><span class="keyword">val</span> getgroups</span> : <code class="type">unit -> int array</code></pre><div class="info">
+プロセスを実行しているユーザーの属しているグループの一覧を返します。<br>
+</div>
+<pre><span id="VALsetgroups"><span class="keyword">val</span> setgroups</span> : <code class="type">int array -> unit</code></pre><div class="info">
+<code class="code">setgroups groups</code> は呼び出し元のプロセス補助グループ ID を設定します。
+    適切な特権が必要です。<br>
+</div>
+<pre><span id="VALinitgroups"><span class="keyword">val</span> initgroups</span> : <code class="type">string -> int -> unit</code></pre><div class="info">
+<code class="code">initgroups user group</code> は <code class="code">/etc/group</code> のグループデータベースを読み込み、
+    <code class="code">user</code> の属しているグループを使ってグループアクセスリストを初期化します。
+    追加のグループとして <code class="code">group</code> もリストに追加されます。<br>
+</div>
+<br><code><span id="TYPEpasswd_entry"><span class="keyword">type</span> <code class="type"></code>passwd_entry</span> = {</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>pw_name&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>pw_passwd&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>pw_uid&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>pw_gid&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>pw_gecos&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>pw_dir&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>pw_shell&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info">
+<code class="code">passwd</code> データベースの項目。<br>
+</div>
+
+<br><code><span id="TYPEgroup_entry"><span class="keyword">type</span> <code class="type"></code>group_entry</span> = {</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>gr_name&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>gr_passwd&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>gr_gid&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>gr_mem&nbsp;: <code class="type">string array</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info">
+<code class="code">group</code> データベースの項目。<br>
+</div>
+
+<pre><span id="VALgetlogin"><span class="keyword">val</span> getlogin</span> : <code class="type">unit -> string</code></pre><div class="info">
+プロセスを実行しているユーザーのログイン名を返します。<br>
+</div>
+<pre><span id="VALgetpwnam"><span class="keyword">val</span> getpwnam</span> : <code class="type">string -> <a href="Unix.html#TYPEpasswd_entry">passwd_entry</a></code></pre><div class="info">
+与えられた名前に対応する <code class="code">passwd</code> の項目を返します。
+    見つからない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALgetgrnam"><span class="keyword">val</span> getgrnam</span> : <code class="type">string -> <a href="Unix.html#TYPEgroup_entry">group_entry</a></code></pre><div class="info">
+与えられた名前に対応する <code class="code">group</code> の項目を返します。
+    見つからない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALgetpwuid"><span class="keyword">val</span> getpwuid</span> : <code class="type">int -> <a href="Unix.html#TYPEpasswd_entry">passwd_entry</a></code></pre><div class="info">
+与えられたユーザー ID に対応する <code class="code">passwd</code> の項目を返します。
+    見つからない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALgetgrgid"><span class="keyword">val</span> getgrgid</span> : <code class="type">int -> <a href="Unix.html#TYPEgroup_entry">group_entry</a></code></pre><div class="info">
+与えられたグループ ID に対応する <code class="code">group</code> の項目を返します。
+    見つからない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<br>
+<span id="2_"><h2>インターネットアドレス</h2></span><br>
+<pre><span id="TYPEinet_addr"><span class="keyword">type</span> <code class="type"></code>inet_addr</span> </pre>
+<div class="info">
+インターネットアドレスを表す抽象型。<br>
+</div>
+
+<pre><span id="VALinet_addr_of_string"><span class="keyword">val</span> inet_addr_of_string</span> : <code class="type">string -> <a href="Unix.html#TYPEinet_addr">inet_addr</a></code></pre><div class="info">
+インターネットアドレスを表示可能な表現から内部表現に変換します。
+    引数の文字列は、 IPv4 アドレスに対してはよっつの数をピリオドを区切ったもの（<code class="code"><span class="constructor">XXX</span>.<span class="constructor">YYY</span>.<span class="constructor">ZZZ</span>.<span class="constructor">TTT</span></code>）、
+    IPv6 アドレスに対してはやっつ以下の数字をコロンで区切ったものになります。
+    与えられた文字列がこれらの形式でない場合には <code class="code"><span class="constructor">Failure</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALstring_of_inet_addr"><span class="keyword">val</span> string_of_inet_addr</span> : <code class="type"><a href="Unix.html#TYPEinet_addr">inet_addr</a> -> string</code></pre><div class="info">
+与えられたインターネットアドレスの表示可能な表現を返します。
+    戻り値の形式については <a href="Unix.html#VALinet_addr_of_string"><code class="code"><span class="constructor">Unix</span>.inet_addr_of_string</code></a> を参照してください。<br>
+</div>
+<pre><span id="VALinet_addr_any"><span class="keyword">val</span> inet_addr_any</span> : <code class="type"><a href="Unix.html#TYPEinet_addr">inet_addr</a></code></pre><div class="info">
+<code class="code">bind</code> とともに使うための特別な IPv4 アドレスで、ホスト計算機が保有するすべてのインターネットアドレスを表します。<br>
+</div>
+<pre><span id="VALinet_addr_loopback"><span class="keyword">val</span> inet_addr_loopback</span> : <code class="type"><a href="Unix.html#TYPEinet_addr">inet_addr</a></code></pre><div class="info">
+ホスト計算機を表す特別な IPv4 アドレスです（<code class="code">127.0.0.1</code>）。<br>
+</div>
+<pre><span id="VALinet6_addr_any"><span class="keyword">val</span> inet6_addr_any</span> : <code class="type"><a href="Unix.html#TYPEinet_addr">inet_addr</a></code></pre><div class="info">
+<code class="code">bind</code> とともに使うための特別な IPv6 アドレスで、ホスト計算機が保有するすべてのインターネットアドレスを表します。<br>
+</div>
+<pre><span id="VALinet6_addr_loopback"><span class="keyword">val</span> inet6_addr_loopback</span> : <code class="type"><a href="Unix.html#TYPEinet_addr">inet_addr</a></code></pre><div class="info">
+ホスト計算機を表す特別な IPv6 アドレスです（<code class="code">::1</code>）。<br>
+</div>
+<br>
+<span id="2_"><h2>ソケット</h2></span><br>
+<br><code><span id="TYPEsocket_domain"><span class="keyword">type</span> <code class="type"></code>socket_domain</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">PF_UNIX</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >UNIX ドメイン</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">PF_INET</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >インターネットドメイン（IPv4）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">PF_INET6</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >インターネットドメイン（IPv4）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+ソケットドメインの型。 IPv6 ソケット（<code class="code"><span class="constructor">PF_INET6</span></code>）はすべてのプラットフォームでサポートされているわけではありません。<br>
+</div>
+
+<br><code><span id="TYPEsocket_type"><span class="keyword">type</span> <code class="type"></code>socket_type</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SOCK_STREAM</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ストリームソケット</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SOCK_DGRAM</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >データグラムソケット</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SOCK_RAW</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >生ソケット</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SOCK_SEQPACKET</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >シーケンス化パケットソケット</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+ソケットの種別の型。通信のセマンティクスを指定します。<br>
+</div>
+
+<br><code><span id="TYPEsockaddr"><span class="keyword">type</span> <code class="type"></code>sockaddr</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ADDR_UNIX</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">ADDR_INET</span> <span class="keyword">of</span> <code class="type"><a href="Unix.html#TYPEinet_addr">inet_addr</a> * int</code></code></td>
+
+</tr></table>
+
+<div class="info">
+ソケットアドレスの型。
+    <code class="code"><span class="constructor">ADDR_UNIX</span> name</code> は Unix ドメインソケットで、 <code class="code">name</code> はファイルシステム中のファイル名です。
+    <code class="code"><span class="constructor">ADDR_INET</span> (addr, port)</code> はインターネットドメインのソケットアドレスで、 <code class="code">addr</code> は計算機のインターネットアドレス、 <code class="code">port</code> はポート番号です。<br>
+</div>
+
+<pre><span id="VALsocket"><span class="keyword">val</span> socket</span> : <code class="type"><a href="Unix.html#TYPEsocket_domain">socket_domain</a> -> <a href="Unix.html#TYPEsocket_type">socket_type</a> -> int -> <a href="Unix.html#TYPEfile_descr">file_descr</a></code></pre><div class="info">
+指定されたドメイン、指定された種別のソケットを新たに作成します。
+    第三引数はプロトコルの種別で、 0 にするとそのソケットの種別のデフォルトを選択します。<br>
+</div>
+<pre><span id="VALdomain_of_sockaddr"><span class="keyword">val</span> domain_of_sockaddr</span> : <code class="type"><a href="Unix.html#TYPEsockaddr">sockaddr</a> -> <a href="Unix.html#TYPEsocket_domain">socket_domain</a></code></pre><div class="info">
+与えられたソケットアドレスのドメインを返します。<br>
+</div>
+<pre><span id="VALsocketpair"><span class="keyword">val</span> socketpair</span> : <code class="type"><a href="Unix.html#TYPEsocket_domain">socket_domain</a> -><br>       <a href="Unix.html#TYPEsocket_type">socket_type</a> -> int -> <a href="Unix.html#TYPEfile_descr">file_descr</a> * <a href="Unix.html#TYPEfile_descr">file_descr</a></code></pre><div class="info">
+互いに接続した無名のソケットの対を返します。<br>
+</div>
+<pre><span id="VALaccept"><span class="keyword">val</span> accept</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEfile_descr">file_descr</a> * <a href="Unix.html#TYPEsockaddr">sockaddr</a></code></pre><div class="info">
+与えられたソケットへの接続を受け付けます。
+    戻り値はクライアントに接続したソケットのファイル記述子とアドレスです。<br>
+</div>
+<pre><span id="VALbind"><span class="keyword">val</span> bind</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEsockaddr">sockaddr</a> -> unit</code></pre><div class="info">
+ソケットをアドレスに束縛します。<br>
+</div>
+<pre><span id="VALconnect"><span class="keyword">val</span> connect</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEsockaddr">sockaddr</a> -> unit</code></pre><div class="info">
+ソケットをアドレスに接続します。<br>
+</div>
+<pre><span id="VALlisten"><span class="keyword">val</span> listen</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> int -> unit</code></pre><div class="info">
+ソケットを接続要求を受け付けるように設定します。
+    整数引数は保留する要求の個数の上限です。<br>
+</div>
+<br><code><span id="TYPEshutdown_command"><span class="keyword">type</span> <code class="type"></code>shutdown_command</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SHUTDOWN_RECEIVE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >受信に関して閉じる</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SHUTDOWN_SEND</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >送信に関して閉じる</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SHUTDOWN_ALL</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >両方閉じる</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<code class="code">shutdown</code> 用のコマンドの型。<br>
+</div>
+
+<pre><span id="VALshutdown"><span class="keyword">val</span> shutdown</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEshutdown_command">shutdown_command</a> -> unit</code></pre><div class="info">
+ソケットの接続を切断します。
+    <code class="code"><span class="constructor">SHUTDOWN_SEND</span></code> を第二引数に渡すと、接続のもう一方の終端での読み込み処理はファイル終端状態を返すようになります。
+    <code class="code"><span class="constructor">SHUTDOWN_RECEIVE</span></code> を渡すと、接続のもう一方の終端での書き込み処理はパイプが閉じられている状態を返すようになります（<code class="code"><span class="constructor">SIGPIPE</span></code> シグナル）。<br>
+</div>
+<pre><span id="VALgetsockname"><span class="keyword">val</span> getsockname</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEsockaddr">sockaddr</a></code></pre><div class="info">
+与えられたソケットのアドレスを返します。<br>
+</div>
+<pre><span id="VALgetpeername"><span class="keyword">val</span> getpeername</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEsockaddr">sockaddr</a></code></pre><div class="info">
+与えられたソケットに接続しているホストのアドレスを返します。<br>
+</div>
+<br><code><span id="TYPEmsg_flag"><span class="keyword">type</span> <code class="type"></code>msg_flag</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">MSG_OOB</span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">MSG_DONTROUTE</span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">MSG_PEEK</span></code></td>
+
+</tr></table>
+
+<div class="info">
+<a href="Unix.html#VALrecv"><code class="code"><span class="constructor">Unix</span>.recv</code></a>、  <a href="Unix.html#VALrecvfrom"><code class="code"><span class="constructor">Unix</span>.recvfrom</code></a>、 <a href="Unix.html#VALsend"><code class="code"><span class="constructor">Unix</span>.send</code></a>、 <a href="Unix.html#VALsendto"><code class="code"><span class="constructor">Unix</span>.sendto</code></a> 用のフラグ。<br>
+</div>
+
+<pre><span id="VALrecv"><span class="keyword">val</span> recv</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> string -> int -> int -> <a href="Unix.html#TYPEmsg_flag">msg_flag</a> list -> int</code></pre><div class="info">
+接続状態のソケットからデータを受信します。<br>
+</div>
+<pre><span id="VALrecvfrom"><span class="keyword">val</span> recvfrom</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -><br>       string -> int -> int -> <a href="Unix.html#TYPEmsg_flag">msg_flag</a> list -> int * <a href="Unix.html#TYPEsockaddr">sockaddr</a></code></pre><div class="info">
+非接続状態のソケットからデータを受信します。<br>
+</div>
+<pre><span id="VALsend"><span class="keyword">val</span> send</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> string -> int -> int -> <a href="Unix.html#TYPEmsg_flag">msg_flag</a> list -> int</code></pre><div class="info">
+接続状態のソケットを介してデータを送信します。<br>
+</div>
+<pre><span id="VALsendto"><span class="keyword">val</span> sendto</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -><br>       string -> int -> int -> <a href="Unix.html#TYPEmsg_flag">msg_flag</a> list -> <a href="Unix.html#TYPEsockaddr">sockaddr</a> -> int</code></pre><div class="info">
+非接続状態のソケットを介してデータを送信します。<br>
+</div>
+<br>
+<span id="2_"><h2>ソケットオプション</h2></span><br>
+<br><code><span id="TYPEsocket_bool_option"><span class="keyword">type</span> <code class="type"></code>socket_bool_option</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_DEBUG</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >デバッグ情報を記録する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_BROADCAST</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ブロードキャストメッセージの送信を許可する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_REUSEADDR</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><code class="code">bind</code> 時のローカルアドレスの再利用を許可する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_KEEPALIVE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >接続を保持する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_DONTROUTE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >標準のルーティングアルゴリズムをバイパスする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_OOBINLINE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >帯域外データをインラインにする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_ACCEPTCONN</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケットが listen されているかどうか報告する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">TCP_NODELAY</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >TCP ソケットの Nagle のアルゴリズムを制御する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">IPV6_ONLY</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >IPv6 ソケットを IPv4 アドレスに束縛するのを禁止する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<a href="Unix.html#VALgetsockopt"><code class="code"><span class="constructor">Unix</span>.getsockopt</code></a> で問い合わせ、 <a href="Unix.html#VALsetsockopt"><code class="code"><span class="constructor">Unix</span>.setsockopt</code></a> で設定するソケットオプション。 
+    これらのオプションの値は真偽値（<code class="code"><span class="keyword">true</span></code> または <code class="code"><span class="keyword">false</span></code>）です。<br>
+</div>
+
+<br><code><span id="TYPEsocket_int_option"><span class="keyword">type</span> <code class="type"></code>socket_int_option</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_SNDBUF</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >送信バッファの大きさ</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_RCVBUF</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >受信バッファの大きさ</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_ERROR</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >非推奨。代わりに <a href="Unix.html#VALgetsockopt_error"><code class="code"><span class="constructor">Unix</span>.getsockopt_error</code></a> を使ってください</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_TYPE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケットの種類を報告する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_RCVLOWAT</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >入力操作で処理する最小のバイト数</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_SNDLOWAT</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >出力操作で処理する最大のバイト数</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<a href="Unix.html#VALgetsockopt_int"><code class="code"><span class="constructor">Unix</span>.getsockopt_int</code></a> で問い合わせ、 <a href="Unix.html#VALsetsockopt_int"><code class="code"><span class="constructor">Unix</span>.setsockopt_int</code></a> で設定するソケットオプション。 
+    これらのオプションの値は整数です。<br>
+</div>
+
+<br><code><span id="TYPEsocket_optint_option"><span class="keyword">type</span> <code class="type"></code>socket_optint_option</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_LINGER</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >接続を閉じる際にバッファにデータが残っていた場合に待機（linger）するかどうか。また待機する場合は何秒待機するか</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<a href="Unix.html#VALgetsockopt_optint"><code class="code"><span class="constructor">Unix</span>.getsockopt_optint</code></a> で問い合わせ、 <a href="Unix.html#VALsetsockopt_optint"><code class="code"><span class="constructor">Unix</span>.setsockopt_optint</code></a> で設定するソケットオプション。 
+    これらのオプションの値は <code class="code">int option</code> 型で、 <code class="code"><span class="constructor">None</span></code> は「無効」を意味します。<br>
+</div>
+
+<br><code><span id="TYPEsocket_float_option"><span class="keyword">type</span> <code class="type"></code>socket_float_option</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_RCVTIMEO</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >入力処理のタイムアウト</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">SO_SNDTIMEO</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >出力処理のタイムアウト</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<a href="Unix.html#VALgetsockopt_float"><code class="code"><span class="constructor">Unix</span>.getsockopt_float</code></a> で問い合わせ、 <a href="Unix.html#VALsetsockopt_float"><code class="code"><span class="constructor">Unix</span>.setsockopt_float</code></a> で設定するソケットオプション。 
+    これらのオプションの値は浮動小数点数で秒数を表します。
+    0 はタイムアウトしないことを表します。<br>
+</div>
+
+<pre><span id="VALgetsockopt"><span class="keyword">val</span> getsockopt</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEsocket_bool_option">socket_bool_option</a> -> bool</code></pre><div class="info">
+与えられたソケットの真偽値オブションの現在の値を返します。<br>
+</div>
+<pre><span id="VALsetsockopt"><span class="keyword">val</span> setsockopt</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEsocket_bool_option">socket_bool_option</a> -> bool -> unit</code></pre><div class="info">
+与えられたソケットの真偽値オブションの値を設定します。<br>
+</div>
+<pre><span id="VALgetsockopt_int"><span class="keyword">val</span> getsockopt_int</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEsocket_int_option">socket_int_option</a> -> int</code></pre><div class="info">
+<a href="Unix.html#VALgetsockopt"><code class="code"><span class="constructor">Unix</span>.getsockopt</code></a> と同じですが、整数値オプション用です。<br>
+</div>
+<pre><span id="VALsetsockopt_int"><span class="keyword">val</span> setsockopt_int</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEsocket_int_option">socket_int_option</a> -> int -> unit</code></pre><div class="info">
+<a href="Unix.html#VALsetsockopt"><code class="code"><span class="constructor">Unix</span>.setsockopt</code></a> と同じですが、整数値オプション用です。<br>
+</div>
+<pre><span id="VALgetsockopt_optint"><span class="keyword">val</span> getsockopt_optint</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEsocket_optint_option">socket_optint_option</a> -> int option</code></pre><div class="info">
+<a href="Unix.html#VALgetsockopt"><code class="code"><span class="constructor">Unix</span>.getsockopt</code></a> と同じですが、 <code class="code">int option</code> 型のオプション用です。<br>
+</div>
+<pre><span id="VALsetsockopt_optint"><span class="keyword">val</span> setsockopt_optint</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEsocket_optint_option">socket_optint_option</a> -> int option -> unit</code></pre><div class="info">
+<a href="Unix.html#VALsetsockopt"><code class="code"><span class="constructor">Unix</span>.setsockopt</code></a> と同じですが、 <code class="code">int option</code> 型のオプション用です。<br>
+</div>
+<pre><span id="VALgetsockopt_float"><span class="keyword">val</span> getsockopt_float</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEsocket_float_option">socket_float_option</a> -> float</code></pre><div class="info">
+<a href="Unix.html#VALgetsockopt"><code class="code"><span class="constructor">Unix</span>.getsockopt</code></a> と同じですが、浮動小数点数値オプション用です。<br>
+</div>
+<pre><span id="VALsetsockopt_float"><span class="keyword">val</span> setsockopt_float</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEsocket_float_option">socket_float_option</a> -> float -> unit</code></pre><div class="info">
+<a href="Unix.html#VALgetsockopt"><code class="code"><span class="constructor">Unix</span>.getsockopt</code></a> と同じですが、浮動小数点数値オプション用です。<br>
+</div>
+<pre><span id="VALgetsockopt_error"><span class="keyword">val</span> getsockopt_error</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEerror">error</a> option</code></pre><div class="info">
+与えられたソケットに対応づけられたエラー状態を返し、エラー状態をリセットします。<br>
+</div>
+<br>
+<span id="2_"><h2>高レベルネットワーク接続関数</h2></span><br>
+<pre><span id="VALopen_connection"><span class="keyword">val</span> open_connection</span> : <code class="type"><a href="Unix.html#TYPEsockaddr">sockaddr</a> -> <a href="Pervasives.html#TYPEin_channel">in_channel</a> * <a href="Pervasives.html#TYPEout_channel">out_channel</a></code></pre><div class="info">
+指定されたアドレスのサーバーに接続し、サーバーに接続したバッファ付きのチャネルを返します。
+    正しく同期していることを保証するためには適切なタイミングで出力チャネルに
+    <a href="Pervasives.html#VALflush"><code class="code">flush</code></a> を呼び出すようにしてください。<br>
+</div>
+<pre><span id="VALshutdown_connection"><span class="keyword">val</span> shutdown_connection</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> unit</code></pre><div class="info">
+<a href="Unix.html#VALopen_connection"><code class="code"><span class="constructor">Unix</span>.open_connection</code></a> で確立した接続を「切断」します。
+    すなわち、接続のもう一方の端点で読み込んでいるサーバーにファイル終端条件を送信します。<br>
+</div>
+<pre><span id="VALestablish_server"><span class="keyword">val</span> establish_server</span> : <code class="type">(<a href="Pervasives.html#TYPEin_channel">in_channel</a> -> <a href="Pervasives.html#TYPEout_channel">out_channel</a> -> unit) -><br>       <a href="Unix.html#TYPEsockaddr">sockaddr</a> -> unit</code></pre><div class="info">
+指定されたアドレスでサーバーを確立します。
+    第一引数に指定した関数は、各接続ごとに引数としてクライアントに接続したバッファ付きのチャネルを受け取ります。
+    接続ごとに新たなプロセスが作られます。
+    <a href="Unix.html#VALestablish_server"><code class="code"><span class="constructor">Unix</span>.establish_server</code></a> 関数は通常は返りません。<br>
+</div>
+<br>
+<span id="2_"><h2>ホストデータベースとプロトコルデータベース</h2></span><br>
+<br><code><span id="TYPEhost_entry"><span class="keyword">type</span> <code class="type"></code>host_entry</span> = {</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>h_name&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>h_aliases&nbsp;: <code class="type">string array</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>h_addrtype&nbsp;: <code class="type"><a href="Unix.html#TYPEsocket_domain">socket_domain</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>h_addr_list&nbsp;: <code class="type"><a href="Unix.html#TYPEinet_addr">inet_addr</a> array</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info">
+<code class="code">hosts</code> データベースの項目。<br>
+</div>
+
+<br><code><span id="TYPEprotocol_entry"><span class="keyword">type</span> <code class="type"></code>protocol_entry</span> = {</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>p_name&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>p_aliases&nbsp;: <code class="type">string array</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>p_proto&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info">
+<code class="code">protocols</code> データベースの項目。<br>
+</div>
+
+<br><code><span id="TYPEservice_entry"><span class="keyword">type</span> <code class="type"></code>service_entry</span> = {</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>s_name&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>s_aliases&nbsp;: <code class="type">string array</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>s_port&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>s_proto&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info">
+<code class="code">services</code> データベースの項目。<br>
+</div>
+
+<pre><span id="VALgethostname"><span class="keyword">val</span> gethostname</span> : <code class="type">unit -> string</code></pre><div class="info">
+ローカルホストの名前を返します。<br>
+</div>
+<pre><span id="VALgethostbyname"><span class="keyword">val</span> gethostbyname</span> : <code class="type">string -> <a href="Unix.html#TYPEhost_entry">host_entry</a></code></pre><div class="info">
+与えられた名前で <code class="code">hosts</code> の項目を検索します。
+    見つからない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALgethostbyaddr"><span class="keyword">val</span> gethostbyaddr</span> : <code class="type"><a href="Unix.html#TYPEinet_addr">inet_addr</a> -> <a href="Unix.html#TYPEhost_entry">host_entry</a></code></pre><div class="info">
+与えられたアドレスで <code class="code">hosts</code> の項目を検索します。
+    見つからない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALgetprotobyname"><span class="keyword">val</span> getprotobyname</span> : <code class="type">string -> <a href="Unix.html#TYPEprotocol_entry">protocol_entry</a></code></pre><div class="info">
+与えられた名前で <code class="code">protocols</code> の項目を検索します。
+    見つからない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALgetprotobynumber"><span class="keyword">val</span> getprotobynumber</span> : <code class="type">int -> <a href="Unix.html#TYPEprotocol_entry">protocol_entry</a></code></pre><div class="info">
+与えられたプロトコル番号で <code class="code">protocols</code> の項目を検索します。
+    見つからない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALgetservbyname"><span class="keyword">val</span> getservbyname</span> : <code class="type">string -> string -> <a href="Unix.html#TYPEservice_entry">service_entry</a></code></pre><div class="info">
+与えられた名前で <code class="code">services</code> の項目を検索します。
+    見つからない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALgetservbyport"><span class="keyword">val</span> getservbyport</span> : <code class="type">int -> string -> <a href="Unix.html#TYPEservice_entry">service_entry</a></code></pre><div class="info">
+与えられたサービス番号で <code class="code">services</code> の検索を検索します。
+    見つからない場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<br><code><span id="TYPEaddr_info"><span class="keyword">type</span> <code class="type"></code>addr_info</span> = {</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>ai_family&nbsp;: <code class="type"><a href="Unix.html#TYPEsocket_domain">socket_domain</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケットのドメイン</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>ai_socktype&nbsp;: <code class="type"><a href="Unix.html#TYPEsocket_type">socket_type</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケットの種別</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>ai_protocol&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケットのプロトコル番号</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>ai_addr&nbsp;: <code class="type"><a href="Unix.html#TYPEsockaddr">sockaddr</a></code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >アドレス</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>ai_canonname&nbsp;: <code class="type">string</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >正規化されたホスト名</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+<div class="info">
+<a href="Unix.html#VALgetaddrinfo"><code class="code"><span class="constructor">Unix</span>.getaddrinfo</code></a> の返すアドレス情報。<br>
+</div>
+
+<br><code><span id="TYPEgetaddrinfo_option"><span class="keyword">type</span> <code class="type"></code>getaddrinfo_option</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">AI_FAMILY</span> <span class="keyword">of</span> <code class="type"><a href="Unix.html#TYPEsocket_domain">socket_domain</a></code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケットのドメインを指定のものに限定する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">AI_SOCKTYPE</span> <span class="keyword">of</span> <code class="type"><a href="Unix.html#TYPEsocket_type">socket_type</a></code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ソケットの種別を指定のものに限定する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">AI_PROTOCOL</span> <span class="keyword">of</span> <code class="type">int</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >プロトコルを指定のものに限定する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">AI_NUMERICHOST</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ネームリゾルバを呼び出さない。 IP アドレスの数値を期待する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">AI_CANONNAME</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >結果の <code class="code">ai_canonname</code> フィールドを設定する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">AI_PASSIVE</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >アドレスを <a href="Unix.html#VALbind"><code class="code"><span class="constructor">Unix</span>.bind</code></a> で使用する any アドレスにする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<a href="Unix.html#VALgetaddrinfo"><code class="code"><span class="constructor">Unix</span>.getaddrinfo</code></a> 用のオプション。<br>
+</div>
+
+<pre><span id="VALgetaddrinfo"><span class="keyword">val</span> getaddrinfo</span> : <code class="type">string -> string -> <a href="Unix.html#TYPEgetaddrinfo_option">getaddrinfo_option</a> list -> <a href="Unix.html#TYPEaddr_info">addr_info</a> list</code></pre><div class="info">
+<code class="code">getaddrinfo host service opts</code>
+    は指定されたホストと指定されたサービスで通信するためのソケットパラメータとアドレスを記述した <a href="Unix.html#TYPEaddr_info"><code class="code"><span class="constructor">Unix</span>.addr_info</code></a> のリストを返します。
+    ホストやサービス名が未知の場合や、 <code class="code">opts</code> で表された制約を満たせない場合、戻り値は空リストになります。
+<p>
+
+    <code class="code">host</code> はホスト名か、 IP アドレスの文字列表現です。
+    <code class="code">host</code> には空文字列を渡すこともできます。
+    この場合は、 <code class="code">opts</code> が <code class="code"><span class="constructor">AI_PASSIVE</span></code> を含むかどうかに応じて any アドレスまたは loopback アドレスが使われます。
+    <code class="code">service</code> はサービス名か、ポート番号の文字列表現です。
+    <code class="code">service</code> にも空文字列を指定することができ、その場合には戻り値のポートフィールドは 0 になります。
+    <code class="code">opts</code> は空リストにすることもできますが、これを使って呼び出し側が戻り値に特定のソケットドメイン（例えば、IPv6 のみ、または IPv4 のみ）を強制したり、特定の種類のソケット（例えば、TCP のみ、 UDP のみ）を強制したりすることもできます。<br>
+</div>
+<br><code><span id="TYPEname_info"><span class="keyword">type</span> <code class="type"></code>name_info</span> = {</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>ni_hostname&nbsp;: <code class="type">string</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ホスト名もしくは IP アドレス</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code>ni_service&nbsp;: <code class="type">string</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >サービス名もしくはポート番号</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+<div class="info">
+<a href="Unix.html#VALgetnameinfo"><code class="code"><span class="constructor">Unix</span>.getnameinfo</code></a> の返すホストとサービスの情報。<br>
+</div>
+
+<br><code><span id="TYPEgetnameinfo_option"><span class="keyword">type</span> <code class="type"></code>getnameinfo_option</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">NI_NOFQDN</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ローカルホストの名前を修飾名にしない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">NI_NUMERICHOST</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ホスト情報を常に IP アドレスで返す</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">NI_NAMEREQD</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ホスト名を特定できないときは失敗する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">NI_NUMERICSERV</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >サービス情報を常にポート番号で返す</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">NI_DGRAM</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >サービスをデフォルトの TCP ではなく UDP ベースで検索する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+<a href="Unix.html#VALgetnameinfo"><code class="code"><span class="constructor">Unix</span>.getnameinfo</code></a> 用のオプション。<br>
+</div>
+
+<pre><span id="VALgetnameinfo"><span class="keyword">val</span> getnameinfo</span> : <code class="type"><a href="Unix.html#TYPEsockaddr">sockaddr</a> -> <a href="Unix.html#TYPEgetnameinfo_option">getnameinfo_option</a> list -> <a href="Unix.html#TYPEname_info">name_info</a></code></pre><div class="info">
+<code class="code">getnameinfo addr opts</code> はソケットアドレス <code class="code">addr</code> に対応するホスト名とサービス名を返します。
+    <code class="code">opts</code> はこれらの名前をどのように取得するか制御するオプションのリストで、空リストにすることもできます。
+    エラーが起こった場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<br>
+<span id="2_"><h2>端末インタフェース</h2></span><br>
+<br>
+以下の関数は POSIX の標準端末インタフェースを実装したものです。
+    非同期通信ポートや擬似端末を介した制御機能を提供します。
+    完全な説明については <code class="code">termios</code> の man ページを参照してください。<br>
+<br><code><span id="TYPEterminal_io"><span class="keyword">type</span> <code class="type"></code>terminal_io</span> = {</code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_ignbrk&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >BREAK 条件を無視する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_brkint&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >BREAK 時にシグナル割り込みする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_ignpar&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >パリティエラーの起きた時の文字を無視する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_parmrk&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >パリティエラーを無視する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_inpck&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >入力のバリティチェックを有効にする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_istrip&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >入力文字の 8 ビット目を落とす</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_inlcr&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >入力の NL を CR に置き換える</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_igncr&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >入力の CR を無視する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_icrnl&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >入力の CR を NL に置き換える</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_ixon&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >入力文字による XON / XOFF を有効にする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_ixoff&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >入力フロー制御の XON / XOFF 文字を出力する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_opost&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >出力処理を有効にする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_obaud&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >出力のボーレート（0 は接続の切断を意味する）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_ibaud&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >入力のボーレート</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_csize&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >文字のビット数（5-8）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_cstopb&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ストップビットのビット数（1-2）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_cread&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >受信を可能にする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_parenb&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >パリティの生成とチェックを有効にする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_parodd&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >偶数パリティではなく奇数パリティにする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_hupcl&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >最後の close でハングアップする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_clocal&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >モデムの制御線を無視する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_isig&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >INTR、 QUIT、 SUSP の際にシグナルを生成する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_icanon&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >カノニカルモードを有効にする（行バッファリングと編集）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_noflsh&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >INTR、 QUIT、 SUSP 後のフラッシュを無効にする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_echo&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >入力文字をエコーする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_echoe&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ERASE をエコーする（前の文字を消去する）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_echok&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >KILL をエコーする（現在行を消去する）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_echonl&nbsp;: <code class="type">bool</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >c_echo が設定されていない場合でも NL をエコーする</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_vintr&nbsp;: <code class="type">char</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >割り込み文字（通常 ctrl-C）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_vquit&nbsp;: <code class="type">char</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >終了文字（通常 ctrl-\）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_verase&nbsp;: <code class="type">char</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >消去文字（通常 DEL もしくは ctrl-H）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_vkill&nbsp;: <code class="type">char</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >行消去文字（通常 ctrl-U）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_veof&nbsp;: <code class="type">char</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ファイル終端文字（通常 ctrl-D）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_veol&nbsp;: <code class="type">char</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >代わりの行末文字（通常なし）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_vmin&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >読み込み要求が満たされるまでに読み込む最小の文字数</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_vtime&nbsp;: <code class="type">int</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >読み込み待ち時間の最大値（0.1 秒単位）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_vstart&nbsp;: <code class="type">char</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >開始文字（通常 ctrl-Q）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span>c_vstop&nbsp;: <code class="type">char</code>;</code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >終了文字（通常 ctrl-S）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+}
+
+
+<pre><span id="VALtcgetattr"><span class="keyword">val</span> tcgetattr</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEterminal_io">terminal_io</a></code></pre><div class="info">
+与えられたファイル記述子の参照している端末の状態を返します。<br>
+</div>
+<br><code><span id="TYPEsetattr_when"><span class="keyword">type</span> <code class="type"></code>setattr_when</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">TCSANOW</span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">TCSADRAIN</span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">TCSAFLUSH</span></code></td>
+
+</tr></table>
+
+
+<pre><span id="VALtcsetattr"><span class="keyword">val</span> tcsetattr</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEsetattr_when">setattr_when</a> -> <a href="Unix.html#TYPEterminal_io">terminal_io</a> -> unit</code></pre><div class="info">
+与えられたファイル記述子の参照している端末の状態を設定します。
+    第二引数は状態の変更がいつ行なわれるかを示します。
+    <code class="code"><span class="constructor">TCSANOW</span></code> の場合は即座に、 <code class="code"><span class="constructor">TCSADRAIN</span></code> は保留されていた出力がすべて送信されたときに、
+    <code class="code"><span class="constructor">TCSAFLUSH</span></code> は受信してまだ読み込んでいなかった入力をすべてフラッシュしたあとに変更を行ないます。
+    出力パラメータを変更する場合には <code class="code"><span class="constructor">TCSADRAIN</span></code> が推奨され、入力パラメータの場合には
+    <code class="code"><span class="constructor">TCSAFLUSH</span></code> が推奨されます。<br>
+</div>
+<pre><span id="VALtcsendbreak"><span class="keyword">val</span> tcsendbreak</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> int -> unit</code></pre><div class="info">
+与えられたファイル記述子に BREAK 条件を送信します。
+    第二引数には BREAK の遅延時間を 0.1 秒単位で指定します。
+    0 にすると標準の遅延時間（0.25 秒）を意味します。<br>
+</div>
+<pre><span id="VALtcdrain"><span class="keyword">val</span> tcdrain</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> unit</code></pre><div class="info">
+与えられたファイル記述子に書き込まれた出力がすべて送信されるまで待ちます。<br>
+</div>
+<br><code><span id="TYPEflush_queue"><span class="keyword">type</span> <code class="type"></code>flush_queue</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">TCIFLUSH</span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">TCOFLUSH</span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">TCIOFLUSH</span></code></td>
+
+</tr></table>
+
+
+<pre><span id="VALtcflush"><span class="keyword">val</span> tcflush</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEflush_queue">flush_queue</a> -> unit</code></pre><div class="info">
+第二引数に応じて、与えられたファイル記述子に書き込まれたがまだ送信されていないデータ、もしくは受信したがまだ読み込んでいないデータを破棄します。
+    <code class="code"><span class="constructor">TCIFLUSH</span></code> は受信したが読み込んでいないデータを破棄します。
+    <code class="code"><span class="constructor">TCOFLUSH</span></code> は書き込んだが送信していないデータを破棄します。
+    <code class="code"><span class="constructor">TCIOFLUSH</span></code> は両方を破棄します。<br>
+</div>
+<br><code><span id="TYPEflow_action"><span class="keyword">type</span> <code class="type"></code>flow_action</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">TCOOFF</span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">TCOON</span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">TCIOFF</span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">TCION</span></code></td>
+
+</tr></table>
+
+
+<pre><span id="VALtcflow"><span class="keyword">val</span> tcflow</span> : <code class="type"><a href="Unix.html#TYPEfile_descr">file_descr</a> -> <a href="Unix.html#TYPEflow_action">flow_action</a> -> unit</code></pre><div class="info">
+第二引数に応じて、与えられたファイル記述子へのデータの送受信を一時停止または再開します。
+    <code class="code"><span class="constructor">TCOOFF</span></code> は出力を一時停止し、 <code class="code"><span class="constructor">TCOON</span></code> は出力を再開します。
+    <code class="code"><span class="constructor">TCIOFF</span></code> は STOP 文字を送信して入力を一時停止し、
+    <code class="code"><span class="constructor">TCION</span></code> は START 文字を送信して入力を再開します。<br>
+</div>
+<pre><span id="VALsetsid"><span class="keyword">val</span> setsid</span> : <code class="type">unit -> int</code></pre><div class="info">
+呼び出したプロセスを新しいセッションに割り当て、制御端末から切り離します。<br>
+</div>
+</body></html>

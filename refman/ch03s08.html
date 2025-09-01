@@ -1,0 +1,53 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.8&nbsp;継承</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s07.html" title="3.7&nbsp;クラスインタフェース"><link rel="next" href="ch03s09.html" title="3.9&nbsp;多重継承"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.8&nbsp;継承</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s07.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s09.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.8&nbsp;継承"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Inheritance"></a>3.8&nbsp;継承</h2></div></div></div>
+    
+    <p>
+      継承を説明するため、「点」のクラスから継承によって定義された、「色付きの点」のクラスを定義してみましょう。このクラスは <code class="code">point</code> クラスのすべてのインスタンス変数とメソッドに加えて新しいインスタンス変数である <code class="code">c</code> とメソッドの <code class="code">color</code> を持っています。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class colored_point x (c : string) =
+   object 
+     inherit point x
+     val c = c
+     method color = c
+   end;;</code></strong>
+<code class="computeroutput">class colored_point :
+  int -&gt;
+  string -&gt;
+  object
+    val c : string
+    val mutable x : int
+    method color : string
+    method get_offset : int
+    method get_x : int
+    method move : int -&gt; unit
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let p' = new colored_point 5 "red";;</code></strong>
+<code class="computeroutput">val p' : colored_point = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>p'#get_x, p'#color;;</code></strong>
+<code class="computeroutput">- : int * string = (5, "red")</code>
+    </pre>
+    <p>
+      「点」は <code class="code">color</code> メソッドを持たないので「点」と「色付きの点」は異なった型を持っています。しかし、次の <code class="code">get_x</code> 関数は <code class="code">get</code> メソッドをもつ任意のオブジェクト <code class="code">p</code> に適用することができます。 また <code class="code">p</code> は <code class="code">get</code> 以外のメソッドを持つこともできます。これは <code class="code">get_x</code> の型に含まれる <code class="code">..</code> によって表されています。ですから、<code class="code">get_x</code> は「点」と「色付きの点」の両方に適用できます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let get_succ_x p = p#get_x + 1;;</code></strong>
+<code class="computeroutput">val get_succ_x : &lt; get_x : int; .. &gt; -&gt; int = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>get_succ_x p + get_succ_x p';;</code></strong>
+<code class="computeroutput">- : int = 8</code>
+    </pre>
+    <p>
+      次の例が示すように、メソッドがあらかじめ定義されている必要はありせん。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let set_x p = p#set_x;;</code></strong>
+<code class="computeroutput">val set_x : &lt; set_x : 'a; .. &gt; -&gt; 'a = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let incr p = set_x p (get_succ_x p);;</code></strong>
+<code class="computeroutput">val incr : &lt; get_x : int; set_x : int -&gt; 'a; .. &gt; -&gt; 'a = &lt;fun&gt;</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s07.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s09.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.7&nbsp;クラスインタフェース&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.9&nbsp;多重継承</td></tr></table></div></body></html>

@@ -1,0 +1,56 @@
+a:visited, a:link, a:hover {
+    text-decoration : none;
+}
+a:visited, a:link {
+    color : #416DFF;
+}
+a:hover, a:active {
+    color : red;
+}
+a:hover { background-color: #5FFF88; }
+a:active { text-decoration : underline; }
+
+body, tr, td.typefieldcomment { 
+    background-color : white;
+}
+
+.keyword { color : #c00; }
+.keywordsign { color : #C04600; }
+.comment { color : Green; }
+.constructor { color : Blue; }
+.type { color : #5C6585; }
+.string { color : Maroon; }
+.warning { color : Red; }
+.code { color : #465F91; }
+
+h2 { background-color: #90BDFF; }
+h3 { background-color: #90DDFF; }
+h4 { background-color: #90EDFF; }
+h5 { background-color: #90FDFF; }
+h6 { background-color: #90BDFF; }
+div.h7 { background-color: #90DDFF; }
+div.h8 { background-color: #F0FFFF; }
+div.h9 { background-color: #FFFFFF; }
+
+.keyword, .warning { font-weight : bold }
+
+
+/* .superscript, .subscript { font-size : 62%; } */
+.info {
+    margin-left : 3em; margin-right : 3em;
+}
+.typetable, .indextable, paramstable {
+    border-style : hidden;
+}
+.paramstable { padding: 5pt 5pt; }
+
+pre { margin-bottom: 4px; }
+div.sig_block { margin-left: 2em; }
+
+h1, h2, h3, h4, h5, h6, div.h7, div.h8, div.h9 {
+    font-size : 200%;
+    text-align : center;
+    border : 1px solid black;
+    margin : 5px 0 2px 0;
+    padding : 2px;
+}

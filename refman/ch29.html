@@ -1,0 +1,49 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>29.&nbsp;bigarray ライブラリ</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="pt04.html" title="パート&nbsp;IV.&nbsp;The Objective Caml library"><link rel="prev" href="ch28.html" title="28.&nbsp;LablTk ライブラリ: Tcl/Tk GUI インタフェース"><link rel="next" href="ch29s01.html" title="29.1&nbsp;Bigarray モジュール: 大規模な多次元数値配列"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">29.&nbsp;<code class="code">bigarray</code> ライブラリ</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch28.html">前のページ</a>&nbsp;</td><th width="60%" align="center">パート&nbsp;IV.&nbsp;The Objective Caml library</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch29s01.html">次のページ</a></td></tr></table><hr></div><div class="chapter" title="29.&nbsp;bigarray ライブラリ"><div class="titlepage"><div><div><h2 class="title"><a name="d4e14565"></a>29.&nbsp;<code class="code">bigarray</code> ライブラリ</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch29s01.html">29.1. Bigarray モジュール: 大規模な多次元数値配列</a></span></dt><dt><span class="section"><a href="ch29s02.html">29.2. Caml-C インタフェースでの bigarray </a></span></dt></dl></div>
+  
+  <p>
+    <code class="code">bigarray</code> ライブラリは大規模な多次元数値配列を実装しています。
+    これらの配列は Caml の通常の <a href="./libref/Array.html" class="libref">Array</a> モジュールの配列と区別するために bigarray と呼ばれています。
+    bigarray と通常の Caml の配列との主な違いは次の通りです。
+    
+  </p>
+  <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+      bigarray は、Caml の配列と異なりサイズに制限がありません（Caml の配列は32ビットの環境では、float の配列は 2097151 個の要素まで、その他の型の配列の場合には 4194303 個の要素までに制限されています）。
+      
+    </li><li class="listitem">
+      bigarray は多次元配列です。1 次元から 16 次元までの任意の次元をサポートしています。それに対して Caml の配列は一次元に限られ、多次元配列を配列の配列としてエンコードする必要があります。
+      
+    </li><li class="listitem">
+      Caml の配列は Caml の任意のデータ型を要素とすることができるのに対し、 bigarray は整数と浮動小数点数しか含むことができません。
+      しかし、bigarray はより効率よく整数と浮動小数点数を格納することができます。
+      これは、bigarray は Caml の標準の倍精度浮動小数点数型や 32 ビット・ 64 ビットの整数型に加えて、単精度の浮動小数点数や 8 ビット・ 16 ビット整数のような「小さな」型をサポートしているからです。
+      
+    </li><li class="listitem">
+      bigarray のメモリレイアウトは、C や Fortran のものと完全に互換性があるので、 Caml のコードと C や Fortran のコードとの間で大きな配列のデータをまったくコピーすることなく受け渡すことができます。
+      
+    </li><li class="listitem">
+      big array は、コピーをまったくせずに部分配列を取り出したり多次元配列からある次元のものだけを切り出してきたりといった、通常の配列では効率よく提供できない高度な操作をサポートしています。
+      
+    </li></ul></div>
+  <p>
+    <code class="code">bigarray</code> ライブラリを使用するプログラムは次のようにリンクしてください。
+    
+  </p>
+  <pre class="programlisting">
+ocamlc <em class="replaceable"><code>other options</code></em> bigarray.cma <em class="replaceable"><code>other files</code></em>
+ocamlopt <em class="replaceable"><code>other options</code></em> bigarray.cmxa <em class="replaceable"><code>other files</code></em>
+  </pre>
+  <p>
+    対話式システムで <code class="code">bigarray</code> ライブラリを使うには以下のようにします。
+  </p>
+  <pre class="programlisting">
+ocamlmktop -o mytop bigarray.cma
+./mytop
+  </pre>
+  <p>
+    または、（C ライブラリのダイナミックリンクをサポートしているプラットフォームでは） <span class="command"><strong>ocaml</strong></span> を起動して <strong class="userinput"><code>#load "bigarray.cma";;</code></strong> と入力してください。
+  </p>
+  
+  
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch28.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt04.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch29s01.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">28.&nbsp;<code class="code">LablTk</code> ライブラリ: Tcl/Tk GUI インタフェース&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;29.1&nbsp;Bigarray モジュール: 大規模な多次元数値配列</td></tr></table></div></body></html>

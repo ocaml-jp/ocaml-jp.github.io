@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="next" href="Arith_status.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><title>Arg</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="Arith_status.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Arg.html">Arg</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Arg: <code class="code"><span class="keyword">sig</span></code> <a href="Arg.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>コマンドライン引数の解析
+<p>
+
+    このモジュールはプログラムのコマンドラインからオプションとその引数を取り出すための一般的な仕組みを提供します。
+<p>
+
+    コマンドラインの構文は次のようになります。
+    キーワードは <code class="code">-</code> から始まる文字列です。
+    オプションはキーワード単体、またはそれに引数の続いたものです。
+    キーワードの種類には <code class="code"><span class="constructor">Unit</span></code>、 <code class="code"><span class="constructor">Bool</span></code>、 <code class="code"><span class="constructor">Set</span></code>、 <code class="code"><span class="constructor">Clear</span></code>、
+    <code class="code"><span class="constructor">String</span></code>、 <code class="code"><span class="constructor">Set_string</span></code>、 <code class="code"><span class="constructor">Int</span></code>、 <code class="code"><span class="constructor">Set_int</span></code>、 <code class="code"><span class="constructor">Flaot</span></code>、 <code class="code"><span class="constructor">Set_float</span></code>、
+    <code class="code"><span class="constructor">Tuple</span></code>、 <code class="code"><span class="constructor">Symbol</span></code>、 <code class="code"><span class="constructor">Rest</span></code> があります。
+    <code class="code"><span class="constructor">Unit</span></code>、 <code class="code"><span class="constructor">Set</span></code>、 <code class="code"><span class="constructor">Clear</span></code> キーワードは引数は取りません。
+    <code class="code"><span class="constructor">Rest</span></code> キーワードはコマンドライン引数の残りを引数として取ります。
+    それ以外のキーワードはコマンドラインで直後に来た文字列を引数として取ります。
+    キーワードに後続しない引数は無名引数と呼びます。
+<p>
+
+    例（<code class="code">cmd</code> はコマンドの名前とします）:
+<p>
+<ul>
+<li><code class="code">cmd -flag          </code>: unit オブション</li>
+<li><code class="code">cmd -int 1         </code>: <code class="code">1</code> を引数とする int オプション</li>
+<li><code class="code">cmd -string foobar </code>: <code class="code"><span class="string">"foobar"</span></code> を引数とする string オプション</li>
+<li><code class="code">cmd -float 12.34   </code>: <code class="code">12.34</code> を引数とする float オプション</li>
+<li><code class="code">cmd a b c          </code>: みっつの無名引数 <code class="code"><span class="string">"a"</span></code>、 <code class="code"><span class="string">"b"</span></code>、 <code class="code"><span class="string">"c"</span></code></li>
+<li><code class="code">cmd a b -- c d     </code>: ふたつの無名引数と二引数の rest オプション</li>
+</ul>
+<br>
+<hr width="100%">
+<br><code><span id="TYPEspec"><span class="keyword">type</span> <code class="type"></code>spec</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Unit</span> <span class="keyword">of</span> <code class="type">(unit -> unit)</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >ユニットを引数として関数を呼び出します</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Bool</span> <span class="keyword">of</span> <code class="type">(bool -> unit)</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >真偽値引数を引数として関数を呼び出します</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Set</span> <span class="keyword">of</span> <code class="type">bool <a href="Pervasives.html#TYPEref">ref</a></code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >リファレンスの値を真に設定します</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Clear</span> <span class="keyword">of</span> <code class="type">bool <a href="Pervasives.html#TYPEref">ref</a></code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >リファレンスの値を偽に設定します</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">String</span> <span class="keyword">of</span> <code class="type">(string -> unit)</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >文字列引数を引数として関数を呼び出します</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Set_string</span> <span class="keyword">of</span> <code class="type">string <a href="Pervasives.html#TYPEref">ref</a></code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >リファレンスの値を文字列引数の値に設定します</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Int</span> <span class="keyword">of</span> <code class="type">(int -> unit)</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >整数引数を引数として関数を呼び出します</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Set_int</span> <span class="keyword">of</span> <code class="type">int <a href="Pervasives.html#TYPEref">ref</a></code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >リファレンスの値を整数引数の値に設定します</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Float</span> <span class="keyword">of</span> <code class="type">(float -> unit)</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >浮動小数点数引数を引数として関数を呼び出します</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Set_float</span> <span class="keyword">of</span> <code class="type">float <a href="Pervasives.html#TYPEref">ref</a></code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >リファレンスの値を浮動小数点数引数の値に設定します</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Tuple</span> <span class="keyword">of</span> <code class="type"><a href="Arg.html#TYPEspec">spec</a> list</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><code class="code">spec list</code> に従って複数の引数を取ります</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Symbol</span> <span class="keyword">of</span> <code class="type">string list * (string -> unit)</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >シンボルのうちいずれかを引数として取り、それを引数として関数を呼び出します</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Rest</span> <span class="keyword">of</span> <code class="type">(string -> unit)</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >キーワードの解釈を停止し、残りの引数各々を引数として関数を呼び出します</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+対応するキーワードの振る舞いを記述するための具象型です。<br>
+</div>
+
+<pre><span id="TYPEkey"><span class="keyword">type</span> <code class="type"></code>key</span> = <code class="type">string</code> </pre>
+
+<pre><span id="TYPEdoc"><span class="keyword">type</span> <code class="type"></code>doc</span> = <code class="type">string</code> </pre>
+
+<pre><span id="TYPEusage_msg"><span class="keyword">type</span> <code class="type"></code>usage_msg</span> = <code class="type">string</code> </pre>
+
+<pre><span id="TYPEanon_fun"><span class="keyword">type</span> <code class="type"></code>anon_fun</span> = <code class="type">string -> unit</code> </pre>
+
+<pre><span id="VALparse"><span class="keyword">val</span> parse</span> : <code class="type">(<a href="Arg.html#TYPEkey">key</a> * <a href="Arg.html#TYPEspec">spec</a> * <a href="Arg.html#TYPEdoc">doc</a>) list -> <a href="Arg.html#TYPEanon_fun">anon_fun</a> -> <a href="Arg.html#TYPEusage_msg">usage_msg</a> -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Arg</span>.parse speclist anon_fun usage_msg</code> はコマンドラインを解析します。
+    <code class="code">speclist</code> は <code class="code">(key, spec, doc)</code> の三つ組のリストです。
+    <code class="code">key</code> はオプションのキーワードで <code class="code"><span class="string">'-'</span></code> から始まらなければなりません。
+    <code class="code">spec</code> はオプションの種類と、コマンドラインでそのオプションに遭遇したときに呼び出される関数を指定します。
+    <code class="code">doc</code> はこのオプションを一行で説明する文字列です。
+    <code class="code">anon_fun</code> は無名引数に対して呼び出されます。
+    <code class="code">spec</code> と <code class="code">anon_fun</code> で指定された関数は対応する引数がコマンドラインに現れた順に呼び出されます。
+<p>
+
+    エラーが起こった場合には <code class="code"><span class="constructor">Arg</span>.parse</code> は以下のエラーメッセージを表示してプログラムを終了させます。
+<p>
+<ul>
+<li>エラーの起こった理由（未知のオプション、不正な引数、もしくは引数の不足等）</li>
+<li><code class="code">usage_msg</code></li>
+<li>オプションのリストに、それぞれ対応する <code class="code">doc</code> を続けたもの</li>
+</ul>
+
+    <code class="code">-</code> で始まる無名引数を指定したい場合には、 <code class="code">speclist</code> に例えば
+    <code class="code">(<span class="string">"-"</span> <span class="constructor">String</span> anon_fun, doc)</code> のように書きます。
+<p>
+
+    <code class="code">parse</code> はデフォルトで <code class="code">-help</code> と <code class="code">--help</code> というユニットオプションを理解します。
+    これらのオプションは <code class="code">usage_msg</code> とオプションのリストを表示し、プログラムを終了します。
+    <code class="code">speclist</code> に <code class="code">-help</code> オプションや <code class="code">--help</code> オプションの指定を追加すればこの動作を上書きすることができます。<br>
+</div>
+<pre><span id="VALparse_argv"><span class="keyword">val</span> parse_argv</span> : <code class="type">?current:int <a href="Pervasives.html#TYPEref">ref</a> -><br>       string array -><br>       (<a href="Arg.html#TYPEkey">key</a> * <a href="Arg.html#TYPEspec">spec</a> * <a href="Arg.html#TYPEdoc">doc</a>) list -> <a href="Arg.html#TYPEanon_fun">anon_fun</a> -> <a href="Arg.html#TYPEusage_msg">usage_msg</a> -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Arg</span>.parse_args ~current args speclist anon_fun usage_msg</code>
+    は配列 <code class="code">args</code> をコマンドライン引数と見做して解析します。
+    <code class="code">~current</code> が与えられた場合はそれを、与えられなかった場合は <code class="code"><span class="constructor">Arg</span>.current</code> を更新しながら解析をします。
+    <code class="code">parse_args</code> を呼び出す前に <code class="code"><span class="constructor">Arg</span>.current</code> を設定しておかなければなりません。
+    <code class="code">current</code> の初期値は配列中でプログラム名（第 0 引数）を表す添字です。
+    エラーが起こった場合には、エラーメッセージを引数として <code class="code"><span class="constructor">Arg</span>.<span class="constructor">Bad</span></code> 例外が発生します。
+    <code class="code">-help</code> オプションや <code class="code">--help</code> オプションが渡された場合には、エラーメッセージを引数として <code class="code"><span class="constructor">Arg</span>.<span class="constructor">Help</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="EXCEPTIONHelp"><span class="keyword">exception</span> Help</span> <span class="keyword">of</span> <code class="type">string</code></pre>
+<div class="info">
+利用者が <code class="code">-help</code> や <code class="code">--help</code> を与えた場合に <code class="code"><span class="constructor">Arg</span>.parse_args</code> が発生させます。<br>
+</div>
+<pre><span id="EXCEPTIONBad"><span class="keyword">exception</span> Bad</span> <span class="keyword">of</span> <code class="type">string</code></pre>
+<div class="info">
+<code class="code">spec</code> 中の関数や <code class="code">anon_fun</code> は不正な引数を受け取ったときにエラーメッセージとともに
+    <code class="code"><span class="constructor">Arg</span>.<span class="constructor">Bad</span></code> 例外を発生させることができます。
+    また、 <code class="code"><span class="constructor">Arg</span>.parse_argv</code> でエラーが起こった場合にも発生します。<br>
+</div>
+<pre><span id="VALusage"><span class="keyword">val</span> usage</span> : <code class="type">(<a href="Arg.html#TYPEkey">key</a> * <a href="Arg.html#TYPEspec">spec</a> * <a href="Arg.html#TYPEdoc">doc</a>) list -> <a href="Arg.html#TYPEusage_msg">usage_msg</a> -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Arg</span>.usage speclist usage_msg</code> は有効なコマンドライン引数を含むエラーメッセージを表示します。
+    これは <a href="Arg.html#VALparse"><code class="code"><span class="constructor">Arg</span>.parse</code></a> がエラーのときに表示するものと同じメッセージです。
+    <code class="code">speclist</code> と <code class="code">usage_msg</code> は <code class="code"><span class="constructor">Arg</span>.parse</code> に渡すものと同じです。<br>
+</div>
+<pre><span id="VALalign"><span class="keyword">val</span> align</span> : <code class="type">(<a href="Arg.html#TYPEkey">key</a> * <a href="Arg.html#TYPEspec">spec</a> * <a href="Arg.html#TYPEdoc">doc</a>) list -> (<a href="Arg.html#TYPEkey">key</a> * <a href="Arg.html#TYPEspec">spec</a> * <a href="Arg.html#TYPEdoc">doc</a>) list</code></pre><div class="info">
+キーワードの長さに従って doc 文字列の先頭に空白を入れ、 doc 文字列を整形します。
+    文字列全体を右に寄せたい場合には doc 文字列の先頭に空白を入れてください。
+    <code class="code"><span class="constructor">Symbol</span></code> 引数に対応する doc 文字列は改行したうえで表示するように整形されます。<br>
+</div>
+<pre><span id="VALcurrent"><span class="keyword">val</span> current</span> : <code class="type">int <a href="Pervasives.html#TYPEref">ref</a></code></pre><div class="info">
+現在処理中の引数の（<a href="Sys.html#VALargv"><code class="code"><span class="constructor">Sys</span>.argv</code></a> 中での）位置を表します。
+    引数を読み飛ばすためにこの値を変更することもできます。
+    <a href="Arg.html#VALparse"><code class="code"><span class="constructor">Arg</span>.parse</code></a> は呼び出し時の <a href="Arg.html#VALcurrent"><code class="code"><span class="constructor">Arg</span>.current</code></a> の値が第 0 引数（プログラム名）の位置を表しているものとし、その次の要素から引数の解析を始めます。<br>
+</div>
+</body></html>

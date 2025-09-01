@@ -1,0 +1,915 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>6.7&nbsp;式</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch06.html" title="6.&nbsp;The Objective Caml language"><link rel="prev" href="ch06s06.html" title="6.6&nbsp;パターン"><link rel="next" href="ch06s08.html" title="6.8&nbsp;型と例外の定義"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.7&nbsp;式 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s06.html">前のページ</a>&nbsp;</td><th width="60%" align="center">6.&nbsp;The Objective Caml language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s08.html">次のページ</a></td></tr></table><hr></div><div class="section" title="6.7&nbsp;式"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Expressions"></a>6.7&nbsp;式 </h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch06s07.html#d4e4927">6.7.1. 基本式 </a></span></dt><dt><span class="section"><a href="ch06s07.html#d4e5317">6.7.2. 制御構文 </a></span></dt><dt><span class="section"><a href="ch06s07.html#d4e5548">6.7.3. データ構造上の演算 </a></span></dt><dt><span class="section"><a href="ch06s07.html#d4e5796">6.7.4. 演算子 </a></span></dt><dt><span class="section"><a href="ch06s07.html#d4e5959">6.7.5. オブジェクト </a></span></dt><dt><span class="section"><a href="ch06s07.html#sec:coercion">6.7.6. 型変換 </a></span></dt></dl></div>
+  
+  <table id="d4e4388">
+    <tbody>
+      <tr>
+        <td rowspan="41" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--expr"></a>expr</span></td>
+        <td>::=</td>
+        <td><a class="bnf-non-terminal" href="ch06s03.html#bnf--value-path">value-path</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s05.html#bnf--constant">constant</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">(</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">begin</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">end</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">(</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">:</span> <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">,</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> { <span class="bnf-terminal">,</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> }</td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s03.html#bnf--constr">constr</a> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">`</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--tag-name">tag-name</a> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">::</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">[</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> { <span class="bnf-terminal">;</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> } <span class="bnf-terminal">]</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">[|</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> { <span class="bnf-terminal">;</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> } <span class="bnf-terminal">|]</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">{</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> <span class="bnf-terminal">=</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> { <span class="bnf-terminal">;</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> <span class="bnf-terminal">=</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> } <span class="bnf-terminal">}</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">{</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">with</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> <span class="bnf-terminal">=</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> { <span class="bnf-terminal">;</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> <span class="bnf-terminal">=</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> } <span class="bnf-terminal">}</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> { <a class="bnf-non-terminal" href="ch06s07.html#bnf--argument">argument</a> }<sup>+</sup></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s01.html#bnf--prefix-symbol">prefix-symbol</a> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <a class="bnf-non-terminal" href="ch06s03.html#bnf--infix-op">infix-op</a> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">.</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">.</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> <span class="bnf-terminal">&lt;-</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">.(</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">.(</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">)</span> <span class="bnf-terminal">&lt;-</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">.[</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">]</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">.[</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">]</span> <span class="bnf-terminal">&lt;-</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">if</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">then</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> [ <span class="bnf-terminal">else</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> ]</td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">while</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">do</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">done</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">for</span> <a class="bnf-non-terminal" href="ch06s01.html#bnf--ident">ident</a> <span class="bnf-terminal">=</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> ( <span class="bnf-terminal">to</span> | <span class="bnf-terminal">downto</span> ) <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">do</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">done</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">;</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">match</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">with</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--pattern-matching">pattern-matching</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">function</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--pattern-matching">pattern-matching</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">fun</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--multiple-matching">multiple-matching</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">try</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">with</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--pattern-matching">pattern-matching</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">let</span> [ <span class="bnf-terminal">rec</span> ] <a class="bnf-non-terminal" href="ch06s07.html#bnf--let-binding">let-binding</a> { <span class="bnf-terminal">and</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--let-binding">let-binding</a> } <span class="bnf-terminal">in</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">new</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--class-path">class-path</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">object</span> <a class="bnf-non-terminal" href="ch06s09.html#bnf--class-body">class-body</a> <span class="bnf-terminal">end</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">#</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--method-name">method-name</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s03.html#bnf--inst-var-name">inst-var-name</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s03.html#bnf--inst-var-name">inst-var-name</a> <span class="bnf-terminal">&lt;-</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">(</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">:&gt;</span> <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">(</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="bnf-terminal">:</span> <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> <span class="bnf-terminal">:&gt;</span> <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">{&lt;</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--inst-var-name">inst-var-name</a> <span class="bnf-terminal">=</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> { <span class="bnf-terminal">;</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--inst-var-name">inst-var-name</a> <span class="bnf-terminal">=</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> } <span class="bnf-terminal">&gt;}</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">assert</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">lazy</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td rowspan="5" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--argument"></a>argument</span></td>
+        <td>::=</td>
+        <td><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">~</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--label-name">label-name</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">~</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--label-name">label-name</a> <span class="bnf-terminal">:</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">?</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--label-name">label-name</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">?</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--label-name">label-name</a> <span class="bnf-terminal">:</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--pattern-matching"></a>pattern-matching</span></td>
+        <td>::=</td>
+        <td>[ <span class="bnf-terminal">|</span> ] <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a> [ <span class="bnf-terminal">when</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> ] <span class="bnf-terminal">-&gt;</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> { [ <span class="bnf-terminal">|</span> ] <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a> [ <span class="bnf-terminal">when</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> ] <span class="bnf-terminal">-&gt;</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> }</td>
+      </tr>
+      <tr>
+        <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--multiple-matching"></a>multiple-matching</span></td>
+        <td>::=</td>
+        <td>{ <a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a> }<sup>+</sup> [ <span class="bnf-terminal">when</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> ] <span class="bnf-terminal">-&gt;</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--let-binding"></a>let-binding</span></td>
+        <td>::=</td>
+        <td><a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a> <span class="bnf-terminal">=</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="bnf-non-terminal" href="ch06s03.html#bnf--value-name">value-name</a> { <a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a> } [ <span class="bnf-terminal">:</span> <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> ] <span class="bnf-terminal">=</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+      </tr>
+      <tr>
+        <td rowspan="8" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--parameter"></a>parameter</span></td>
+        <td>::=</td>
+        <td><a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">~</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--label-name">label-name</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">~</span> <span class="bnf-terminal">(</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--label-name">label-name</a> [ <span class="bnf-terminal">:</span> <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> ] <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">~</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--label-name">label-name</a> <span class="bnf-terminal">:</span> <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">?</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--label-name">label-name</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">?</span> <span class="bnf-terminal">(</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--label-name">label-name</a> [ <span class="bnf-terminal">:</span> <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> ] [ <span class="bnf-terminal">=</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> ] <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">?</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--label-name">label-name</a> <span class="bnf-terminal">:</span> <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">?</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--label-name">label-name</a> <span class="bnf-terminal">:</span> <span class="bnf-terminal">(</span> <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a> [ <span class="bnf-terminal">:</span> <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> ] [ <span class="bnf-terminal">=</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> ] <span class="bnf-terminal">)</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    下の表は演算子と閉じていない構文の相対的な優先順位と結合性の表で、それぞれ優先順位の高い構文から順に並んでいます。
+    前置演算子と中置演算子の部分の「<code class="code">*...</code>」は「<code class="code">*</code> で始まるシンボル」を表します。
+    
+  </p>
+  <table id="d4e4828">
+    <tbody>
+      <tr><th>構文または演算子</th><th>結合性</th></tr>
+      <tr><td>前置演算子</td><td>-</td></tr>
+      <tr>
+        <td><code class="code">.</code> <code class="code">.(</code> <code class="code">.[</code></td>
+        <td>-</td></tr>
+      <tr>
+        <td>関数適用、構成子適用、 <code class="code">assert</code>、 <code class="code">lazy</code></td>
+        <td>左</td></tr>
+      <tr><td><code class="code">-</code> <code class="code">-.</code> (前置)</td><td>-</td></tr>
+      <tr>
+        <td><code class="code">**…</code> <code class="code">lsl</code> <code class="code">lsr</code> <code class="code">asr</code></td>
+        <td>右</td></tr>
+      <tr>
+        <td><code class="code">*…</code> <code class="code">/…</code> <code class="code">%…</code> <code class="code">mod</code> <code class="code">land</code> <code class="code">lor</code> <code class="code">lxor</code></td>
+        <td>左</td></tr>
+      <tr>
+        <td><code class="code">+…</code> <code class="code">-…</code></td>
+        <td>左</td></tr>
+      <tr>
+        <td><code class="code">::</code></td>
+        <td>右</td></tr>
+      <tr>
+        <td><code class="code">@…</code> <code class="code">^…</code></td>
+        <td>右</td></tr>
+      <tr>
+        <td><code class="code">=…</code>
+          <code class="code">&lt;…</code> <code class="code">&gt;…</code>
+          <code class="code">|…</code> <code class="code">&amp;…</code> <code class="code">$…</code></td>
+        <td>左</td></tr>
+      <tr><td><code class="code">&amp;</code> <code class="code">&amp;&amp;</code></td>
+        <td>右</td></tr>
+      <tr><td><code class="code">or</code> <code class="code">||</code></td><td>右</td></tr>
+      <tr><td><code class="code">,</code></td><td>-</td></tr>
+      <tr><td><code class="code">&lt;-</code> <code class="code">:=</code></td><td>右</td></tr>
+      <tr><td><code class="code">if</code></td><td>-</td></tr>
+      <tr><td><code class="code">;</code></td><td>右</td></tr>
+      <tr><td><code class="code">let</code> <code class="code">match</code> <code class="code">fun</code> <code class="code">function</code> <code class="code">try</code></td><td>-</td></tr>
+    </tbody>
+  </table>
+  <div class="section" title="6.7.1&nbsp;基本式"><div class="titlepage"><div><div><h3 class="title"><a name="d4e4927"></a>6.7.1&nbsp;基本式 </h3></div></div></div>
+    
+    <div class="section" title="定数"><div class="titlepage"><div><div><h4 class="title"><a name="d4e4929"></a>定数 </h4></div></div></div>
+      
+      <p>
+        <a class="bnf-non-terminal" href="ch06s05.html#bnf--constant">constant</a> に含まれる式はその定数に評価されます。
+        
+      </p>
+    </div>
+    <div class="section" title="値パス"><div class="titlepage"><div><div><h4 class="title"><a name="d4e4933"></a>値パス </h4></div></div></div>
+      
+      <p>
+        <a class="bnf-non-terminal" href="ch06s03.html#bnf--value-path">value-path</a>
+        に含まれる式は現在の評価環境の中でこのパスに束縛された値に評価されます。
+        パスは値の名前かモジュールの値要素へのアクセスパスです。
+        
+      </p>
+    </div>
+    <div class="section" title="括弧つきの式"><div class="titlepage"><div><div><h4 class="title"><a name="d4e4937"></a>括弧つきの式 </h4></div></div></div>
+      
+      <p>
+        式
+        <code class="syntax">( <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> )</code>
+        と式
+        <code class="syntax">begin <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> end</code>
+        は
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a>
+        としては同じ値です。
+        どちらの構文も意味上は等価ですが、制御構造の中では
+        
+      </p>
+      <pre class="programlisting">
+if … then begin … ; … end else begin … ; … end
+      </pre>
+      <p>
+        と、 <code class="syntax">begin <span class="meta">...</span> end</code>
+        を使い、
+        それ以外で式をグループ化したいときには <code class="syntax">( <span class="meta">...</span> )</code> を使うのがよいスタイルです。
+        
+      </p>
+      <p>
+        括弧付きの式には
+        <code class="syntax">( <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> : <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> )</code>
+        のように型制約をつけることができます。
+        これにより、 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> が <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> に適合するように制約をつけられます。
+        
+      </p>
+      <p>
+        括弧付きの式には
+        <code class="syntax">( <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="meta">[</span> : <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> <span class="meta">]</span> :&gt; <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> )</code>
+        のように型変換をつけられます（<a class="xref" href="ch06s07.html#sec:coercion" title="6.7.6&nbsp;型変換"> 6.7.6 節「型変換 」</a> を参照してください）。
+        
+      </p>
+    </div>
+    <div class="section" title="関数適用"><div class="titlepage"><div><div><h4 class="title"><a name="d4e4965"></a>関数適用 </h4></div></div></div>
+      
+      <p>
+        関数適用は（ラベルつきの）式を並べることで表されます。
+        式
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <a class="bnf-non-terminal" href="ch06s07.html#bnf--argument">argument</a><sub>1</sub> ... <a class="bnf-non-terminal" href="ch06s07.html#bnf--argument">argument</a><sub><em class="parameter"><code>n</code></em></sub>
+        は式 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> と
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--argument">argument</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s07.html#bnf--argument">argument</a><sub><em class="parameter"><code>n</code></em></sub>
+        中の式を評価します。
+        式 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> は関数値 <em class="parameter"><code>f</code></em> に評価されなければなりません。
+        その値が <a class="bnf-non-terminal" href="ch06s07.html#bnf--argument">argument</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s07.html#bnf--argument">argument</a><sub><em class="parameter"><code>n</code></em></sub> の値に適用されます。
+        
+      </p>
+      <p>
+        式 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a>、 <a class="bnf-non-terminal" href="ch06s07.html#bnf--argument">argument</a><sub>1</sub>、 <a class="bnf-non-terminal" href="ch06s07.html#bnf--argument">argument</a><sub><em class="parameter"><code>n</code></em></sub> の評価順序は規定されていません。
+        
+      </p>
+      <p>
+        実引数と仮引数はそれぞれのラベルについて対応していなければなりません。
+        同一のラベルのついた引数同士や、ラベルのない引数同士以外では引数の順序に意味はありません。
+        
+      </p>
+      <p>
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a>
+        の型で仮引数が省略可能だとされている場合（ラベルの前に <code class="code">?</code>
+        がついている場合）、引数自体にも <code class="code">?</code> が前置されていなければ、対応する仮引数は自動的に <code class="code">Some</code> 構成子でラップされます。
+        引数自体に <code class="code">?</code> が前置されている場合には、引数がそのまま渡されます。
+        ラベルなしの引数が渡されたとき、それに対応する仮引き数の前にひとつ以上の省略可能な仮引数があると、これらの省略可能引数にはデフォルト値、すなわち <code class="code">None</code> が渡されます。
+        その他の指定されなかった（対応する引数のなかった）仮引数は、省略可能なものもそうでないものも、そのまま保持され、関数の戻り値は指定されなかった仮引数から <em class="parameter"><code>f</code></em> の本体への関数になります。
+        
+      </p>
+      <p>
+        特別な場合として、関数の仮引数の個数がわかっていて、かつ実引数にはすべてラベルがついていず、さらに実引数の個数が省略不可能な仮引数の個数と一致していた場合には、ラベルを無視し、実引数を省略不可能な引数に定義時の順番で対応づけます。
+        このとき省略可能引数にはデフォルト値が渡されます。
+        
+      </p>
+      <p>
+        引数の順序とラベルが完全に一致する場合を除き、省略可能引数が存在しない場合は、常に関数の型は適用の時点で既知でなければなりません。
+        型制約を追加すればこれを保証することができます。
+        導出される型が一意であることは <code class="option">-principal</code> モードで検査することができます。
+        
+      </p>
+    </div>
+    <div class="section" title="関数定義"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5006"></a>関数定義</h4></div></div></div>
+      
+      <p>
+        関数定義のための構文形式はふたつあります。
+        ひとつ目は予約語 <code class="code">function</code> で始まるものです。
+        
+      </p>
+      <div class="syntax"><p><br>
+function&nbsp;<a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub>&nbsp;-&gt;&nbsp;<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub><br>
+&nbsp;&nbsp;|&nbsp;<span class="meta">...</span><br>
+&nbsp;&nbsp;|&nbsp;<a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub>&nbsp;-&gt;&nbsp;<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></div>
+      <p>
+        この式は一引数の関数値に評価されます。
+        この関数が値 <em class="parameter"><code>v</code></em> に適用されると、その値を
+        <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub>
+        までのパターンとパターンマッチします。
+        これらのうちひとつが成功した場合、つまり、値 <em class="parameter"><code>v</code></em> が何らかの <em class="parameter"><code>i</code></em> について <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>i</code></em></sub>
+        とマッチしたとき、選択されたパターンと対応づけられた式
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>i</code></em></sub>
+        が評価され、その値が関数適用の値になります。
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>i</code></em></sub>
+        はパターンマッチにより生成された束縛を加えた環境で評価されます。
+        
+      </p>
+      <p>
+        引数 <em class="parameter"><code>v</code></em> に対して複数のパターンが一致する場合、関数定義の中で最初に現れたものが選択されます。
+        引数に一致するパターンがない場合には、 <code class="exceptionname">Match_failure</code> 例外が発生します。
+        
+      </p>
+      <p>
+        もうひとつの形式は予約語 <code class="code">fun</code> を使うものです。
+        
+      </p>
+      <pre class="syntax">fun <a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a><sub>1</sub> <span class="meta">...</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a><sub><em class="parameter"><code>n</code></em></sub> -&gt; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></pre>
+      <p>
+        この式は次のものと等価です。
+        
+      </p>
+      <pre class="syntax">fun <a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a><sub>1</sub> -&gt; <span class="meta">...</span> fun <a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a><sub><em class="parameter"><code>n</code></em></sub> -&gt; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></pre>
+      <p>
+        パラメータパターン <code class="syntax">~var</code> と <code class="syntax">~(var <span class="meta">[</span>: <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> <span class="meta">]</span>)</code> はそれぞれ <code class="syntax">~var:var</code> や <code class="syntax">~var:(var <span class="meta">[</span> : <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> <span class="meta">]</span>)</code> の略記法です。省略可能引数にも同様の略記法があります。
+        
+      </p>
+      <p>
+        <code class="syntax">fun ? <a class="bnf-non-terminal" href="ch06s01.html#bnf--label">label</a> ( <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>0</sub> ) -&gt; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></code> の形式の関数は次のものと等価です。
+        
+      </p>
+      <pre class="syntax">fun ? <a class="bnf-non-terminal" href="ch06s01.html#bnf--label">label</a> <a class="bnf-non-terminal" href="ch06s01.html#bnf--ident">ident</a> -&gt; let <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a> = match <a class="bnf-non-terminal" href="ch06s01.html#bnf--ident">ident</a> with Some <a class="bnf-non-terminal" href="ch06s01.html#bnf--ident">ident</a> -&gt; <a class="bnf-non-terminal" href="ch06s01.html#bnf--ident">ident</a> | None -&gt; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>0</sub> in <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></pre>
+      <p>
+        ここで <a class="bnf-non-terminal" href="ch06s01.html#bnf--ident">ident</a> は新しい変数です。
+        
+      </p>
+      <p>
+        このような変換を行なうと、式は次のような形式になります。
+        
+      </p>
+      <pre class="syntax">fun <span class="meta">[</span> <a class="bnf-non-terminal" href="ch06s01.html#bnf--label">label</a><sub>1</sub> <span class="meta">]</span> <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub> -&gt; <span class="meta">...</span> fun <span class="meta">[</span> <a class="bnf-non-terminal" href="ch06s01.html#bnf--label">label</a><sub><em class="parameter"><code>n</code></em></sub> <span class="meta">]</span> <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub> -&gt; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></pre>
+      <p>
+        ラベルを無視すればこれは次と等価です（ラベルは関数適用時にだけ意味を持ちます）。
+        
+      </p>
+      <pre class="syntax">function <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub> -&gt; <span class="meta">...</span> function <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub> -&gt; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></pre>
+      <p>
+        すなわち、上の <code class="code">fun</code> 式は <em class="parameter"><code>n</code></em> 引数のカリー化関数に評価されます。
+        この関数に値 <em class="parameter"><code>v<sub>1</sub></code></em> ... <em class="parameter"><code>v<sub><em class="parameter"><code>m</code></em></sub></code></em> を <em class="parameter"><code>n</code></em> 回適用すると、 <em class="parameter"><code>v<sub>1</sub></code></em> ... <em class="parameter"><code>v<sub><em class="parameter"><code>m</code></em></sub></code></em> はパターン <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub> ... <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub> と並行にパターンマッチされます。
+        パターンマッチが成功した場合、 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> をパターンマッチによって生成された束縛を加えた環境で評価します。
+        パターンマッチに失敗した場合には <code class="exceptionname">Match_failure</code> 例外が発生します。
+        
+      </p>
+    </div>
+    <div class="section" title="パターンマッチ中のガード"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5140"></a>パターンマッチ中のガード </h4></div></div></div>
+      
+      <p>
+        （<code class="code">function</code>、 <code class="code">fun</code>、 <code class="code">match</code>、 <code class="code">try</code> 構文中の）パターンマッチの各分岐にはガード式をつけることができます。ガード式は真理値を返す任意の式で、その分岐が選択される場合には <code class="code">true</code> に評価されます。
+        ガードは <code class="code">-&gt;</code> の前に書き、予約語 <code class="code">when</code> で始まります。
+        
+      </p>
+      <pre class="syntax">
+function <a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a><sub>1</sub> <span class="meta">[</span> when <span class="meta">cond<sub>1</sub></span> <span class="meta">]</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>
+  | <span class="meta">...</span>
+  | <a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a><sub><em class="parameter"><code>n</code></em></sub> <span class="meta">[</span> when <span class="meta">cond<sub><em class="parameter"><code>n</code></em></sub></span> <span class="meta">]</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub>
+      </pre>
+      <p>
+        パターンマッチは先に述べたように行なわれますが、値がガード <em class="parameter"><code>cond<sub><em class="parameter"><code>i</code></em></sub></code></em> を持つパターン <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>i</code></em></sub> にマッチした場合、式
+        <em class="parameter"><code>cond<sub><em class="parameter"><code>i</code></em></sub></code></em> が（パターンマッチにより生成された束縛を加えた環境で）評価されます。
+        <em class="parameter"><code>cond<sub><em class="parameter"><code>i</code></em></sub></code></em>
+        が <code class="code">true</code> に評価された場合には、通常と同じように
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>i</code></em></sub> が評価され、その値がパターンマッチの値として返されます。
+        <em class="parameter"><code>cond<sub><em class="parameter"><code>i</code></em></sub></code></em>
+        が <code class="code">false</code> に評価された場合には、
+        <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>i</code></em></sub> に続くパターンのパターンマッチを再開します。
+        
+      </p>
+    </div>
+    <div class="section" title="局所定義"><div class="titlepage"><div><div><h4 class="title"><a name="sec:localdef"></a>局所定義 </h4></div></div></div>
+      
+      <p>
+        <code class="code">let</code> 構文と <code class="code">let rec</code> は名前を局所的に束縛します。
+        
+      </p>
+      <pre class="syntax">let <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> and <span class="meta">...</span> and <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub> in <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></pre>
+      <p>
+        は、 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> <span class="meta">...</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub> が何らかの順序で評価されは、その値を <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub> ... <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub> とマッチさせます。
+        パターンマッチに成功した場合には、パターンマッチにより生成された束縛を加えた環境で <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> が評価され、 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> の値が <code class="code">let</code> 式全体の値として返されます。
+        パターンマッチのうちひとつでも失敗したものがあれば、 <code class="exceptionname">Match_failure</code> 例外が発生します。
+        
+      </p>
+      <p>
+        変数を関数値に束縛するための特別の構文もあります。
+        
+      </p>
+      <pre class="syntax">let <a class="bnf-non-terminal" href="ch06s01.html#bnf--ident">ident</a> = fun <a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a><sub>1</sub> <span class="meta">...</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a><sub><em class="parameter"><code>m</code></em></sub> -&gt; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></pre>
+      <p>
+        と書く代わりに次のように書きます。
+        
+      </p>
+      <pre class="syntax">let <a class="bnf-non-terminal" href="ch06s01.html#bnf--ident">ident</a> <a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a><sub>1</sub> <span class="meta">...</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a><sub><em class="parameter"><code>m</code></em></sub> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></pre>
+      <p>
+        <code class="code">let rec</code> を使うと名前を再帰的に定義することができます。
+        
+      </p>
+      <div class="syntax"><p>let&nbsp;rec&nbsp;<a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub>&nbsp;=&nbsp;<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>&nbsp;and&nbsp;<span class="meta">...</span>&nbsp;and&nbsp;<a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub>&nbsp;=&nbsp;<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub>&nbsp;in&nbsp;<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></p></div>
+      <p>
+        上で述べた <code class="code">let</code> 構文との違いは、パターンマッチによる名前の束縛が式
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub>
+        が評価されるときに、既に確立されていると考えるということだけです。
+        つまり、
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub>
+        では
+        <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub>
+        で束縛された識別子を参照することができ、それらが
+        <code class="code">let rec</code> 構文の本体の
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> 内と同じ値であると期待することができます。
+        
+      </p>
+      <p>
+        下に示すように、
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub>
+        が関数定義（<code class="code">fun <span class="meta">...</span></code> または <code class="code">function <span class="meta">...</span></code>）であり、
+        <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub>
+        が単なる変数名であれば、再帰定義は上で述べたように振る舞うことが保証されます。
+        
+      </p>
+      <div class="literallayout"><p>let&nbsp;rec&nbsp;<a class="bnf-non-terminal" href="">name</a><sub>1</sub>&nbsp;=&nbsp;fun&nbsp;<span class="meta">...</span>&nbsp;and&nbsp;<span class="meta">...</span>&nbsp;and&nbsp;<a class="bnf-non-terminal" href="">name</a><sub><em class="parameter"><code>n</code></em></sub>&nbsp;in&nbsp;<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></p></div>
+      <p>
+        ここでは、
+        <a class="bnf-non-terminal" href="">name</a><sub>1</sub> から <a class="bnf-non-terminal" href="">name</a><sub><em class="parameter"><code>n</code></em></sub>
+        を <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> に局所的な相互再帰関数として定義しています。
+        
+      </p>
+      <p>
+        他の形式 <code class="code">let rec</code> 定義の振舞いは実装系依存です。
+        <a class="xref" href="ch07s03.html" title="7.3&nbsp;値の再帰的定義"> 7.3 節「値の再帰的定義」</a> で述べるように、現在の実装では特定のクラスの値の再帰定義もサポートしています。
+        
+      </p>
+    </div>
+  </div>
+  <div class="section" title="6.7.2&nbsp;制御構文"><div class="titlepage"><div><div><h3 class="title"><a name="d4e5317"></a>6.7.2&nbsp;制御構文 </h3></div></div></div>
+    
+    <div class="section" title="逐次実行"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5319"></a>逐次実行 </h4></div></div></div>
+      
+      <p>
+        <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> ; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub></code> はまず <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> を評価し、次に <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> を評価し、 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> の値を返します。
+        
+      </p>
+    </div>
+    <div class="section" title="条件分岐"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5333"></a>条件分岐 </h4></div></div></div>
+      
+      <p>
+        <code class="syntax">if <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> then <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> else <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>3</sub></code>
+        は
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> が真理値の <code class="code">true</code> に評価された場合には
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> の値に評価され、
+        <code class="code">false</code> に評価された場合には
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>3</sub> の値に評価されます。
+        
+      </p>
+      <p>
+        <code class="syntax">else</code> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>3</sub> の部分は省略することができ、その場合は
+        <code class="syntax">else ()</code> になります。
+        
+      </p>
+    </div>
+    <div class="section" title="マッチ式"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5356"></a>マッチ式 </h4></div></div></div>
+      
+      
+      <pre class="syntax">
+match <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> 
+ with <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub> -&gt; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> 
+    | <span class="meta">... </span>
+    | <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub> -&gt; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub>
+      </pre>
+      <p>
+        は <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> の値を
+        <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub> から
+        <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub> にマッチさせます。
+        <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>i</code></em></sub>
+        へのパターンマッチが成功した場合、対応する式
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>i</code></em></sub> が評価され、その値が <code class="code">match</code> 式全体の値になります。
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>i</code></em></sub> はパターンマッチによって生成された束縛を加えた環境で評価されます。
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> の値に対して複数のパターンがマッチする場合、 <code class="code">match</code> 式に最初に現れたものが選択されます。
+        マッチするものがなかった場合には <code class="exceptionname">Match_failure</code> 例外が発生します。
+        
+      </p>
+    </div>
+    <div class="section" title="論理演算子"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5391"></a>論理演算子 </h4></div></div></div>
+      
+      <p>
+        <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> &amp;&amp; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub></code> は
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>
+        と
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub>
+        の両方が <code class="code">true</code> に評価されたとき <code class="code">true</code> に評価され、そうでなければ <code class="code">false</code> に評価されます。
+        最初の要素
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>
+        が先に評価されます。
+        次の要素
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub>
+        は最初の要素が <code class="code">false</code> に評価された場合には評価されません。
+        したがって、
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> <span class="bnf-terminal">&amp;&amp;</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> 振舞いは次の式とまったく同じです。
+        
+</p>
+      <div class="syntax"><p>if&nbsp;<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>&nbsp;then&nbsp;<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub>&nbsp;else&nbsp;false</p></div>
+      <p>
+        <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> || <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub></code> は
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>
+        と
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub>
+        のいずれかが <code class="code">true</code> に評価されたとき <code class="code">true</code> に評価され、そうでなければ <code class="code">false</code> に評価されます。
+        最初の要素
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>
+        が先に評価されます。
+        次の要素
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub>
+        は最初の要素が <code class="code">true</code> に評価された場合には評価されません。
+        したがって、
+        <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> || <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub></code> 振舞いは次の式とまったく同じです。
+
+        
+      </p>
+      <pre class="syntax">if <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> then true else <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub></pre>
+      <p>
+        論理演算子 <span class="bnf-terminal">&amp;</span> は <span class="bnf-terminal">&amp;&amp;</span> と同義で、 <span class="bnf-terminal">or</span> は <span class="bnf-terminal">||</span> と同義です。
+        
+      </p>
+    </div>
+    <div class="section" title="ループ"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5454"></a>ループ </h4></div></div></div>
+      
+      <p>
+        <code class="syntax">while <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> do <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> done</code>
+        は <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> が <code class="code">true</code> に評価される間、繰り返し
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> を評価します。
+        ループ条件 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> は各繰り返しの最初に評価され検査されます。
+        <code class="syntax">while <span class="meta">...</span> done</code> 式全体はユニット値 <code class="code">()</code> に評価されます。
+      
+      </p>
+      <p>
+        式
+        <code class="syntax">for <a class="bnf-non-terminal" href="">name</a> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> to <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> do <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>3</sub> done</code>
+        は、まず式 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> と <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> （境界）を整数値 <em class="parameter"><code>n</code></em> と <em class="parameter"><code>p</code></em> に評価します。
+        次にループの本体 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>3</sub>が、 <a class="bnf-non-terminal" href="">name</a> が次々と <em class="parameter"><code>n</code></em>、<em class="parameter"><code>n</code></em> + 1、<em class="parameter"><code>p</code></em> - 1、 <em class="parameter"><code>p</code></em> に束縛された環境で繰り返し評価されます。
+        <em class="parameter"><code>n</code></em> &gt; <em class="parameter"><code>p</code></em> であればループ本体は一度も評価されません。
+        
+      </p>
+      <p>
+        <code class="syntax">for <a class="bnf-non-terminal" href="">name</a> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> downto <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> do <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>3</sub> done</code>
+        も同じように評価されますが、 <a class="bnf-non-terminal" href="">name</a> は
+        <em class="parameter"><code>n</code></em>、 <em class="parameter"><code>n</code></em> - 1、 ...、 <em class="parameter"><code>p</code></em> + 1、 <em class="parameter"><code>p</code></em> に束縛されて行きます。
+        <em class="parameter"><code>n</code></em> &gt; <em class="parameter"><code>p</code></em> であればループ本体は一度も評価されません。
+        
+      </p>
+      <p>
+        どちらの場合も、 <code class="code">for</code> 式全体はユニット値 <code class="code">()</code> に評価されます。
+        
+      </p>
+    </div>
+    <div class="section" title="例外処理"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5515"></a>例外処理 </h4></div></div></div>
+      
+      
+      <pre class="syntax">
+try <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> 
+ with <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub> -&gt; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> 
+    | <span class="meta">...</span>
+    | <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub> -&gt; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub>
+      </pre>
+      <p>
+        は式 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> を評価し、例外が発生しなければその値を返します。
+        例外が発生した場合、例外の値が <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>n</code></em></sub> とパターンマッチされます。
+        <a class="bnf-non-terminal" href="ch06s06.html#bnf--pattern">pattern</a><sub><em class="parameter"><code>i</code></em></sub> とマッチした場合には、その対応する <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>i</code></em></sub> が評価され、その値が <code class="code">try</code> 式全体の値になります。
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>i</code></em></sub> の評価は、パターンマッチにより拡張された環境で行なわれます。
+        複数のパターンがマッチする場合、最初のものが選択されます。
+        マッチするものがない場合、その例外値を再送出します。
+        つまり、 <code class="code">try</code> 構文は透過的に「素通り」されるのです。
+        
+      </p>
+    </div>
+  </div>
+  <div class="section" title="6.7.3&nbsp;データ構造上の演算"><div class="titlepage"><div><div><h3 class="title"><a name="d4e5548"></a>6.7.3&nbsp;データ構造上の演算 </h3></div></div></div>
+    
+    <div class="section" title="直積"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5550"></a>直積 </h4></div></div></div>
+      
+      <p>
+        式 <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>, <span class="meta">...</span>, <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub></code>
+        は、式 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub>
+        の <em class="parameter"><code>n</code></em> 個組に評価されます。
+        部分式の評価順序は規定されていません。
+        
+      </p>
+    </div>
+    <div class="section" title="バリアント"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5566"></a>バリアント </h4></div></div></div>
+      
+      <p>
+        <a class="bnf-non-terminal" href="ch06s03.html#bnf--constr">constr</a> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a>
+        は、構成子が <a class="bnf-non-terminal" href="ch06s03.html#bnf--constr">constr</a> で、引数が <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> の値となるバリアントに評価されます。
+        
+      </p>
+      <p>
+        リストには一種の糖衣構文が用意されています。
+        <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> :: <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub></code> は、構成子 <code class="code">( :: )</code> を引数 <code class="syntax">(<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>, <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub>)</code> に適用したものを意味し、頭部が <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>、尾部が <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> であるリストに評価されます。
+        <code class="syntax">[<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>; <span class="meta">...</span>; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub>]</code> は <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> :: <span class="meta">...</span> :: <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub> :: []</code> と等価で、 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub> を要素とするリストに評価されます。
+        
+      </p>
+    </div>
+    <div class="section" title="多相バリアント"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5608"></a>多相バリアント </h4></div></div></div>
+      
+      <p>
+        <code class="syntax">`<a class="bnf-non-terminal" href="ch06s03.html#bnf--tag-name">tag-name</a></code> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> はタグが <a class="bnf-non-terminal" href="ch06s03.html#bnf--tag-name">tag-name</a> であり、引数が <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> の値であるような多相バリアント値に評価されます。
+        
+      </p>
+    </div>
+    <div class="section" title="レコード"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5616"></a>レコード </h4></div></div></div>
+      
+      <p>
+        <code class="meta">{ <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a><sub>1</sub> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>; <span class="meta">...</span>; <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a><sub><em class="parameter"><code>n</code></em></sub> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub> }</code> はレコード値 <code class="syntax">{ <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a><sub>1</sub> = <em class="parameter"><code>v<sub>1</sub></code></em>; <span class="meta">...</span>; <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a><sub><em class="parameter"><code>n</code></em></sub> = <em class="parameter"><code>v<sub><em class="parameter"><code>n</code></em></sub></code></em> }</code> に評価されます。
+        ここで、 <em class="parameter"><code>v<sub><em class="parameter"><code>i</code></em></sub></code></em> は <em class="parameter"><code>i</code></em> = 1, ..., <em class="parameter"><code>n</code></em> について <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>i</code></em></sub> の値です。
+        <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a><sub><em class="parameter"><code>n</code></em></sub> はすべて同一のレコード型に属していなければなりません。
+        レコード式にはこのレコード型に属するフィールドすべてが丁度一回ずつ現れなければなりませんが、順番はどのようであってもかまいません。
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub> の評価順序は規定されていません。
+        
+      </p>
+      <p>
+        <code class="syntax">{ <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> with <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a><sub>1</sub> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>; <span class="meta">...</span>; <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a><sub><em class="parameter"><code>n</code></em></sub> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub> }</code> は <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a><sub><em class="parameter"><code>n</code></em></sub> が <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub> に等しく、それ以外のフィールドはレコード <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> と同じ値を持つ、新たなレコードを構成します。
+        別の言い方をすれば、 <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a><sub><em class="parameter"><code>n</code></em></sub> を <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub> に初期化し、それ以外のフィールドは <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> を浅くコピーしたレコードを返します。
+        
+      </p>
+      <p>
+        <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>.<a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a></code> は <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> がレコード値に評価され、その <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> に対応づけられた値が返ります。
+        
+      </p>
+      <p>
+        <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>.<a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> &lt;- <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub></code> は <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> がレコード値に評価され、そのレコードの <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> に対応づけられた値をその場で <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> の値に修正します。
+        この操作は、このレコード型の定義で <a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a> が <span class="bnf-terminal">mutable</span> と宣言されていた場合にだけ許されます。
+        式全体はユニット値 <span class="bnf-terminal">()</span> に評価されます。
+        
+      </p>
+    </div>
+    <div class="section" title="配列"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5720"></a>配列 </h4></div></div></div>
+      
+      <p>
+        <code class="syntax">[| <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>; <span class="meta">...</span>; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub> |]</code> は <em class="parameter"><code>n</code></em> 要素の配列に評価され、各要素は順に <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub><em class="parameter"><code>n</code></em></sub> に初期化されます。
+        これらの式の評価順序は規定されていません。
+        
+      </p>
+      <p>
+        <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>.(<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub>)</code> は <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> の表す配列の <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> 番目の要素の値を返します。
+        配列の要素を <em class="parameter"><code>n</code></em> としたとき、最初の要素は 0 番目で、最後の要素は <em class="parameter"><code>n</code></em> - 1 番目になります。
+        領域外にアクセスした場合には <code class="exceptionname">Invalid_argument</code> 例外が発生します。
+        
+      </p>
+      <p>
+        <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>.(<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub>) &lt;- <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>3</sub></code> は、 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> の表す配列の <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> 番目の要素を <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>3</sub> の値で置き換えます。
+        領域外にアクセスした場合には <code class="exceptionname">Invalid_argument</code> 例外が発生します。
+        式全体の値は <span class="bnf-terminal">()</span> になります。
+        
+      </p>
+    </div>
+    <div class="section" title="文字列"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5765"></a>文字列 </h4></div></div></div>
+      
+      <p>
+        <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>.[<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub>]</code> は <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> の表す文字列の <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> の文字の値を返します。
+        文字列の長さを <em class="parameter"><code>n</code></em> としたとき、最初の文字は 0 番目で、最後の文字は <em class="parameter"><code>n</code></em> - 1 番目になります。
+        範囲外にアクセスした場合には <code class="exceptionname">Invalid_argument</code> 例外が発生します。
+        
+      </p>
+      <p>
+        <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub>.[<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub>] &lt;- <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>3</sub></code> は、 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> の表す文字列の <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> 番目の文字を <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>3</sub> の値で置き換えます。
+        範囲外にアクセスした場合には <code class="exceptionname">Invalid_argument</code> 例外が発生します。
+        式全体の値は <span class="bnf-terminal">()</span> になります。
+        
+      </p>
+    </div>
+  </div>
+  <div class="section" title="6.7.4&nbsp;演算子"><div class="titlepage"><div><div><h3 class="title"><a name="d4e5796"></a>6.7.4&nbsp;演算子 </h3></div></div></div>
+    
+    <p>
+      <a class="bnf-non-terminal" href="ch06s01.html#bnf--infix-symbol">infix-symbol</a> に属するシンボルは、予約語 <code class="code">*</code>、 <code class="code">=</code>、 <code class="code">or</code>、 <code class="code">&amp;</code> と同じく式の間に中置することができます。
+      <a class="bnf-non-terminal" href="ch06s01.html#bnf--prefix-symbol">prefix-symbol</a> に属するシンボルは式に前置することができます。
+      
+    </p>
+    <p>
+      前置シンボルと中置シンボルには固定された意味はなく、単純に、そのシンボルに対応する名前に束縛された関数の適用と解釈されます。
+      式 <a class="bnf-non-terminal" href="ch06s01.html#bnf--prefix-symbol">prefix-symbol</a> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> は <code class="syntax">( <a class="bnf-non-terminal" href="ch06s01.html#bnf--prefix-symbol">prefix-symbol</a> ) <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></code> という適用と解釈されます。
+      同様に、 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> <a class="bnf-non-terminal" href="ch06s01.html#bnf--infix-symbol">infix-symbol</a> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> は <code class="syntax">( <a class="bnf-non-terminal" href="ch06s01.html#bnf--infix-symbol">infix-symbol</a> )</code> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>1</sub> <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a><sub>2</sub> という適用と解釈されます。
+    
+    </p>
+    <p>
+      下の表に初期環境で定義されているシンボルとその意味を示します（詳細は<a class="xref" href="ch19.html" title="19.&nbsp;コアライブラリ"> 19 章「<i>コアライブラリ</i>」</a>のコアライブラリモジュール <code class="code">Pervasive</code> の説明を読んでください）。
+      これらの意味は <code class="syntax">let ( <a class="bnf-non-terminal" href="ch06s03.html#bnf--infix-op">infix-op</a> ) <a class="bnf-non-terminal" href="">name</a><sub>1</sub> <a class="bnf-non-terminal" href="">name</a><sub>2</sub> = <span class="meta">...</span></code> としていつでも変更することができます。
+      
+    </p>
+    <table id="d4e5832">
+      <tbody>
+        <tr><th>演算子 </th><th>意味 </th></tr>
+        <tr><td><code class="code">+</code></td><td>整数の足し算 </td></tr>
+        <tr><td><code class="code">-</code></td><td>（中置）整数の引き算 </td></tr>
+        <tr><td><code class="code">-</code></td><td>（前置）整数の符号反転 </td></tr>
+        <tr><td><code class="code">*</code></td><td>整数の掛け算 </td></tr>
+        <tr><td><code class="code">/</code></td><td>整数の割り算。第二引数が 0 のときは <code class="exceptionname">Division_by_zero</code> 例外が発生する </td></tr>
+        <tr><td><code class="code">mod</code></td><td>整数の法。第二引数が 0 のときは <code class="exceptionname">Division_by_zero</code> 例外が発生する </td></tr>
+        <tr><td><code class="code">land</code></td><td>整数のビットごとの論理積 </td></tr>
+        <tr><td><code class="code">lor</code></td><td>整数のビットごとの論理和 </td></tr>
+        <tr><td><code class="code">lxor</code></td><td>整数のビットごとの排他的論理和 </td></tr>
+        <tr><td><code class="code">lsl</code></td><td>整数のビットごとの左論理シフト </td></tr>
+        <tr><td><code class="code">lsr</code></td><td>整数のビットごとの右論理シフト </td></tr>
+        <tr><td><code class="code">asr</code></td><td>整数のビットごとの右算術シフト </td></tr>
+        <tr><td><code class="code">+.</code></td><td>浮動小数点数の足し算 </td></tr>
+        <tr><td><code class="code">-.</code></td><td>（中置）浮動小数点数の引き算 </td></tr>
+        <tr><td><code class="code">-.</code></td><td>（前置）浮動小数点数の符号反転 </td></tr>
+        <tr><td><code class="code">*.</code></td><td>浮動小数点数の掛け算 </td></tr>
+        <tr><td><code class="code">/.</code></td><td>浮動小数点数の割り算 </td></tr>
+        <tr><td><code class="code">**</code></td><td>浮動小数点数の累乗 </td></tr>
+        <tr><td><code class="code">@</code></td><td>リストの連結 </td></tr>
+        <tr><td><code class="code">^</code></td><td>文字列の連結 </td></tr>
+        <tr><td><code class="code">!</code></td><td>参照外し（参照の現在の内容を返す） </td></tr>
+        <tr><td><code class="code">:=</code></td><td>参照への代入（第一引数として与えられた参照を第二引数の値で更新する） </td></tr>
+        <tr><td><code class="code">=</code></td><td>構造的等価性のテスト </td></tr>
+        <tr><td><code class="code">&lt;&gt;</code></td><td>構造的不等性のテスト </td></tr>
+        <tr><td><code class="code">==</code></td><td>物理的等価性のテスト </td></tr>
+        <tr><td><code class="code">!=</code></td><td>物理的不等性のテスト </td></tr>
+        <tr><td><code class="code">&lt;</code></td><td>「小なり」テスト </td></tr>
+        <tr><td><code class="code">&lt;=</code></td><td>「小なりイコール」テスト </td></tr>
+        <tr><td><code class="code">&gt;</code></td><td>「大なり」テスト </td></tr>
+        <tr><td><code class="code">&gt;=</code></td><td>「大なりイコール」テスト </td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section" title="6.7.5&nbsp;オブジェクト"><div class="titlepage"><div><div><h3 class="title"><a name="d4e5959"></a>6.7.5&nbsp;オブジェクト </h3></div></div></div>
+    
+    <div class="section" title="オブジェクトの生成"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5961"></a>オブジェクトの生成 </h4></div></div></div>
+      
+      <p>
+        <a class="bnf-non-terminal" href="ch06s03.html#bnf--class-path">class-path</a> がクラスの本体に評価されるとき、 <code class="syntax">new <a class="bnf-non-terminal" href="ch06s03.html#bnf--class-path">class-path</a></code> はこのクラスのインスタンス変数とメソッドを格納したオブジェクトに評価されます。
+        
+      </p>
+      <p>
+        <a class="bnf-non-terminal" href="ch06s03.html#bnf--class-path">class-path</a> がクラス関数に評価されるときには、 <code class="syntax">new <a class="bnf-non-terminal" href="ch06s03.html#bnf--class-path">class-path</a></code> はクラス関数と同一個数の引数を期待し、このクラスのオブジェクトを返す関数に評価されます。
+        
+      </p>
+    </div>
+    <div class="section" title="オブジェクトの直接生成"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5971"></a>オブジェクトの直接生成 </h4></div></div></div>
+      
+      <p>
+        <code class="syntax">object <a class="bnf-non-terminal" href="ch06s09.html#bnf--class-body">class-body</a> end</code> として直接オブジェクトを生成するのは、 <code class="syntax">class <a class="bnf-non-terminal" href="ch06s03.html#bnf--class-name">class-name</a> = object <a class="bnf-non-terminal" href="ch06s09.html#bnf--class-body">class-body</a> end</code> として局所的にクラスを定義し（<a class="xref" href="ch06s09.html#sec:class-body" title="クラス本体">クラス本体</a> の <a class="bnf-non-terminal" href="ch06s09.html#bnf--class-body">class-body</a> の構文参照）、即座にそのクラスに対して <code class="syntax">new <a class="bnf-non-terminal" href="ch06s03.html#bnf--class-name">class-name</a></code> として単一のオブジェクトを生成するのと、操作の上では等価です。
+        
+      </p>
+      <p>
+        直接生成されたオブジェクトの型づけには定義済みのクラスのインスタンスを生成した場合と異なる点がふたつあります。
+        まずひとつには、推論された型に自由な型変数が含まれることがあります。
+        もうひとつには、直接生成されたオブジェクトのクラス本体は拡張されることがないので、そのオブジェクト自身の型は閉じたオブジェクト型に単一化することができます。
+        
+      </p>
+    </div>
+    <div class="section" title="メッセージ送信"><div class="titlepage"><div><div><h4 class="title"><a name="d4e5984"></a>メッセージ送信 </h4></div></div></div>
+      
+      <p>
+        <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a>#<a class="bnf-non-terminal" href="ch06s03.html#bnf--method-name">method-name</a></code> は <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> の表すオブジェクトのメソッド <a class="bnf-non-terminal" href="ch06s03.html#bnf--method-name">method-name</a> を起動します。
+        
+      </p>
+      <p>
+        <a class="bnf-non-terminal" href="ch06s03.html#bnf--method-name">method-name</a> が多相メソッドであった場合、メソッドの型は起動する箇所で既知でなければなりません。
+        <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> が新しいオブジェクト（<code class="syntax">let <a class="bnf-non-terminal" href="ch06s01.html#bnf--ident">ident</a> = new <a class="bnf-non-terminal" href="ch06s03.html#bnf--class-path">class-path</a> <span class="meta">...</span></code>）の名前であるか、型制約がある場合にはこれは成り立ちます。
+        型導出の一意性は <code class="option">-principal</code> モードでチェックすることができます。
+        
+      </p>
+    </div>
+    <div class="section" title="インスタンス変数へのアクセスと変更"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6000"></a>インスタンス変数へのアクセスと変更 </h4></div></div></div>
+      
+      <p>
+        クラスのインスタンス変数は、インスタンス変数を定義したクラスと同一のクラスで定義されたメソッドやインスタンス変数を定義したクラスを継承したクラス内から参照できます。
+        <a class="bnf-non-terminal" href="ch06s03.html#bnf--inst-var-name">inst-var-name</a> は与えられたインスタンス変数の値に評価されます。
+        <code class="syntax"><a class="bnf-non-terminal" href="ch06s03.html#bnf--inst-var-name">inst-var-name</a> &lt;- <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></code> は <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> の値をインスタンス変数 <a class="bnf-non-terminal" href="ch06s03.html#bnf--inst-var-name">inst-var-name</a> に代入します。
+        このインスタンス変数は <span class="bnf-terminal">mutable</span> でなければなりません。
+        代入式全体は <span class="bnf-terminal">()</span> に評価されます。
+        
+      </p>
+    </div>
+    <div class="section" title="オブジェクトの複製"><div class="titlepage"><div><div><h4 class="title"><a name="d4e6011"></a>オブジェクトの複製 </h4></div></div></div>
+      
+      <p>
+        ライブラリ関数 <code class="code">Oo.copy</code> （<code class="code">Oo</code> モジュール参照）を使うとオブジェクトを複製することができます。
+        メソッド中で、 <code class="syntax">{&lt; <a class="bnf-non-terminal" href="ch06s03.html#bnf--inst-var-name">inst-var-name</a> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="meta">{</span> ; <a class="bnf-non-terminal" href="ch06s03.html#bnf--inst-var-name">inst-var-name</a> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> <span class="meta">}</span> &gt;}</code> とすると、指定したインスタンス変数が対応する式の値で置き換えられた自身のコピーが返ります。
+        戻り値のオブジェクトのインスタンス変数うち指定されなかったものはコピー元と同じ値になります。
+        
+      </p>
+    </div>
+  </div>
+  <div class="section" title="6.7.6&nbsp;型変換"><div class="titlepage"><div><div><h3 class="title"><a name="sec:coercion"></a>6.7.6&nbsp;型変換 </h3></div></div></div>
+    
+    <p>
+      オブジェクトの型は上位型に変換する（弱める）ことができます。
+      <code class="syntax">( <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> :&gt; <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a>)</code> は式 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> の型を <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> に変換します。
+      <code class="syntax">( <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> : <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a><sub>1</sub> :&gt; <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a><sub>2</sub>)</code> は <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> の型を <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a><sub>1</sub> から <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a><sub>2</sub> に変換します。
+      前者では <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> の型を <em class="parameter"><code>t<sub>1</sub></code></em> を <em class="parameter"><code>t<sub>2</sub></code></em> に変換するとき、 <em class="parameter"><code>t<sub>1</sub></code></em> が <em class="parameter"><code>t<sub>2</sub></code></em> の部分型であっても型変換に失敗することがあります。
+      現在の実装ではオブジェクトや多相バリアントを含む型略記は二段階しか展開せず、再帰性はクラス型で明示されているものだけ管理されます。
+      失敗した場合には後者の形式を使わなければなりません。
+      
+    </p>
+    <p>
+      クラス定義中で、そのクラスの定義する型への変換は恒等関数になります。
+      これは、この型略記に対応するものがまだ完全には定義されていないからです。
+      
+    </p>
+  </div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s06.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s08.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">6.6&nbsp;パターン &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;6.8&nbsp;型と例外の定義 </td></tr></table></div></body></html>

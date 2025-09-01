@@ -1,0 +1,488 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>15.2&nbsp;Syntax of documentation comments</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch15.html" title="15.&nbsp;ドキュメント生成器（ocamldoc）"><link rel="prev" href="ch15s01.html" title="15.1&nbsp;使用法"><link rel="next" href="ch15s03.html" title="15.3&nbsp;Custom generators"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">15.2&nbsp;Syntax of documentation comments</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch15s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">15.&nbsp;ドキュメント生成器（<span class="command"><strong>ocamldoc</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch15s03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="15.2&nbsp;Syntax of documentation comments"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e12473"></a>15.2&nbsp;Syntax of documentation comments</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch15s02.html#d4e12476">15.2.1. Placement of documentation comments</a></span></dt><dt><span class="section"><a href="ch15s02.html#d4e12496">15.2.2. The Stop special comment</a></span></dt><dt><span class="section"><a href="ch15s02.html#d4e12501">15.2.3. Syntax of documentation comments</a></span></dt><dt><span class="section"><a href="ch15s02.html#d4e12507">15.2.4. Text formatting</a></span></dt><dt><span class="section"><a href="ch15s02.html#d4e12595">15.2.5. Documentation tags (@-tags)</a></span></dt></dl></div>
+    
+    <p>
+      Comments containing documentation material are called special comments and are written between (** and *). Special comments must start exactly with (**. Comments beginning with ( and more than two * are ignored.
+    </p>
+    <div class="section" title="15.2.1&nbsp;Placement of documentation comments"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12476"></a>15.2.1&nbsp;Placement of documentation comments</h3></div></div></div>
+      
+      <p>
+        OCamldoc can associate comments to some elements of the language encountered in the source files. The association is made according to the locations of comments with respect to the language elements. The locations of comments in .mli and .ml files are different.
+      </p>
+      <div class="simplesect" title="Comments in .mli files"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12479"></a>Comments in .mli files</h4></div></div></div>
+        
+        <p>
+          A special comment is associated to an element if it is placed before or after the element.
+        </p>
+        <p>
+          A special comment before an element is associated to this element if : 
+        </p>
+        <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">There is no blank line or another special comment between the special comment and the element. However, a regular comment can occur between the
+special comment and the element. 
+          </li><li class="listitem">The special comment is not already associated to the previous element. 
+          </li><li class="listitem">~ The special comment is not the first one of a toplevel module. 
+          </li></ul></div>
+        <p>
+          A special comment after an element is associated to this element if there is no blank line or comment between the special comment and the element.
+        </p>
+        <p>
+          There are two exceptions: for type constructors and record fields in type definitions, the associated comment can only be placed after the constructor or field definition, without blank lines or other comments between them. The special comment for a type constructor with another type constructor following must be placed before the '|' character separating the two constructors.
+        </p>
+        <p>
+          The following sample interface file foo.mli illustrates the placement rules for comments in .mli files.
+        </p>
+<pre class="programlisting">
+(** The first special comment of the file is the comment associated
+    with the whole module.*)
+
+(** Special comments can be placed between elements and are kept
+    by the OCamldoc tool, but are not associated to any element.
+    @-tags in these comments are ignored.*)
+
+(*******************************************************************)
+(** Comments like the one above, with more than two asterisks,
+    are ignored. *)
+
+(** The comment for function f. *)
+val f : int -&gt; int -&gt; int
+(** The continuation of the comment for function f. *)
+
+(** Comment for exception My_exception, even with a simple comment
+    between the special comment and the exception.*)
+(* Hello, I'm a simple comment :-) *)
+exception My_exception of (int -&gt; int) * int
+
+(** Comment for type weather  *)
+type weather =
+| Rain of int (** The comment for construtor Rain *)
+| Sun (** The comment for constructor Sun *)
+
+(** Comment for type weather2  *)
+type weather2 =
+| Rain of int (** The comment for construtor Rain *)
+| Sun (** The comment for constructor Sun *)
+(** I can continue the comment for type weather2 here
+  because there is already a comment associated to the last constructor.*)
+
+(** The comment for type my_record *)
+type my_record = {
+    val foo : int ;    (** Comment for field foo *)
+    val bar : string ; (** Comment for field bar *)
+  }
+  (** Continuation of comment for type my_record *)
+
+(** Comment for foo *)
+val foo : string
+(** This comment is associated to foo and not to bar. *)
+val bar : string
+(** This comment is assciated to bar. *)
+
+(** The comment for class my_class *)
+class my_class :
+  object
+    (** A comment to describe inheritance from cl *)
+    inherit cl
+
+    (** The comment for attribute tutu *)
+    val mutable tutu : string
+
+    (** The comment for attribute toto. *)
+    val toto : int
+
+    (** This comment is not attached to titi since
+        there is a blank line before titi, but is kept
+        as a comment in the class. *)
+
+    val titi : string
+
+    (** Comment for method toto *)
+    method toto : string
+
+    (** Comment for method m *)
+    method m : float -&gt; int
+  end
+
+(** The comment for the class type my_class_type *)
+class type my_class_type =
+  object
+    (** The comment for variable x. *)
+    val mutable x : int
+
+    (** The commend for method m. *)
+    method m : int -&gt; int
+end
+
+(** The comment for module Foo *)
+module Foo =
+  struct
+    (** The comment for x *)
+    val x : int
+
+    (** A special comment that is kept but not associated to any element *)
+  end
+
+(** The comment for module type my_module_type. *)
+module type my_module_type =
+  sig
+    (** The comment for value x. *)
+    val x : int
+
+    (** The comment for module M. *)
+    module M =
+      struct
+        (** The comment for value y. *)
+        val y : int
+
+        (* ... *)
+      end
+
+  end
+</pre>
+      </div>
+      <div class="simplesect" title="Comments in .ml files"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12491"></a>Comments in .ml files</h4></div></div></div>
+        
+        <p>
+          A special comment is associated to an element if it is placed before the element and there is no blank line between the comment and the element. Meanwhile, there can be a simple comment between the special comment and the element. There are two exceptions, for type constructors and record fields in type definitions, whose associated comment must be placed after the constructor or field definition, without blank line between them. The special comment for a type constructor with another type constructor following must be placed before the '|' character separating the two constructors.
+        </p>
+        <p>
+          The following example of file toto.ml shows where to place comments in a .ml file.
+        </p>
+  <pre class="programlisting">
+(** The first special comment of the file is the comment associated
+    to the whole module.*)
+
+(** The comment for function f *)
+let f x y = x + y
+
+(** This comment is not attached to any element since there is another
+    special comment just before the next element. *)
+
+(** Comment for exception My_exception, even with a simple comment
+    between the special comment and the exception.*)
+(* A simple comment. *)
+exception My_exception of (int -&gt; int) * int
+
+(** Comment for type weather  *)
+type weather =
+| Rain of int (** The comment for constructor Rain *)
+| Sun (** The comment for constructor Sun *)
+
+(** The comment for type my_record *)
+type my_record = {
+    val foo : int ;    (** Comment for field foo *)
+    val bar : string ; (** Comment for field bar *)
+  }
+
+(** The comment for class my_class *)
+class my_class =
+    object
+      (** A comment to describe inheritance from cl *)
+      inherit cl
+
+      (** The comment for the instance variable tutu *)
+      val mutable tutu = "tutu"
+      (** The comment for toto *)
+      val toto = 1
+      val titi = "titi"
+      (** Comment for method toto *)
+      method toto = tutu ^ "!"
+      (** Comment for method m *)
+      method m (f : float) = 1
+    end
+
+(** The comment for class type my_class_type *)
+class type my_class_type =
+  object
+    (** The comment for the instance variable x. *)
+    val mutable x : int
+    (** The commend for method m. *)
+    method m : int -&gt; int
+  end
+
+(** The comment for module Foo *)
+module Foo =
+  struct
+    (** The comment for x *)
+    val x : int
+    (** A special comment in the class, but not associated to any element. *)
+  end
+
+(** The comment for module type my_module_type. *)
+module type my_module_type =
+  sig
+    (* Comment for value x. *)
+    val x : int
+    (* ... *)
+  end
+</pre>
+      </div>
+    </div>
+    <div class="section" title="15.2.2&nbsp;The Stop special comment"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12496"></a>15.2.2&nbsp;The Stop special comment</h3></div></div></div>
+      
+      <p>
+        The special comment (**/**) tells OCamldoc to discard elements placed after
+        this comment, up to the end of the current class, class type, module or module
+        type, or up to the next stop comment. For instance: 
+      </p>
+      <pre class="programlisting">
+class type foo =
+  object
+    (** comment for method m *)
+    method m : string
+
+    (**/**)
+
+    (** This method won't appear in the documentation *)
+    method bar : int
+  end
+
+(** This value appears in the documentation, since the Stop special comment
+    in the class does not affect the parent module of the class.*)
+val foo : string
+
+(**/**)
+(** The value bar does not appear in the documentation.*)
+val bar : string
+(**/**)
+
+(** The type t appears since in the documentation since the previous stop comment
+toggled off the "no documentation mode". *)
+type t = string
+</pre>
+      <p>
+        The -no-stop option to ocamldoc causes the Stop special comments to be ignored.
+      </p>
+    </div>
+    <div class="section" title="15.2.3&nbsp;Syntax of documentation comments"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12501"></a>15.2.3&nbsp;Syntax of documentation comments</h3></div></div></div>
+      
+      <p>
+        The inside of documentation comments (**...*) consists of free-form text with optional formatting annotations, followed by optional tags giving more specific information about parameters, version, authors, ... The tags are distinguished by a leading @ character. Thus, a documentation comment has the following shape: 
+      </p>
+      <pre class="programlisting">
+(** The comment begins with a description, which is text formatted
+   according to the rules described in the next section.
+   The description continues until the first non-escaped '@' character.
+   @author Mr Smith
+   @param x description for parameter x
+*)
+</pre>
+      <p>
+        Some elements support only a subset of all @-tags. Tags that are not relevant to the documented element are simply ignored. For instance, all tags are ignored when documenting type constructors, record fields, and class inheritance clauses. Similarly, a @param tag on a class instance variable is ignored.
+      </p>
+      <p>
+        At last, (**) is the empty documentation comment.
+      </p>
+    </div>
+    <div class="section" title="15.2.4&nbsp;Text formatting"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12507"></a>15.2.4&nbsp;Text formatting</h3></div></div></div>
+      
+      <p>
+        Here is the BNF grammar for the simple markup language used to format text descriptions.
+      </p>
+      <table id="d4e12510">
+        <tbody>
+          <tr>
+            <td>text ::= (text_element)+</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>text_element ::=</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td> | {[0-9]+ text}</td>
+            <td> format text as a section header; the integer following { indicates the sectioning level.</td>
+          </tr>
+          <tr>
+            <td> | {[0-9]+:label text}</td>
+            <td> same, but also associate the name label to the current point. This point can be referenced by its fully-qualified label in a {! command, just like any other element.</td>
+          </tr>
+          <tr>
+            <td> | {b text}</td>
+            <td>set text in bold.</td>
+          </tr>
+          <tr>
+            <td> | {i text}</td>
+            <td>set text in italic.</td>
+          </tr>
+          <tr>
+            <td> | {e text}</td>
+            <td>emphasize text.</td>
+          </tr>
+          <tr>
+            <td> | {C text}</td>
+            <td>center text.</td>
+          </tr>
+          <tr>
+            <td> | {L text}</td>
+            <td>left align text.</td>
+          </tr>
+          <tr>
+            <td> | {R text}</td>
+            <td>right align text.</td>
+          </tr>
+          <tr>
+            <td> | {ul list}</td>
+            <td>build a list.</td>
+          </tr>
+          <tr>
+            <td> | {ol list}</td>
+            <td>build an enumerated list.</td>
+          </tr>
+          <tr>
+            <td> | {{:string}text}</td>
+            <td>put a link to the given address (given as a string) on the given text.</td>
+          </tr>
+          <tr>
+            <td> | [string]</td>
+            <td>set the given string in source code style. | {[string]}                    set the given string in preformatted 				source code style.</td>
+          </tr>
+          <tr>
+            <td> | {v string v}</td>
+            <td>set the given string in verbatim style.</td>
+          </tr>
+          <tr>
+            <td> | {% string %}</td>
+            <td>take the given string as raw LaTeX code.</td>
+          </tr>
+          <tr>
+            <td> | {!string}</td>
+            <td>insert a reference to the element named string. string must be a fully qualified element name, for example Foo.Bar.t. The kind of the referenced element can be forced (useful when various elements have the same qualified name) with the following syntax: {!kind:
+Foo.Bar.t} where kind can be module, modtype, class, classtype, val, type, exception, attribute, method or section.
+            </td>
+          </tr>
+          <tr>
+            <td> | {!modules: string string ...}</td>
+            <td>insert an index table for the given module names. Used in HTML only. | {!indexlist}                  insert a table of links to the various indexes (types, values, modules, ...). Used in HTML only.</td>
+          </tr>
+          <tr>
+            <td> | {^ text}</td>
+            <td>set text in superscript.</td>
+          </tr>
+          <tr>
+            <td> | {_ text}</td>
+            <td>set text in subscript.</td>
+          </tr>
+          <tr>
+            <td> | escaped_string</td>
+            <td>typeset the given string as is; special characters ('{', '}', '[', ']' and '@') must be	escaped by a '\' | blank_line force a new line.</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <td>list ::=</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td> | ({- text})+</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td> | ({li text})+</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        A shortcut syntax exists for lists and enumerated lists: 
+      </p>
+      <pre class="programlisting">
+(** Here is a {b list}
+- item 1
+- item 2
+- item 3
+
+
+The list is ended by the blank line.*)
+</pre>
+      <p>
+        is equivalent to: 
+      </p>
+      <pre class="programlisting">
+(** Here is a {b list}
+{ul {- item 1}
+{- item 2}
+{- item 3}}
+The list is ended by the blank line.*)
+</pre>
+      <p>
+        The same shortcut is available for enumerated lists, using '+' instead of '-'. Note that only one list can be defined by this shortcut in nested lists.
+      </p>
+      <p>
+        In the description of a value, type, exception, module, module type, class or class type, the first sentence is sometimes used in indexes, or when just a part of the description is needed. The first sentence is composed of the first
+characters of the description, until 
+      </p>
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">the first dot followed by a blank, or 
+        </li><li class="listitem">the first blank line 
+        </li></ul></div>
+      <p>
+        outside of the following text formatting : {ul list}, {ol list}, [string], {[string]}, {v string v}, {% string%}, {!string}, {^ text}, {_ text}.
+      </p>
+    </div>
+    <div class="section" title="15.2.5&nbsp;Documentation tags (@-tags)"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12595"></a>15.2.5&nbsp;Documentation tags (@-tags)</h3></div></div></div>
+      
+      <div class="simplesect" title="Predefined tags"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12597"></a>Predefined tags</h4></div></div></div>
+        
+        <p>
+          The folowing table gives the list of predefined @-tags, with their syntax and meaning.
+        </p>
+        <table id="d4e12600"><tbody>
+            <tr>
+              <td>@author string</td>
+              <td>The author of the element. One author by @author tag. There may be several @author tags for the same element.</td>
+            </tr>
+            <tr>
+              <td>@deprecated text</td>
+              <td>The text should describe when the element was deprecated, what to use as a replacement, and possibly the reason for deprecation.</td>
+            </tr>
+            <tr>
+              <td>@param id text</td>
+              <td>Associate the given description (text) to the given parameter name id. This tag is used for functions, methods, classes and functors.</td>
+            </tr>
+            <tr>
+              <td>@raise Exc text</td>
+              <td>Explain that the element may raise the exception Exc.</td>
+            </tr>
+            <tr>
+              <td>@return text </td>
+              <td>Describe the return value and its possible values. This tag is used for functions and methods.</td>
+            </tr>
+            <tr>
+              <td> @see &lt;url&gt;   </td>
+              <td>Add a reference to the URL between '&lt;' and '&gt;' with the given text as comment.</td>
+            </tr>
+            <tr>
+              <td>@see 'filename' text</td>
+              <td>Add a reference to the given file name (written between single quotes), with the given text as comment.</td>
+            </tr>
+            <tr>
+              <td>@see "document name" text</td>
+              <td>Add a reference to the given document name (written between double quotes), with the given text as comment.</td>
+            </tr>
+            <tr>
+              <td> @since string</td>
+              <td>Indicates when the element was introduced.</td>
+            </tr>
+            <tr>
+              <td> @version string</td>
+              <td>The version number for the element.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="simplesect" title="Custom tags"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12632"></a>Custom tags</h4></div></div></div>
+        
+        <p>
+          You can use custom tags in the documentation comments, but they will have no effect if the generator used does not handle them. To use a custom tag, for example foo, just put @foo with some text in your comment, as in: 
+        </p>
+        <pre class="programlisting">
+(** My comment to show you a custom tag.
+@foo this is the text argument to the [foo] custom tag.
+*)
+</pre>
+        <p>
+          To handle custom tags, you need to define a custom generator, as explained in section 15.3.2.
+        </p>
+      </div>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch15s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch15.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch15s03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">15.1&nbsp;使用法&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;15.3&nbsp;Custom generators</td></tr></table></div></body></html>

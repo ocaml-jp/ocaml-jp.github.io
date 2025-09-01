@@ -1,0 +1,76 @@
+.programlisting .userinput,
+.screen .userinput {
+    color : blue;
+    font-weight: normal;
+}
+
+.libref, .type {
+    font-family : monospace;
+}
+
+.command strong {
+    font-family : monospace;
+    font-weight : normal;
+}
+
+.programlisting .computeroutput,
+.screen .computeroutput {
+    color : maroon;
+}
+
+.programlisting {
+    margin-left : 3em;
+}
+
+.screen .warned {
+    text-decoration : underline;
+}
+
+.syntax, .bnf-terminal {
+    font-family : monospace;
+    color : blue;
+}
+
+.syntax table {
+    margin : 0 auto 0 auto;
+}
+
+.syntax * { /* for Safari */
+    color : inherit;
+}
+
+.syntax sub, .syntax .varname {
+    color : black;
+}
+
+.bnf-non-terminal, .bnf-non-terminal + sub {
+    font-family : Times, "Times New Roman", serif;
+}
+
+.bnf-non-terminal {
+    font-style : italic;
+    color : maroon;
+}
+
+.syntax .meta {
+    font-family : Times, "Times New Roman", serif;
+    color : black;
+}
+
+.empahsis em {
+    font-style : normal;
+    font-weight : bold;
+}
+
+em.parameter code, .replaceable code {
+    font-style : italic;
+    font-family : Times, "Times New Roman", serif;
+}
+
+sub {
+    font-style : normal;
+}
+
+sup, sub {
+    font-size : 62%;
+}

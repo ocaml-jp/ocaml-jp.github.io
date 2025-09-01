@@ -1,0 +1,92 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>6.2&nbsp;値</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch06.html" title="6.&nbsp;The Objective Caml language"><link rel="prev" href="ch06s01.html" title="6.1&nbsp;字句"><link rel="next" href="ch06s03.html" title="6.3&nbsp;名前"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.2&nbsp;値 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">6.&nbsp;The Objective Caml language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="6.2&nbsp;値"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e2840"></a>6.2&nbsp;値 </h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch06s02.html#d4e2843">6.2.1. 基本値 </a></span></dt><dt><span class="section"><a href="ch06s02.html#d4e2863">6.2.2. タプル </a></span></dt><dt><span class="section"><a href="ch06s02.html#d4e2878">6.2.3. レコード </a></span></dt><dt><span class="section"><a href="ch06s02.html#d4e2901">6.2.4. 配列 </a></span></dt><dt><span class="section"><a href="ch06s02.html#d4e2906">6.2.5. バリアント値 </a></span></dt><dt><span class="section"><a href="ch06s02.html#d4e2937">6.2.6. 多相バリアント </a></span></dt><dt><span class="section"><a href="ch06s02.html#d4e2945">6.2.7. 関数 </a></span></dt><dt><span class="section"><a href="ch06s02.html#d4e2948">6.2.8. オブジェクト </a></span></dt></dl></div>
+  
+  <p>
+    この章では Objective Caml で操作する値の種類を説明します。
+  </p>
+  <div class="section" title="6.2.1&nbsp;基本値"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2843"></a>6.2.1&nbsp;基本値 </h3></div></div></div>
+    
+    <div class="section" title="整数"><div class="titlepage"><div><div><h4 class="title"><a name="d4e2845"></a>整数 </h4></div></div></div>
+      
+      <p>
+        整数値は -2<sup>30</sup> から 2<sup>30</sup>-1 まで（-1073741824 から 1073741823）の整数です。実装によってはこれより広い範囲をサポートしているかもしれません。例えば 64 ビットプラットフォームでは、整数は -2<sup>62</sup> から 2<sup>62</sup>-1 までの範囲をサポートしています。
+      </p>
+    </div>
+    <div class="section" title="浮動小数点数"><div class="titlepage"><div><div><h4 class="title"><a name="d4e2852"></a>浮動小数点数 </h4></div></div></div>
+      
+      <p>
+        浮動小数点数値は浮動小数点数を表す値です。現在の実装では IEEE 754 standard 準拠の倍精度の浮動小数点数になっています。これは仮数部 53 ビット、指数部が -1022 から 1023 までの浮動小数点数です。
+      </p>
+    </div>
+    <div class="section" title="文字"><div class="titlepage"><div><div><h4 class="title"><a name="d4e2855"></a>文字 </h4></div></div></div>
+      
+      <p>
+        文字値は 0 から 255 までの 8 ビット整数として表されます。 0 から 127 までの文字コードは ASCII 標準に従って解釈されます。現在の実装では 128 から 255 までの文字コードは ISO 8859-1 標準に従って解釈されます。
+      </p>
+    </div>
+    <div class="section" title="文字列"><div class="titlepage"><div><div><h4 class="title"><a name="d4e2858"></a>文字列 </h4></div></div></div>
+      
+      <p>
+        文字列値は有限長の文字の列です。現在の実装では 2<sup>24</sup> - 5 文字（16777211 文字）までサポートされています。 64 ビットプラットフォームでは 2<sup>57</sup> - 9 文字までです。
+      </p>
+    </div>
+  </div>
+  <div class="section" title="6.2.2&nbsp;タプル"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2863"></a>6.2.2&nbsp;タプル </h3></div></div></div>
+    
+    <p>
+      値のタプルは (<em class="parameter"><code>v<sub>1</sub></code></em>, ..., <em class="parameter"><code>v<sub><em class="parameter"><code>n</code></em></sub></code></em>) のように書き、<em class="parameter"><code>v<sub>1</sub></code></em> から <em class="parameter"><code>v<sub><em class="parameter"><code>n</code></em></sub></code></em> の <em class="parameter"><code>n</code></em> 個組を表します。現在の実装では 2<sup>22</sup> - 1 要素（4194303 要素）のタプルまでサポートされています。
+    </p>
+  </div>
+  <div class="section" title="6.2.3&nbsp;レコード"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2878"></a>6.2.3&nbsp;レコード </h3></div></div></div>
+    
+    <p>
+      レコード値はラベル付けされた値の組です。レコード値は <code class="code">{ <em class="parameter"><code>field<sub>1</sub></code></em> = <em class="parameter"><code>v<sub>1</sub></code></em>; ...; <em class="parameter"><code>field<sub><em class="parameter"><code>n</code></em></sub></code></em> = <em class="parameter"><code>v<sub><em class="parameter"><code>n</code></em></sub></code></em> }</code> のように書き、 <em class="parameter"><code>v<sub><em class="parameter"><code>n</code></em></sub></code></em> がレコードのフィールド <em class="parameter"><code>field<sub><em class="parameter"><code>i</code></em></sub></code></em> に対応します（<em class="parameter"><code>i</code></em> = 1 ... <em class="parameter"><code>n</code></em>）。現在の実装では 2<sup>22</sup> - 1 要素（4194303 要素）のレコードまでサポートされています。
+    </p>
+  </div>
+  <div class="section" title="6.2.4&nbsp;配列"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2901"></a>6.2.4&nbsp;配列 </h3></div></div></div>
+    
+    <p>
+      配列は有限長で、長さを指定できる、同じ型の値の列です 。現在の実装では浮動小数点数の配列以外は 2<sup>22</sup> - 1 要素 （4194303 要素）の配列までサポートされています（要素が浮動小数点数の場合は 2097151 要素）。 64 ビットプラットフォームでは、全ての配列で長さ 2<sup>54</sup>-1 までです。
+    </p>
+  </div>
+  <div class="section" title="6.2.5&nbsp;バリアント値"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2906"></a>6.2.5&nbsp;バリアント値 </h3></div></div></div>
+    
+    <p>
+      バリアント値は定数構成子か、非定数構成子と値を組にしたもののいずれかです。定数構成子は <em class="parameter"><code>constr</code></em> のように書き、非定数構成子は <em class="parameter"><code>constr</code></em>(<em class="parameter"><code>v</code></em>) のように書きます（<em class="parameter"><code>v</code></em> は非定数構成子 <em class="parameter"><code>constr</code></em> の引数と呼ばれます）。
+    </p>
+    <p>
+      以下の定数は組み込みの定数構成子のように扱われます。 
+    </p>
+    <table id="d4e2915">
+      <tbody>
+        <tr><th>定数</th><th>構成子</th></tr>
+        <tr><td><code class="code">false</code></td><td>真理値の偽</td></tr>
+        <tr><td><code class="code">true</code></td><td>真理値の真</td></tr>
+        <tr><td><code class="code">()</code></td><td>unit 値</td></tr>
+        <tr><td><code class="code">[]</code></td><td>空リスト</td></tr>
+      </tbody>
+    </table>
+    <p>
+      現在の実装では 各バリアント型がもつ非定数構成子の数は最大 246 になっています。
+    </p>
+  </div>
+  <div class="section" title="6.2.6&nbsp;多相バリアント"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2937"></a>6.2.6&nbsp;多相バリアント </h3></div></div></div>
+    
+    <p>
+      多相バリアントはバリアント値の別の形です。あらかじめ定義されたバリアント型に属さず、特別な型付け規則に従います。多相バリアントも、`<a class="link" href="ch06s03.html#bnf--tag-name"><span class="bnf-non-terminal">tag-name</span></a> のように書かれる定数構成子か、`<a class="link" href="ch06s03.html#bnf--tag-name"><span class="bnf-non-terminal">tag-name</span></a>(<em class="parameter"><code>v</code></em>) のように書かれる非定数構成子のいずれかです。
+    </p>
+  </div>
+  <div class="section" title="6.2.7&nbsp;関数"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2945"></a>6.2.7&nbsp;関数 </h3></div></div></div>
+    
+    <p>
+      関数値は値から値への写像です。
+    </p>
+  </div>
+  <div class="section" title="6.2.8&nbsp;オブジェクト"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2948"></a>6.2.8&nbsp;オブジェクト </h3></div></div></div>
+    
+    <p>
+      オブジェクトは隠蔽された内部状態で構成され、インスタンス変数を記録したものとそれにアクセスし変更を加えるメソッド群です。オブジェクトの構成は、それを作ったトップレベルのクラスで記述されます。
+    </p>
+  </div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">6.1&nbsp;字句 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;6.3&nbsp;名前 </td></tr></table></div></body></html>

@@ -1,0 +1,301 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>6.10&nbsp;モジュール型</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch06.html" title="6.&nbsp;The Objective Caml language"><link rel="prev" href="ch06s09.html" title="6.9&nbsp;クラス"><link rel="next" href="ch06s11.html" title="6.11&nbsp;モジュール式"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.10&nbsp;モジュール型 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s09.html">前のページ</a>&nbsp;</td><th width="60%" align="center">6.&nbsp;The Objective Caml language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s11.html">次のページ</a></td></tr></table><hr></div><div class="section" title="6.10&nbsp;モジュール型"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e7316"></a>6.10&nbsp;モジュール型 </h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch06s10.html#d4e7488">6.10.1. 単純な型式 </a></span></dt><dt><span class="section"><a href="ch06s10.html#d4e7501">6.10.2. シグネチャ </a></span></dt><dt><span class="section"><a href="ch06s10.html#d4e7745">6.10.3. <code class="code">with</code> 演算子 </a></span></dt></dl></div>
+  
+  <p>
+    モジュール型はモジュールにおける型式で、モジュールの概形と型特性を規定します。
+    
+  </p>
+  <table id="d4e7319">
+    <tbody>
+      <tr>
+        <td rowspan="5" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--module-type"></a>module-type</span></td>
+        <td>::=</td>
+        <td><a class="link" href="ch06s03.html#bnf--modtype-path"><span class="bnf-non-terminal">modtype-path</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">sig</span> { <a class="link" href="ch06s10.html#bnf--specification"><span class="bnf-non-terminal">specification</span></a> [ <span class="bnf-terminal">;;</span> ] } <span class="bnf-terminal">end</span></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">functor</span> <span class="bnf-terminal">(</span> <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> <span class="bnf-terminal">)</span> <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> <span class="bnf-terminal">with</span> <a class="link" href="ch06s10.html#bnf--mod-constraint"><span class="bnf-non-terminal">mod-constraint</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s10.html#bnf--mod-constraint"><span class="bnf-non-terminal">mod-constraint</span></a> }</td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">(</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> <span class="bnf-terminal">)</span></td>
+      </tr>
+      <tr>
+        <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--mod-constraint"></a>mod-constraint</span></td>
+        <td>::=</td>
+        <td><span class="bnf-terminal">type</span> [ <a class="link" href="ch06s09.html#bnf--type-parameters"><span class="bnf-non-terminal">type-parameters</span></a> ] <a class="link" href="ch06s03.html#bnf--typeconstr-name"><span class="bnf-non-terminal">typeconstr-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">module</span> <a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s03.html#bnf--extended-module-path"><span class="bnf-non-terminal">extended-module-path</span></a></td>
+      </tr>
+      <tr>
+        <td rowspan="12" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--specification"></a>specification</span></td>
+        <td>::=</td>
+        <td><span class="bnf-terminal">val</span> <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">external</span> <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">=</span> <a class="link" href=""><span class="bnf-non-terminal">external-declaration</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s08.html#bnf--type-definition"><span class="bnf-non-terminal">type-definition</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">exception</span> <a class="link" href="ch06s08.html#bnf--constr-decl"><span class="bnf-non-terminal">constr-decl</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s09.html#bnf--class-specification"><span class="bnf-non-terminal">class-specification</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><a class="link" href="ch06s09.html#bnf--classtype-definition"><span class="bnf-non-terminal">classtype-definition</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">module</span> <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">module</span> <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> { <span class="bnf-terminal">(</span> <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> <span class="bnf-terminal">)</span> } <span class="bnf-terminal">:</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">module</span> <span class="bnf-terminal">type</span> <a class="link" href="ch06s03.html#bnf--modtype-name"><span class="bnf-non-terminal">modtype-name</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">module</span> <span class="bnf-terminal">type</span> <a class="link" href="ch06s03.html#bnf--modtype-name"><span class="bnf-non-terminal">modtype-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">open</span> <a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a></td>
+      </tr>
+      <tr>
+        <td>|</td>
+        <td><span class="bnf-terminal">include</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="section" title="6.10.1&nbsp;単純な型式"><div class="titlepage"><div><div><h3 class="title"><a name="d4e7488"></a>6.10.1&nbsp;単純な型式 </h3></div></div></div>
+    
+    <p>
+      式 <a class="link" href="ch06s03.html#bnf--modtype-path"><span class="bnf-non-terminal">modtype-path</span></a> は <a class="link" href="ch06s03.html#bnf--modtype-path"><span class="bnf-non-terminal">modtype-path</span></a> という名前に束縛されたモジュール型と等価です。
+      式 <span class="bnf-terminal">(</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> <span class="bnf-terminal">)</span> は <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> と同一の型を表します。
+      
+    </p>
+  </div>
+  <div class="section" title="6.10.2&nbsp;シグネチャ"><div class="titlepage"><div><div><h3 class="title"><a name="d4e7501"></a>6.10.2&nbsp;シグネチャ </h3></div></div></div>
+    
+    <p>
+      シグネチャはストラクチャの型仕様です。
+      シグネチャ <span class="bnf-terminal">sig</span> ... <span class="bnf-terminal">end</span> は値名、型名、例外、モジュール名、モジュール型名に対する仕様をまとめたものです。
+      ストラクチャがシグネチャに規定された名前（より多くの名前）に対する対する定義（実装）を提供し、その定義群がシグネチャで求められる型に適合する場合、そのストラクチャはシグネチャに適合します。
+      
+    </p>
+    <p>
+      Caml Light との互換性のため、シグネチャ中の各仕様の後には <code class="code">;;</code>
+      をつけることもできます。
+      <code class="code">;;</code> に特別な意味はありません。
+      
+    </p>
+    <div class="section" title="値仕様"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7509"></a>値仕様 </h4></div></div></div>
+      
+      <p>
+        シグネチャ中で、値に対する仕様は
+        <span class="bnf-terminal">val</span> <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> と書きます。
+        <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> は値の名前であり、 <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> はその値に期待される型です。
+        
+      </p>
+      <p>
+        <span class="bnf-terminal">external</span> <a class="link" href="ch06s03.html#bnf--value-name"><span class="bnf-non-terminal">value-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> <span class="bnf-terminal">=</span> <a class="link" href=""><span class="bnf-non-terminal">external-declaration</span></a> も同様ですが、その名前が <span class="bnf-terminal">external-declaration</span> で規定される外部関数として実装されることを要求します。
+        
+      </p>
+    </div>
+    <div class="section" title="型仕様"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7533"></a>型仕様 </h4></div></div></div>
+      
+      <p>
+        型に対する仕様は
+        <span class="bnf-terminal">type</span> <a class="link" href="ch06s08.html#bnf--typedef"><span class="bnf-non-terminal">typedef</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s08.html#bnf--typedef"><span class="bnf-non-terminal">typedef</span></a> } と書き、それぞれの定義は相互に再帰的な型の定義です。
+        
+      </p>
+      <p>
+        シグネチャ中の型定義には、型等式 <span class="bnf-terminal">=</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> や、型表現 <span class="bnf-terminal">=</span> <a class="link" href="ch06s08.html#bnf--constr-decl"><span class="bnf-non-terminal">constr-decl</span></a> ... や <span class="bnf-terminal">=</span> <span class="bnf-terminal">{</span> <a class="link" href="ch06s08.html#bnf--field-decl"><span class="bnf-non-terminal">field-decl</span></a> ... <span class="bnf-terminal">}</span> を指定することができます。
+        型名の実装は（型等式が指定された場合）型等式に指定された型に適合し、（型表現が指定された場合）指定された型表現と同じ表現でなければなりません。
+        逆に言えば、そのシグネチャの利用者は（それがもし与えられていれば）その型等式や型表現を信頼することができるということです。
+        より正確には次のよっつの場合があります。
+        
+      </p>
+      <div class="variablelist"><dl><dt><span class="term">
+            抽象型: 等式なし、表現なし
+            
+          </span></dt><dd>
+            <p>
+              シグネチャで抽象型と定義された名前は、マッチするストラクチャでは（同一の個数の型パラメータを持つ）任意の定義を実装することができます。
+              型の実際の実装はストラクチャの利用者には隠蔽されています。
+              特に、その型がバリアント型やレコード型として実装されていた場合、利用者は対応する構成子やフィールドにアクセスすることができません。
+              型略記として実装されていた場合、その型の名前と略記の右辺との等価性はストラクチャの利用者には隠蔽されています。
+              利用者にはその型は他のどのような型とも適合しない、新しい型が生成されたように見えます。
+              
+            </p>
+          </dd><dt><span class="term">
+            型略記: 等式 <span class="bnf-terminal">=</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a>、表現なし
+            
+          </span></dt><dd>
+            <p>
+              型名は <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> に適合する型として実装されなければなりません。
+              ストラクチャの利用者にはその型が <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> に適合することがわかります。
+              
+            </p>
+          </dd><dt><span class="term">
+            新規のバリアント型、レコード型: 等式なし、表現あり
+            
+          </span></dt><dd>
+            <p>
+              型名は指定された構成子やフィールドと完全に一致するバリアント型やレコード型として実装されなければなりません。
+              ストラクチャの利用者は構成子やフィールドにアクセスすることができ、それらを使って値を作ったり値にアクセスしたりできます。
+              ただし、利用者にはその型は他のどのような型とも適合しない、新しい型が生成されたように見えます。
+              
+            </p>
+          </dd><dt><span class="term">
+            再 export されたバリアント型、レコード型: 等式あり、表現あり
+            
+          </span></dt><dd>
+            <p>
+              これは前ふたつの場合が組み合わさったもので、型の表現が利用者から見え、新たな型は生成されません。
+              
+            </p>
+          </dd></dl></div>
+    </div>
+    <div class="section" title="例外仕様"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7578"></a>例外仕様 </h4></div></div></div>
+      
+      <p>
+        シグネチャ中の、 <span class="bnf-terminal">exception</span> <a class="link" href="ch06s08.html#bnf--constr-decl"><span class="bnf-non-terminal">constr-decl</span></a> という仕様は、それにマッチするストラクチャがこの定義で指定された名前と引数を持つ例外を提供し、その例外がストラクチャの利用者全員から利用可能あることを要求します。
+        
+      </p>
+    </div>
+    <div class="section" title="クラス仕様"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7584"></a>クラス仕様 </h4></div></div></div>
+      
+      <p>
+        シグネチャ中には、 <span class="bnf-terminal">class</span> <a class="link" href="ch06s09.html#bnf--class-spec"><span class="bnf-non-terminal">class-spec</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s09.html#bnf--class-spec"><span class="bnf-non-terminal">class-spec</span></a> } として、相互再帰的なクラス名の定義を並べ、複数のクラスの仕様を書くことができます。
+        
+      </p>
+      <p>
+        クラスの仕様については、<a class="xref" href="ch06s09.html#sec:classspec" title="6.9.4&nbsp;クラス仕様"> 6.9.4 節「クラス仕様 」</a>により正確に説明されています。
+        
+      </p>
+    </div>
+    <div class="section" title="クラス型仕様"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7595"></a>クラス型仕様 </h4></div></div></div>
+      
+      <p>
+        シグネチャ中に、
+        <span class="bnf-terminal">class</span> <span class="bnf-terminal">type</span> <a class="link" href="ch06s09.html#bnf--classtype-def"><span class="bnf-non-terminal">classtype-def</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s09.html#bnf--classtype-def"><span class="bnf-non-terminal">classtype-def</span></a> } として、相互再帰的なクラス型の名前を並べることで、複数のクラス型に対する仕様を書くことができます。
+        クラス型の仕様については<a class="xref" href="ch06s09.html#sec:classtypedef" title="6.9.5&nbsp;クラス型定義"> 6.9.5 節「クラス型定義 」</a>により詳しく説明されています。
+        
+      </p>
+    </div>
+    <div class="section" title="モジュール仕様"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7606"></a>モジュール仕様 </h4></div></div></div>
+      
+      <p>
+        シグネチャ中でモジュール要素の仕様は <span class="bnf-terminal">module</span> <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> と書きます。
+        <span class="bnf-terminal">module-name</span> はモジュール要素の名前で、 <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> はそれに期待される型です。
+        モジュールは任意の深さに入れ子にすることができます。
+        特に、ファンクタはストラクチャの構成要素となることができ、シグネチャの構成要素のファンクタ型となることができます。
+        
+      </p>
+      <p>
+        
+        ファンクタであるようなモジュール構成要素を書くのに、
+      </p><div class="literallayout"><p><span class="bnf-terminal">module</span>&nbsp;<a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a>&nbsp;<span class="bnf-terminal">:</span>&nbsp;<span class="bnf-terminal">functor</span>&nbsp;<span class="bnf-terminal">(</span>&nbsp;<a class="link" href=""><span class="bnf-non-terminal">name</span></a><sub>1</sub>&nbsp;<span class="bnf-terminal">:</span>&nbsp;<a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><sub>1</sub>&nbsp;<span class="bnf-terminal">)</span>&nbsp;<span class="bnf-terminal">-&gt;</span>&nbsp;...&nbsp;<span class="bnf-terminal">-&gt;</span>&nbsp;<a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a></p></div><p>
+      と書く代わりに次のように書くことができます。
+      </p><div class="literallayout"><p><span class="bnf-terminal">module</span>&nbsp;<a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a>&nbsp;<span class="bnf-terminal">(</span>&nbsp;<a class="link" href=""><span class="bnf-non-terminal">name</span></a><sub>1</sub>&nbsp;<span class="bnf-terminal">:</span>&nbsp;<a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><sub>1</sub>&nbsp;<span class="bnf-terminal">)</span>&nbsp;...&nbsp;<span class="bnf-terminal">(</span>&nbsp;<a class="link" href=""><span class="bnf-non-terminal">name</span></a><sub><em class="parameter"><code>n</code></em></sub>&nbsp;<span class="bnf-terminal">:</span>&nbsp;<a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><sub><em class="parameter"><code>n</code></em></sub>&nbsp;<span class="bnf-terminal">)</span>&nbsp;<span class="bnf-terminal">:</span>&nbsp;<a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a></p></div><p>
+      </p>
+    </div>
+    <div class="section" title="モジュール型仕様"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7665"></a>モジュール型仕様 </h4></div></div></div>
+      
+      <p>
+        シグネチャのモジュール型要素は、マニフェストモジュール型か抽象モジュール型として書くことができます。
+        
+      </p>
+      <p>
+        抽象モジュール型仕様
+        <span class="bnf-terminal">module</span> <span class="bnf-terminal">type</span> <a class="link" href="ch06s03.html#bnf--modtype-name"><span class="bnf-non-terminal">modtype-name</span></a>
+        では、 <a class="link" href="ch06s03.html#bnf--modtype-name"><span class="bnf-non-terminal">modtype-name</span></a> がシグネチャにマッチする任意のモジュールとして実装することができますが、そのモジュール型の実装はシグネチャの利用者に隠蔽されます。
+        
+      </p>
+      <p>
+        マニフェストモジュール型仕様
+        <span class="bnf-terminal">module</span> <span class="bnf-terminal">type</span> <a class="link" href="ch06s03.html#bnf--modtype-name"><span class="bnf-non-terminal">modtype-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> では対応するシグネチャ中で <a class="link" href="ch06s03.html#bnf--modtype-name"><span class="bnf-non-terminal">modtype-name</span></a> がモジュール型 <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> により実装されることを要求し、 <a class="link" href="ch06s03.html#bnf--modtype-name"><span class="bnf-non-terminal">modtype-name</span></a> と <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> の等価性がシグネチャの利用者にわかるようになっいています。
+        
+      </p>
+    </div>
+    <div class="section" title="モジュールパスの open"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7691"></a>モジュールパスの <code class="code">open</code> </h4></div></div></div>
+      
+      <p>
+        シグネチャ中の式 <span class="bnf-terminal">open</span> <a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> はどのような要素も規定しません。
+        この式は単にシグネチャ内の後続する要素の構文解析に影響するだけで、 <a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> の表すモジュールの構成要素がパス経由の <a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> ではなく、単純名の <a class="link" href=""><span class="bnf-non-terminal">name</span></a> でアクセスできるようになります。
+        <code class="code">open</code> のスコープはシグネチャ式の終端で終了します。
+        
+      </p>
+    </div>
+    <div class="section" title="シグネチャの include"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7705"></a>シグネチャの <code class="code">include</code> </h4></div></div></div>
+      
+      <p>
+        シグネチャ中の式 <span class="bnf-terminal">include</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> は <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> の表すシグネチャを字面上で取り込みます。
+        これは、 <code class="code">include</code> されたシグネチャの要素が <code class="code">include</code> のあった場所にそのままコピーされたような振舞いになります。
+        <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> は、ファンクタではなく、シグネチャを参照するモジュール型でなければなりません。
+        
+      </p>
+    </div>
+    <div class="section" title="ファンクタ型"><div class="titlepage"><div><div><h4 class="title"><a name="d4e7718"></a>ファンクタ型 </h4></div></div></div>
+      
+      <p>
+        モジュール型式
+        <span class="bnf-terminal">functor</span> <span class="bnf-terminal">(</span> <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><sub>1</sub> <span class="bnf-terminal">)</span> <span class="bnf-terminal">-&gt;</span> <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><sub>2</sub> はファンクタ（モジュールからモジュールへの関数）の型であり、このファンクタは型 <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><sub>1</sub> のモジュールを引数として取り、 <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><sub>2</sub> を結果として返します。
+        モジュール型 <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a><sub>2</sub> では <a class="link" href="ch06s03.html#bnf--module-name"><span class="bnf-non-terminal">module-name</span></a> を使ってファンクタの実引数の構成要素にアクセスすることができます。
+        ファンクタの取る引数の型には何の制約もありません。
+        特に、ファンクタは別のファンクタを引数として取ることができます（「高階」ファンクタ）。
+        
+      </p>
+    </div>
+  </div>
+  <div class="section" title="6.10.3&nbsp;with 演算子"><div class="titlepage"><div><div><h3 class="title"><a name="d4e7745"></a>6.10.3&nbsp;<code class="code">with</code> 演算子 </h3></div></div></div>
+    
+    <p>
+      <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> がシグネチャをあらわすとき、式 <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> <span class="bnf-terminal">with</span> <a class="link" href="ch06s10.html#bnf--mod-constraint"><span class="bnf-non-terminal">mod-constraint</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s10.html#bnf--mod-constraint"><span class="bnf-non-terminal">mod-constraint</span></a> } は、 <a class="link" href="ch06s10.html#bnf--module-type"><span class="bnf-non-terminal">module-type</span></a> に予約語 <code class="code">with</code> に続く制約で指定した型仕様に対して型等式を追加したシグネチャを表します。
+      <span class="bnf-terminal">type</span> [<a class="link" href="ch06s09.html#bnf--type-parameters"><span class="bnf-non-terminal">type-parameters</span></a>] <a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a> = <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> という制約は、制約の追加されるシグネチャの <a class="link" href="ch06s03.html#bnf--typeconstr"><span class="bnf-non-terminal">typeconstr</span></a> という型要素に <span class="bnf-terminal">=</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> という型等式を追加します。
+      <span class="bnf-terminal">module</span> <a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s03.html#bnf--extended-module-path"><span class="bnf-non-terminal">extended-module-path</span></a> という制約は、 <a class="link" href="ch06s03.html#bnf--module-path"><span class="bnf-non-terminal">module-path</span></a> で表される下位ストラクチャのすべての型要素に型等式を追加し、それらの型要素が <a class="link" href="ch06s03.html#bnf--extended-module-path"><span class="bnf-non-terminal">extended-module-path</span></a> で表されるストラクチャ内の対応する型要素と等しくなるようにします。
+      
+    </p>
+    <p>
+      例えば、モジュール型名 <code class="code">S</code> が次のシグネチャに束縛されているとき、
+      
+      </p><pre class="programlisting">sig type t module M: (sig type u end) end</pre><p>
+      <code class="code">S with type t = int</code> は次のシグネチャを表します。
+      
+      </p><pre class="programlisting">sig type t=int module M: (sig type u end) end</pre><p>
+      そして、 <code class="code">S with module M = N</code> は次のシグネチャを表します。
+      
+      </p><pre class="programlisting">sig type t module M: (sig type u=N.u end) end</pre><p>
+      型 <code class="code">S</code> の引数をふたつ取り、その型要素 <code class="code">t</code> を共有するファンクタは次のように書けます。
+      
+      </p><pre class="programlisting">functor (A: S) (B: S with type t = A.t) ...</pre><p>
+      制約は左から右へ追加されます。
+      制約がすべて適用された結果のシグネチャは、制約を適用する前のシグネチャの部分型にならなければなりません。
+      したがって、 <code class="code">with</code> 演算子はシグネチャの型要素に情報を追加することだけができ、情報を取り除くことはできないのです。
+      
+    </p>
+  </div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s09.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s11.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">6.9&nbsp;クラス &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;6.11&nbsp;モジュール式 </td></tr></table></div></body></html>

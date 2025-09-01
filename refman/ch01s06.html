@@ -1,0 +1,70 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>1.6&nbsp;例外</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch01.html" title="1.&nbsp;The core language"><link rel="prev" href="ch01s05.html" title="1.5&nbsp;命令型の機能"><link rel="next" href="ch01s07.html" title="1.7&nbsp;数式の記号処理"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">1.6&nbsp;例外 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01s05.html">前のページ</a>&nbsp;</td><th width="60%" align="center">1.&nbsp;The core language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch01s07.html">次のページ</a></td></tr></table><hr></div><div class="section" title="1.6&nbsp;例外"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Exceptions"></a>1.6&nbsp;例外 </h2></div></div></div>
+    
+    <p>
+      Caml では例外的状況を通知し、処理するために例外機構が提供されています。
+      例外は汎用の大域制御構造として使うこともできます。
+      
+      例外は <code class="code">exception</code> で宣言され、<code class="code">raise</code> で通知します。例として、リストの先頭を返す関数を示します。この関数は空リストを渡されたとき例外を通知します。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>exception Empty_list;;</code></strong>
+<code class="computeroutput">exception Empty_list</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let head l =
+   match l with
+     [] -&gt; raise Empty_list
+   | hd :: tl -&gt; hd;;</code></strong>
+<code class="computeroutput">val head : 'a list -&gt; 'a = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>head [1;2];;</code></strong>
+<code class="computeroutput">- : int = 1</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>head [];;</code></strong>
+<code class="computeroutput">Exception: Empty_list.</code>
+    </pre>
+    <p>
+      標準ライブラリの関数は正常に処理を完了できなかったとき例外を通知します。たとえば <code class="code">List.assoc</code> は、(key, data) というペアのリストから、与えられたキーに該当するデータを返す関数ですが、キーがリストから見つからなかったとき、定義済みの例外 <code class="code">Not_found</code> を発生させます。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>List.assoc 1 [(0, "zero"); (1, "one")];;</code></strong>
+<code class="computeroutput">- : string = "one"</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>List.assoc 2 [(0, "zero"); (1, "one")];;</code></strong>
+<code class="computeroutput">Exception: Not_found.</code>
+    </pre>
+    <p>
+      例外は <code class="code">try</code>...<code class="code">with</code> 構文で捕捉することが出来ます。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let name_of_binary_digit digit =
+   try
+     List.assoc digit [0, "zero"; 1, "one"]
+   with Not_found -&gt;
+     "not a binary digit";;</code></strong>
+<code class="computeroutput">val name_of_binary_digit : int -&gt; string = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>name_of_binary_digit 0;;</code></strong>
+<code class="computeroutput">- : string = "zero"</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>name_of_binary_digit (-1);;</code></strong>
+<code class="computeroutput">- : string = "not a binary digit"</code>
+    </pre>
+    <p>
+      <code class="code">with</code> の部分は、実際には例外の値に対するパターンマッチングです。したがって 1 つの <code class="code">try</code>...<code class="code">with</code> で複数の例外を捕捉することが出来ます。さらに、すべての例外を捕捉して終了処理をし、例外を再度発生させることで終了処理をすることができます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let temporarily_set_reference ref newval funct =
+   let oldval = !ref in
+   try
+     ref := newval;
+     let res = funct () in
+     ref := oldval;
+     res
+   with x -&gt;
+     ref := oldval;
+     raise x;;</code></strong>
+<code class="computeroutput">val temporarily_set_reference : 'a ref -&gt; 'a -&gt; (unit -&gt; 'b) -&gt; 'b = &lt;fun&gt;</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch01s05.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch01.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch01s07.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">1.5&nbsp;命令型の機能 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;1.7&nbsp;数式の記号処理 </td></tr></table></div></body></html>

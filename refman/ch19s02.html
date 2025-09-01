@@ -1,0 +1,153 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>19.2&nbsp;組み込みの型と定義済みの例外</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch19.html" title="19.&nbsp;コアライブラリ"><link rel="prev" href="ch19s01.html" title="19.1&nbsp;Conventions"><link rel="next" href="ch19s03.html" title="19.3&nbsp;Pervasives モジュール: 初期状態で open されているモジュール"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">19.2&nbsp;組み込みの型と定義済みの例外</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch19s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">19.&nbsp;コアライブラリ</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch19s03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="19.2&nbsp;組み込みの型と定義済みの例外"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Built-in types and predefined exceptions"></a>19.2&nbsp;組み込みの型と定義済みの例外</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch19s02.html#sec:Built-in types">19.2.1. 組み込みの型</a></span></dt><dt><span class="section"><a href="ch19s02.html#sec:Predefined exceptions">19.2.2. 定義済みの例外</a></span></dt></dl></div>
+    
+    <p>
+      以下の組み込みの型と定義済み例外はコンパイル環境で常に定義されていますが、これらはいかなるモジュールの要素でもありません。したがって、これらはここに挙げた名前でしか参照できません。
+      
+    </p>
+    <div class="section" title="19.2.1&nbsp;組み込みの型"><div class="titlepage"><div><div><h3 class="title"><a name="sec:Built-in types"></a>19.2.1&nbsp;組み込みの型</h3></div></div></div>
+      
+      <pre class="programlisting">type int</pre>
+      <p>
+        整数の型。
+        
+      </p>
+      <pre class="programlisting">type char</pre>
+      <p>
+        文字型。
+        
+      </p>
+      <pre class="programlisting">type string</pre>
+      <p>
+        文字列の型。
+        
+      </p>
+      <pre class="programlisting">type float</pre>
+      <p>
+        浮動小数点数型。
+        
+      </p>
+      <pre class="programlisting">type bool = false | true</pre>
+      <p>
+        真偽値の型。
+        
+      </p>
+      <pre class="programlisting">type unit = ()</pre>
+      <p>
+        ユニット値の型。
+        
+      </p>
+      <pre class="programlisting">type exn</pre>
+      <p>
+        例外値の型。
+        
+      </p>
+      <pre class="programlisting">type 'a array</pre>
+      <p>
+        <code class="code">'a</code> 型の値を要素とする配列の型。
+        
+      </p>
+      <pre class="programlisting">type 'a list = [] | :: of 'a * 'a list</pre>
+      <p>
+        <code class="code">'a</code> 型の値を要素とするリストの型。
+        
+      </p>
+      <pre class="programlisting">type 'a option = None | Some of 'a</pre>
+      <p>
+        <code class="code">'a</code> 型の値のオプション型。
+        
+      </p>
+      <pre class="programlisting">type int32</pre>
+      <p>
+        符号付き 32 ビット整数の型。 <a href="./libref/Int32.html" class="libref">Int32</a> モジュールを参照してください。
+        
+      </p>
+      <pre class="programlisting">type int64</pre>
+      <p>
+        符号付き 64 ビットの整数型。 <a href="./libref/Int64.html" class="libref">Int64</a> モジュールを参照してください。
+        
+      </p>
+      <pre class="programlisting">type nativeint</pre>
+      <p>
+        符号付きのプラットフォームネイティブな整数の型（32 ビットプロセッサでは 32 ビット、 64 ビットプロセッサでは 64 ビットになります)。 <a href="./libref/Nativeint.html" class="libref">Nativeint</a> モジュールを参照してください。
+        
+      </p>
+      <pre class="programlisting">type ('a, 'b, 'c, 'd) format4</pre>
+      <p>
+        書式指定文字列の型。<code class="code">'a</code> は書式指定のパラメータの型、<code class="code">'d</code> は <code class="function">printf</code> 形式の関数の戻り値の型、<code class="code">'b</code> は <code class="code">%a</code> と <code class="code">%t</code> の表示関数に第一引数の型（<a href="./libref/Printf.html" class="libref">Printf</a> モジュールを参照してください）、<code class="code">'c</code> はこれらの表示関数の戻り値の型です。
+        
+      </p>
+      <pre class="programlisting">type 'a lazy_t</pre>
+      <p>
+        この型は <a href="./libref/Lazy.html" class="libref">Lazy</a> モジュールを実装するために使われています。この型を直接使わないでください。
+        
+      </p>
+    </div>
+    <div class="section" title="19.2.2&nbsp;定義済みの例外"><div class="titlepage"><div><div><h3 class="title"><a name="sec:Predefined exceptions"></a>19.2.2&nbsp;定義済みの例外</h3></div></div></div>
+      
+      <pre class="programlisting">exception Match_failure of (string * int * int)</pre>
+      <p>
+        パターンマッチでマッチするパターンが存在しなかった場合に発生する例外です。引数はソースコード中のパターンマッチの位置（ファイル名、行番号、桁数）です 。
+        
+      </p>
+      <pre class="programlisting">exception Assert_failure of (string * int * int)</pre>
+      <p>
+        表明に失敗したとき発生する例外です。引数はソースコード中での <code class="code">assert</code> キーワードの位置（ファイル名、行番号、桁数）です。
+        
+      </p>
+      <pre class="programlisting">exception Invalid_argument of string</pre>
+      <p>
+        与えられた引数が意味を成さないことを示すためにライブラリ関数が発生させる例外です。
+        
+      </p>
+      <pre class="programlisting">exception Failure of string</pre>
+      <p>
+        その関数が与えられた引数に対して未定義であることを示すためにライブラリ関数が発生させる例外です。
+        
+      </p>
+      <pre class="programlisting">exception Not_found</pre>
+      <p>
+        所望のオブジェクトが見つからないときに探索関数が発生させる例外です。
+        
+      </p>
+      <pre class="programlisting">exception Out_of_memory</pre>
+      <p>
+        計算を完了するのに十分なメモリがないときにガーベッジコレクタが発生させる例外です。
+        
+      </p>
+      <pre class="programlisting">exception Stack_overflow</pre>
+      <p>
+        バイトコードインタプリタの評価スタックが最大サイズに到達した場合に発生する例外です。
+        これは、多くの場合ユーザープログラムで無限もしくは極端に深い再帰が発生したことを意味します（ネイティブコードコンパイラでは完全には実装されていません。
+        <a class="xref" href="ch11s05.html" title="11.5&nbsp;Compatibility with the bytecode compiler"> 11.5 節「Compatibility with the bytecode compiler」</a> を参照してください）
+        
+      </p>
+      <pre class="programlisting">exception Sys_error of string</pre>
+      <p>
+        OS のエラーが発生したことを通知するために入出力関数が発生させる例外です。
+        
+      </p>
+      <pre class="programlisting">exception End_of_file</pre>
+      <p>
+        ファイル終端に到達したことを通知するために入力関数が発生させる例外です。
+        
+      </p>
+      <pre class="programlisting">exception Division_by_zero</pre>
+      <p>
+        整数の除算や剰余の計算で第二引数が 0 の場合に発生する例外です。
+        
+      </p>
+      <pre class="programlisting">exception Sys_blocked_io</pre>
+      <p>
+        <code class="code">Sys_error</code> の特別な場合で、非同期入出力の際に利用できる入出力チャネルがない場合に発生します。
+        
+      </p>
+      <pre class="programlisting">exception Undefined_recursive_module of (string * int * int)</pre>
+      <p>
+        ill-founded な再帰モジュール定義を評価したときに発生する例外です（<a class="xref" href="ch07s08.html" title="7.8&nbsp;再帰モジュール"> 7.8 節「再帰モジュール」</a> を参照してください）。
+        引数はソースコード中でのその定義の位置（ファイル名、行番号、桁数）です。
+        
+      </p>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch19s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch19.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch19s03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">19.1&nbsp;Conventions&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;19.3&nbsp;Pervasives モジュール: 初期状態で <code class="code">open</code> されているモジュール</td></tr></table></div></body></html>

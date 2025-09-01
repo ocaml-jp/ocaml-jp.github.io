@@ -1,0 +1,42 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>7.15&nbsp;モジュールの型の復元</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch07.html" title="7.&nbsp;Language extensions"><link rel="prev" href="ch07s14.html" title="7.14&nbsp;第一級のモジュール"><link rel="next" href="ch07s16.html" title="7.16&nbsp;シグネチャ内での代入"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.15&nbsp;モジュールの型の復元</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s14.html">前のページ</a>&nbsp;</td><th width="60%" align="center">7.&nbsp;Language extensions</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s16.html">次のページ</a></td></tr></table><hr></div><div class="section" title="7.15&nbsp;モジュールの型の復元"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Recovering the type of a module"></a>7.15&nbsp;モジュールの型の復元</h2></div></div></div>
+    
+    <p>（OCaml 3.12 〜）</p>
+    <div class="syntax">
+      <table id="d4e9311">
+        <tbody>
+          <tr>
+            <td rowspan="2" valign="baseline"><a class="bnf-non-terminal" href="ch06s10.html#bnf--module-type">module-type</a></td>
+            <td><span class="meta">::=</span></td>
+            <td><span class="meta">...</span></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>module type of <a class="bnf-non-terminal" href="ch06s11.html#bnf--module-expr">module-expr</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      <code class="syntax">module type of <a class="bnf-non-terminal" href="ch06s11.html#bnf--module-expr">module-expr</a></code> 構文は、モジュール式 <a class="bnf-non-terminal" href="ch06s11.html#bnf--module-expr">module-expr</a> について推論されたモジュール型（シグネチャないしはファンクタ型）に展開されます。
+    </p>
+    <p>
+      典型的には、次の例のように、シグネチャの <code class="syntax">include</code> とともに使い、既存のモジュールのシグネチャに展開させます。
+    </p>
+    <pre class="programlisting">
+module type MYHASH = sig
+  include module type of Hashtbl
+  val replace: ('a, 'b) t -&gt; 'a -&gt; 'b -&gt; unit
+end
+    </pre>
+    <p>
+      シグネチャ <code class="code">MYHASH</code> はモジュール <code class="code">Hashtbl</code> のすべてのフィールドに加え、新たなフィールドとして <code class="code">replace</code> を要素とします。このシグネチャに対応する実装は、ストラクチャの <code class="syntax">include</code> を使って簡単に実現することができます。
+    </p>
+    <pre class="programlisting">
+module MyHash : MYHASH = struct
+  include Hashtbl
+  let replace t k v = remove t k; add t k v
+end
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s14.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s16.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">7.14&nbsp;第一級のモジュール&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;7.16&nbsp;シグネチャ内での代入</td></tr></table></div></body></html>

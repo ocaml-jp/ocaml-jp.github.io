@@ -1,0 +1,49 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>7.13&nbsp;型変数の命名</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch07.html" title="7.&nbsp;Language extensions"><link rel="prev" href="ch07s12.html" title="7.12&nbsp;多相型アノテーション"><link rel="next" href="ch07s14.html" title="7.14&nbsp;第一級のモジュール"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.13&nbsp;型変数の命名</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s12.html">前のページ</a>&nbsp;</td><th width="60%" align="center">7.&nbsp;Language extensions</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s14.html">次のページ</a></td></tr></table><hr></div><div class="section" title="7.13&nbsp;型変数の命名"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Explicit naming of type variables"></a>7.13&nbsp;型変数の命名</h2></div></div></div>
+    
+    <p>（OCaml 3.12 〜）</p>
+    <div class="syntax">
+      <table id="d4e9127">
+        <tbody>
+          <tr>
+            <td rowspan="2" valign="baseline"><a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a></td>
+            <td><span class="meta">::=</span></td>
+            <td><span class="meta">...</span></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>( type <a class="bnf-non-terminal" href="ch06s03.html#bnf--typeconstr-name">typeconstr-name</a> )</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      式 <code class="syntax">fun ( type <a class="bnf-non-terminal" href="ch06s03.html#bnf--typeconstr-name">typeconstr-name</a> ) -&gt; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></code> は <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> のスコープに <a class="bnf-non-terminal" href="ch06s03.html#bnf--typeconstr-name">typeconstr-name</a> という型構成子を導入します。この構成子はスコープ内では抽象として扱われますが、それ以降では新しい型変数に置き換えられます。構文とは対照的に <code class="syntax">fun ( type <a class="bnf-non-terminal" href="ch06s03.html#bnf--typeconstr-name">typeconstr-name</a> ) -&gt; <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></code> 自体は、通常の抽象とは異なり、 <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> の評価を中断しません。この構文は、一般的な用法であるところの、関数の宣言の文脈に合うように選ばれました。次のように、通常の関数の引数と疑似型パラメータを自由は自由に混ぜることができます。
+    </p>
+    <pre class="programlisting">let f = fun (type t) (foo : t list) -&gt; ...</pre>
+    <p>
+      関数宣言の代替構文でも使うことができます。
+    </p>
+    <pre class="programlisting">let f (type t) (foo : t list) = ...</pre>
+    <p>
+      この構文で導入される型構成子は、型変数を使うことのできない場所でも使うことができます。例えば、多相関数内の局所モジュールで例外を定義するのに使えます。
+    </p>
+    <pre class="programlisting">
+let f (type t) () =
+  let module M = struct exception E of t end in
+  (fun x -&gt; M.E x), (function M.E x -&gt; Some x | _ -&gt; None)
+    </pre>
+    <p>
+      別の例を挙げます。
+    </p>
+    <pre class="programlisting">
+let sort_uniq (type s) (cmp : s -&gt; s -&gt; int) =
+  let module S = Set.Make(struct type t = s let compare = cmp end) in
+  fun l -&gt;
+    S.elements (List.fold_right S.add l S.empty)
+    </pre>
+    <p>
+      この構文は、導入した型変数を多相的にしませんが、必要であれば、多相型アノテーションと組合せて使うこともできます。これは第一級のモジュールを使うときに非常に便利です。
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s12.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s14.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">7.12&nbsp;多相型アノテーション&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;7.14&nbsp;第一級のモジュール</td></tr></table></div></body></html>

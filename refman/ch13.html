@@ -1,0 +1,20 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>13.&nbsp;依存関係生成器（ocamldep）</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="pt03.html" title="パート&nbsp;III.&nbsp;The Objective Caml tools"><link rel="prev" href="ch12s07.html" title="12.7&nbsp;Common errors"><link rel="next" href="ch13s01.html" title="13.1&nbsp;Options"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">13.&nbsp;依存関係生成器（<span class="command"><strong>ocamldep</strong></span>）</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch12s07.html">前のページ</a>&nbsp;</td><th width="60%" align="center">パート&nbsp;III.&nbsp;The Objective Caml tools</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch13s01.html">次のページ</a></td></tr></table><hr></div><div class="chapter" title="13.&nbsp;依存関係生成器（ocamldep）"><div class="titlepage"><div><div><h2 class="title"><a name="d4e11891"></a>13.&nbsp;依存関係生成器（<span class="command"><strong>ocamldep</strong></span>）</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch13s01.html">13.1. Options</a></span></dt><dt><span class="section"><a href="ch13s02.html">13.2. A typical Makefile</a></span></dt></dl></div>
+  
+  <p>
+    ocamldep コマンドは Objective Caml のソース群をスキャンして他のコンパイルユニットへの参照 (依存関係) を探します。依存関係の出力は make コマンドの形式で、これを利用すると make が正しい順番でソースファイルをコンパイルでき、ソースファイルを一部変更したとき必要なところだけ再コンパイルできるようになります。
+  </p>
+  <p>
+    普通の使い方は以下のようになります。:
+  </p>
+  <pre class="programlisting">ocamldep options *.mli *.ml &gt; .depend</pre>
+  <p>
+    <code class="filename">*.mli</code> <code class="filename">*.ml</code> はカレントディレクトリの中のソースファイルすべてを表し、依存関係は <code class="filename">.depend</code> ファイルに保存されます (<code class="filename">Makefile</code> と関連したことは下の方を見てください) 。
+  </p>
+  <p>
+    生成された依存関係はバイトコードコンパイラ ocamlc でもネイティブコードコンパイラ ocamlopt でも使えます。
+  </p>
+  
+  
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch12s07.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch13s01.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">12.7&nbsp;Common errors&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;13.1&nbsp;Options</td></tr></table></div></body></html>

@@ -1,0 +1,42 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>1.1&nbsp;基本</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch01.html" title="1.&nbsp;The core language"><link rel="prev" href="ch01.html" title="1.&nbsp;The core language"><link rel="next" href="ch01s02.html" title="1.2&nbsp;データ型"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">1.1&nbsp;基本 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">1.&nbsp;The core language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch01s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="1.1&nbsp;基本"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Basics"></a>1.1&nbsp;基本 </h2></div></div></div>
+    
+    <p>
+      ここでは、OCaml の対話式システムを使用して Caml の概要を説明します。Unix シェルでは <span class="command"><strong>ocaml</strong></span> で起動します。Windows では <span class="command"><strong>OCamlwin.exe</strong></span> で起動します。ユーザの入力には行頭に <code class="code">#</code> をつけて、システムの返答には行頭に <code class="code">#</code> をつけずに表記します。
+    </p>
+    <p>
+      対話式システムでは、ユーザの入力文が <code class="code">;;</code> で区切られます。システムはその入力文をその場でコンパイルし、実行し、評価の結果を表示します。文は単純な式か、識別子の <code class="code">let</code> 定義式 (値か関数) です。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>1+2*3;;</code></strong>
+<code class="computeroutput">- : int = 7</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let pi = 4.0 *. atan 1.0;;</code></strong>
+<code class="computeroutput">val pi : float = 3.14159265359</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let square x = x *. x;;</code></strong>
+<code class="computeroutput">val square : float -&gt; float = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>square(sin pi) +. square(cos pi);;</code></strong>
+<code class="computeroutput">- : float = 1.</code>
+    </pre>
+    <p>
+      Caml システムはそれぞれの文に対して値と型の両方を計算するので、関数の引数であっても、明示的な型の宣言は必要ありません。システムが引数の扱われ方からその引数の型を推論します。整数と浮動小数点数は異なる型なので、演算子も異なることに注意してください。<code class="code">+</code> と <code class="code">*</code> は整数同士を計算して整数を返し、<code class="code">+.</code> と <code class="code">*.</code> は浮動小数点数同士を計算して浮動小数点数を返します。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>1.0 * 2;;</code></strong>
+<code class="computeroutput">This expression has type float but is here used with type int</code>
+    </pre>
+    <p>
+      再帰的な関数は <code class="code">let rec</code> で定義します。 
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let rec fib n =
+  if n &lt; 2 then 1 else fib(n-1) + fib(n-2);;</code></strong>
+<code class="computeroutput">val fib : int -&gt; int = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>fib 10;;</code></strong>
+<code class="computeroutput">- : int = 89</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch01.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch01s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">1.&nbsp;The core language&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;1.2&nbsp;データ型 </td></tr></table></div></body></html>

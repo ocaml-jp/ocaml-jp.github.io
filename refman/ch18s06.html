@@ -1,0 +1,167 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>18.6&nbsp;A complete example</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch18.html" title="18.&nbsp;C と Objective Caml のインタフェース"><link rel="prev" href="ch18s05.html" title="18.5&nbsp;Living in harmony with the garbage collector"><link rel="next" href="ch18s07.html" title="18.7&nbsp;Advanced topic: callbacks from C to Caml"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">18.6&nbsp;A complete example</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch18s05.html">前のページ</a>&nbsp;</td><th width="60%" align="center">18.&nbsp;C と Objective Caml のインタフェース</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch18s07.html">次のページ</a></td></tr></table><hr></div><div class="section" title="18.6&nbsp;A complete example"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e13701"></a>18.6&nbsp;A complete example</h2></div></div></div>
+    
+    <p>
+      This section outlines how the functions from the Unix curses library can be
+      made available to Objective Caml programs. First of all, here is the interface
+      curses.mli that declares the curses primitives and data types: 
+    </p>
+    <pre class="programlisting">
+type window                   (* The type "window" remains abstract *)
+external initscr: unit -&gt; window = "curses_initscr"
+external endwin: unit -&gt; unit = "curses_endwin"
+external refresh: unit -&gt; unit = "curses_refresh"
+external wrefresh : window -&gt; unit = "curses_wrefresh"
+external newwin: int -&gt; int -&gt; int -&gt; int -&gt; window = "curses_newwin"
+external addch: char -&gt; unit = "curses_addch"
+external mvwaddch: window -&gt; int -&gt; int -&gt; char -&gt; unit = "curses_mvwaddch"
+external addstr: string -&gt; unit = "curses_addstr"
+external mvwaddstr: window -&gt; int -&gt; int -&gt; string -&gt; unit = "curses_mvwaddstr"
+
+(* lots more omitted *)
+</pre>
+    <p>
+      To compile this interface: 
+    </p>
+    <pre class="programlisting">
+ocamlc -c curses.mli
+</pre>
+    <p>
+      To implement these functions, we just have to provide the stub code; the core
+      functions are already implemented in the curses library. The stub code file,
+      curses_stubs.c, looks like this: 
+    </p>
+    <pre class="programlisting">
+#include &lt;curses.h&gt;
+#include &lt;caml/mlvalues.h&gt;
+#include &lt;caml/memory.h&gt;
+#include &lt;caml/alloc.h&gt;
+#include &lt;caml/custom.h&gt;
+
+/* Encapsulation of opaque window handles (of type WINDOW *)
+   as Caml custom blocks. */
+
+static struct custom_operations curses_window_ops = {
+  "fr.inria.caml.curses_windows",
+  custom_finalize_default,
+  custom_compare_default,
+  custom_hash_default,
+  custom_serialize_default,
+  custom_deserialize_default
+};
+
+/* Accessing the WINDOW * part of a Caml custom block */
+#define Window_val(v) (*((WINDOW **) Data_custom_val(v)))
+
+/* Allocating a Caml custom block to hold the given WINDOW * */
+static value alloc_window(WINDOW * w)
+{
+  value v = alloc_custom(&amp;curses_window_ops, sizeof(WINDOW *), 0, 1);
+  Window_val(v) = w;
+  return v;
+}
+
+value caml_curses_initscr(value unit)
+{
+  CAMLparam1 (unit);
+  CAMLreturn (alloc_window(initscr()));
+}
+
+value caml_curses_endwin(value unit)
+{
+  CAMLparam1 (unit);
+  endwin();
+  CAMLreturn (Val_unit);
+}
+
+value caml_curses_refresh(value unit)
+{
+  CAMLparam1 (unit);
+  refresh();
+  CAMLreturn (Val_unit);
+}
+
+value caml_curses_wrefresh(value win)
+{
+  CAMLparam1 (win);
+  wrefresh(Window_val(win));
+  CAMLreturn (Val_unit);
+}
+
+value caml_curses_newwin(value nlines, value ncols, value x0, value y0)
+{
+  CAMLparam4 (nlines, ncols, x0, y0);
+  CAMLreturn (alloc_window(newwin(Int_val(nlines), Int_val(ncols),
+                                  Int_val(x0), Int_val(y0))));
+}
+
+value caml_curses_addch(value c)
+{
+  CAMLparam1 (c);
+  addch(Int_val(c));            /* Characters are encoded like integers */
+  CAMLreturn (Val_unit);
+}
+
+value caml_curses_mvwaddch(value win, value x, value y, value c)
+{
+  CAMLparam4 (win, x, y, c);
+  mvwaddch(Window_val(win), Int_val(x), Int_val(y), Int_val(c));
+  CAMLreturn (Val_unit);
+}
+
+value caml_curses_addstr(value s)
+{
+  CAMLparam1 (s);
+  addstr(String_val(s));
+  CAMLreturn (Val_unit);
+}
+
+value caml_curses_mvwaddstr(value win, value x, value y, value s)
+{
+  CAMLparam4 (win, x, y, s);
+  mvwaddstr(Window_val(win), Int_val(x), Int_val(y), String_val(s));
+  CAMLreturn (Val_unit);
+}
+
+/* This goes on for pages. */
+</pre>
+    <p>
+      The file curses_stubs.c can be compiled with: 
+    </p>
+    <pre class="programlisting">
+cc -c -I/usr/local/lib/ocaml curses.c
+</pre>
+    <p>
+      or, even simpler, 
+    </p>
+    <pre class="programlisting">
+ocamlc -c curses.c
+</pre>
+    <p>
+      (When passed a .c file, the ocamlc command simply calls the C compiler on
+      that file, with the right -I option.)
+    </p>
+    <p>
+      Now, here is a sample Caml program test.ml that uses the curses module: 
+    </p>
+    <pre class="programlisting">
+open Curses
+let main_window = initscr () in
+let small_window = newwin 10 5 20 10 in
+  mvwaddstr main_window 10 2 "Hello";
+  mvwaddstr small_window 4 3 "world";
+  refresh();
+  Unix.sleep 5;
+  endwin()
+</pre>
+    <p>
+      To compile and link this program, run: 
+    </p>
+    <pre class="programlisting">
+ocamlc -custom -o test unix.cma test.ml curses_stubs.o -cclib -lcurses
+</pre>
+    <p>
+      (On some machines, you may need to put -cclib -ltermcap or -cclib -lcurses -cclib -ltermcap instead of -cclib -lcurses.)
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch18s05.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch18.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch18s07.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">18.5&nbsp;Living in harmony with the garbage collector&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;18.7&nbsp;Advanced topic: callbacks from C to Caml</td></tr></table></div></body></html>

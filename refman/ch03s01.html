@@ -1,0 +1,163 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.1&nbsp;クラスとオブジェクト</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="next" href="ch03s02.html" title="3.2&nbsp;直接生成されたオブジェクト"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.1&nbsp;クラスとオブジェクト</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.1&nbsp;クラスとオブジェクト"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Classes and objects"></a>3.1&nbsp;クラスとオブジェクト</h2></div></div></div>
+    
+    <p>
+      下に示すクラス <code class="code">point</code> は、ひとつのインスタンス変数 <code class="code">x</code> と二つのメソッド <code class="code">get_x</code>、 <code class="code">move</code> を定義しています。インスタンス変数 <code class="code">x</code> の初期値は <code class="literal">0</code> です。 <code class="code">x</code> は <code class="code">mutable</code> と宣言されているので <code class="code">move</code> メソッドは <code class="code">x</code> の値を変更できます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class point =
+   object 
+     val mutable x = 0
+     method get_x = x
+     method move d = x &lt;- x + d
+   end;;</code></strong>
+<code class="computeroutput">class point :
+  object val mutable x : int method get_x : int method move : int -&gt; unit end</code>
+    </pre>
+    <p>
+      <code class="code">point</code> クラスのインスタンスである「点」 <code class="code">p</code> を生成してみましょう。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let p = new point;;</code></strong>
+<code class="computeroutput">val p : point = &lt;obj&gt;</code>
+    </pre>
+    <p>
+      <code class="code">p</code> の型は <code class="code">point</code> であることに注意して下さい。これは上のクラス定義の際に自動的に定義された略記です。型 <code class="code">point</code> はオブジェクト型 <code class="code">&lt;get_x : int; move : int -&gt; unit&gt;</code> を意味します。オブジェクトの型は、そのオブジェクトが属するクラスが持つメソッドとその型を並べたものになります。 
+    </p>
+    <p>
+      <code class="code">p</code> のメソッドを呼び出してみます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>p#get_x;;</code></strong>
+<code class="computeroutput">- : int = 0</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>p#move 3;;</code></strong>
+<code class="computeroutput">- : unit = ()</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>p#get_x;;</code></strong>
+<code class="computeroutput">- : int = 3</code>
+    </pre>
+    <p>
+      クラス定義本体の評価は、オブジェクトが生成される時にのみ行われます。そのため以下の例では、インスタンス変数 <code class="code">x</code> はふたつ異なるオブジェクトで異なる値に初期化されます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let x0 = ref 0;;</code></strong>
+<code class="computeroutput">val x0 : int ref = {contents = 0}</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class point =
+   object 
+     val mutable x = incr x0; !x0
+     method get_x = x
+     method move d = x &lt;- x + d
+   end;;</code></strong>
+<code class="computeroutput">class point :
+  object val mutable x : int method get_x : int method move : int -&gt; unit end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>new point#get_x;;</code></strong>
+<code class="computeroutput">- : int = 1</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>new point#get_x;;</code></strong>
+<code class="computeroutput">- : int = 2</code>
+    </pre>
+    <p>
+      クラス <code class="code">point</code> は <code class="code">x</code> の初期値を引数として取るよう定義することもできます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class point = fun x_init -&gt;
+   object 
+     val mutable x = x_init
+     method get_x = x
+     method move d = x &lt;- x + d
+   end;;</code></strong>
+<code class="computeroutput">class point :
+  int -&gt;
+  object val mutable x : int method get_x : int method move : int -&gt; unit end</code>
+    </pre>
+    <p>
+      関数定義と同じように、次のように書くこともできます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class point x_init =
+   object 
+     val mutable x = x_init
+     method get_x = x
+     method move d = x &lt;- x + d
+   end;;</code></strong>
+<code class="computeroutput">class point :
+  int -&gt;
+  object val mutable x : int method get_x : int method move : int -&gt; unit end</code>
+    </pre>
+    <p>
+      こうすると、クラス <code class="code">point</code> のインスタンスは <code class="code">x</code> の初期値を引数として取り、あたらしい「点」オブジェクトを返す関数になります。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>new point;;</code></strong>
+<code class="computeroutput">- : int -&gt; point = &lt;fun&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let p = new point 7;;</code></strong>
+<code class="computeroutput">val p : point = &lt;obj&gt;</code>
+    </pre>
+    <p>
+      引数 <code class="code">x_init</code> はクラス定義の全体で参照することができます。
+      例えば、次の <code class="code">get_offset</code> メソッドは「点」オブジェクトの初期位置からの相対的な位置を返します。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class point x_init =
+   object 
+     val mutable x = x_init
+     method get_x = x
+     method get_offset = x - x_init
+     method move d = x &lt;- x + d 
+   end;;</code></strong>
+<code class="computeroutput">class point :
+  int -&gt;
+  object
+    val mutable x : int
+    method get_offset : int
+    method get_x : int
+    method move : int -&gt; unit
+  end</code>
+    </pre>
+    <p>
+      クラスのオブジェクト定義本体の前に、式を評価して変数に束縛することもできます。これはオブジェクトがある一定の性質を満たすようにするのに便利です。次の例では、「点」を一番近くの格子点にあわせるようにしています。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class adjusted_point x_init =
+   let origin = (x_init / 10) * 10 in
+   object 
+     val mutable x = origin
+     method get_x = x
+     method get_offset = x - origin
+     method move d = x &lt;- x + d
+   end;;</code></strong>
+<code class="computeroutput">Class adjusted_point :
+  int -&gt;
+  object
+    val mutable x : int
+    method get_offset : int
+    method get_x : int
+    method move : int -&gt; unit
+  end</code>
+    </pre>
+    <p>
+      (また、<code class="code">x_init</code> 座標が格子点上にない時に、例外を発生するようにもできるでしょう。) ここでは <code class="code">point</code> クラス定義を <code class="code">origin</code> の値とともに呼び出すことによっても同じことが実現できます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class adjusted_point x_init =  point ((x_init / 10) * 10);;</code></strong>
+<code class="computeroutput">class adjusted_point : int -&gt; point</code>
+    </pre>
+    <p>
+      別の方法として、特別な生成関数として定義をすることもできます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let new_adjusted_point x_init = new point ((x_init / 10) * 10);;</code></strong>
+<code class="computeroutput">val new_adjusted_point : int -&gt; point = &lt;fun&gt;</code>
+    </pre>
+    <p>
+しかし、一般的には前に述べたやり方の方がよいのです。なぜならば、格子点上にくるよう調節する機能がクラス定義の一部になっていて、継承することができるからです。
+    </p>
+    <p>
+これは、他のプログラミング言語でいうところのクラス構築子に相当します。このようにして、同じクラスに属するオブジェクトを異なったやり方で初期化する構築子を定義することができます。同様の機能を実現する別の方法として、<a class="xref" href="ch03s04.html" title="3.4&nbsp;初期化"> 3.4 節「初期化」</a>で述べる初期化子を用いる方法があります。
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.&nbsp;Caml におけるオブジェクト &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.2&nbsp;直接生成されたオブジェクト</td></tr></table></div></body></html>

@@ -1,0 +1,230 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>6.8&nbsp;型と例外の定義</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch06.html" title="6.&nbsp;The Objective Caml language"><link rel="prev" href="ch06s07.html" title="6.7&nbsp;式"><link rel="next" href="ch06s09.html" title="6.9&nbsp;クラス"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">6.8&nbsp;型と例外の定義 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch06s07.html">前のページ</a>&nbsp;</td><th width="60%" align="center">6.&nbsp;The Objective Caml language</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch06s09.html">次のページ</a></td></tr></table><hr></div><div class="section" title="6.8&nbsp;型と例外の定義"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e6052"></a>6.8&nbsp;型と例外の定義 </h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch06s08.html#sec:Type definitions">6.8.1. 型定義 </a></span></dt><dt><span class="section"><a href="ch06s08.html#d4e6372">6.8.2. 例外定義 </a></span></dt></dl></div>
+  
+  <div class="section" title="6.8.1&nbsp;型定義"><div class="titlepage"><div><div><h3 class="title"><a name="sec:Type definitions"></a>6.8.1&nbsp;型定義 </h3></div></div></div>
+    
+    <p>
+      型定義では型コンストラクタを、バリアント型やレコード型、型略記、抽象データ型といったデータ型に束縛します。
+      また、定義に対応する値コンストラクタや、レコードのフィールドも束縛します。
+      
+    </p>
+
+    <table id="d4e6057">
+      <tbody>
+        <tr>
+          <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--type-definition"></a>type-definition</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">type</span> <a class="link" href="ch06s08.html#bnf--typedef"><span class="bnf-non-terminal">typedef</span></a> { <span class="bnf-terminal">and</span> <a class="link" href="ch06s08.html#bnf--typedef"><span class="bnf-non-terminal">typedef</span></a> }</td>
+        </tr>
+
+        <tr>
+          <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--typedef"></a>typedef</span></td>
+          <td>::=</td>
+          <td>[ <a class="link" href="ch06s08.html#bnf--type-params"><span class="bnf-non-terminal">type-params</span></a> ] <a class="link" href="ch06s03.html#bnf--typeconstr-name"><span class="bnf-non-terminal">typeconstr-name</span></a> [ <a class="link" href="ch06s08.html#bnf--type-information"><span class="bnf-non-terminal">type-information</span></a> ]</td>
+        </tr>
+
+        <tr>
+          <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--type-information"></a>type-information</span></td>
+          <td>::=</td>
+          <td>[ <a class="link" href="ch06s08.html#bnf--type-equation"><span class="bnf-non-terminal">type-equation</span></a> ] [ <a class="link" href="ch06s08.html#bnf--type-representation"><span class="bnf-non-terminal">type-representation</span></a> ] { <a class="link" href="ch06s08.html#bnf--type-constraint"><span class="bnf-non-terminal">type-constraint</span></a> }</td>
+        </tr>
+
+        <tr>
+          <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--type-equation"></a>type-equation</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">=</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a></td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--type-representation"></a>type-representation</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">=</span> <a class="link" href="ch06s08.html#bnf--constr-decl"><span class="bnf-non-terminal">constr-decl</span></a> { <span class="bnf-terminal">|</span> <a class="link" href="ch06s08.html#bnf--constr-decl"><span class="bnf-non-terminal">constr-decl</span></a> }</td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">=</span> <span class="bnf-terminal">{</span> <a class="link" href="ch06s08.html#bnf--field-decl"><span class="bnf-non-terminal">field-decl</span></a> { <span class="bnf-terminal">;</span> <a class="link" href="ch06s08.html#bnf--field-decl"><span class="bnf-non-terminal">field-decl</span></a> } <span class="bnf-terminal">}</span></td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--type-params"></a>type-params</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s08.html#bnf--type-param"><span class="bnf-non-terminal">type-param</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">(</span> <a class="link" href="ch06s08.html#bnf--type-param"><span class="bnf-non-terminal">type-param</span></a> { <span class="bnf-terminal">,</span> <a class="link" href="ch06s08.html#bnf--type-param"><span class="bnf-non-terminal">type-param</span></a> } <span class="bnf-terminal">)</span></td>
+        </tr>
+        <tr>
+          <td rowspan="3" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--type-param"></a>type-param</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">+</span> <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">-</span> <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a></td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--constr-decl"></a>constr-decl</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--constr-name"><span class="bnf-non-terminal">constr-name</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><a class="link" href="ch06s03.html#bnf--constr-name"><span class="bnf-non-terminal">constr-name</span></a> <span class="bnf-terminal">of</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> { <span class="bnf-terminal">*</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> }</td>
+        </tr>
+        <tr>
+          <td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--field-decl"></a>field-decl</span></td>
+          <td>::=</td>
+          <td><a class="link" href="ch06s03.html#bnf--field-name"><span class="bnf-non-terminal">field-name</span></a> <span class="bnf-terminal"></span> <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a></td>
+        </tr>
+        <tr>
+          <td>|</td>
+          <td><span class="bnf-terminal">mutable</span> <a class="link" href="ch06s03.html#bnf--field-name"><span class="bnf-non-terminal">field-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a></td>
+        </tr>
+        <tr>
+          <td valign="baseline"><span class="bnf-non-terminal"><a name="bnf--type-constraint"></a>type-constraint</span></td>
+          <td>::=</td>
+          <td><span class="bnf-terminal">constraint</span> <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      型定義は予約語 <code class="code">type</code> で始まり、ひとつ以上の単純な定義から構成されます。
+      単純な定義は相互に再帰してもよく、各々を <code class="code">and</code> で区切ります。
+      単純な定義ではそれぞれ型構成子をひとつ定義します。
+      
+    </p>
+    <p>
+      単純な定義は小文字の識別子から成り、その前にひとつ以上の型パラメータを指定することができ、後に型等式、型表現、制約節をそれぞれ続けることができます。
+      識別子は定義される型構成子の名前になります。
+      
+    </p>
+    <p>
+      型パラメータは、一引数の型構成子に対する単一の型変数 <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> か、複数のパラメータを取る型構成子に対する型変数のリスト <span class="bnf-terminal">(</span><span class="bnf-terminal">'</span><a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a><sub>1</sub><span class="bnf-terminal">,</span> ...<span class="bnf-terminal">,</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a><sub><em class="parameter"><code>n</code></em></sub><span class="bnf-terminal">)</span> のいずれかです。
+      型パラメータの前にはそれぞれ変位制約 <span class="bnf-terminal">+</span> （または <span class="bnf-terminal">-</span>）をつけ、その型パラメータが共変（または反変）であることを示すことができます。
+      これらの型変数は最終的に変位制約による制約を受けつつ、型定義の右辺の型式の中に現れることができます。
+      すなわち、共変パラメータは関数の矢印の右側（より正確に言えば、奇数番目の矢印の右枝）に現れることができ、反変パラメータは左側（より正確に言えば、偶数番目の矢印の左枝）に現れることができます。
+      型に表現か等式があり、パラメータが自由である（すなわち、構成される型への型制約で束縛されていない）場合、変位制約はチェックされますが、部分型派生の場合などにはそのパラメータに対しては推論された変位指定が使われます。
+      推論されたも変位指定の方がより適切なこともあるでしょう。
+      それ以外の場合（抽象型の場合や、自由な型変数がない場合）には、変位指定を明示しなければならず、変位指定がなければパラメータは不変になります。
+      
+    </p>
+    <p>
+      型等式 <span class="bnf-terminal">=</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> を指定すると、定義される型は等号の右辺の型式 <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> と等価になります。
+      型付けにおいて一方で他方を置き換えることができるようになります。
+      型等式が与えられなかった場合には、新たな型が生成され、定義された型は他のいずれの型とも互換性のない型になります。
+      
+    </p>
+    <p>
+      型表現は、定義される型が表現するデータ構造を表し、対応する構成子のリストか（バリアント型の場合）、対応するフィールドのリスト（レコード型の場合）を指定します。
+      型表現が与えられていない場合、型等式で与えられた型の構造以外何も仮定されません。
+      
+    </p>
+    <p>
+      型表現 <span class="bnf-terminal">=</span> <a class="link" href="ch06s08.html#bnf--constr-decl"><span class="bnf-non-terminal">constr-decl</span></a> { <span class="bnf-terminal">|</span> <a class="link" href="ch06s08.html#bnf--constr-decl"><span class="bnf-non-terminal">constr-decl</span></a> } はバリアント型を表します。
+      構成子宣言 <a class="link" href="ch06s08.html#bnf--constr-decl"><span class="bnf-non-terminal">constr-decl</span></a><sub>1</sub>, ..., <a class="link" href="ch06s08.html#bnf--constr-decl"><span class="bnf-non-terminal">constr-decl</span></a><sub><em class="parameter"><code>n</code></em></sub> はこのバリアント型に関連づけられた構成子を表します。
+      構成子宣言 <a class="link" href="ch06s03.html#bnf--constr-name"><span class="bnf-non-terminal">constr-name</span></a> <span class="bnf-terminal">of</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub><span class="bnf-terminal">,</span> ...<span class="bnf-terminal">,</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub><em class="parameter"><code>n</code></em></sub> は <a class="link" href="ch06s03.html#bnf--constr-name"><span class="bnf-non-terminal">constr-name</span></a> を、型 <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub>1</sub> ... <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a><sub><em class="parameter"><code>n</code></em></sub> を引数の型として持つ非定数コンストラクタとして宣言します。
+      構成子の名前はキャピタライズされていなければなりません。
+      
+    </p>
+    <p>
+      型表現 <span class="bnf-terminal">=</span> <span class="bnf-terminal">{</span> <a class="link" href="ch06s08.html#bnf--field-decl"><span class="bnf-non-terminal">field-decl</span></a> { <span class="bnf-terminal">;</span> <a class="link" href="ch06s08.html#bnf--field-decl"><span class="bnf-non-terminal">field-decl</span></a> } <span class="bnf-terminal">}</span> はレコード型を表します。
+      フィールド宣言 <a class="link" href="ch06s08.html#bnf--field-decl"><span class="bnf-non-terminal">field-decl</span></a><sub>1</sub>, ..., <a class="link" href="ch06s08.html#bnf--field-decl"><span class="bnf-non-terminal">field-decl</span></a><sub><em class="parameter"><code>n</code></em></sub> はこのレコード型に関連づけられたフィールドを表します。
+      フィールド宣言 <a class="link" href="ch06s03.html#bnf--field-name"><span class="bnf-non-terminal">field-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a> は <a class="link" href="ch06s03.html#bnf--field-name"><span class="bnf-non-terminal">field-name</span></a> を <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a> 型のフィールド<sup>[<a name="d4e6299" href="#ftn.d4e6299" class="footnote">4</a>]</sup>として宣言します。
+      フィールド宣言 <span class="bnf-terminal">mutable</span> <a class="link" href="ch06s03.html#bnf--field-name"><span class="bnf-non-terminal">field-name</span></a> <span class="bnf-terminal">:</span> <a class="link" href="ch06s04.html#bnf--poly-typexpr"><span class="bnf-non-terminal">poly-typexpr</span></a> も同様に振舞いますが、加えて、このフィールドに物理的変更を許します。
+      変更不能なフィールドは共変ですが、変更可能なフィールドは共変でも反変でもありません。
+      変更可能なフィールドにも変更不能なフィールドにも多相型を指定することができます。
+      フィールドの内容の多相性はレコード値が作成されたり変更されるたびに静的にチェックされます。
+      フィールドから取り出された値は型変数をインスタンス化した型になることがあります。
+      
+    </p>
+    <p>
+      型定義の構成要素である型等式と型表現は独立に組み合わせることができ、典型的には次のよっつの状況があります。
+      
+    </p>
+    <div class="variablelist"><dl><dt><span class="term">抽象型: 等式なし、表現なし</span></dt><dd>
+          <p>
+            モジュールシグネチャ内に現れた場合、この定義は型構成子について、パラメータの個数以外何も指定しない。
+            表現は隠蔽され、他のいずれの型にも適合しないものと仮定される。
+            
+          </p>
+        </dd><dt><span class="term">型略記: 等式あり、表現なし</span></dt><dd>
+          <p>
+            型構成子を等号の右辺の型式の略記と定義する。
+            
+          </p>
+        </dd><dt><span class="term">新たなバリアント/レコード型: 等式なし、表現あり</span></dt><dd>
+          <p>
+            新たな型構成子を生成し、対応する構成子かフィールドを定義する。
+            これらを使ってこの型の値の直接作成/アクセスを行なう。
+            
+          </p>
+        </dd><dt><span class="term">再エクスポートされたバリアント/レコード型: 等式あり、表現あり</span></dt><dd>
+          <p>
+            この場合、型構成子は等式に与えられた型式の略記として定義されるが、それに加えて表現部分に与えられた構成子やフィールドが定義された型構成子に追加される。
+            
+          </p>
+        </dd></dl></div>
+    <p>
+      等式部分の型式は型表現に一致しなければなりません。
+      すなわち、同一の種類（レコードかバリアント）であり、まったく同じ構成子ないしフィールドを、同一の順序で、同一の引数を持たなければなりません。
+      
+    </p>
+    <p>
+      型パラメータとして現れる型変数には <code class="code">+</code> または <code class="code">-</code> を前置して、型構成子がそのパラメータについて共変か反変かを表すことができます。
+      この変位情報は <span class="bnf-terminal">:&gt;</span> 型変換（<a class="xref" href="ch06s07.html#sec:coercion" title="6.7.6&nbsp;型変換"> 6.7.6 節「型変換 」</a>参照）の妥当性を検査するとき、部分型関係を決定するのに使われます。
+      
+    </p>
+    <p>
+      例えば、 <code class="code">type +'a t</code> は <code class="code">t</code> をそのパラメータに対して共変な抽象型として宣言しています。
+      これは、 <code class="code">τ</code> が型 <code class="code">σ</code> の部分型であるとき、
+      <code class="code">τ t</code> が <code class="code">σ t</code> の部分型になるということです。
+      同様に、 <code class="code">-'a t</code> は <code class="code">t</code> をそのパラメータに対して反変な抽象型として宣言します。
+      <code class="code">τ</code> が <code class="code">σ</code> の部分型であるとき、
+      <code class="code">σ t</code> は <code class="code">τ t</code> の部分型になります。
+      <code class="code">+</code>、 <code class="code">-</code> の変位アノテーションがない場合、型構成子は、対応するパラメータに対して不変であるものとされます。
+      このとき、抽象型宣言 <code class="code">'a t</code> は、 <code class="code">τ</code> が <code class="code">σ</code> の部分型であっても、 <code class="code">τ t</code> は <code class="code">σ t</code> の上位型にも部分型にもなりません。
+      
+    </p>
+    <p>
+      <code class="code">+</code> と <code class="code">-</code> による変位アノテーションは抽象型の場合だけ必要です。
+      略記法として、バリアント型とレコード型では、型構成子の変位性は定義から推論され、変位アノテーションは定義への適合性についてだけ検査されます。
+      
+    </p>
+    <p>
+      <span class="bnf-terminal">constraint</span> <span class="bnf-terminal">'</span> <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> 構文を使うと型パラメータを指定することができます。
+      型パラメータ <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> に対応する実型引数は <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> のインスタンスになります（より正確に言うと、 <a class="link" href="ch06s01.html#bnf--ident"><span class="bnf-non-terminal">ident</span></a> と <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> が単一化されます）。
+      <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> 中の型変数は型等式と型宣言中で使うことができます。
+      
+    </p>
+  </div>
+  <div class="section" title="6.8.2&nbsp;例外定義"><div class="titlepage"><div><div><h3 class="title"><a name="d4e6372"></a>6.8.2&nbsp;例外定義 </h3></div></div></div>
+    
+    <table id="d4e6374">
+      <tbody>
+        <tr>
+<td rowspan="2" valign="baseline"><span class="bnf-non-terminal"><a name="bnf--exception-definition"></a>exception-definition</span></td>
+<td>::=</td>
+<td><span class="bnf-terminal">exception</span> <a class="link" href="ch06s03.html#bnf--constr-name"><span class="bnf-non-terminal">constr-name</span></a> [ <span class="bnf-terminal">of</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> { <span class="bnf-terminal">*</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> } ]</td>
+</tr>
+<tr>
+<td>|</td>
+<td><span class="bnf-terminal">exception</span> <a class="link" href="ch06s03.html#bnf--constr-name"><span class="bnf-non-terminal">constr-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s03.html#bnf--constr"><span class="bnf-non-terminal">constr</span></a></td>
+</tr>
+      </tbody>
+    </table>
+    <p>
+      例外定義は組込みの例外値のバリアント型 <span class="type">exn</span> に新しい構成子を追加します。
+      構成子はバリアント型の定義と同様に定義します。
+      
+    </p>
+    <p>
+      <span class="bnf-terminal">exception</span> <a class="link" href="ch06s03.html#bnf--constr-name"><span class="bnf-non-terminal">constr-name</span></a> [of <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> { <span class="bnf-terminal">*</span> <a class="link" href="ch06s04.html#bnf--typexpr"><span class="bnf-non-terminal">typexpr</span></a> }] は、システム中の他のすべての例外と異なる、新しい例外を生成します。
+      <a class="link" href="ch06s03.html#bnf--constr-name"><span class="bnf-non-terminal">constr-name</span></a> <span class="bnf-terminal">=</span> <a class="link" href="ch06s03.html#bnf--constr"><span class="bnf-non-terminal">constr</span></a> は既存の例外に別名を与えます。
+      
+    </p>
+  </div>
+<div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.d4e6299" href="#d4e6299" class="para">4</a>] </sup>訳注: 原文: 引数が〜型のフィールド（a field whose argument has type ...）</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch06s07.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch06.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch06s09.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">6.7&nbsp;式 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;6.9&nbsp;クラス </td></tr></table></div></body></html>

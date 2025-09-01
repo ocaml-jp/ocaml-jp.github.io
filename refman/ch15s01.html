@@ -1,0 +1,340 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>15.1&nbsp;使用法</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch15.html" title="15.&nbsp;ドキュメント生成器（ocamldoc）"><link rel="prev" href="ch15.html" title="15.&nbsp;ドキュメント生成器（ocamldoc）"><link rel="next" href="ch15s02.html" title="15.2&nbsp;Syntax of documentation comments"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">15.1&nbsp;使用法</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch15.html">前のページ</a>&nbsp;</td><th width="60%" align="center">15.&nbsp;ドキュメント生成器（<span class="command"><strong>ocamldoc</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch15s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="15.1&nbsp;使用法"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e12113"></a>15.1&nbsp;使用法</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch15s01.html#d4e12115">15.1.1. 起動</a></span></dt><dt><span class="section"><a href="ch15s01.html#d4e12456">15.1.2. Merging of module information</a></span></dt><dt><span class="section"><a href="ch15s01.html#d4e12462">15.1.3. Coding rules</a></span></dt></dl></div>
+    
+    <div class="section" title="15.1.1&nbsp;起動"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12115"></a>15.1.1&nbsp;起動</h3></div></div></div>
+      
+      <p>
+        OCamldoc は <span class="command"><strong>ocamldoc</strong></span> コマンドで以下のように起動します．
+      </p>
+      <pre class="programlisting">ocamldoc options sourcefiles</pre>
+      <div class="simplesect" title="出力フォーマットを選択するオプション"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12120"></a>出力フォーマットを選択するオプション</h4></div></div></div>
+        
+        <p>
+          以下のオプションによって生成されるドキュメントのフォーマットが決定されます．
+        </p>
+        <div class="variablelist"><dl><dt><span class="term"><code class="option">-html</code></span></dt><dd>
+              <p>
+                HTMLでドキュメントを生成します．生成されるHTMLのページはカレントディレクトリか， <code class="option">-d</code> オプションので指定されたディレクトリに置かれます．
+              </p>
+              <p>
+                生成された <code class="filename">style.css</code> ファイルを編集するか， <code class="option">--css-style</code> オプションを使用して指定したユーザ独自のスタイルシートによって，生成されたページのスタイルをカスタマイズすることができます．
+                <code class="filename">style.css</code> ファイルは既に存在するときには生成されません．
+              </p>
+            </dd><dt><span class="term"><code class="option">-latex</code></span></dt><dd>
+              <p>
+                LaTeX としてドキュメントを生成します．生成される LaTeX ドキュメントは <code class="filename">ocamldoc.out</code> か，もしくは <code class="option">-o</code> オプションで指定されたファイル名として保存されます．
+                このドキュメントはスタイルファイル <code class="filename">ocamldoc.sty</code> を使用します．このファイルは <code class="option">-latex</code> オプションを使用した時に生成され，もし既に存在していれば生成されません．このファイルを編集してLaTeXドキュメントのスタイルをカスタマイズすることもできます．
+              </p>
+            </dd><dt><span class="term"><code class="option">-texi</code></span></dt><dd>
+              <p>
+                TeXinfo のフォーマットでドキュメントを生成します．生成された LaTeX ドキュメントは <code class="filename">ocamldoc.out</code> か <code class="option">-o</code> オプションで指定されたファイル名で保存されます．
+              </p>
+            </dd><dt><span class="term"><code class="option">-man</code></span></dt><dd>
+              <p>
+                Unix man page としてドキュメントを生成します．生成されたページはカレントディレクトリか <code class="option">-d</code> オプションで指定されたディレクトリに保存されます．
+              </p>
+            </dd><dt><span class="term"><code class="option">-dot</code></span></dt><dd>
+              <p>
+                表示および処理のしやすい dot による形式でトップレベルモジュールに対する依存グラフを生成します．dot ツールは <code class="uri">http://www.research.att.com/sw/tools/graphviz/</code> から取得できます．グラフのテキストによる表現は <code class="filename">ocamldoc.out</code> に出力されるか， <code class="option">-o</code> オプションで指定されたファイルに出力されます．<code class="filename">ocamldoc.out</code> を dot ツールに入力してグラフを表示することができます．
+              </p>
+            </dd><dt><span class="term"><code class="option">-g</code> <em class="parameter"><code>file.cm[o,a]</code></em></span></dt><dd>
+              <p>
+                Dynamically load the given file, which defines a custom documentation generator. See section 15.4.1. This option is supported by the ocamldoc command, but not by its native-code version ocamldoc.opt. If the given file is a simple one and does not exist in the current directory, then ocamldoc looks for it in the custom generators default directory, and in the directories specified with optional -i options.
+              </p>
+            </dd><dt><span class="term"><code class="option">-customdir</code></span></dt><dd>
+              <p>
+                Display the custom generators default directory.
+              </p>
+            </dd><dt><span class="term"><code class="option">-i</code> <em class="parameter"><code>directory</code></em></span></dt><dd>
+              <p>
+                Add the given directory to the path where to look for custom generators.
+              </p>
+            </dd></dl></div>
+      </div>
+      <div class="simplesect" title="General options"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12182"></a>General options</h4></div></div></div>
+        
+        <div class="variablelist"><dl><dt><span class="term"><code class="option">-d</code> <em class="parameter"><code>dir</code></em></span></dt><dd>
+              <p>
+                Generate files in directory dir, rather than in the current directory.
+              </p>
+            </dd><dt><span class="term"><code class="option">-dump</code> <em class="parameter"><code>file</code></em></span></dt><dd>
+              <p>
+                Dump collected information into file. This information can be read
+                with the -load option in a subsequent invocation of ocamldoc.
+              </p>
+            </dd><dt><span class="term"><code class="option">-hide</code> <em class="parameter"><code>modules</code></em></span></dt><dd>
+              <p>
+                Hide the given complete module names in the generated documentation modules is a list of complete module names are separated by ',', without blanks. For instance: Pervasives,M2.M3.
+              </p>
+            </dd><dt><span class="term"><code class="option">-inv-merge-ml-mli</code></span></dt><dd>
+              <p>
+                Inverse implementations and interfaces when merging. All elements in implementation files are kept, and the -m option indicates which parts of the comments in interface files are merged with the comments in implementation files.
+              </p>
+            </dd><dt><span class="term"><code class="option">-keep-code</code></span></dt><dd>
+              <p>
+                Always keep the source code for values, methods and instance
+                variables, when available. The source code is always kept when a .ml file is given, but is by default discarded when a .mli is given. This option allows to always keep the source code.
+              </p>
+            </dd><dt><span class="term"><code class="option">-load</code> <em class="parameter"><code>file</code></em></span></dt><dd>
+              <p>
+                Load information from file, which has been produced by ocamldoc dump. Several -load options can be given.
+              </p>
+            </dd><dt><span class="term"><code class="option">-m</code> <em class="parameter"><code>flags</code></em></span></dt><dd>
+              <p>
+                Specify merge options between interfaces and implementations. (see section 15.1.2 for details). flags can be one or several of the following characters: 
+              </p>
+              <dt><span class="term"><code class="code">d</code></span></dt><dd>
+                  <p>
+                    merge description
+                  </p>
+                </dd>
+              <dt><span class="term"><code class="code">a</code></span></dt><dd>
+                  <p>
+                    merge @author
+                  </p>
+                </dd>
+              <dt><span class="term"><code class="code">v</code></span></dt><dd>
+                  <p>
+                    merge @version
+                  </p>
+                </dd>
+              <dt><span class="term"><code class="code">l</code></span></dt><dd>
+                  <p>
+                    merge @see
+                  </p>
+                </dd>
+              <dt><span class="term"><code class="code">s</code></span></dt><dd>
+                  <p>
+                    merge @since
+                  </p>
+                </dd>
+              <dt><span class="term"><code class="code">o</code></span></dt><dd>
+                  <p>
+                    merge @deprecated
+                  </p>
+                </dd>
+              <dt><span class="term"><code class="code">p</code></span></dt><dd>
+                  <p>
+                    merge @param
+                  </p>
+                </dd>
+              <dt><span class="term"><code class="code">e</code></span></dt><dd>
+                  <p>
+                    merge @raise
+                  </p>
+                </dd>
+              <dt><span class="term"><code class="code">r</code></span></dt><dd>
+                  <p>
+                    merge @return
+                  </p>
+                </dd>
+              <dt><span class="term"><code class="code">A</code></span></dt><dd>
+                  <p>
+                    merge everything
+                  </p>
+                </dd>
+            </dd><dt><span class="term"><code class="option">-no-custom-tags</code></span></dt><dd>
+              <p>
+                Do not allow custom @-tags (see section 15.2.5).
+              </p>
+            </dd><dt><span class="term"><code class="option">-no-stop</code></span></dt><dd>
+              <p>
+                Keep elements placed after/between the (**/**) special comment(s) (see section 15.2).
+              </p>
+            </dd><dt><span class="term"><code class="option">-o</code> <em class="parameter"><code>file</code></em></span></dt><dd>
+              <p>
+                Output the generated documentation to file instead of ocamldoc.out.
+                This option is meaningful only in conjunction with the -latex, -texi, or -dot options.
+              </p>
+            </dd><dt><span class="term"><code class="option">-pp</code> <em class="parameter"><code>command</code></em></span></dt><dd>
+              <p>
+                Pipe sources through preprocessor command.
+              </p>
+            </dd><dt><span class="term"><code class="option">-sort</code></span></dt><dd>
+              <p>
+                Sort the list of top-level modules before generating the documentation.
+              </p>
+            </dd><dt><span class="term"><code class="option">-stars</code></span></dt><dd>
+              <p>
+                Remove blank characters until the first asterisk ('*') in each line of comments.
+              </p>
+            </dd><dt><span class="term"><code class="option">-t</code> <em class="parameter"><code>title</code></em></span></dt><dd>
+              <p>
+                Use title as the title for the generated documentation.
+              </p>
+            </dd><dt><span class="term"><code class="option">-intro</code> <em class="parameter"><code>file</code></em></span></dt><dd>
+              <p>
+                Use content of file as ocamldoc text to use as introduction (HTML, LATEXand TeXinfo only). For HTML, the file is used to create the whole index.html file.
+              </p>
+            </dd><dt><span class="term"><code class="option">-v</code></span></dt><dd>
+              <p>
+                Verbose mode. Display progress information.
+              </p>
+            </dd><dt><span class="term"><code class="option">-version</code></span></dt><dd>
+              <p>
+                Print the version string and exit.
+              </p>
+            </dd><dt><span class="term"><code class="option">-warn-error</code></span></dt><dd>
+              <p>
+                Treat Ocamldoc warnings as errors.
+              </p>
+            </dd><dt><span class="term"><code class="option">-hide-warnings</code></span></dt><dd>
+              <p>
+                Do not print OCamldoc warnings.
+              </p>
+            </dd><dt><span class="term"><code class="option">-help</code> or <code class="option">--help</code></span></dt><dd>
+              <p>
+                Display a short usage summary and exit.
+              </p>
+            </dd></dl></div>
+      </div>
+      <div class="simplesect" title="Type-checking options"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12345"></a>Type-checking options</h4></div></div></div>
+        
+        <p>
+          OCamldoc calls the Objective Caml type-checker to obtain type informations. The following options impact the type-checking phase. They have the same meaning as for the ocamlc and ocamlopt commands.
+        </p>
+        <div class="variablelist"><dl><dt><span class="term"><code class="option">-I</code> <em class="parameter"><code>directory</code></em></span></dt><dd>
+              <p>
+                Add directory to the list of directories search for compiled interface files (.cmi files).
+              </p>
+            </dd><dt><span class="term"><code class="option">-nolabels</code></span></dt><dd></dd><dt><span class="term"><code class="option">-rectypes</code></span></dt><dd>
+              <p>
+                Allow arbitrary recursive types. (See the -rectypes option to ocamlc.)
+              </p>
+            </dd></dl></div>
+      </div>
+      <div class="simplesect" title="Options for generating HTML pages"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12365"></a>Options for generating HTML pages</h4></div></div></div>
+        
+        <p>
+          The following options apply in conjunction with the -html option:
+        </p>
+        <div class="variablelist"><dl><dt><span class="term"><code class="option">-all-params</code></span></dt><dd>
+              <p>
+                Display the complete list of parameters for functions and methods.
+              </p>
+            </dd><dt><span class="term"><code class="option">-css-style</code> <em class="parameter"><code>filename</code></em></span></dt><dd>
+              <p>
+              Use filename as the Cascading Style Sheet file.
+              </p>
+            </dd><dt><span class="term"><code class="option">-colorize-code</code></span></dt><dd>
+              <p>
+                Colorize the OCaml code enclosed in [ ] and \{[ ]\}, using colors to emphasize keywords, etc. If the code fragments are not syntactically correct, no color is added.
+              </p>
+            </dd><dt><span class="term"><code class="option">-index-only</code></span></dt><dd>
+              <p>
+                Generate only index files.
+              </p>
+            </dd><dt><span class="term">-short-functors</span></dt><dd>
+              <p>
+                Use a short form to display functors:
+                <code class="code">module M : functor (A:Module) -&gt; functor (B:Module2) -&gt; sig .. end is displayed as module M (A:Module) (B:Module2) : sig .. end</code>.
+              </p>
+            </dd></dl></div>
+      </div>
+      <div class="simplesect" title="Options for generating LaTeX files"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12395"></a>Options for generating LaTeX files</h4></div></div></div>
+        
+        <p>
+          The following options apply in conjunction with the -latex option:
+        </p>
+        <div class="variablelist"><dl><dt><span class="term"><code class="option">-latex-value-prefix</code> <em class="parameter"><code>prefix</code></em></span></dt><dd>
+              <p>
+                Give a prefix to use for the labels of the values in the generated LaTeX document. The default prefix is the empty string. You can also use the options -latex-type-prefix, -latex-exception-prefix, latex-module-prefix, -latex-module-type-prefix, -latex-class-prefix, latex-class-type-prefix, -latex-attribute-prefix and -latex-method-prefix.
+              </p>
+              <p>
+                These options are useful when you have, for example, a type and a value with the same name. If you do not specify prefixes, LaTeX will complain about multiply defined labels.
+              </p>
+            </dd><dt><span class="term"><code class="option">latextitle</code> <em class="parameter"><code>n,style</code></em></span></dt><dd>
+              <p>
+                Associate style number n to the given LaTeX sectioning command style, e.g. section or subsection. (LaTeX only.) This is useful when including the generated document in another LaTeX document, at a given sectioning level. The default association is 1 for section, 2 for subsection, 3 for subsubsection, 4 for paragraph and 5 for subparagraph.
+              </p>
+            </dd><dt><span class="term"><code class="option">-noheader</code></span></dt><dd>
+              <p>
+                Suppress header in generated documentation.
+              </p>
+            </dd><dt><span class="term"><code class="option">-notoc</code></span></dt><dd>
+              <p>
+                Do not generate a table of contents.
+              </p>
+            </dd><dt><span class="term"><code class="option">-notrailer</code></span></dt><dd>
+              <p>
+                Suppress trailer in generated documentation.
+              </p>
+            </dd><dt><span class="term"><code class="option">-sepfiles</code></span></dt><dd>
+              <p>
+                Generate one .tex file per toplevel module, instead of the global ocamldoc.out file. 
+              </p>
+            </dd></dl></div>
+      </div>
+      <div class="simplesect" title="Options for generating TeXinfo files"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12432"></a>Options for generating TeXinfo files</h4></div></div></div>
+        
+        <p>
+          The following options apply in conjunction with the -texi option:
+        </p>
+        <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">~esc8  Escape accented characters in Info files.
+          </li><li class="listitem">~info-entry  Specify Info directory entry.
+          </li><li class="listitem">~info-section  Specify section of Info directory.
+          </li><li class="listitem">~noheader  Suppress header in generated documentation.
+          </li><li class="listitem">~noindex  Do not build index for Info files.
+          </li><li class="listitem">~notrailer  Suppress trailer in generated documentation. 
+          </li></ul></div>
+      </div>
+      <div class="simplesect" title="Options for generating dot graphs"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12442"></a>Options for generating dot graphs</h4></div></div></div>
+        
+        <p>
+          The following options apply in conjunction with the -dot option:
+        </p>
+        <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">~dot-colors colors  Specify the colors to use in the generated dot code. When generating module dependencies, ocamldoc uses different colors for modules, depending on the directories in which they reside. When generating types dependencies, ocamldoc uses different colors for types, depending on the modules in which they are defined. colors is a list of color names separated by ',', as in Red,Blue,Green. The available colors are the ones supported by the dot tool.
+          </li><li class="listitem">~dot-include-all  Include all modules in the dot output, not only modules
+given on the command line or loaded with the -load option.
+          </li><li class="listitem">~dot-reduce  Perform a transitive reduction of the dependency graph before outputting the dot code. This can be useful if there are a lot of transitive dependencies that clutter the graph.
+          </li><li class="listitem">~dot-types  Output dot code describing the type dependency graph instead of the module dependency graph. 
+          </li></ul></div>
+      </div>
+      <div class="simplesect" title="Options for generating man files"><div class="titlepage"><div><div><h4 class="title"><a name="d4e12450"></a>Options for generating man files</h4></div></div></div>
+        
+        <p>
+          The following options apply in conjunction with the -man option:
+        </p>
+        <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">~man-mini  Generate man pages only for modules, module types, clases and class types, instead of pages for all elements.
+          </li><li class="listitem">~man-suffix  Set the suffix used for generated man filenames. Default is 'o', like in List.o.
+          </li></ul></div>
+      </div>
+    </div>
+    <div class="section" title="15.1.2&nbsp;Merging of module information"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12456"></a>15.1.2&nbsp;Merging of module information</h3></div></div></div>
+      
+      <p>
+        Information on a module can be extracted either from the .mli or .ml file, or both, depending on the files given on the command line. When both .mli and .ml files are given for the same module, information extracted from these files is merged according to the following rules: 
+      </p>
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">Only elements (values, types, classes, ...) declared in the .mli file are kept. In other terms, definitions from the .ml file that are not exported in the .mli file are not documented. 
+        </li><li class="listitem">Descriptions of elements and descriptions in @-tags are handled as follows. If a description for the same element or in the same @-tag of the same element is present in both files, then the description of the .ml file is concatenated to the one in the .mli file, if the corresponding -m flag is given on the command line. If a description is present in the .ml file and not in the .mli file, the .ml description is kept. In either case, all the information given in the .mli file is kept. 
+        </li></ul></div>
+    </div>
+    <div class="section" title="15.1.3&nbsp;Coding rules"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12462"></a>15.1.3&nbsp;Coding rules</h3></div></div></div>
+      
+      <p>
+        The following rules must be respected in order to avoid name clashes resulting in cross-reference errors: 
+      </p>
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">In a module, there must not be two modules, two module types or a module and a module type with the same name. In the default HTML generator, modules ab and AB will be printed to the same file on case insensitive file systems. 
+        </li><li class="listitem">In a module, there must not be two classes, two class types or a class and a class type with the same name. 
+        </li><li class="listitem">In a module, there must not be two values, two types, or two exceptions with the same name. 
+        </li><li class="listitem">Values defined in tuple, as in let (x,y,z) = (1,2,3) are not kept by OCamldoc. 
+        </li><li class="listitem">
+          <p>
+            Avoid the following construction: 
+            </p><pre class="programlisting">
+open Foo (* which has a module Bar with a value x *)
+module Foo =
+  struct
+    module Bar =
+      struct
+        let x = 1
+      end
+  end
+  let dummy = Bar.x
+</pre><p>
+            In this case, OCamldoc will associate Bar.x to the x of module Foo defined just above, instead of to the Bar.x defined in the opened module Foo. 
+          </p>
+        </li></ul></div>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch15.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch15.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch15s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">15.&nbsp;ドキュメント生成器（<span class="command"><strong>ocamldoc</strong></span>）&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;15.2&nbsp;Syntax of documentation comments</td></tr></table></div></body></html>

@@ -1,0 +1,56 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.7&nbsp;クラスインタフェース</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s06.html" title="3.6&nbsp;プライベートメソッド"><link rel="next" href="ch03s08.html" title="3.8&nbsp;継承"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.7&nbsp;クラスインタフェース</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s06.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s08.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.7&nbsp;クラスインタフェース"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Class interfaces"></a>3.7&nbsp;クラスインタフェース</h2></div></div></div>
+    
+    <p>
+      クラスインタフェースはクラス定義から自動的に導かれますが、直接定義してクラスの型を制限するのに用いることができます。クラス定義と同じく、クラスインタフェースの定義も新しい型の略記を定義します。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class type restricted_point_type = 
+   object
+     method get_x : int
+     method bump : unit
+ end;;</code></strong>
+<code class="computeroutput">class type restricted_point_type =
+  object method bump : unit method get_x : int end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>fun (x : restricted_point_type) -&gt; x;;</code></strong>
+<code class="computeroutput">- : restricted_point_type -&gt; restricted_point_type = &lt;fun&gt;</code>
+    </pre>
+    <p>
+      プログラムを文書化する目的に加えて、クラスインタフェースはクラスの型を制限するために用いられます。インスタンス変数と、抽象的でないプライベートメソッドはクラス型を制約することにより隠蔽することができます。一方、公開メソッドと抽象メソッドは隠蔽できません。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class restricted_point' x = (restricted_point x : restricted_point_type);;</code></strong>
+<code class="computeroutput">class restricted_point' : int -&gt; restricted_point_type</code>
+    </pre>
+    <p>
+      もしくは
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class restricted_point' = (restricted_point : int -&gt;restricted_point_type);;</code></strong>
+<code class="computeroutput">class restricted_point' : int -&gt; restricted_point_type</code>
+    </pre>
+    <p>
+      クラスインタフェースはモジュールのシグネチャによって指定することもできます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module type POINT = sig 
+   class restricted_point' : int -&gt;
+     object    
+       method get_x : int
+       method bump : unit
+     end 
+ end;;</code></strong>
+<code class="computeroutput">module type POINT =
+  sig
+    class restricted_point' :
+      int -&gt; object method bump : unit method get_x : int end
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>module Point : POINT = struct 
+   class restricted_point' = restricted_point
+ end;;</code></strong>
+<code class="computeroutput">module Point : POINT</code>
+    </pre>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s06.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s08.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.6&nbsp;プライベートメソッド&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.8&nbsp;継承</td></tr></table></div></body></html>

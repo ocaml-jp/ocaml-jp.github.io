@@ -1,0 +1,34 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.4&nbsp;初期化</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s03.html" title="3.3&nbsp;自分自身への参照"><link rel="next" href="ch03s05.html" title="3.5&nbsp;抽象メソッド"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.4&nbsp;初期化</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s03.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03s05.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.4&nbsp;初期化"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Initializers"></a>3.4&nbsp;初期化</h2></div></div></div>
+    
+    <p>
+クラス定義内の let-束縛はオブジェクトが生成される前に評価されます。しかし、式をオブジェクトが生成された直後に評価することも可能です。そのような式は、初期化子と呼ばれる匿名の隠されたメソッドとして表現されます。このため、自分自身とインスタンス変数を参照することができます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class printable_point x_init =
+   let origin = (x_init / 10) * 10 in
+   object (self)
+     val mutable x = origin
+     method get_x = x
+     method move d = x &lt;- x + d
+     method print = print_int self get_x
+     initializer print_string "new point at "; self print; print_newline()
+   end;;</code></strong>
+<code class="computeroutput">class printable_point :
+  int -&gt;
+  object
+    val mutable x : int
+    method get_x : int
+    method move : int -&gt; unit
+    method print : unit
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>let p = new printable_point 17;;</code></strong>
+<code class="computeroutput">new point at 10
+val p : printable_point = &lt;obj&gt;</code>
+    </pre>
+    <p>
+初期化子は継承の際に上書きされず、すべて評価されます。初期化子もオブジェクトがある一定の性質をみたすようにするのに便利です。他の例が 5.1 節に挙げられています。
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s03.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03s05.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.3&nbsp;自分自身への参照&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.5&nbsp;抽象メソッド</td></tr></table></div></body></html>

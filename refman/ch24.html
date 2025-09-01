@@ -1,0 +1,60 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>24.&nbsp;threads ライブラリ</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="pt04.html" title="パート&nbsp;IV.&nbsp;The Objective Caml library"><link rel="prev" href="ch23.html" title="23.&nbsp;str ライブラリ: 正規表現と文字列処理"><link rel="next" href="ch25.html" title="25.&nbsp;graphics ライブラリ"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">24.&nbsp;<code class="code">threads</code> ライブラリ</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch23.html">前のページ</a>&nbsp;</td><th width="60%" align="center">パート&nbsp;IV.&nbsp;The Objective Caml library</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch25.html">次のページ</a></td></tr></table><hr></div><div class="chapter" title="24.&nbsp;threads ライブラリ"><div class="titlepage"><div><div><h2 class="title"><a name="lib:threads"></a>24.&nbsp;<code class="code">threads</code> ライブラリ</h2></div></div></div>
+  
+  <p>
+    <code class="code">threads</code> ライブラリを使うと Objective Caml で並列プログラムを書くことができます。
+    同一のメモリ空間で協調して実行する複数のスレッド（軽量プロセスとも呼ばれます）を制御することができます。 
+    スレッドは共有データ構造の書き換えや、通信チャネルでデータを送受信することで通信します。
+    
+  </p>
+  <p>
+    <code class="code">threads</code> ライブラリは単一プロセッサ上の時分割によって実装されています。
+    マルチプロセッサマシンを活用することはできません。
+    つまりこのライブラリを使用しても、プログラムを高速化することはできません。 
+    しかし、相互に通信する複数のプロセスとして構造化されたプログラムを書くことは容易になります。
+    
+  </p>
+  <p>
+    <code class="code">threads</code> ライブラリには OS の機能に応じてふたつの実装があります。
+    
+  </p>
+  <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+      システムスレッド。これは OS の提供するスレッド機能（POSIX 1003.1c threads for Unix, and Win32 threads for Windows）による実装です。
+      可能であれば、システムスレッドはバイトコードとネイティブコードのプログラム両方をサポートします。
+      
+    </li><li class="listitem">
+      VM レベルスレッド。この実装は、OCaml の仮想マシン（バイトコードインタプリタ）のレベルで時分割とコンテクストスイッチを行ないます。
+      こちらは Unix システムで利用可能ですが、バイトコードのプログラムしかサポートされません。ネイティブコードのプログラムで使うことはできません。
+      
+    </li></ul></div>
+  <p>
+    <code class="code">threads</code> ライブラリを使用するプログラムは以下のようにリンクしてください。
+    
+  </p>
+  <pre class="screen">
+ocamlc -thread <em class="replaceable"><code>other options</code></em> unix.cma threads.cma <em class="replaceable"><code>other files</code></em>
+ocamlopt -thread <em class="replaceable"><code>other options</code></em> unix.cmxa threads.cmxa <em class="replaceable"><code>other files</code></em>
+  </pre>
+  <p>
+    <code class="code">threads</code> ライブラリを使う翻訳単位は <code class="option">-thread</code> オプション付きでコンパイルしなければなりません（<a class="xref" href="ch08.html" title="8.&nbsp;バッチコンパイル（ocamlc）"> 8 章「<i>バッチコンパイル（<span class="command"><strong>ocamlc</strong></span>）</i>」</a> を参照してください）。
+    
+  </p>
+  <p>
+    VM レベルスレッドを使うプログラムは <span class="command"><strong>ocamlc</strong></span> に <code class="option">-vmthread</code> オプション付きでコンパイルし（<a class="xref" href="ch08.html" title="8.&nbsp;バッチコンパイル（ocamlc）"> 8 章「<i>バッチコンパイル（<span class="command"><strong>ocamlc</strong></span>）</i>」</a> を参照してください）、次のようにリンクしなければなりません。
+    
+  </p>
+  <pre class="screen">
+ocamlc -vmthread <em class="replaceable"><code>other options</code></em> threads.cma <em class="replaceable"><code>other files</code></em>
+  </pre>
+  <p>
+    <code class="code">threads</code> ライブラリを使う翻訳単位も <code class="option">-vmthread</code> オプション付きでコンパイルしなければなりません（<a class="xref" href="ch08.html" title="8.&nbsp;バッチコンパイル（ocamlc）"> 8 章「<i>バッチコンパイル（<span class="command"><strong>ocamlc</strong></span>）</i>」</a> を参照してください）。
+    
+  </p>
+  <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><a href="./libref/Thread.html" class="libref">Thread</a> モジュール: lightweight threads 
+    </li><li class="listitem"><a href="./libref/Mutex.html" class="libref">Mutex</a> モジュール: 相互排除ロック
+    </li><li class="listitem"><a href="./libref/Condition.html" class="libref">Condition</a> モジュール: condition variables to synchronize between threads 
+    </li><li class="listitem"><a href="./libref/Event.html" class="libref">Event</a> モジュール: first-class synchronous communication 
+    </li><li class="listitem"><a href="./libref/ThreadUnix.html" class="libref">ThreadUnix</a> モジュール: thread-compatible system calls
+    </li></ul></div>
+</div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch23.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="pt04.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch25.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">23.&nbsp;<code class="code">str</code> ライブラリ: 正規表現と文字列処理&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;25.&nbsp;<code class="code">graphics</code> ライブラリ</td></tr></table></div></body></html>

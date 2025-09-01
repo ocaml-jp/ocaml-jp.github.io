@@ -1,0 +1,275 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="StringLabels.html">
+<link rel="next" href="Thread.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><link title="シグナル処理" rel="Section" href="#2_">
+<link title="POSIX 標準シグナルのシグナル番号" rel="Subsection" href="#3_POSIX">
+<title>Sys</title>
+</head>
+<body>
+<div class="navbar"><a href="StringLabels.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="Thread.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Sys.html">Sys</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Sys: <code class="code"><span class="keyword">sig</span></code> <a href="Sys.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>システムインタフェース<br>
+<hr width="100%">
+<pre><span id="VALargv"><span class="keyword">val</span> argv</span> : <code class="type">string array</code></pre><div class="info">
+プロセスに与えられたコマンドライン引数です。
+    最初の要素はプログラムを起動するのに使われたコマンドの名前で、残りの要素はそのプログラムに与えられたコマンドライン引数です。<br>
+</div>
+<pre><span id="VALexecutable_name"><span class="keyword">val</span> executable_name</span> : <code class="type">string</code></pre><div class="info">
+現在実行中のプログラムを格納しているファイルの名前。<br>
+</div>
+<pre><span id="VALfile_exists"><span class="keyword">val</span> file_exists</span> : <code class="type">string -> bool</code></pre><div class="info">
+与えられた名前のファイル存在するか検査します。<br>
+</div>
+<pre><span id="VALis_directory"><span class="keyword">val</span> is_directory</span> : <code class="type">string -> bool</code></pre><div class="info">
+与えられた名前がディレクトリを参照していれば <code class="code"><span class="keyword">true</span></code> を返し、他の種類のファイルを参照していれば <code class="code"><span class="keyword">false</span></code> を返します。
+    与えられた名前のファイルが存在しなければ <code class="code"><span class="constructor">Sys_error</span></code> 例外が発生します。<br>
+<b>Since</b> 3.12.0<br>
+</div>
+<pre><span id="VALremove"><span class="keyword">val</span> remove</span> : <code class="type">string -> unit</code></pre><div class="info">
+与えられた名前のファイルを削除します。<br>
+</div>
+<pre><span id="VALrename"><span class="keyword">val</span> rename</span> : <code class="type">string -> string -> unit</code></pre><div class="info">
+ファイルの名前を変更します。
+    第一引数はもとの名前で、第二引数は新しい名前です。
+    変更後の名前のファイルが既に存在した場合、 OS 依存で、例外が発生するか、そのファイルを置き換えるかします。<br>
+</div>
+<pre><span id="VALgetenv"><span class="keyword">val</span> getenv</span> : <code class="type">string -> string</code></pre><div class="info">
+プロセスの環境変数に対応づけられた値を返します。
+    変数が束縛されていなかった場合には <code class="code"><span class="constructor">Not_found</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALcommand"><span class="keyword">val</span> command</span> : <code class="type">string -> int</code></pre><div class="info">
+与えられたシェルコマンドを実行し、その終了コードを返します。<br>
+</div>
+<pre><span id="VALtime"><span class="keyword">val</span> time</span> : <code class="type">unit -> float</code></pre><div class="info">
+プログラムの実行開始から現在までのプロセッサ時間を秒単位で返します。<br>
+</div>
+<pre><span id="VALchdir"><span class="keyword">val</span> chdir</span> : <code class="type">string -> unit</code></pre><div class="info">
+プロセスの現在の作業ディレクトリを変更します。<br>
+</div>
+<pre><span id="VALgetcwd"><span class="keyword">val</span> getcwd</span> : <code class="type">unit -> string</code></pre><div class="info">
+プロセスの現在の作業ディレクトリを返します。<br>
+</div>
+<pre><span id="VALreaddir"><span class="keyword">val</span> readdir</span> : <code class="type">string -> string array</code></pre><div class="info">
+与えられたディレクトリに存在するすべてのファイルの名前を返します。
+    カレントディレクトリと親ディレクトリを表す名前（Unix では <code class="code"><span class="string">"."</span></code> と <code class="code"><span class="string">".."</span></code>）は含まれません。
+    戻り値中の文字列は、完全なパス名ではなく、ファイルの名前です。
+    戻り値の配列中の文字列が常に特定の順序で現れる保証はありません。
+    特に、アルファベット順である保証もありません。<br>
+</div>
+<pre><span id="VALinteractive"><span class="keyword">val</span> interactive</span> : <code class="type">bool <a href="Pervasives.html#TYPEref">ref</a></code></pre><div class="info">
+このリファレンス値は、スタンドアロンプログラムでは最初 <code class="code"><span class="keyword">false</span></code> に設定され、対話式トップレベルシステム <code class="code">ocaml</code> から実行されると <code class="code"><span class="keyword">true</span></code> に設定されます。<br>
+</div>
+<pre><span id="VALos_type"><span class="keyword">val</span> os_type</span> : <code class="type">string</code></pre><div class="info">
+現在プログラムを実行している OS。以下のいずれかになります。<ul>
+<li> <code class="code"><span class="string">"Unix"</span></code> （Linux と Mac OS X を含むすべての Unix）</li>
+<li> <code class="code"><span class="string">"Win32"</span></code> （MS-Windows 上の MSVC++ か Mingw でコンパイルされた OCaml）</li>
+<li> <code class="code"><span class="string">"Cygwin"</span></code> （MS-Windows 上の Cygwin でコンパイルされた OCaml</li>
+</ul>
+<br>
+</div>
+<pre><span id="VALword_size"><span class="keyword">val</span> word_size</span> : <code class="type">int</code></pre><div class="info">
+現在 Caml プログラムを実行している計算機の 1 ワードのサイズ（ビット単位）。
+    32 か 64 になります。<br>
+</div>
+<pre><span id="VALmax_string_length"><span class="keyword">val</span> max_string_length</span> : <code class="type">int</code></pre><div class="info">
+文字列の最大長。<br>
+</div>
+<pre><span id="VALmax_array_length"><span class="keyword">val</span> max_array_length</span> : <code class="type">int</code></pre><div class="info">
+通常の配列の最大長。
+    float の配列の最大長は 32 bit の計算機では <code class="code">max_array_length / 2</code> になり、
+    64 bit の計算機では <code class="code">max_array_length</code> になります。<br>
+</div>
+<br>
+<span id="2_"><h2>シグナル処理</h2></span><br>
+<br><code><span id="TYPEsignal_behavior"><span class="keyword">type</span> <code class="type"></code>signal_behavior</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Signal_default</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >デフォルトの動作（通常、プログラムを中断します）</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Signal_ignore</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >シグナルを無視する</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Signal_handle</span> <span class="keyword">of</span> <code class="type">(int -> unit)</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >シグナル番号を引数として、関数 <code class="code">f</code> を呼び出す</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+シグナルを受け取ったときどのようにするかを表します。<br>
+</div>
+
+<pre><span id="VALsignal"><span class="keyword">val</span> signal</span> : <code class="type">int -> <a href="Sys.html#TYPEsignal_behavior">signal_behavior</a> -> <a href="Sys.html#TYPEsignal_behavior">signal_behavior</a></code></pre><div class="info">
+指定のシグナルを受け取った場合の振る舞いを設定します。
+    第一引数はシグナル番号です。
+    戻り値は、以前そのシグナルに対応づけられていた振る舞いです。
+    シグナル番号が不正である（か、またはシステムで使用可能でない）場合には、
+    <code class="code"><span class="constructor">Invalid_argument</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALset_signal"><span class="keyword">val</span> set_signal</span> : <code class="type">int -> <a href="Sys.html#TYPEsignal_behavior">signal_behavior</a> -> unit</code></pre><div class="info">
+<a href="Sys.html#VALsignal"><code class="code"><span class="constructor">Sys</span>.signal</code></a> と同じですが戻り値が無視されます。<br>
+</div>
+<br>
+<span id="3_POSIX"><h3>POSIX 標準シグナルのシグナル番号</h3></span><br>
+<pre><span id="VALsigabrt"><span class="keyword">val</span> sigabrt</span> : <code class="type">int</code></pre><div class="info">
+異常終了<br>
+</div>
+<pre><span id="VALsigalrm"><span class="keyword">val</span> sigalrm</span> : <code class="type">int</code></pre><div class="info">
+タイムアウト<br>
+</div>
+<pre><span id="VALsigfpe"><span class="keyword">val</span> sigfpe</span> : <code class="type">int</code></pre><div class="info">
+算術例外<br>
+</div>
+<pre><span id="VALsighup"><span class="keyword">val</span> sighup</span> : <code class="type">int</code></pre><div class="info">
+制御端末のハングアップ<br>
+</div>
+<pre><span id="VALsigill"><span class="keyword">val</span> sigill</span> : <code class="type">int</code></pre><div class="info">
+不正なハードウェア命令<br>
+</div>
+<pre><span id="VALsigint"><span class="keyword">val</span> sigint</span> : <code class="type">int</code></pre><div class="info">
+対話的割り込み （Ctrl-C）<br>
+</div>
+<pre><span id="VALsigkill"><span class="keyword">val</span> sigkill</span> : <code class="type">int</code></pre><div class="info">
+強制終了（無視することはできません）<br>
+</div>
+<pre><span id="VALsigpipe"><span class="keyword">val</span> sigpipe</span> : <code class="type">int</code></pre><div class="info">
+パイプの切断<br>
+</div>
+<pre><span id="VALsigquit"><span class="keyword">val</span> sigquit</span> : <code class="type">int</code></pre><div class="info">
+対話的終了<br>
+</div>
+<pre><span id="VALsigsegv"><span class="keyword">val</span> sigsegv</span> : <code class="type">int</code></pre><div class="info">
+不正なメモリアクセス<br>
+</div>
+<pre><span id="VALsigterm"><span class="keyword">val</span> sigterm</span> : <code class="type">int</code></pre><div class="info">
+強制終了<br>
+</div>
+<pre><span id="VALsigusr1"><span class="keyword">val</span> sigusr1</span> : <code class="type">int</code></pre><div class="info">
+アプリケーション定義のシグナル 1<br>
+</div>
+<pre><span id="VALsigusr2"><span class="keyword">val</span> sigusr2</span> : <code class="type">int</code></pre><div class="info">
+アプリケーション定義のシグナル 2<br>
+</div>
+<pre><span id="VALsigchld"><span class="keyword">val</span> sigchld</span> : <code class="type">int</code></pre><div class="info">
+子プロセスの強制終了<br>
+</div>
+<pre><span id="VALsigcont"><span class="keyword">val</span> sigcont</span> : <code class="type">int</code></pre><div class="info">
+続行<br>
+</div>
+<pre><span id="VALsigstop"><span class="keyword">val</span> sigstop</span> : <code class="type">int</code></pre><div class="info">
+中断<br>
+</div>
+<pre><span id="VALsigtstp"><span class="keyword">val</span> sigtstp</span> : <code class="type">int</code></pre><div class="info">
+対話的中断<br>
+</div>
+<pre><span id="VALsigttin"><span class="keyword">val</span> sigttin</span> : <code class="type">int</code></pre><div class="info">
+バックグラウンドプロセスによる端末読み込み<br>
+</div>
+<pre><span id="VALsigttou"><span class="keyword">val</span> sigttou</span> : <code class="type">int</code></pre><div class="info">
+バックグラウンドプロセスによる端末書き込み<br>
+</div>
+<pre><span id="VALsigvtalrm"><span class="keyword">val</span> sigvtalrm</span> : <code class="type">int</code></pre><div class="info">
+仮想時間におけるタイムアウト<br>
+</div>
+<pre><span id="VALsigprof"><span class="keyword">val</span> sigprof</span> : <code class="type">int</code></pre><div class="info">
+プロファイラによる割り込み<br>
+</div>
+<pre><span id="EXCEPTIONBreak"><span class="keyword">exception</span> Break</span></pre>
+<div class="info">
+<a href="Sys.html#VALcatch_break"><code class="code"><span class="constructor">Sys</span>.catch_break</code></a> が設定されているとき、対話的割り込み時に発生する例外<br>
+</div>
+<pre><span id="VALcatch_break"><span class="keyword">val</span> catch_break</span> : <code class="type">bool -> unit</code></pre><div class="info">
+対話的割り込み（Ctrl-C）によりプログラムを強制終了するか <code class="code"><span class="constructor">Break</span></code> 例外を発生させるかを決定します。
+    <code class="code">catch_break <span class="keyword">true</span></code> を実行すると <code class="code"><span class="constructor">Break</span></code> を発生させるようになり、
+    <code class="code">catch_break <span class="keyword">false</span></code> とすると、ユーザーからの割り込みでプログラムを強制終了するようにします。<br>
+</div>
+<pre><span id="VALocaml_version"><span class="keyword">val</span> ocaml_version</span> : <code class="type">string</code></pre><div class="info">
+Objective Caml のパージョンです。
+    <code class="code"><span class="string">"major.minor[.patchlevel][+additional-info]"</span></code> の形式の文字列で、 <code class="code">major</code>、 <code class="code">minor</code>、 <code class="code">patchlevel</code> は整数、 <code class="code">additional-info</code> は任意の文字列です。
+    <code class="code">[.patchlevel]</code> と <code class="code">[+additional-info]</code> の部分は存在しないことがあります。<br>
+</div>
+</body></html>

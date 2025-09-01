@@ -1,0 +1,45 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>9.4&nbsp;よくあるエラー</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch09.html" title="9.&nbsp;トップレベルシステム（ocaml）"><link rel="prev" href="ch09s03.html" title="9.3&nbsp;トップレベルとモジュールシステム"><link rel="next" href="ch09s05.html" title="9.5&nbsp;カスタムトップレベルの作成: ocamlmktop"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">9.4&nbsp;よくあるエラー</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch09s03.html">前のページ</a>&nbsp;</td><th width="60%" align="center">9.&nbsp;トップレベルシステム（<span class="command"><strong>ocaml</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch09s05.html">次のページ</a></td></tr></table><hr></div><div class="section" title="9.4&nbsp;よくあるエラー"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:ocaml:Common errors"></a>9.4&nbsp;よくあるエラー</h2></div></div></div>
+    
+    <p>
+      この節ではよく遭遇するエラーメッセージについて説明します。
+      
+    </p>
+    <div class="simplesect" title="Cannot find file filename"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10838"></a>Cannot find file <em class="replaceable"><code>filename</code></em></h3></div></div></div>
+      
+      <p>
+        <em class="replaceable"><code>filename</code></em> という名前のファイルが、カレントディレクトリ、または探索パス中のディレクトリに見つかりません。
+        
+      </p>
+      <p>
+        <em class="replaceable"><code>filename</code></em> が <code class="filename"><em class="replaceable"><code>mod</code></em>.cmi</code> の形式の場合、 <em class="replaceable"><code>mod</code></em> という翻訳単位を参照しようとしたものの、コンパイル済みのインタフェースが見つからなかったことを意味します。
+        解決策としては、 <code class="filename"><em class="replaceable"><code>mod</code></em>.mli</code> または <code class="filename"><em class="replaceable"><code>mod</code></em>.ml</code> をコンパイルして、コンパイル済みインタフェース <code class="filename"><em class="replaceable"><code>mod</code></em>.cmi</code> を作成してください。
+        
+      </p>
+      <p>
+        <em class="replaceable"><code>filename</code></em> が <code class="filename"><em class="replaceable"><code>mod</code></em>.cmo</code> の形式の場合、これは <code class="code">#load</code> で読み込もうとしたバイトコードオブジェクトファイルが存在しなかったということです。
+        この場合は、 <code class="filename"><em class="replaceable"><code>mod</code></em>.ml</code> をコンパイルしてください。
+        
+      </p>
+      <p>
+        プログラムが複数のディレクトリにわたる場合には、探索するディレクトリを指定していなかったためにこのエラーが起こることもあります。
+        その場合には、 <code class="code">#directory</code> 指示子を使って、適切なディレクトリを探索パスに追加てください。
+        
+      </p>
+    </div>
+    <div class="simplesect" title="This expression has type t1, but is used with type t2"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10863"></a>This expression has type <em class="replaceable"><code>t<sub>1</sub></code></em>, but is used with type <em class="replaceable"><code>t<sub>2</sub></code></em></h3></div></div></div>
+      
+      <p>
+        <a class="xref" href="ch08s04.html" title="8.4&nbsp;よくあるエラー"> 8.4 節「よくあるエラー」</a> を参照してください。
+      </p>
+    </div>
+    <div class="simplesect" title="Reference to undefined global mod"><div class="titlepage"><div><div><h3 class="title"><a name="d4e10871"></a>Reference to undefined global <em class="replaceable"><code>mod</code></em></h3></div></div></div>
+      
+      <p>
+        モジュールの実装を <code class="code">#load</code> で読み込むのを忘れています。
+        <a class="xref" href="ch09s02.html" title="9.2&nbsp;トップレベル指示子"> 9.2 節「トップレベル指示子」</a> を参照してください。
+        
+      </p>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch09s03.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch09.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch09s05.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">9.3&nbsp;トップレベルとモジュールシステム&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;9.5&nbsp;カスタムトップレベルの作成: <span class="command"><strong>ocamlmktop</strong></span></td></tr></table></div></body></html>

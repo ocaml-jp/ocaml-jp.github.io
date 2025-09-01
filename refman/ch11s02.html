@@ -1,0 +1,204 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>11.2&nbsp;Options</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch11.html" title="11.&nbsp;ネイティブコードコンパイル（ocamlopt）"><link rel="prev" href="ch11s01.html" title="11.1&nbsp;Overview of the compiler"><link rel="next" href="ch11s03.html" title="11.3&nbsp;Common errors"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">11.2&nbsp;Options</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch11s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">11.&nbsp;ネイティブコードコンパイル（<span class="command"><strong>ocamlopt</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch11s03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="11.2&nbsp;Options"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e11269"></a>11.2&nbsp;Options</h2></div></div></div>
+    
+    <p>
+      ocamlopt に認識されるコマンドラインオプションは以下の通りです。 
+    </p>
+    <div class="variablelist"><dl><dt><span class="term">-a</span></dt><dd>
+          <p>
+            コマンドラインに与えられたオブジェクトファイル (.cmx/.o) をとり、ライブラリ (.cmxa/.a) を作成します。実行ファイルは生成されません。ライブラリの名前は -o オプションで指定できます。デフォルトでは library.cmxa です。
+          </p>
+          <p>
+            コマンドラインに -cclib や -ccopt オプションが渡されたら、これらのオプションは出力される .cmxa ライブラリに保存され、このライブラリをリンクするときに自動的に -cclib や -ccopt が追加されます (ただしリンク時に -noautolink が指定されない場合) 。
+          </p>
+        </dd><dt><span class="term">-c</span></dt><dd>
+          <p>
+            コンパイルのみ行います。リンクを行いません。ソースコードファイルをコンパイル済みファイルに変換しますが、実行ファイルは生成されません。このオプションはモジュールの分割コンパイル時に使用できます。
+          </p>
+        </dd><dt><span class="term">-cc ccomp</span></dt><dd>
+          <p>
+            最終的な実行ファイルを生成する C リンカや .c ソースファイルをコンパイルする C コンパイラとして ccomp を使用します。
+          </p>
+        </dd><dt><span class="term">-cclib -l''libname''</span></dt><dd>
+          <p>
+            C リンカにオプションとして -l''libname''を渡し、指定された C ライブラリをプログラムにリンクします。
+          </p>
+        </dd><dt><span class="term">-ccopt option</span></dt><dd>
+          <p>
+            C コンパイラやリンカに与えられたオプションを渡します。例えば、-ccopt -Ldir なら C リンカは C ライブラリを探す際ディレクトリ dir を見るようになります。
+          </p>
+        </dd><dt><span class="term">-compact</span></dt><dd>
+          <p>
+            生成するコードを実行時間よりサイズに対して最適化します。プログラムはいくらか小さくなりますが実行速度が遅くなります。デフォルトではスピードに対して最適化します。
+          </p>
+        </dd><dt><span class="term">-dtypes</span></dt><dd>
+          <p>
+            詳細な型情報をダンプします。x.mlの情報はx.annotにダンプされます。型エラーがある場合は、エラーより前の段階で型チェッカーが推論したものになります。
+            emacs/caml-types.elは、x.annotファイルを使い対話的に型を表示できます。
+          </p>
+        </dd><dt><span class="term">-for-pack module-path</span></dt><dd>
+          <p>
+            -packによって生成するコンパイル単位に含めるためのオブジェクトファイル(.cmx/.oファイル)を生成します。たとえば、ocamlopt -for-pack P -c A.mlはa.cmxとa.oを生成します。このファイルは、ocamlopt -pack -o　P.cmx a.cmxとして使うことができます。
+          </p>
+        </dd><dt><span class="term">-g</span></dt><dd>
+          <p>
+            コンパイル時とリンク時にデバッグ情報を追加します。このオプションは、プログラムがcatchされない例外によってプログラムが終了した際に、スタックトレースを表示する必要があります。(see section 10.2).
+          </p>
+        </dd><dt><span class="term">-i</span></dt><dd>
+          <p>
+            実装ファイル (.ml) をコンパイルする際、定義されている名前をすべて型と定義付きで表示します。コンパイラがどのように型推論をしているかチェックするときに使用できます。また出力はインターフェイスの文法に従っているので、インターフェイスファイル (.mli) を書くときの手助けになります。標準出力を .mli ファイルにリダイレクトして、非公開な名前の宣言を消していくだけです。
+          </p>
+        </dd><dt><span class="term">-I directory</span></dt><dd>
+          <p>
+            コンパイル済みインターフェイスファイル (.cmi) 、コンパイル済みオブジェクトコードファイル (.cmx) 、ライブラリ (.cmxa) 、-cclib -lxxx で指定される C ライブラリを検索する際検索しに行くディレクトリのリストに与えられたディレクトリを追加します。デフォルトでは、まずカレントディレクトリが、それから標準ライブラリディレクトリが検索されます。-I で追加されたディレクトリは、カレントディレクトリより後に、標準ライブラリディレクトリより前に、コマンドラインに与えられた順に検索されます。
+          </p>
+          <p>
+            + で始まるディレクトリ名は、標準ライブラリディレクトリからの相対パスとみなされます。例えば -I +labltk は標準ライブラリのサブディレクトリ labltk を検索パスに追加します。
+          </p>
+        </dd><dt><span class="term">-inline n</span></dt><dd>
+          <p>
+            インライン化の度合いを正整数 n に設定します。-inline 0 と指定すると、どの関数もインライン化されません (ただし関数の本体が呼び出し動作より小さい場合を除きます) 。これでインライン化がコードサイズを大きくすることはありません。デフォルトでインライン化の度合いは -inline 1 に設定されています。これだと多少大きな関数でもインライン化するため、コードサイズがいくらか大きくなります。-inline オプションで高い値を設定すると、より大きな関数でもインライン化の候補となるため、コードサイズは相当に大きくなります。
+          </p>
+        </dd><dt><span class="term">-linkall</span></dt><dd>
+          <p>
+            ライブラリに含まれるモジュールをすべて強制的にリンクします。このフラグが与えられなかったら、参照されないモジュールはリンクされません。ライブラリを作成するときに (-a flag) これを与えると、そのライブラリを使用するプログラムをリンクする際、ライブラリ内のモジュールはすべて強制的にリンクされます。
+          </p>
+        </dd><dt><span class="term">-noassert</span></dt><dd>
+          <p>
+            assertion のチェックをやめます。assertion はコンパイルされません。すでにコンパイルされたファイルをリンクする場合には、このフラグは何の意味も持ちません。
+          </p>
+        </dd><dt><span class="term">-noautolink</span></dt><dd>
+          <p>
+            .cma ファイルをリンクするとき、ライブラリが潜在的に持つ -cclib や -ccopt といったオプション (ライブラリを作成するときに指定されたもの) を無視します。ライブラリが間違った C ライブラリや C オプションの指定をしているときに使用できます。この場合、リンクの際コマンドラインで -noautolink を指定して、正しい C ライブラリやオプションを指定し直してください。
+          </p>
+        </dd><dt><span class="term">-nolabels</span></dt><dd>
+          <p>
+            型の中でオプションではないラベルを無視します。適用にラベルは使用できません。パラメータの順序が絶対になります。
+          </p>
+        </dd><dt><span class="term">-o exec-file</span></dt><dd>
+          <p>
+            リンカが出力するファイルの名前を指定します。デフォルトの出力名は Unix の伝統に則り a.out です。-a が指定されている場合は生成されるライブラリ名の指定になります。-output-obj が指定されている場合は生成されるファイル名の指定になります。
+          </p>
+        </dd><dt><span class="term">-output-obj</span></dt><dd>
+          <p>
+            リンカは実行ファイルではなく C オブジェクトファイルを生成します。C のプログラムから呼べるように、Caml のコードを C のライブラリとしてラップするのに使います。18 章のセクション 18.7.5 を見てください。出力されるオブジェクトファイルの名前はデフォルトで camlprog.o です。-o オプションで変更可能です。
+          </p>
+        </dd><dt><span class="term">-p</span></dt><dd>
+          <p>
+            実行されたときにプロファイル情報を書き出すコードを追加したプログラムを生成します。このプロファイル情報は解析プログラム gprof で調べることができます (プロファイリングについて詳しくは 17 章を見てください) 。-p オプションはコンパイル時にもリンク時にも与えてください。-p オプションなしでコンパイルされたオブジェクトファイルをリンクすることもできますが、プロファイリングが不正確になってしまいます。
+          </p>
+          <div class="note" title="Unix" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Unix"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Unix</th></tr><tr><td align="left" valign="top">
+            
+            <p>
+              プロファイルについて詳しくは gprof(1) の Unix マニュアルを見てください。
+            </p>
+            <p>
+              gprof を完全にサポートしているのは一部のプラットフォームだけです (今のところ Intel x86/Linux と Alpha/Digital Unix) 。その他のプラットフォームでは -p オプションを付けてもプロファイルは不正確なものになります (コール・グラフ情報はなく、時間のプロファイルだけです) 。 
+            </p>
+          </td></tr></table></div>
+          <div class="note" title="Windows" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note: Windows"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[注記]" src="images/note.gif"></td><th align="left">Windows</th></tr><tr><td align="left" valign="top">
+            
+            <p>
+              Windows では -p オプションは動きません。 
+            </p>
+          </td></tr></table></div>
+        </dd><dt><span class="term">-pack</span></dt><dd>
+          <p>
+            コマンドラインで与えられた .cmx オブジェクトファイルをまとめて、オブジェクトファイル (.cmx/.o) とそのコンパイル済みインターフェイス (.cmi) を生成します。元のオブジェクトは出力された .cmx ファイルのサブモジュールとなります。出力される .cmx ファイルの名前は -o オプションで必ず与えてください。 例えば、
+          </p>
+          <pre class="programlisting">ocamlopt -pack -o P.cmx A.cmx B.cmx C.cmx</pre>
+          <p>
+            はP.cmxとP.o、P.cmiを生成します。それらは 3 つのサブモジュール A 、B 、C を持ち、それぞれオブジェクトファイル A.cmx 、B.cmx 、C.cmx の内容に対応します。他のプログラムからは、P.A 、P.B 、P.C などとしてこれらの内容を参照することができます。
+          </p>
+          <p>
+            ~結合される.cmxオブジェクトファイルは、適切な-for-packオプションとともにコンパイルされる必要があります。上記の例では、A.cmx、B.cmx、C.cmxはocamlopt -for-pack Pでコンパイルされなければなりません。
+          </p>
+          <p>
+            複数レベルのpackingは、-packと-for-pack組み合わせて実現されます。.例は以下の通りです。
+          </p>
+          <pre class="programlisting">
+ocamlopt -for-pack P.Q -c A.ml
+ocamlopt -pack -o Q.cmx -for-pack P A.cmx
+ocamlopt -for-pack P -c B.ml
+ocamlopt -pack -o P.cmx Q.cmx B.cmx</pre>
+          <p>
+            結果のP.cmxオブジェクトファイルはP.Q、P.Q.A、P.Bをサブモジュールとして含みます。
+          </p>
+        </dd><dt><span class="term">-pp command</span></dt><dd>
+          <p>
+            コンパイラは与えられたコマンド command をプリプロセッサとしてすべてのソースファイルに適用します。command の出力は一時ファイルにリダイレクトされてからコンパイルされます。コンパイルでエラーが発生しなかったら一時ファイルは削除されます。ソースファイルのベース名と拡張子 .ppi (インターフェイス .mli の場合) もしくは .ppo (実装 .ml の場合) から構成される名前が一時ファイルの名前になります。
+          </p>
+        </dd><dt><span class="term">-principal</span></dt><dd>
+          <p>
+            型チェックの際 information path をチェックします。すべての型が principal way で導出されているか確認します。-principal モードでコンパイルの通るプログラムは必ずデフォルトモード (equivalent type) でもコンパイルが通ります (ただしバイナリの signature は異なります) 。
+          </p>
+        </dd><dt><span class="term">-rectypes</span></dt><dd>
+          <p>
+            型チェックの際、任意の再帰的な型を許します。デフォルトでは、オブジェクト型を経由する再帰による再帰的な型しかサポートされません。
+          </p>
+        </dd><dt><span class="term">-S</span></dt><dd>
+          <p>
+            コンパイルの際生成されるアセンブリコードを保存します。ソースファイル x.ml のアセンブリコードは x.s というファイルに保存されます。
+          </p>
+        </dd><dt><span class="term">-thread</span></dt><dd>
+          <p>
+            24 章で解説される threads ライブラリと組み合わせてマルチスレッドプログラムをコンパイル、リンクします。このオプションを付けると、特別なスレッドセーフな標準ライブラリを選択するようになります。
+          </p>
+        </dd><dt><span class="term">-unsafe</span></dt><dd>
+          <p>
+            配列や文字列アクセスのバウンダリチェックをオフにします (v.(i) や s.[i]) 。-unsafe でコンパイルされたプログラムはいくらか速くなりますが安全ではありません。プログラムが配列や文字列のバウンド外をアクセスした場合何が起こるかわかりません。
+          </p>
+        </dd><dt><span class="term">-v</span></dt><dd>
+          <p>
+            コンパイラのバージョンと標準ライブラリディレクトリを表示して終了します。
+          </p>
+        </dd><dt><span class="term">-verbose</span></dt><dd>
+          <p>
+            外部コマンドを実行する前に、そのコマンドを表示します。特にC コンパイラやリンカの起動を表示します。
+          </p>
+        </dd><dt><span class="term">-version</span></dt><dd>
+          <p>
+            コンパイラのバージョンを短い表記 (3.06 みたいに) 表示して終了します。
+          </p>
+        </dd><dt><span class="term">-w warning-list</span></dt><dd>
+          <p>
+            Enable or disable warnings according to the argument
+            warning-list. The argument is a string of one or several characters, with
+            the following meaning for each character: 
+          </p>
+          <div class="variablelist"><dl><dt><span class="term">A/a</span></dt><dd><p>すべての警告を有効/無効にする</p></dd><dt><span class="term">C/c</span></dt><dd><p>コメントかどうか疑わしいものに対する警告を有効/無効にする</p></dd><dt><span class="term">D/d</span></dt><dd><p>推奨されていない (deprecated) 機能に対する警告を有効/無効にする</p></dd><dt><span class="term">E/e</span></dt><dd><p>脆弱なパターンに対する警告を有効/無効にする。(バリアントにコンストラクタが追加されても、成立するmatch式)</p></dd><dt><span class="term">F/f</span></dt><dd><p>関数の部分適用に対する警告を有効/無効にする (つまり f x; expr のようなコードで、適用 f x が関数型を持つようなとき).</p></dd><dt><span class="term">L/l</span></dt><dd><p>適用でラベルが省略されていることに対する警告を有効/無効にする</p></dd><dt><span class="term">M/m</span></dt><dd><p>メソッドのオーバーライドに対する警告を有効/無効にする</p></dd><dt><span class="term">P/p</span></dt><dd><p>部分マッチ (パターンマッチでどれにもマッチしない場合があるもの) に対する警告を有効/無効にする</p></dd><dt><span class="term">S/s</span></dt><dd><p>文が unit 型以外を持つことに対する警告を有効/無効にする (例えば expr1; expr2 のようなコードで、expr1 が unit 以外の型を持つようなとき)</p></dd><dt><span class="term">U/u</span></dt><dd><p>使用されない (冗長な) マッチケースに対するに対する警告を有効/無効にする</p></dd><dt><span class="term">V/v</span></dt><dd><p>隠れたインスタンス変数に対する警告を有効/無効にする</p></dd><dt><span class="term">Y/y</span></dt><dd><p>letやasキーワードで束縛され、_で始まっていない変数の未使用に対する警告を有効/無効にする。</p></dd><dt><span class="term">Z/z</span></dt><dd><p>_で始まっていない変数の未使用に対する警告を有効/無効にする</p></dd><dt><span class="term">X/x</span></dt><dd><p>その他の警告すべてを有効/無効にする デフォルトでは -w Aelyz になります (脆弱なパターン、ラベル以外、未使用の変数以外はすべて有効) 。</p></dd></dl></div>
+          <p>
+            デフォルトでは -w Aelyz になります (脆弱なパターン、ラベル以外、未使用の変数以外はすべて有効) 。
+          </p>
+        </dd><dt><span class="term">-warn-error warning-list</span></dt><dd>
+          <p>
+            引数 warning-list で示される警告をエラーとして扱います。コンパイラはそのような警告が発生したらすぐにエラーとして停止して処理をやめます。warning-list の意味は -w オプションと同じで、大文字だと該当する警告をエラーとし、小文字だとエラーとしません。デフォルトでは -warn-error a になります (どの警告もエラーとしては扱わない) 。
+          </p>
+        </dd><dt><span class="term">-where</span></dt><dd>
+          <p>
+            標準ライブラリの位置を表示して終了します。 
+          </p>
+        </dd></dl></div>
+    <div class="simplesect" title="IA32アーキテクチャオプション"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11474"></a>IA32アーキテクチャオプション</h3></div></div></div>
+      
+      <p>
+        IA32コードジェネレータ(Intel Pentium, AMD Athlon)は以下の追加オプションをサポートします。
+      </p>
+      <div class="variablelist"><dl><dt><span class="term">-ffast-math</span></dt><dd>
+            <p>
+              三角関数と指数関数をライブラリルーチンではなくIA32命令を用いて計算します。影響を受ける関数は、atan, atan2, cos, log, log10, sin, sqrt,tanです。生成されたコードはより高速ですが、サポートする引数の範囲と結果の精度が落ちます。特に、cos, sin, tanの範囲は[-2^64,2^64]まで落ちます。
+            </p>
+          </dd></dl></div>
+    </div>
+    <div class="simplesect" title="Sparcアーキテクチャオプション"><div class="titlepage"><div><div><h3 class="title"><a name="d4e11482"></a>Sparcアーキテクチャオプション</h3></div></div></div>
+      
+      <p>
+        Sparcコードジェネレータは以下の追加オプションをサポートします。
+      </p>
+      <div class="variablelist"><dl><dt><span class="term">-march=v8</span></dt><dd><p>SPARC version 8のコードを生成します</p></dd><dt><span class="term">-march=v9</span></dt><dd><p>SPARC version 9のコードを生成します</p></dd></dl></div>
+      <p>
+        デフォルトでは全てのSPARCプロセッサで動作するSPARC version 7のコードを生成します。
+      </p>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch11s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch11.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch11s03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">11.1&nbsp;Overview of the compiler&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;11.3&nbsp;Common errors</td></tr></table></div></body></html>

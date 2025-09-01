@@ -1,0 +1,58 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>3.17&nbsp;Friend</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"><link rel="prev" href="ch03s16.html" title="3.16&nbsp;バイナリメソッド"><link rel="next" href="ch04.html" title="4.&nbsp;ラベルとバリアント"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.17&nbsp;Friend</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s16.html">前のページ</a>&nbsp;</td><th width="60%" align="center">3.&nbsp;Caml におけるオブジェクト </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch04.html">次のページ</a></td></tr></table><hr></div><div class="section" title="3.17&nbsp;Friend"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Friends"></a>3.17&nbsp;Friend</h2></div></div></div>
+    
+    <p>
+      上記の <code class="code">money</code> クラスは、バイナリメソッドとともによく生じる問題を示しています。同じクラスの他のオブジェクトとやりとりするために、 <code class="code">money</code> オブジェクトの内部表現を <code class="code">value</code> のようなメソッドを通じて公開しなくてはいけません。もしすべてのバイナリメソッド (ここでは <code class="code">plus</code> と <code class="code">leq</code>) を取り除けば、内部表現は <code class="code">value</code> を取り除くことで隠蔽することができます。しかし、このことは同じクラスに属する、自身とは異なるオブジェクトの内部表現を利用するバイナリメソッドがある限り不可能です。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class safe_money x =
+   object (self : 'a)
+     val repr = x
+     method print = print_float repr
+     method times k = {&lt; repr = k *. x &gt;}
+   end;;</code></strong>
+<code class="computeroutput">class safe_money :
+  float -&gt;
+  object ('a)
+    val repr : float
+    method print : unit
+    method times : float -&gt; 'a
+  end</code>
+    </pre>
+    <p>
+      ここでは、オブジェクトの内部表現は個々のオブジェクトのみに知られています。内部表現を同じクラスの他のオブジェクトに公開しようとすると、これを全世界に公開することを強いられてしまうのです。しかし、内部表現の可視性はモジュールによって簡単に制限できます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module type MONEY = 
+   sig 
+     type t
+     class c : float -&gt; 
+       object ('a)
+         val repr : t
+         method value : t
+         method print : unit
+         method times : float -&gt; 'a
+         method leq : 'a -&gt; bool
+         method plus : 'a -&gt; 'a 
+       end
+   end;;</code></strong>
+
+<code class="prompt">#</code><strong class="userinput"><code>module Euro : MONEY = 
+   struct
+     type t = float
+     class c x =
+       object (self : 'a)
+         val repr = x
+         method value = repr
+         method print = print_float repr
+         method times k = {&lt; repr = k *. x &gt;}
+         method leq (p : 'a) = repr &lt;= p value
+         method plus (p : 'a) = {&lt; repr = x +. p value &gt;}
+       end
+   end;;</code></strong>
+    </pre>
+    <p>
+      フレンドの他の例は<a class="xref" href="ch05s02.html#subsec:Sets" title="5.2.4&nbsp;集合"> 5.2.4 節「集合 」</a>にもあります。これらの例は、複数のオブジェクト（ここでは同じクラスに属するオブジェクト）と関数が互いに相手の内部表現を知る必要があるのに、その外側からは内部表現が隠されている必要があるときに生じます。この問題を解決するには、すべてのフレンドをかならず同じモジュールで定義して内部表現を得る方法を与え、かつシグネチャでその表現を捨象する制約を与えモジュールの外には隠蔽します。
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s16.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch03.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch04.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">3.16&nbsp;バイナリメソッド&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;4.&nbsp;ラベルとバリアント </td></tr></table></div></body></html>

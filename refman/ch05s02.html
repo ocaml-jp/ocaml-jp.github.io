@@ -1,0 +1,288 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>5.2&nbsp;クラスを用いた簡単なモジュール</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch05.html" title="5.&nbsp;クラスとモジュールの高度な例"><link rel="prev" href="ch05s01.html" title="5.1&nbsp;高度な例：銀行口座"><link rel="next" href="ch05s03.html" title="5.3&nbsp;Subject / Observer パターン"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.2&nbsp;クラスを用いた簡単なモジュール</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05s01.html">前のページ</a>&nbsp;</td><th width="60%" align="center">5.&nbsp;クラスとモジュールの高度な例</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch05s03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="5.2&nbsp;クラスを用いた簡単なモジュール"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e2213"></a>5.2&nbsp;クラスを用いた簡単なモジュール</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch05s02.html#subsec:Strings">5.2.1. 文字列 </a></span></dt><dt><span class="section"><a href="ch05s02.html#d4e2259">5.2.2. スタック </a></span></dt><dt><span class="section"><a href="ch05s02.html#d4e2304">5.2.3. ハッシュテーブル </a></span></dt><dt><span class="section"><a href="ch05s02.html#subsec:Sets">5.2.4. 集合 </a></span></dt></dl></div>
+    
+    <p>
+      整数や文字列のようなプリミティブ型をオブジェクトとして扱うことができるのかどうか疑問に思った人もいるでしょう。数や文字列といった例は一般におもしろいものではないものの、それが要求されるような状況もあります。上の <code class="code">money</code> クラスはその一例です。ここでは文字列を対象にする方法を示します。
+    </p>
+    <div class="section" title="5.2.1&nbsp;文字列"><div class="titlepage"><div><div><h3 class="title"><a name="subsec:Strings"></a>5.2.1&nbsp;文字列 </h3></div></div></div>
+      
+      <p>
+        文字列をオブジェクトとしてナイーブに定義すると次のようになるでしょう。
+        
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ostring s =
+   object
+      method get n = String.get s n
+      method set n c = String.set s n c
+      method print = print_string s
+      method copy = new ostring (String.copy s)
+   end;;</code></strong>
+<code class="computeroutput">class ostring :
+  string -&gt;
+  object
+    method copy : ostring
+    method get : int -&gt; char
+    method print : unit
+    method set : int -&gt; char -&gt; unit
+  end</code>
+      </pre>
+      <p>
+        この <code class="code">copy</code> メソッドは現在のクラスのオブジェクトではなく <code class="code">ostring</code> クラスのオブジェクトを返します。したがって、これ以降にクラスを拡張した場合、 <code class="code">copy</code> メソッドは親クラスのオブジェクトを返すことになってしまいます。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class sub_string s =
+   object
+      inherit ostring s
+      method sub start len = new sub_string (String.sub s  start len)
+   end;;</code></strong>
+<code class="computeroutput">class sub_string :
+  string -&gt;
+  object
+    method copy : ostring
+    method get : int -&gt; char
+    method print : unit
+    method set : int -&gt; char -&gt; unit
+    method sub : int -&gt; int -&gt; sub_string
+  end</code>
+      </pre>
+      <p>
+        <a class="xref" href="ch03s13.html" title="3.13&nbsp;関数型オブジェクト"> 3.13 節「関数型オブジェクト」</a> で見た通り、解決策は <code class="code">{&lt; &gt;}</code> を使うことです。文字列の表現 <code class="code">s</code> を格納するためのインスタンス変数が必要になります。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class better_string s =
+   object
+      val repr = s
+      method get n = String.get repr n
+      method set n c = String.set repr n c
+      method print = print_string repr
+      method copy = {&lt; repr = String.copy repr &gt;}
+      method sub start len = {&lt; repr = String.sub s  start len &gt;}
+   end;;</code></strong>
+<code class="computeroutput">class better_string :
+  string -&gt;
+  object ('a)
+    val repr : string
+    method copy : 'a
+    method get : int -&gt; char
+    method print : unit
+    method set : int -&gt; char -&gt; unit
+    method sub : int -&gt; int -&gt; 'a
+  end</code>
+      </pre>
+      <p>
+        推論された型で示されているように、メソッド <code class="code">copy</code> と <code class="code">sub</code> は クラスの型と同じ型をもつオブジェクトを返すようになります。
+      </p>
+      <p>
+        他の難しい点は <code class="code">concat</code> メソッドの実装です。ある文字列を同一のクラスの他の文字列と連結するには、インスタンス変数に外部からアクセスできなければなりません。そのためには <code class="code">s</code> を返すメソッド <code class="code">repr</code> を定義しなければなりません。ここに、文字列の正しい定義を示します。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ostring s =
+   object (self : 'mytype)
+      val repr = s
+      method repr = repr
+      method get n = String.get repr n
+      method set n c = String.set repr n c
+      method print = print_string repr
+      method copy = {&lt; repr = String.copy repr &gt;}
+      method sub start len = {&lt; repr = String.sub s start len &gt;}
+      method concat (t : 'mytype) = {&lt; repr = repr ^ t repr &gt;}
+   end;;</code></strong>
+<code class="computeroutput">class ostring :
+  string -&gt;
+  object ('a)
+    val repr : string
+    method concat : 'a -&gt; 'a
+    method copy : 'a
+    method get : int -&gt; char
+    method print : unit
+    method repr : string
+    method set : int -&gt; char -&gt; unit
+    method sub : int -&gt; int -&gt; 'a
+  end</code>
+      </pre>
+      <p>
+        別の構築子として、与えられた長さの未初期化の文字列を返すものも定義できます。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class cstring n = ostring (String.create n);;</code></strong>
+<code class="computeroutput">class cstring : int -&gt; ostring</code>
+      </pre>
+      <p>
+        ここでは文字列の表現を公開してもおそらく害はありません。 <a class="xref" href="ch03s17.html" title="3.17&nbsp;Friend"> 3.17 節「Friend」</a>で <code class="code">money</code> で通貨を隠蔽したとの同様に文字列の表現を隠すこともできます。
+      </p>
+    </div>
+    <div class="section" title="5.2.2&nbsp;スタック"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2259"></a>5.2.2&nbsp;スタック </h3></div></div></div>
+      
+      <p>
+        データ型をパラメータとしたいときにモジュールを使うべきかクラスを使うべきかの選択を迫られることもあります。実際にどちらの方法でもまったく同じようなものになることもあります。例えば、スタックはクラスとして素直に実装することができます。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>exception Empty;;</code></strong>
+<code class="computeroutput">exception Empty</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>class ['a] stack =
+   object 
+     val mutable l = ([] : 'a list)
+     method push x = l &lt;- x::l
+     method pop = match l with [] -&gt; raise Empty | a::l' -&gt; l &lt;- l'; a
+     method clear = l &lt;- []
+     method length = List.length l
+   end;;</code></strong>
+<code class="computeroutput">class ['a] stack :
+  object
+    val mutable l : 'a list
+    method clear : unit
+    method length : int
+    method pop : 'a
+    method push : 'a -&gt; unit
+  end</code>
+      </pre>
+      <p>
+        ですが、スタックの要素に対して繰り返すメソッドを書くときに問題が起こります。 <code class="code">fold</code> メソッドの型は <code class="code">('b -&gt; 'a -&gt; 'b) -&gt; 'b -&gt; 'b</code> になるでしょう。ここで、 <code class="code">'a</code> はスタックのパラメータです。パラメータ <code class="code">'b</code> はクラス <code class="code">'a stack</code> ではなく <code class="code">fold</code> メソッドに渡された引数に関係しています。ナイーブな方法は、 <code class="code">'b</code> を <code class="code">stack</code> クラスのパラメータに追加することでしょう。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ['a, 'b] stack2 =
+   object
+     inherit ['a] stack
+     method fold f (x : 'b) = List.fold_left f x l
+   end;;</code></strong>
+<code class="computeroutput">class ['a, 'b] stack2 :
+  object
+    val mutable l : 'a list
+    method clear : unit
+    method fold : ('b -&gt; 'a -&gt; 'b) -&gt; 'b -&gt; 'b
+    method length : int
+    method pop : 'a
+    method push : 'a -&gt; unit
+  end</code>
+      </pre>
+      <p>
+        しかし、あるオブジェクトのメソッド <code class="code">fold</code> は同じ型を持つ関数群にしか適用できません。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>let s = new stack2;;</code></strong>
+<code class="computeroutput">val s : ('_a, '_b) stack2 = &lt;obj&gt;</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>s#fold (+) 0;;</code></strong>
+<code class="computeroutput">- : int = 0</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>s;;</code></strong>
+<code class="computeroutput">- : (int, int) stack2 = &lt;obj&gt;</code>
+      </pre>
+      <p>
+        より良い解は多相メソッドを使うことです。多相メソッドは Objective Caml バージョン 3.05 で導入されました。 多相メソッドを使うと <code class="code">fold</code> の型の 型変数 <code class="code">'b</code> を全称修飾することができるようになり、 <code class="code">fold</code> の型は多相型 <code class="code">Forall 'b. ('b -&gt; 'a -&gt; 'b) -&gt; 'b -&gt; 'b</code> になります。型検査器は、独力では多相型を推論できないため、メソッド <code class="code">fold</code> には陽な型宣言が必要になります。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ['a] stack3 =
+   object
+     inherit ['a] stack
+     method fold : 'b. ('b -&gt; 'a -&gt; 'b) -&gt; 'b -&gt; 'b
+                 = fun f x -&gt; List.fold_left f x l
+   end;;</code></strong>
+<code class="computeroutput">class ['a] stack3 :
+  object
+    val mutable l : 'a list
+    method clear : unit
+    method fold : ('b -&gt; 'a -&gt; 'b) -&gt; 'b -&gt; 'b
+    method length : int
+    method pop : 'a
+    method push : 'a -&gt; unit
+  end</code>
+      </pre>
+    </div>
+    <div class="section" title="5.2.3&nbsp;ハッシュテーブル"><div class="titlepage"><div><div><h3 class="title"><a name="d4e2304"></a>5.2.3&nbsp;ハッシュテーブル </h3></div></div></div>
+      
+      <p>
+        オブジェクト指向ハッシュテーブルの簡略版は次のようなクラス型になります。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class type ['a, 'b] hash_table =
+   object 
+     method find : 'a -&gt; 'b
+     method add : 'a -&gt; 'b -&gt; unit
+   end;;</code></strong>
+<code class="computeroutput">class type ['a, 'b] hash_table =
+  object method add : 'a -&gt; 'b -&gt; unit method find : 'a -&gt; 'b end</code>
+      </pre>
+      <p>
+        簡略版の実装には連想リストを使います。連想リストは小さなハッシュテーブルの実装に非常に適しています。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ['a, 'b] small_hashtbl : ['a, 'b] hash_table =
+   object
+     val mutable table = []
+     method find key = List.assoc key table
+     method add key valeur = table &lt;- (key, valeur) :: table
+   end;;</code></strong>
+<code class="computeroutput">class ['a, 'b] small_hashtbl : ['a, 'b] hash_table</code>
+      </pre>
+      <p>
+        うまくスケールするよりよい実装は小さなハッシュテーブルを要素とする真のハッシュテーブルを使うことです。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>class ['a, 'b] hashtbl size : ['a, 'b] hash_table =
+   object (self)
+     val table = Array.init size (fun i -&gt; new small_hashtbl) 
+     method private hash key =
+       (Hashtbl.hash key) mod (Array.length table)
+     method find key = table.(self hash key)   find key
+     method add key = table.(self hash key)   add key
+   end;;</code></strong>
+<code class="computeroutput">class ['a, 'b] hashtbl : int -&gt; ['a, 'b] hash_table</code>
+      </pre>
+    </div>
+    <div class="section" title="5.2.4&nbsp;集合"><div class="titlepage"><div><div><h3 class="title"><a name="subsec:Sets"></a>5.2.4&nbsp;集合 </h3></div></div></div>
+      
+      <p>
+        集合の実装には別の難しさがあります。 <code class="code">union</code> メソッドは同一のクラスの別のオブジェクトの内部表現にアクセスできる必要があります。
+      </p>
+      <p>
+        これは <a class="xref" href="ch03s17.html" title="3.17&nbsp;Friend"> 3.17 節「Friend」</a> で見たフレンド関数の別例です。実際、 <code class="code">Set</code> モジュールではこれと同じ仕組みをオブジェクトなしで使っています。
+      </p>
+      <p>
+        オブジェクト指向版の集合では、集合の表現を返すメソッド <code class="code">tag</code> を追加する必要があります。集合は要素の型をパラメータとするので、 <code class="code">tag</code> メソッドは多相型 <code class="code">'a tag</code> となり、モジュール定義においては具象型ですが、シグネチャにおいては抽象型です。外部では同一の型の <code class="code">tag</code> メソッドを持つオブジェクトは同一の表現を共有することが保証されます。
+      </p>
+      <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module type SET =
+   sig
+     type 'a tag
+     class ['a] c :
+       object ('b)
+         method is_empty : bool
+         method mem : 'a -&gt; bool
+         method add : 'a -&gt; 'b
+         method union : 'b -&gt; 'b
+         method iter : ('a -&gt; unit) -&gt; unit
+         method tag : 'a tag
+       end
+   end;;</code></strong>
+
+<code class="prompt">#</code><strong class="userinput"><code>module Set : SET =
+   struct
+     let rec merge l1 l2 =
+       match l1 with
+         [] -&gt; l2
+       | h1 :: t1 -&gt;
+           match l2 with
+             [] -&gt; l1
+           | h2 :: t2 -&gt;
+               if h1 &lt; h2 then h1 :: merge t1 l2
+               else if h1 &gt; h2 then h2 :: merge l1 t2
+               else merge t1 l2
+     type 'a tag = 'a list
+     class ['a] c =
+       object (_ : 'b)
+         val repr = ([] : 'a list)
+         method is_empty = (repr = [])
+         method mem x = List.exists ((=) x) repr
+         method add x = {&lt; repr = merge [x] repr &gt;}
+         method union (s : 'b) = {&lt; repr = merge repr s tag &gt;}
+         method iter (f : 'a -&gt; unit) = List.iter f repr
+         method tag = repr
+       end
+   end;;</code></strong>
+      </pre>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05s01.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch05.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch05s03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">5.1&nbsp;高度な例：銀行口座 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;5.3&nbsp;Subject / Observer パターン </td></tr></table></div></body></html>

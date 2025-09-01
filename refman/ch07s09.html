@@ -1,0 +1,168 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>7.9&nbsp;private な型</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch07.html" title="7.&nbsp;Language extensions"><link rel="prev" href="ch07s08.html" title="7.8&nbsp;再帰モジュール"><link rel="next" href="ch07s10.html" title="7.10&nbsp;局所的 open"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.9&nbsp;<code class="code">private</code> な型</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s08.html">前のページ</a>&nbsp;</td><th width="60%" align="center">7.&nbsp;Language extensions</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch07s10.html">次のページ</a></td></tr></table><hr></div><div class="section" title="7.9&nbsp;private な型"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e8792"></a>7.9&nbsp;<code class="code">private</code> な型</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch07s09.html#sec:Private variant and record types">7.9.1. <code class="code">private</code> なバリアントとレコード型</a></span></dt><dt><span class="section"><a href="ch07s09.html#sec:Private type abbreviations">7.9.2. <code class="code">private</code> な型略記</a></span></dt><dt><span class="section"><a href="ch07s09.html#sec:Private row types">7.9.3. <code class="code">private</code> な列型</a></span></dt></dl></div>
+    
+    <p>
+      モジュールシグネチャ内で <code class="code">type t = private ...</code> 形式で <code class="code">private</code> な型を宣言すると、ライブラリの利用者に型の実装の一部だけを公開することができるようになります。この点から見ると、 <code class="code">private</code> な型は抽象型の宣言やデータ型の定義、型略記の間を取ったものになります（抽象型の宣言では型の実装についての情報はまったく公開されませんし、データ型の定義や型略記では型の実装がすべて公開されます）。 <code class="code">private</code> な型の宣言は、バリアントとレコード型（<a class="xref" href="ch07s09.html#sec:Private variant and record types" title="7.9.1&nbsp;private なバリアントとレコード型"> 7.9.1 節「<code class="code">private</code> なバリアントとレコード型」</a>）、型略記（<a class="xref" href="ch07s09.html#sec:Private type abbreviations" title="7.9.2&nbsp;private な型略記"> 7.9.2 節「<code class="code">private</code> な型略記」</a>）、列型（<a class="xref" href="ch07s09.html#sec:Private row types" title="7.9.3&nbsp;private な列型"> 7.9.3 節「<code class="code">private</code> な列型」</a>）のみっつに分かれます。
+      
+    </p>
+    <div class="section" title="7.9.1&nbsp;private なバリアントとレコード型"><div class="titlepage"><div><div><h3 class="title"><a name="sec:Private variant and record types"></a>7.9.1&nbsp;<code class="code">private</code> なバリアントとレコード型</h3></div></div></div>
+      
+      <p>（OCaml 3.07 〜）</p>
+      <div class="syntax">
+        <table id="d4e8808">
+          <tbody>
+            <tr>
+              <td rowspan="3" valign="baseline"><a class="bnf-non-terminal" href="ch06s08.html#bnf--type-representation">type-representation</a></td>
+              <td><span class="meta">::=</span></td>
+              <td><span class="meta">...</span></td>
+            </tr>
+            <tr>
+              <td><span class="meta">|</span></td>
+              <td>private <a class="bnf-non-terminal" href="ch06s08.html#bnf--constr-decl">constr-decl</a> <span class="meta">{</span> | <a class="bnf-non-terminal" href="ch06s08.html#bnf--constr-decl">constr-decl</a> <span class="meta">}</span></td>
+            </tr>
+            <tr>
+              <td><span class="meta">|</span></td>
+              <td>private <a class="bnf-non-terminal" href="ch06s08.html#bnf--field-decl">field-decl</a> <span class="meta">{</span> | <a class="bnf-non-terminal" href="ch06s08.html#bnf--field-decl">field-decl</a> <span class="meta">}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <code class="code">private</code> と宣言されたバリアントやレコード型の値は、通常通りパターンマッチングで分解したり <code class="syntax"><a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a>.<a class="bnf-non-terminal" href="ch06s03.html#bnf--field">field</a></code> 記法でレコードの要素にアクセスしたりできますが、構成子の適用やレコードの構成により直接これらの値を構成することはできません。さらに、 <code class="code">private</code> なレコード型の変更可能なフィールドへの代入は認められません。
+        
+      </p>
+      <p>
+        <code class="code">private</code> な型の典型的な使用法は、モジュールのシグネチャで使うもので、 <code class="code">private</code> な型の値は常にそのモジュールで提供される関数で構成されるようにし、かつその一方で、定義したモジュールの外部でもその値にパターンマッチングできるようにする、というものです。例を挙げます。
+        
+      </p>
+      <pre class="programlisting">
+module M : sig
+             type t = private A | B of int
+             val a : t
+             val b : int -&gt; t
+           end
+         = struct
+             type t = A | B of int
+             let a = A
+             let b n = assert (n &gt; 0); B n
+           end
+      </pre>
+      <p>
+        ここでは、 <code class="code">private</code> 宣言により、 <span class="type">M.t</span> の値について、構成子 <code class="code">B</code> の引数は常に正の整数になることが保証されます。
+        
+      </p>
+      <p>
+        パラメータの変位については、 <code class="code">private</code> な型は抽象型と同様に扱われます。すなわち、 <code class="code">private</code> な型にパラメータがあった場合、変位を指定する場合にはそのパラメータに <code class="code">+</code> か <code class="code">-</code> 指定することができ、指定しなかった場合には不変になります。
+        
+      </p>
+    </div>
+    <div class="section" title="7.9.2&nbsp;private な型略記"><div class="titlepage"><div><div><h3 class="title"><a name="sec:Private type abbreviations"></a>7.9.2&nbsp;<code class="code">private</code> な型略記</h3></div></div></div>
+      
+      <p>（OCaml 3.11 〜）</p>
+      <div class="syntax">
+        <table id="d4e8857">
+          <tbody>
+            <tr>
+              <td rowspan="2" valign="baseline"><a class="bnf-non-terminal" href="ch06s08.html#bnf--type-equation">type-equation</a></td>
+              <td><span class="meta">::=</span></td>
+              <td><span class="meta">...</span></td>
+            </tr>
+            <tr>
+              <td><span class="meta">|</span></td>
+              <td>private <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        通常の型略記とは異なり、 <code class="code">private</code> な型略記は実装の型 <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> とは区別される型を宣言します。ただし、宣言した型から <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> へ型変換することはできます。さらに、コンパイラは実装の型が何であるか「知っている」ので、そのことを使って型情報を利用した最適化を行なうこともできます。曖昧さのため、 <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> としてオブジェクトや多相バリアント型を指定することはできませんが、同様のことは <code class="code">private</code> な列型を使えば実現できます。
+        
+      </p>
+      <p>
+        以下の例では <code class="code">private</code> な型略記を使って非負整数のモジュールを定義しています。
+      </p>
+      <pre class="programlisting">
+module N : sig
+             type t = private int
+             val of_int: int -&gt; t
+             val to_int: t -&gt; int
+           end
+       = struct
+           type t = int
+           let of_int n = assert (n &gt;= 0); n
+           let to_int n = n
+         end
+      </pre>
+      <p>
+        <span class="type">N.t</span> は <span class="type">int</span> とは互換性がなく、これにより非負整数と通常の整数を混同しないことが保証されます。ただし、 <code class="varname">x</code> の型が <span class="type">N.t</span> であるとき、型変換 <code class="code">(x :&gt; int)</code> は合法で、 <code class="code">N.to_int x</code> の場合と同じように、内部表現として使われている整数が返ります。また、深い型変換もサポートされています。 <code class="varname">l</code> の型が <span class="type">N.t list</span> であるとき、型変換 <code class="code">(l :&gt; int list)</code> は、 <code class="code">List.map N.to_int</code> とした場合と同じように、内部で使われている整数をリストにしたものが返ります（ただし、 <code class="code">List.map N.to_int</code> の場合とは異なり、リスト <code class="varname">l</code> はコピーされません）。
+        
+      </p>
+      <p>
+        型変換 <code class="code">(<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> :&gt; <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a>)</code> は略記形で、 <code class="code">private</code> な型略記の存在下では<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> の型と <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> のどちらにも型変数が含まれない場合にだけ動作することに注意してください。それ以外の場合には、非省略形の <code class="code">(<a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> : typ_e :&gt; <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a>)</code> を使わなければなりません（<code class="code">typ_e</code> は <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a> に期待される型です）。具体的に言えば、上の例では <code class="code">(x : N.t :&gt; int)</code> や <code class="code">(l : N.t list :&gt; int list)</code> のようになります。
+        
+      </p>
+    </div>
+    <div class="section" title="7.9.3&nbsp;private な列型"><div class="titlepage"><div><div><h3 class="title"><a name="sec:Private row types"></a>7.9.3&nbsp;<code class="code">private</code> な列型</h3></div></div></div>
+      
+      <p>（OCaml 3.09 〜）</p>
+      <div class="syntax">
+        <table id="d4e8912">
+          <tbody>
+            <tr>
+              <td rowspan="2" valign="baseline"><a class="bnf-non-terminal" href="ch06s08.html#bnf--type-equation">type-equation</a></td>
+              <td><span class="meta">::=</span></td>
+              <td><span class="meta">...</span></td>
+            </tr>
+            <tr>
+              <td><span class="meta">|</span></td>
+              <td>private <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <code class="code">private</code> な列型は型構造の一部分が抽象的になる型略記です。具体的には、 <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> は、オブジェクト型か多相バリアント型で、詳細化の余地のあるものでなければなりません。インタフェース中で <code class="code">private</code> 宣言が使われた場合、対応する実装は、基底となる実装か <code class="code">private</code> な型の詳細化されたものでなければなりません。
+        
+      </p>
+      <pre class="programlisting">
+module M : sig type c = private &lt; x : int; .. &gt; val o : c end =
+  struct
+    class c = object method x = 3 method y = 2 end
+    let o = new c
+  end
+      </pre>
+      <p>
+        この宣言により、メソッド <code class="code">y</code> が隠蔽され、さらに型 <code class="code">c</code> が、既存の、どの閉じたオブジェクト型とも非互換になります。これは、 <code class="code">o</code> だけが <code class="code">c</code> 型になるということです。この意味では、 <code class="code">private</code> な列型の振る舞いは <code class="code">private</code> なレコード型と同じです。しかし <code class="code">private</code> な列型は段階的な詳細化に関してより柔軟です。この機能はファンクタと組み合わせて使うことができます。
+        
+      </p>
+      <pre class="programlisting">
+module F(X : sig type c = private &lt; x : int; .. &gt; end) =
+  struct
+    let get_x (o : X.c) = o#x
+  end
+module G(X : sig type c = private &lt; x : int; y : int; .. &gt; end) =
+  struct
+    include F(X)
+    let get_y (o : X.c) = o#y
+  end
+      </pre>
+      <p>
+        多相バリアント型は、新たな構成子を追加するか、宣言された構成子を削除できるようにするかのふた通りの方法で詳細化することができます。後者は <code class="code">private</code> なバリアント型に対応し（<code class="code">private</code> な型の値を作成することができない）、前者では、追加された構成子を扱うためにパターンマッチに default case を持たせておく必要があります。
+        
+      </p> 
+      <pre class="programlisting">
+type t = [ `A of int | `B of bool ]
+type u = private [&lt; t &gt; `A ]
+type v = private [&gt; t ]
+      </pre>
+      <p>
+        型 <code class="code">u</code> では <code class="code">(`A n)</code> として値を作成することができますが、 <code class="code">(`B b)</code> とすることはできません。型 <code class="code">v</code> では値の作成に制限はありませんが、パターンマッチに default case がなければなりません。
+        
+      </p>
+      <p>
+        抽象型や <code class="code">private</code> な型と同じく、型パラメータの変位は推論されず、明示しなければなりません。
+        
+      </p>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s08.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch07s10.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">7.8&nbsp;再帰モジュール&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;7.10&nbsp;局所的 <code class="code">open</code></td></tr></table></div></body></html>

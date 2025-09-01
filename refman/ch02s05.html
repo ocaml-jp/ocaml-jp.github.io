@@ -1,0 +1,60 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>2.5&nbsp;モジュールと分割コンパイル</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch02.html" title="2.&nbsp;モジュールシステム"><link rel="prev" href="ch02s04.html" title="2.4&nbsp;ファンクタを使った型の抽象化"><link rel="next" href="ch03.html" title="3.&nbsp;Caml におけるオブジェクト"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.5&nbsp;モジュールと分割コンパイル </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s04.html">前のページ</a>&nbsp;</td><th width="60%" align="center">2.&nbsp;モジュールシステム </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="2.5&nbsp;モジュールと分割コンパイル"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Modules and separate compilation"></a>2.5&nbsp;モジュールと分割コンパイル </h2></div></div></div>
+    
+    <p>
+      ここまでのモジュールの例は全て対話式システム上での例でした。
+      しかし、モジュールはより大規模なバッチコンパイルされるプログラムに対してもっとも有効です。
+そのような類のプログラムでは、ソースを翻訳単位と呼ばれる個別にコンパイルできるいくつかのファイルに分割し、変化があった場合に再コンパイルが必要になる範囲を最小化しなければならない実用上の必要があります。
+    </p>
+    <p>
+       Objective Camlでは、翻訳単位はストラクチャやシグネチャの特殊なケースで、モジュールシステムの言葉で簡単に説明できます。
+       翻訳単位 <em class="parameter"><code>A</code></em> は二つのファイルからなります
+</p>
+    <div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem">実装ファイル <code class="filename"><em class="parameter"><code>A</code></em>.ml</code>。 <code class="code">struct</code> ... <code class="code">end</code> の内部と同様に定義の列を含む</li><li class="listitem">
+        インタフェースファイル <code class="filename"><em class="parameter"><code>A</code></em>.mli</code>。 <code class="code">sig</code> ... <code class="code">end</code> の内部と同様に仕様の列を含む</li></ol></div>
+    <p>
+      両ファイルによりストラクチャ <em class="parameter"><code>A</code></em> が、トップレベルで次のように入力されたように定義されます。
+    </p>
+    <pre class="programlisting">
+module A: sig (* ファイル A.mli の内容 *) end
+        = struct (* ファイル A.ml の内容*) end;;
+    </pre>
+    <p>
+      これら翻訳単位を定義するファイルは個別に <strong class="userinput"><code>ocaml -c</code></strong> コマンドによりコンパイルできます。(<code class="option">-c</code> オプションは「コンパイルのみ行いリンクを試みない」という意味)
+      コマンドの結果、コンパイルされたインターフェースファイル(拡張子 <code class="filename">.cmi</code>)やコンパイルされたオブジェクトファイル(拡張子 <code class="filename">.cmo</code>)が生成されます。
+      全ての翻訳単位がコンパイルされたとき、それら <code class="filename">.cmo</code> ファイルは <span class="command"><strong>ocaml</strong></span> コマンドを使いリンクされます。
+      例えば次の一連のコマンドは二つの翻訳単位 <code class="code">Aux</code> と <code class="code">Main</code> からなるプログラムをビルドしています。
+    </p>
+    <pre class="programlisting">
+$ ocamlc -c Aux.mli                     # produces aux.cmi
+$ ocamlc -c Aux.ml                      # produces aux.cmo
+$ ocamlc -c Main.mli                    # produces main.cmi
+$ ocamlc -c Main.ml                     # produces main.cmo
+$ ocamlc -o theprogram Aux.cmo Main.cmo
+    </pre>
+    <p>
+      得られたプログラムは、トップレベルで次のように入力された場合とまったく同様に振舞います。
+    </p>
+    <pre class="programlisting">
+module Aux: sig (* Aux.mli の内容*) end
+          = struct (* Aux.ml の内容 *) end;;
+module Main: sig (* Main.mli の内容 *) end
+           = struct (* Main.ml の内容 *) end;;
+    </pre>
+    <p>
+      特に、 <code class="code">Main</code> は <code class="code">Aux</code> を参照することが出来ます。
+      <code class="filename">Main.ml</code> 及び <code class="filename">Main.mli</code> に含まれる定義や宣言からは <code class="code">Aux.<em class="parameter"><code>ident</code></em></code> 記法により <code class="filename">Aux.mli</code> でエクスポートされた定義にアクセスすることが出来ます。
+    </p>
+    <p>
+      リンク時に <span class="command"><strong>ocaml</strong></span> コマンドに与えられる <code class="filename">.cmo</code> ファイルの順番は、その順番に各モジュールが定義されたものとして解釈されます。
+    </p>
+    <p>
+      そのため、この例では <code class="code">Aux</code> が最初に現われているので <code class="code">Main</code> から <code class="code">Aux</code> を参照できますが、 <code class="code">Aux</code> から <code class="code">Main</code> は参照できません。
+    </p>
+    <p>
+ここで注意が必要なのは、トップレベルのストラクチャのみが分割コンパイルされるファイルに対応させることが出来、ファンクタやモジュール型はそのままでは分割コンパイルされるファイルにすることが出来ないということです。
+しかしながら、全てのモジュール類のオブジェクトはストラクチャの中におくことが出来るため、解決策としてはファンクタやモジュール型をストラクチャの中に置くことになります。
+このストラクチャはファイルに対応させることができます。
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s04.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch02.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">2.4&nbsp;ファンクタを使った型の抽象化 &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;3.&nbsp;Caml におけるオブジェクト </td></tr></table></div></body></html>

@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Map.html">
+<link rel="next" href="MoreLabels.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><title>Marshal</title>
+</head>
+<body>
+<div class="navbar"><a href="Map.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="MoreLabels.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Marshal.html">Marshal</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Marshal: <code class="code"><span class="keyword">sig</span></code> <a href="Marshal.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>データ構造のマーシャリング
+<p>
+
+    このモジュールは、任意のデータ構造をバイト列に変換する関数を提供します。
+    このバイト列は、ファイルに書き込んたりパイプやネットワーク経由で送信でき、
+    （場合によっては別のプロセスからであっても）読み戻してもとのデータ構造を復元することができます。
+    バイト列の形式は同一のバージョンの Objective Caml であれば計算機を問わず互換性があります。
+<p>
+
+    警告: 現在のマーシャリングは型安全ではありません。
+    データの型はマーシャリングされないため、データを読み戻したプロセスがその値が文脈で期待された型を持つか検査することはできません。
+    特に、 <code class="code"><span class="constructor">Marshal</span>.from_*</code> 関数の戻り値の型が <code class="code"><span class="keywordsign">'</span>a</code> となっているのは誤解を招くかもしれません。
+    戻り値の値は任意の <code class="code"><span class="keywordsign">'</span>a</code> に対して <code class="code"><span class="keywordsign">'</span>a</code> 型となるわけではなく、コンパイル時には決定できない何らかの特定の型になります。
+    プログラマは次のようにして戻り値に対して期待する型を明示しなければなりません。
+<p>
+<ul>
+<li><code class="code">(<span class="constructor">Marshal</span>.from_channel chan : <span class="keyword">type</span>)</code></li>
+</ul>
+
+    このとき、ファイル中のオブジェクトが指定された型でなかった場合、実行時に何が起こるかはわかりません。
+<p>
+
+    マーシャリングされた値の表現は人間が読むためのものではなく、表示可能でない文字のバイトが使われています。
+    したがって、 <code class="code"><span class="constructor">Marshal</span>.to_channel</code> や <code class="code"><span class="constructor">Marshal</span>.from_channel</code> の引数として渡すチャネルは、 <code class="code">open_out_bin</code> や <code class="code">open_in_bin</code> を使ってバイナリモードで開かなければなりません。
+    チャネルをテキストモードで開くと、 Windows のような、テキストチャネルとバイナリチャネルの振る舞いが異なるプラットフォームでは読み戻し時にエラーが起こります。<br>
+<hr width="100%">
+<br><code><span id="TYPEextern_flags"><span class="keyword">type</span> <code class="type"></code>extern_flags</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">No_sharing</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >共有構造を保存しない</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Closures</span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" >クロージャを送る</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info">
+下の <code class="code"><span class="constructor">Marshal</span>.to_*</code> 関数に渡すフラグです<br>
+</div>
+
+<pre><span id="VALto_channel"><span class="keyword">val</span> to_channel</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -> 'a -> <a href="Marshal.html#TYPEextern_flags">extern_flags</a> list -> unit</code></pre><div class="info">
+<code class="code"><span class="constructor">Marshal</span>.to_channel chan v flags</code> は <code class="code">v</code> のバイト表現をチャネル <code class="code">chan</code> に書き込みます。
+    <code class="code">flags</code> は、共有構造や関数値に対するマーシャリングの振る舞いを制御するフラグのリストです。
+<p>
+
+    <code class="code">flags</code> に <code class="code"><span class="constructor">Marshal</span>.<span class="constructor">No_sharing</span></code> が含まれない場合、 <code class="code">v</code> 中の共有構造や循環構造を検知し、出力のバイト列の中でもそれを保存します。
+    特に、これによってマーシャリングが常に停止することが保証されます。
+    ただし、 <code class="code"><span class="constructor">Marshal</span>.to_channel</code> の呼び出しをまたいだ値同士の共有構造は検知されません。
+    <code class="code">flags</code> に <code class="code"><span class="constructor">Marshal</span>.<span class="constructor">No_sharing</span></code> が含まれる場合は、共有構造は無視されます。
+    これにより、 <code class="code">v</code> に共有構造が含まれない場合には、マーシャリングがより高速になりますが、 <code class="code">v</code> に実際に共有構造が含まれる場合には、マーシャリングがより低速になり、出力のバイト列が大きくなりますし、 <code class="code">v</code> に循環構造が含まれる場合にはマーシャリングが停止しなくなります。
+<p>
+
+    <code class="code">flags</code> に <code class="code"><span class="constructor">Marshal</span>.<span class="constructor">Closures</span></code> が含まれない場合には、 <code class="code">v</code> に関数値が含まれた場合、マーシャリングに失敗します。
+    この場合は、関数やオブジェクトを含まない「純粋な」データ構造のみを異なるプログラム間で安全に受け渡すことができます。
+    <code class="code">flags</code> に <code class="code"><span class="constructor">Marshal</span>.<span class="constructor">Closures</span></code> が含まれる場合、関数はプログラムコード中での位置としてマーシャリングされます。
+    この場合、マーシャリングの出力は、まったく同じプログラムをコンパイルした、まったく同じバイナリを実行しているプロセスからのみ読み戻すことができます
+    （バイナリの同一性は、読み戻し時に、コード中の位置とともに渡されるコード自体の MD5 ダイジェストを使ってチェックされます）。<br>
+</div>
+<pre><span id="VALto_string"><span class="keyword">val</span> to_string</span> : <code class="type">'a -> <a href="Marshal.html#TYPEextern_flags">extern_flags</a> list -> string</code></pre><div class="info">
+<code class="code"><span class="constructor">Marshal</span>.to_string v flags</code> は <code class="code">v</code> のバイト列表現を格納した文字列を返します。
+    <code class="code">flags</code> 引数の意味は <a href="Marshal.html#VALto_channel"><code class="code"><span class="constructor">Marshal</span>.to_channel</code></a> と同じです。<br>
+</div>
+<pre><span id="VALto_buffer"><span class="keyword">val</span> to_buffer</span> : <code class="type">string -> int -> int -> 'a -> <a href="Marshal.html#TYPEextern_flags">extern_flags</a> list -> int</code></pre><div class="info">
+<code class="code"><span class="constructor">Marshal</span>.to_buffer buff ofs len v flags</code> は値 <code class="code">v</code> をマーシャリングし、そのバイト列表現を文字列 <code class="code">buff</code> の、 <code class="code">ofs</code> 文字目から最大 <code class="code">len</code> 文字の範囲に格納します。
+    この関数は実際に書き込んだ文字数を返します。
+    <code class="code">v</code> のバイト列表現が <code class="code">len</code> 文字に収まらなかった場合には <code class="code"><span class="constructor">Failure</span></code> 例外が発生します。<br>
+</div>
+<pre><span id="VALfrom_channel"><span class="keyword">val</span> from_channel</span> : <code class="type"><a href="Pervasives.html#TYPEin_channel">in_channel</a> -> 'a</code></pre><div class="info">
+<code class="code"><span class="constructor">Marshal</span>.from_channel chan</code> はチャネル <code class="code">chan</code> から、
+    <code class="code"><span class="constructor">Marshal</span>.to_*</code> 関数の出力した値のバイト表現を読み込み、それに対応する値を再構成して返します。<br>
+</div>
+<pre><span id="VALfrom_string"><span class="keyword">val</span> from_string</span> : <code class="type">string -> int -> 'a</code></pre><div class="info">
+<code class="code"><span class="constructor">Marshal</span>.from_string buff ofs</code> は <a href="Marshal.html#VALfrom_channel"><code class="code"><span class="constructor">Marshal</span>.from_channel</code></a> と同じくマーシャリングされた値を読み戻しますが、チャネルから読み込むのではなく、文字列 <code class="code">buff</code> の <code class="code">ofs</code> 文字目から読み込みます。<br>
+</div>
+<pre><span id="VALheader_size"><span class="keyword">val</span> header_size</span> : <code class="type">int</code></pre><div class="info">
+マーシャリングされた値のバイト表現は固定長のヘッダと可変長のデータ部分から構成されます。
+    データ部分の大きさはヘッダに格納されています。
+    <a href="Marshal.html#VALheader_size"><code class="code"><span class="constructor">Marshal</span>.header_size</code></a> はヘッダのサイズを文字数で表したものです。
+    <a href="Marshal.html#VALdata_size"><code class="code"><span class="constructor">Marshal</span>.data_size</code></a><code class="code"> buff ofs</code> は <code class="code">buff</code> の <code class="code">ofs</code> 番目から適切なヘッダが始まる場合に、文字数単位のデータ部分の大きさになります。
+    <a href="Marshal.html#VALtotal_size"><code class="code"><span class="constructor">Marshal</span>.total_size</code></a><code class="code"> buff ofs</code> はマーシャリングされた値全体の大きさを文字数で表したものです。
+    <a href="Marshal.html#VALdata_size"><code class="code"><span class="constructor">Marshal</span>.data_size</code></a> と <a href="Marshal.html#VALtotal_size"><code class="code"><span class="constructor">Marshal</span>.total_size</code></a> は両方とも <code class="code">buff</code> の <code class="code">ofs</code> 文字目以降が適切なヘッダを含まない場合には <code class="code"><span class="constructor">Failure</span></code> 例外を発生させます。
+<p>
+
+    マーシャリングされた値のバイト表現を文字列バッファに読み込むには、まず最初に
+    <a href="Marshal.html#VALheader_size"><code class="code"><span class="constructor">Marshal</span>.header_size</code></a> 文字をバッファに読み込み、それから <a href="Marshal.html#VALdata_size"><code class="code"><span class="constructor">Marshal</span>.data_size</code></a>
+    を使って残りの長さを特定し、バッファに残りのデータを読み込むのに十分な容量があることを確認した上でデータを読み込み、最後に <a href="Marshal.html#VALfrom_string"><code class="code"><span class="constructor">Marshal</span>.from_string</code></a> を呼び出して値を読み戻すことになります。<br>
+</div>
+<pre><span id="VALdata_size"><span class="keyword">val</span> data_size</span> : <code class="type">string -> int -> int</code></pre><div class="info">
+<a href="Marshal.html#VALheader_size"><code class="code"><span class="constructor">Marshal</span>.header_size</code></a> を参照してください。<br>
+</div>
+<pre><span id="VALtotal_size"><span class="keyword">val</span> total_size</span> : <code class="type">string -> int -> int</code></pre><div class="info">
+<a href="Marshal.html#VALheader_size"><code class="code"><span class="constructor">Marshal</span>.header_size</code></a> を参照してください。<br>
+</div>
+</body></html>

@@ -1,0 +1,84 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>8.1&nbsp;コンパイラの概要</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch08.html" title="8.&nbsp;バッチコンパイル（ocamlc）"><link rel="prev" href="ch08.html" title="8.&nbsp;バッチコンパイル（ocamlc）"><link rel="next" href="ch08s02.html" title="8.2&nbsp;オプション"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">8.1&nbsp;コンパイラの概要</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch08.html">前のページ</a>&nbsp;</td><th width="60%" align="center">8.&nbsp;バッチコンパイル（<span class="command"><strong>ocamlc</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch08s02.html">次のページ</a></td></tr></table><hr></div><div class="section" title="8.1&nbsp;コンパイラの概要"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:ocamlc:Overview of the compiler"></a>8.1&nbsp;コンパイラの概要</h2></div></div></div>
+    
+    <p>
+      <span class="command"><strong>ocamlc</strong></span> コマンドは、多くの C コンパイラと似たコマンドラインインタフェースを持ちます。
+      <span class="command"><strong>ocamlc</strong></span> はいくつかの種類の引数を受け取り、それらを順番に処理します。
+      
+    </p>
+    <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+        <p>
+          <code class="filename">.mli</code> で終わる引数は翻訳単位のインタフェースソースファイルとして扱われます。
+          インタフェースには翻訳単位の公開する名前を指定し、値の名前とその型の宣言、public なデータ型の定義、抽象データ型の宣言などを行ないます。
+          <span class="command"><strong>ocamlc</strong></span> は <code class="filename"><em class="replaceable"><code>x</code></em>.mli</code> からコンパイル済みインタフェースファイル <code class="filename"><em class="replaceable"><code>x</code></em>.cmi</code> を生成します。
+          
+        </p>
+      </li><li class="listitem">
+        <p>
+          <code class="filename">.ml</code> で終わる引数は翻訳単位の実装ソースファイルとして扱われます。
+          実装には翻訳単位の公開する名前の定義や、副作用目的で評価する式を含めます。
+          <span class="command"><strong>ocamlc</strong></span> コンパイラは <code class="filename"><em class="replaceable"><code>x</code></em>.ml</code> からコンパイル済みオブジェクトバイトコード <code class="filename"><em class="replaceable"><code>x</code></em>.cmo</code> を生成します。
+          
+        </p>
+        <p>
+          インタフェースファイル <code class="filename"><em class="replaceable"><code>x</code></em>.mli</code> が存在する場合、対応するコンパイル済みインタフェース <code class="filename"><em class="replaceable"><code>x</code></em>.cmi</code> が存在するものと仮定し、これと実装 <code class="filename"><em class="replaceable"><code>x</code></em>.ml</code> が適合するか検査します。
+          インタフェース <code class="filename"><em class="replaceable"><code>x</code></em>.mli</code> が存在しない場合には、 <code class="filename"><em class="replaceable"><code>x</code></em>.ml</code> をコンパイルしたときに、オブジェクトコード <code class="filename"><em class="replaceable"><code>x</code></em>.cmo</code> に加えて <code class="filename"><em class="replaceable"><code>x</code></em>.cmi</code> も生成します。
+          生成された <code class="filename"><em class="replaceable"><code>x</code></em>.cmi</code> は <code class="filename"><em class="replaceable"><code>x</code></em>.ml</code> で定義されものをすべて公開するインタフェースになります。
+          
+        </p>
+      </li><li class="listitem">
+        <p>
+          <code class="filename">.cmo</code> で終わる引数はコンパイル済みオブジェクトバイトコードとして扱われます。
+          これらのファイルを、 <code class="filename">.ml</code> ファイル引数（あれば）をコンパイルして得られたオブジェクトファイルに Objective Caml の標準ライブラリを加えたものとリンクし、スタンドアロン実行プログラムを生成します。
+          コマンドラインでの <code class="filename">.cmo</code> 引数と <code class="filename">.ml</code> 引数の順番には意味があります。
+          各翻訳単位はコマンドラインで指定された順番で実行時に初期化され、未初期化の要素を使用しようとするとリンク時にエラーになります。
+          したがって、 <code class="filename"><em class="replaceable"><code>x</code></em>.cmo</code> は翻訳単位 <em class="replaceable"><code>x</code></em> を参照する <code class="filename">.cmo</code> ファイルよりも先に指定しなければなりません。
+          
+        </p>
+      </li><li class="listitem">
+        <p>
+          <code class="filename">.cma</code> で終わる引数はオブジェクトバイトコードのライブラリとして扱われます。
+          オブジェクトバイトコードのライブラリは複数のオブジェクトバイトコードファイル（<code class="filename">.cmo</code>）をひとつのファイルにまとめたものです。
+          ライブラリは <strong class="userinput"><code>ocamlc -a</code></strong> で作成できます（下の <code class="option">-a</code> オプションの説明を参照してください）。
+          ライブラリ中のオブジェクトファイルは通常の <code class="filename">.cmo</code> と同じように、 <code class="filename">.cma</code> ファイルを作成した時に指定した順番でリンクされます（上記参照）。
+          ただひとつ異なる点として、ライブラリ中のオブジェクトファイルでプログラム中のどこからも参照されないものはリンクされません。
+          
+        </p>
+      </li><li class="listitem">
+        <p>
+          <code class="filename">.c</code> で終わる引数は C コンパイラに渡して <code class="filename">.o</code> （Windows では <code class="filename">.obj</code>）オブジェクトファイルを生成します。
+          このオブジェクトファイルは <code class="option">-custom</code> フラグを設定した場合にプログラムにリンクされます（下の <code class="option">-custom</code> の説明を参照してください）。
+          
+        </p>
+      </li><li class="listitem">
+        <p>
+          <code class="filename">.o</code> または <code class="filename">.a</code> （Windows では <code class="filename">.obj</code> または <code class="filename">.lib</code>）で終わる引数は C のオブジェクトファイルやライブラリとみなされます。
+          <code class="option">-custom</code> モードでリンクしていると、これらは C のリンカに渡されます（下の <code class="option">-custom</code> の説明を参照してください）。
+          
+        </p>
+      </li><li class="listitem">
+        <p>
+          <code class="filename">.so</code>（Windows では <code class="filename">.dll</code>）で終わる引数は C の共有ライブラリ（DLL）とみなされます。
+          リンク時にCaml コードから参照される外部 C 関数をそこから検索し、生成されるバイトコード実行ファイル中にその共有ライブラリの名前を出力します。
+          ランタイムシステム <span class="command"><strong>ocamlrun</strong></span> はプログラム起動時に必要な共有ライブラリを動的にロードします。
+          
+        </p>
+      </li></ul></div>
+    <p>
+      リンカの出力は Objective Caml バイトコードインタプリタである <span class="command"><strong>ocamlrun</strong></span> コマンドで実行できるコンパイル済みバイトコードを格納したファイルです。
+      出力のファイル名を <code class="filename">caml.out</code> とすると、以下のコマンドで <code class="filename">caml.out</code> 中のコンパイル済みコードに引数として文字列 <em class="replaceable"><code>arg<sub>1</sub></code></em> から <em class="replaceable"><code>arg<sub><em class="parameter"><code>n</code></em></sub></code></em> を渡して実行します（詳しくは <a class="xref" href="ch10.html" title="10.&nbsp;ランタイムシステム（ocamlrun）"> 10 章「<i>ランタイムシステム（<span class="command"><strong>ocamlrun</strong></span>）</i>」</a> を参照してください）。
+      
+      
+    </p>
+    <pre class="programlisting">ocamlrun caml.out <em class="replaceable"><code>arg<sub>1</sub> arg<sub>2</sub> ... arg<sub><em class="parameter"><code>n</code></em></sub></code></em></pre>
+      <p>
+        多くのシステムでは出力されたファイルは以下のようにそのまま実行できます。 
+        
+      </p>
+      <pre class="programlisting">./caml.out <em class="replaceable"><code>arg<sub>1</sub> arg<sub>2</sub> ... arg<sub><em class="parameter"><code>n</code></em></sub></code></em></pre>
+      <p>
+        生成されたファイルは実行権限ビットがセットされていて、自力でバイトコードインタプリタを起動しようとします。
+        
+      </p>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch08.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch08.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch08s02.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">8.&nbsp;バッチコンパイル（<span class="command"><strong>ocamlc</strong></span>）&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;8.2&nbsp;オプション </td></tr></table></div></body></html>

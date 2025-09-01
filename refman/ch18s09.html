@@ -1,0 +1,179 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>18.9&nbsp;Advanced topic: custom blocks</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch18.html" title="18.&nbsp;C と Objective Caml のインタフェース"><link rel="prev" href="ch18s08.html" title="18.8&nbsp;Advanced example with callbacks"><link rel="next" href="ch18s10.html" title="18.10&nbsp;Building mixed C/Caml libraries: ocamlmklib"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">18.9&nbsp;Advanced topic: custom blocks</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch18s08.html">前のページ</a>&nbsp;</td><th width="60%" align="center">18.&nbsp;C と Objective Caml のインタフェース</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch18s10.html">次のページ</a></td></tr></table><hr></div><div class="section" title="18.9&nbsp;Advanced topic: custom blocks"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e13784"></a>18.9&nbsp;Advanced topic: custom blocks</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch18s09.html#d4e13787">18.9.1. The struct custom_operations</a></span></dt><dt><span class="section"><a href="ch18s09.html#d4e13816">18.9.2. Allocating custom blocks</a></span></dt><dt><span class="section"><a href="ch18s09.html#d4e13825">18.9.3. Accessing custom blocks</a></span></dt><dt><span class="section"><a href="ch18s09.html#d4e13829">18.9.4. Writing custom serialization and deserialization functions</a></span></dt><dt><span class="section"><a href="ch18s09.html#d4e13914">18.9.5. Choosing identifiers</a></span></dt><dt><span class="section"><a href="ch18s09.html#d4e13918">18.9.6. Finalized blocks</a></span></dt></dl></div>
+    
+    <p>
+      Blocks with tag Custom_tag contain both arbitrary user data and a pointer to
+      a C struct, with type struct custom_operations, that associates user-provided
+      finalization, comparison, hashing, serialization and deserialization functions
+      to this block.
+    </p>
+    <div class="section" title="18.9.1&nbsp;The struct custom_operations"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13787"></a>18.9.1&nbsp;The struct custom_operations</h3></div></div></div>
+      
+      <p>
+        The struct custom_operations is defined in &lt;caml/custom.h&gt; and contains the
+        following fields: 
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> char *identifier </span></dt><dd><p> A zero-terminated character string serving as an identifier for serialization and deserialization operations.</p></dd><dt><span class="term"> void  (*finalize)(value v) </span></dt><dd><p> The finalize field contains a pointer to a C function that is called when the block becomes unreachable and is about to be reclaimed. The block is passed as first argument to the function. The finalize field can also be custom_finalize_default to indicate that no finalization function is         associated with the block.
+</p></dd><dt><span class="term"> int (*compare)(value v1, value v2) </span></dt><dd><p> The compare field contains a pointer to a C function that is called whenever two custom blocks are compared using Caml's generic comparison operators (=, &lt;&gt;, &lt;=, &gt;=, &lt;, &gt; and compare). The C function should return 0 if the data contained in the two blocks are structurally equal, a negative integer if the data from the first block is less than the data from the second block, and a positive integer if the data from the first block is greater than the data from the second block. %~ The compare field can be set to custom_compare_default; this default comparison function simply raises Failure.</p></dd><dt><span class="term"> long (*hash)(value v) </span></dt><dd><p> The hash field contains a pointer to a C function that is called whenever Caml's generic hash operator (see module Hashtbl) is applied to a custom block. The C function can return an arbitrary long integer representing the hash value of the data contained in the given custom block. The hash value must be compatible with the compare function, in the sense that two structurally equal data (that is, two custom blocks for which compare returns 0) must have the same hash value. %~ The hash field can be set to custom_hash_default, in which case the custom block is ignored during hash computation.</p></dd><dt><span class="term"> void (*serialize)(value v, unsigned long * wsize_32, unsigned long * wsize_64) </span></dt><dd><p> The serialize field contains a pointer to a C function that is called whenever the custom block needs to be serialized (marshaled) using the Caml functions output_value or Marshal.to_.... For a custom block, those functions first write the identifier of the block (as given by the identifier field) to the output stream, then call the user-provided serialize function. That function is responsible for writing the data contained in the custom block, using the serialize_... functions defined in &lt;caml/intext.h&gt; and listed below. The user-provided serialize function must then store in its wsize_32 and wsize_64 parameters the sizes in bytes of the data part of the custom block on a 32-bit architecture and on a 64-bit architecture, respectively. %~ The serialize field can be set to custom_serialize_default, in which case the Failure exception is raised when attempting to serialize the custom block.</p></dd><dt><span class="term"> unsigned long (*deserialize)(void * dst) </span></dt><dd><p> The deserialize field contains a pointer to a C function that is called whenever a custom block with identifier identifier needs to be deserialized (un-marshaled) using the Caml functions input_value or Marshal.from_.... This user-provided function is responsible for reading back the data written by the serialize operation, using the deserialize_... functions defined in &lt;caml/intext.h&gt; and listed below. It must then rebuild the data part of the custom block and store it at the pointer given as the dst argument. Finally, it returns the size in bytes of the data part of the custom block. This size must be identical to the wsize_32 result of the serialize operation if the architecture is 32 bits, or wsize_64 if the architecture is 64 bits. %~ The deserialize field can be set to custom_deserialize_default to indicate that deserialization is not supported. In this case, do not register the struct custom_operations with the deserializer using register_custom_operations (see below). </p></dd></dl></div>
+      <p>
+        Note: the finalize, compare, hash, serialize and deserialize functions
+        attached to custom block descriptors must never trigger a garbage collection.
+        Within these functions, do not call any of the Caml allocation functions, and
+        do not perform a callback into Caml code. Do not use CAMLparam to register the
+        parameters to these functions, and do not use CAMLreturn to return the result.
+      </p>
+    </div>
+    <div class="section" title="18.9.2&nbsp;Allocating custom blocks"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13816"></a>18.9.2&nbsp;Allocating custom blocks</h3></div></div></div>
+      
+      <p>
+        Custom blocks must be allocated via the caml_alloc_custom function.
+        caml_alloc_custom(ops, size, used, max) returns a fresh custom block, with room
+        for size bytes of user data, and whose associated operations are given by ops
+        (a pointer to a struct custom_operations, usually statically allocated as a C
+        global variable). 
+      </p>
+      <p>
+        The two parameters used and max are used to control the speed of garbage
+        collection when the finalized object contains pointers to out-of-heap
+        resources. Generally speaking, the Caml incremental major collector adjusts its
+        speed relative to the allocation rate of the program. The faster the program
+        allocates, the harder the GC works in order to reclaim quickly unreachable
+        blocks and avoid having large amount of "floating garbage" (unreferenced
+        objects that the GC has not yet collected).
+      </p>
+      <p>
+        Normally, the allocation rate is measured by counting the in-heap size of
+        allocated blocks. However, it often happens that finalized objects contain
+        pointers to out-of-heap memory blocks and other resources (such as file
+        descriptors, X Windows bitmaps, etc.). For those blocks, the in-heap size of
+        blocks is not a good measure of the quantity of resources allocated by the
+        program.
+      </p>
+      <p>
+        The two arguments used and max give the GC an idea of how much out-of-heap
+        resources are consumed by the finalized block being allocated: you give the
+        amount of resources allocated to this object as parameter used, and the maximum
+        amount that you want to see in floating garbage as parameter max. The units are
+        arbitrary: the GC cares only about the ratio used / max.
+      </p>
+      <p>
+        For instance, if you are allocating a finalized block holding an X Windows
+        bitmap of w by h pixels, and you'd rather not have more than 1 mega-pixels of
+        unreclaimed bitmaps, specify used = w * h and max = 1000000.
+      </p>
+      <p>
+        Another way to describe the effect of the used and max parameters is in terms
+        of full GC cycles. If you allocate many custom blocks with used / max = 1 / N,
+        the GC will then do one full cycle (examining every object in the heap and
+        calling finalization functions on those that are unreachable) every N
+        allocations. For instance, if used = 1 and max = 1000, the GC will do one full
+        cycle at least every 1000 allocations of custom blocks.
+      </p>
+      <p>
+        If your finalized blocks contain no pointers to out-of-heap resources, or if
+        the previous discussion made little sense to you, just take used = 0 and max =
+        1. But if you later find that the finalization functions are not called "often
+        enough", consider increasing the used / max ratio.
+      </p>
+    </div>
+    <div class="section" title="18.9.3&nbsp;Accessing custom blocks"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13825"></a>18.9.3&nbsp;Accessing custom blocks</h3></div></div></div>
+      
+      <p>
+        The data part of a custom block v can be accessed via the pointer
+        Data_custom_val(v). This pointer has type void * and should be cast to the
+        actual type of the data stored in the custom block.
+      </p>
+      <p>
+        The contents of custom blocks are not scanned by the garbage collector, and
+        must therefore not contain any pointer inside the Caml heap. In other terms,
+        never store a Caml value in a custom block, and do not use Field, Store_field
+        nor modify to access the data part of a custom block. Conversely, any C data
+        structure (not containing heap pointers) can be stored in a custom block.
+      </p>
+    </div>
+    <div class="section" title="18.9.4&nbsp;Writing custom serialization and deserialization functions"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13829"></a>18.9.4&nbsp;Writing custom serialization and deserialization functions</h3></div></div></div>
+      
+      <p>
+        The following functions, defined in &lt;caml/intext.h&gt;, are provided to write
+        and read back the contents of custom blocks in a portable way. Those functions
+        handle endianness conversions when e.g. data is written on a little-endian
+        machine and read back on a big-endian machine.
+      </p>
+      <table id="d4e13832">
+        <thead>
+          <tr><th>        Function        </th><th>           Action           </th></tr>
+        </thead>
+        <tbody>
+          <tr><td>caml_serialize_int_1</td><td>Write a 1-byte integer</td></tr>
+          <tr><td>caml_serialize_int_2</td><td>Write a 2-byte integer</td></tr>
+          <tr><td>caml_serialize_int_4</td><td>Write a 4-byte integer</td></tr>
+          <tr><td>caml_serialize_int_8</td><td>Write a 8-byte integer</td></tr>
+          <tr><td>caml_serialize_float_4</td><td>Write a 4-byte float</td></tr>
+          <tr><td>caml_serialize_float_8</td><td>Write a 8-byte float</td></tr>
+          <tr><td>caml_serialize_block_1</td><td>Write an array of 1-byte quantities</td></tr>
+          <tr><td>caml_serialize_block_2</td><td>Write an array of 2-byte quantities</td></tr>
+          <tr><td>caml_serialize_block_4</td><td>Write an array of 4-byte quantities</td></tr>
+          <tr><td>caml_serialize_block_8</td><td>Write an array of 8-byte quantities</td></tr>
+          <tr><td>caml_deserialize_uint_1</td><td>Read an unsigned 1-byte integer</td></tr>
+          <tr><td>caml_deserialize_sint_1</td><td>Read a signed 1-byte integer</td></tr>
+          <tr><td>caml_deserialize_uint_2</td><td>Read an unsigned 2-byte integer</td></tr>
+          <tr><td>caml_deserialize_sint_2</td><td>Read a signed 2-byte integer</td></tr>
+          <tr><td>caml_deserialize_uint_4</td><td>Read an unsigned 4-byte integer</td></tr>
+          <tr><td>caml_deserialize_sint_4</td><td>Read a signed 4-byte integer</td></tr>
+          <tr><td>caml_deserialize_uint_8</td><td>Read an unsigned 8-byte integer</td></tr>
+          <tr><td>caml_deserialize_sint_8</td><td>Read a signed 8-byte integer</td></tr>
+          <tr><td>caml_deserialize_float_4</td><td>Read a 4-byte float</td></tr>
+          <tr><td>caml_deserialize_float_8</td><td>Read an 8-byte float</td></tr>
+          <tr><td>caml_deserialize_block_1</td><td>Read an array of 1-byte quantities</td></tr>
+          <tr><td>caml_deserialize_block_2</td><td>Read an array of 2-byte quantities</td></tr>
+          <tr><td>caml_deserialize_block_4</td><td>Read an array of 4-byte quantities</td></tr>
+          <tr><td>caml_deserialize_block_8</td><td>Read an array of 8-byte quantities</td></tr>
+          <tr><td>caml_deserialize_error</td><td>Signal an error during deserialization; input_value or Marshal.from_... raise a Failure exception after cleaning up their internal data structures</td></tr>
+      </tbody></table>
+      <p>
+        Serialization functions are attached to the custom blocks to which they
+        apply. Obviously, deserialization functions cannot be attached this way, since
+        the custom block does not exist yet when deserialization begins! Thus, the
+        struct custom_operations that contain deserialization functions must be
+        registered with the deserializer in advance, using the
+        register_custom_operations function declared in &lt;caml/custom.h&gt;.
+        Deserialization proceeds by reading the identifier off the input stream,
+        allocating a custom block of the size specified in the input stream, searching
+        the registered struct custom_operation blocks for one with the same identifier,
+        and calling its deserialize function to fill the data part of the custom block.
+      </p>
+    </div>
+    <div class="section" title="18.9.5&nbsp;Choosing identifiers"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13914"></a>18.9.5&nbsp;Choosing identifiers</h3></div></div></div>
+      
+      <p>
+        Identifiers in struct custom_operations must be chosen carefully, since they
+        must identify uniquely the data structure for serialization and deserialization
+        operations. In particular, consider including a version number in the
+        identifier; this way, the format of the data can be changed later, yet
+        backward-compatible deserialisation functions can be provided.
+      </p>
+      <p>
+        Identifiers starting with _ (an underscore character) are reserved for the
+        Objective Caml runtime system; do not use them for your custom data. We
+        recommend to use a URL (http://mymachine.mydomain.com/mylibrary/version-number)
+        or a Java-style package name (com.mydomain.mymachine.mylibrary.version-number)
+        as identifiers, to minimize the risk of identifier collision.
+      </p>
+    </div>
+    <div class="section" title="18.9.6&nbsp;Finalized blocks"><div class="titlepage"><div><div><h3 class="title"><a name="d4e13918"></a>18.9.6&nbsp;Finalized blocks</h3></div></div></div>
+      
+      <p>
+        Custom blocks generalize the finalized blocks that were present in Objective
+        Caml prior to version 3.00. For backward compatibility, the format of custom
+        blocks is compatible with that of finalized blocks, and the alloc_final
+        function is still available to allocate a custom block with a given
+        finalization function, but default comparison, hashing and serialization
+        functions. caml_alloc_final(n, f, used, max) returns a fresh custom block of
+        size n words, with finalization function f. The first word is reserved for
+        storing the custom operations; the other n-1 words are available for your data.
+        The two parameters used and max are used to control the speed of garbage
+        collection, as described for caml_alloc_custom.
+      </p>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch18s08.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch18.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch18s10.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">18.8&nbsp;Advanced example with callbacks&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;18.10&nbsp;Building mixed C/Caml libraries: ocamlmklib</td></tr></table></div></body></html>

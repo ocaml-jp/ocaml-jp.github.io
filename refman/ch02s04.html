@@ -1,0 +1,147 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>2.4&nbsp;ファンクタを使った型の抽象化</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch02.html" title="2.&nbsp;モジュールシステム"><link rel="prev" href="ch02s03.html" title="2.3&nbsp;ファンクタ"><link rel="next" href="ch02s05.html" title="2.5&nbsp;モジュールと分割コンパイル"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">2.4&nbsp;ファンクタを使った型の抽象化 </th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch02s03.html">前のページ</a>&nbsp;</td><th width="60%" align="center">2.&nbsp;モジュールシステム </th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch02s05.html">次のページ</a></td></tr></table><hr></div><div class="section" title="2.4&nbsp;ファンクタを使った型の抽象化"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Functors and type abstraction"></a>2.4&nbsp;ファンクタを使った型の抽象化 </h2></div></div></div>
+    
+    <p>
+      <code class="code">PrioQueue</code> の例で見たように、集合型の実装を隠蔽することは良い作法です。
+      集合型の利用者が集合型の内部実装がリストであることに依存しないようにすることで、将来集合型の内部表現をより効率的な構造に変更したとしても、既存のコードを修正せず再利用できます。
+      実装の隠蔽は <code class="code">Set</code> を適切なファンクタシグネチャで制限することで実現できます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module type SETFUNCTOR =
+   functor (Elt: ORDERED_TYPE) -&gt;
+     sig
+       type element = Elt.t      (* concrete *)
+       type set                  (* abstract *)
+       val empty : set
+       val add : element -&gt; set -&gt; set
+       val member : element -&gt; set -&gt; bool
+     end;;</code></strong>
+<code class="computeroutput">module type SETFUNCTOR =
+  functor (Elt : ORDERED_TYPE) -&gt;
+    sig
+      type element = Elt.t
+      type set
+      val empty : set
+      val add : element -&gt; set -&gt; set
+      val member : element -&gt; set -&gt; bool
+    end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>module AbstractSet = (Set : SETFUNCTOR);;</code></strong>
+<code class="computeroutput">module AbstractSet : SETFUNCTOR</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>module AbstractStringSet = AbstractSet(OrderedString);;</code></strong>
+<code class="computeroutput">module AbstractStringSet :
+  sig
+    type element = OrderedString.t
+    type set = AbstractSet(OrderedString).set
+    val empty : set
+    val add : element -&gt; set -&gt; set
+    val member : element -&gt; set -&gt; bool
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>AbstractStringSet.add "gee" AbstractStringSet.empty;;</code></strong>
+<code class="computeroutput">- : AbstractStringSet.set = &lt;abstr&gt;</code>
+    </pre>
+    <p>
+      上記の型の制約をより綺麗に記述するために、ファンクタの返すストラクチャのシグネチャに名前を与えておき、その名前を型の制約中で利用したいと考える人もいるでしょう。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module type SET =
+   sig
+     type element
+     type set
+     val empty : set
+     val add : element -&gt; set -&gt; set
+     val member : element -&gt; set -&gt; bool
+   end;;</code></strong>
+<code class="computeroutput">module type SET =
+  sig
+    type element
+    type set
+    val empty : set
+    val add : element -&gt; set -&gt; set
+    val member : element -&gt; set -&gt; bool
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>module WrongSet = (Set : functor(Elt: ORDERED_TYPE) -&gt; SET);;</code></strong>
+<code class="computeroutput">module WrongSet : functor (Elt : ORDERED_TYPE) -&gt; SET</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>module WrongStringSet = WrongSet(OrderedString);;</code></strong>
+<code class="computeroutput">module WrongStringSet :
+  sig
+    type element = WrongSet(OrderedString).element
+    type set = WrongSet(OrderedString).set
+    val empty : set
+    val add : element -&gt; set -&gt; set
+    val member : element -&gt; set -&gt; bool
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>WrongStringSet.add "gee" WrongStringSet.empty;;</code></strong>
+<code class="computeroutput">This expression has type string but is here used with type
+  WrongStringSet.element = WrongSet(OrderedString).element</code>
+    </pre>
+    <p>
+      ここで起きている問題は、 <code class="code">SET</code> が <code class="code">element</code> 型を抽象型として定義しているため、ファンクタの返した内容の <code class="code">element</code> 型とファンクタの引数に与えられた型 <code class="code">t</code> との等価性に関する情報が失われてしまっていることです。
+      その結果、 <code class="code">WrongStringSet.element</code> と <code class="code">string</code> が同じ型でなくなり、 <code class="code">WrongStringSet</code> の操作に <code class="code">string</code> が使えなくなってしまっています。
+      この例からもわかるように、 <code class="code">SET</code> のシグネチャに現われる <code class="code">element</code> と <code class="code">Elt.t</code> が等価であることを宣言することが必要ですが、 <code class="code">SET</code> が定義される文脈において <code class="code">Elt</code> が存在しないためこれは実現できません。
+      この問題を克服するため Objective Camlでは <code class="code">with type</code> 構文によりシグネチャに型の等価性情報を追加出来ます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module AbstractSet = 
+   (Set : functor(Elt: ORDERED_TYPE) -&gt; (SET with type element = Elt.t));;</code></strong>
+<code class="computeroutput">module AbstractSet :
+  functor (Elt : ORDERED_TYPE) -&gt;
+    sig
+      type element = Elt.t
+      type set
+      val empty : set
+      val add : element -&gt; set -&gt; set
+      val member : element -&gt; set -&gt; bool
+    end</code>
+    </pre>
+    <p>
+      単純なストラクチャの場合と同様に、結果型を制限しつつファンクタの定義を同時に行う代替構文も用意されています。
+    </p>
+    <pre class="programlisting">
+module AbstractSet(Elt: ORDERED_TYPE) : (SET with type element = Elt.t) =
+  struct ... end;;
+    </pre>
+    <p>
+      ファンクタの結果が内包する型を抽象化することは、これから示すような高度な型安全性を実現する強力な手段となります。
+      <code class="code">OrderedString</code> とは異なる文字列の順序付けを考えてみましょう。
+      例えば、文字の大文字小文字を区別しないで、文字列を比較するものを考えます。
+    </p>
+    <pre class="screen">
+<code class="prompt">#</code><strong class="userinput"><code>module NoCaseString =
+   struct
+     type t = string
+     let compare s1 s2 =
+       OrderedString.compare (String.lowercase s1) (String.lowercase s2)
+   end;;</code></strong>
+<code class="computeroutput">module NoCaseString :
+  sig type t = string val compare : string -&gt; string -&gt; comparison end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>module NoCaseStringSet = AbstractSet(NoCaseString);;</code></strong>
+<code class="computeroutput">module NoCaseStringSet :
+  sig
+    type element = NoCaseString.t
+    type set = AbstractSet(NoCaseString).set
+    val empty : set
+    val add : element -&gt; set -&gt; set
+    val member : element -&gt; set -&gt; bool
+  end</code>
+
+<code class="prompt">#</code><strong class="userinput"><code>NoCaseStringSet.add "FOO" AbstractStringSet.empty;;</code></strong>
+<code class="computeroutput">This expression has type
+  AbstractStringSet.set = AbstractSet(OrderedString).set
+but is here used with type
+  NoCaseStringSet.set = AbstractSet(NoCaseString).set</code>
+    </pre>
+    <p>
+      上記結果からわかるように、二つの型 <code class="code">AbstractStringSet.set</code> と <code class="code">NoCaseStringSet.set</code> は型が合わず互換性がありません。
+      これは正しい振舞です。
+      どちらの集合型も同じ型（文字列）の要素を保持しますが、使用している順序付けが異なり、各操作を通じて維持する必要がある不変条件が異なります（通常の順序に関する狭義増加と、大文字小文字を無視した順序での狭義増加）。
+      もし、 <code class="code">NoCaseStringSet.set</code> 型の値を <code class="code">AbstractStringSet</code> の操作に適用出来てしまうと、不正な結果を返してしまったり、内部のリストが <code class="code">NoCaseStringSet</code> に求められる不変条件を満たさなくなってしまったりするかもしれません。
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch02s03.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch02.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch02s05.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">2.3&nbsp;ファンクタ &nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;2.5&nbsp;モジュールと分割コンパイル </td></tr></table></div></body></html>

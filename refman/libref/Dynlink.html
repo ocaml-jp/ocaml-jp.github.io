@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Digest.html">
+<link rel="next" href="Event.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><link title="コンパイル済みファイルの動的読み込み" rel="Section" href="#2_">
+<link title="アクセス制御" rel="Section" href="#2_">
+<link title="非推奨。アクセス制御のための低レベル API" rel="Section" href="#2_API">
+<link title="非推奨。初期化" rel="Section" href="#2_">
+<link title="エラーの通知" rel="Section" href="#2_">
+<title>Dynlink</title>
+</head>
+<body>
+<div class="navbar"><a href="Digest.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="Event.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Dynlink.html">Dynlink</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Dynlink: <code class="code"><span class="keyword">sig</span></code> <a href="Dynlink.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>オブジェクトファイルの動的読み込み<br>
+<hr width="100%">
+<pre><span id="VALis_native"><span class="keyword">val</span> is_native</span> : <code class="type">bool</code></pre><div class="info">
+プログラムがネイティブコンパイルされていれば <code class="code"><span class="keyword">true</span></code>、バイトコードであれば <code class="code"><span class="keyword">false</span></code> になります。<br>
+</div>
+<br>
+<span id="2_"><h2>コンパイル済みファイルの動的読み込み</h2></span><br>
+<pre><span id="VALloadfile"><span class="keyword">val</span> loadfile</span> : <code class="type">string -> unit</code></pre><div class="info">
+バイトコード: 与えられたバイトコードオブジェクトファイル（<code class="code">.cmo</code> ファイル）またはバイトコードライブラリファイル（<code class="code">.cma</code> ファイル）を読み込み、実行中のプログラムにリンクします。
+    ネイティブコード: 与えられた OCaml プラグインファイル（通常 <code class="code">.cmxs</code>）を読み込み、実行中のプログラムにリンクします。
+    読み込まれた翻訳単位のトップレベル式がすべて評価されます。
+    ただし、読み込まれた翻訳単位で定義されている値の名前にアクセスする方法はありません。
+    読み込まれた側で関数のテーブルを変更するなどしてエントリポイントをメインプログラムに登録しなければなりません。<br>
+</div>
+<pre><span id="VALloadfile_private"><span class="keyword">val</span> loadfile_private</span> : <code class="type">string -> unit</code></pre><div class="info">
+<code class="code">loadfile</code> と同じですが、読み込まれた翻訳単位が後で動的に読み込まれたモジュールから隠蔽されます（参照できなくなります）。<br>
+</div>
+<pre><span id="VALadapt_filename"><span class="keyword">val</span> adapt_filename</span> : <code class="type">string -> string</code></pre><div class="info">
+バイトコード中では恒等関数になります。ネイティブコード中ではファイル名の拡張子を <code class="code">.cmxs</code> に置き換えます。<br>
+</div>
+<br>
+<span id="2_"><h2>アクセス制御</h2></span><br>
+<pre><span id="VALallow_only"><span class="keyword">val</span> allow_only</span> : <code class="type">string list -> unit</code></pre><div class="info">
+<code class="code">allow_only units</code> は動的リンクされた翻訳単位が参照することのできる範囲を制限し、 <code class="code">units</code> 中に名前のある翻訳単位だけを参照できるようにします。
+    <code class="code">loadfile</code> 中や <code class="code">loadfile_private</code> 中に指定された以外の翻訳単位を参照しようとすると <code class="code"><span class="constructor">Unavailable_unit</span></code> 例外が発生します。
+<p>
+
+    初期状態（<code class="code">init</code> を呼び出した直後）では、現在実行中のプログラムの要素である翻訳単位だけが動的リンクされた翻訳単位から参照できるようになっています。
+    <code class="code">allow_only</code> は初期状態で指定されている翻訳単位の一部だけにアクセスできるようにすることにしか使えません。
+    すなわち、動的リンクされるコードに対する API を構成する翻訳単位にだけアクセスできるようにし、それ以外の実行中のプログラムの内部モジュールにはアクセスできないようにするために使います。<br>
+</div>
+<pre><span id="VALprohibit"><span class="keyword">val</span> prohibit</span> : <code class="type">string list -> unit</code></pre><div class="info">
+<code class="code">prohibit units</code> は動的ロードされる翻訳単位が <code class="code">units</code> 中に名前のある翻訳単位にアクセスすることを禁止します。
+    この関数は、指定された翻訳単位を実行中のプログラムの内部モジュールとし、外部からアクセスできないようにするために使えます。<br>
+</div>
+<pre><span id="VALdefault_available_units"><span class="keyword">val</span> default_available_units</span> : <code class="type">unit -> unit</code></pre><div class="info">
+動的ロードされるコードから参照できる翻訳単位の範囲をデフォルト値、すなわち、現在実行中のプログラムを構成する全翻訳単位に再設定します。<br>
+</div>
+<pre><span id="VALallow_unsafe_modules"><span class="keyword">val</span> allow_unsafe_modules</span> : <code class="type">bool -> unit</code></pre><div class="info">
+安全でないオブジェクトファイルを動的リンクできるかどうかを制御します。
+    ある翻訳単位が型安全性を破るような外部関数を含む場合、その翻訳単位は「安全でない」と言います。
+    デフォルトでは安全でないオブジェクトファイルの動的リンクは許可されていません。
+    ネイティブコードではこの関数は何もせず、外部関数を含むオブジェクトファイルの動的リンクは常に許可されています。<br>
+</div>
+<br>
+<span id="2_API"><h2>非推奨。アクセス制御のための低レベル API</h2></span><br>
+<pre><span id="VALadd_interfaces"><span class="keyword">val</span> add_interfaces</span> : <code class="type">string list -> string list -> unit</code></pre><div class="info">
+<code class="code">add_interfaces units path</code> grants dynamically-linked object
+    files access to the compilation  units named in list <code class="code">units</code>.
+    The interfaces (<code class="code">.cmi</code> files) for these units are searched in
+    <code class="code">path</code> (a list of directory names).<br>
+</div>
+<pre><span id="VALadd_available_units"><span class="keyword">val</span> add_available_units</span> : <code class="type">(string * <a href="Digest.html#TYPEt">Digest.t</a>) list -> unit</code></pre><div class="info">
+Same as <a href="Dynlink.html#VALadd_interfaces"><code class="code"><span class="constructor">Dynlink</span>.add_interfaces</code></a>, but instead of searching <code class="code">.cmi</code> files
+    to find the unit interfaces, uses the interface digests given
+    for each unit. This way, the <code class="code">.cmi</code> interface files need not be
+    available at run-time. The digests can be extracted from <code class="code">.cmi</code>
+    files using the <code class="code">extract_crc</code> program installed in the
+    Objective Caml standard library directory.<br>
+</div>
+<pre><span id="VALclear_available_units"><span class="keyword">val</span> clear_available_units</span> : <code class="type">unit -> unit</code></pre><div class="info">
+Empty the list of compilation units accessible to dynamically-linked
+    programs.<br>
+</div>
+<br>
+<span id="2_"><h2>非推奨。初期化</h2></span><br>
+<pre><span id="VALinit"><span class="keyword">val</span> init</span> : <code class="type">unit -> unit</code></pre><div class="info">
+<span class="warning">Deprecated.</span><code class="code"><span class="constructor">Dynlink</span></code> ライブラリを初期化します。
+    この関数は必要に応じて自動的に呼び出されます。<br>
+</div>
+<br>
+<span id="2_"><h2>エラーの通知</h2></span><br>
+<br><code><span id="TYPElinking_error"><span class="keyword">type</span> <code class="type"></code>linking_error</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Undefined_global</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Unavailable_primitive</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Uninitialized_global</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr></table>
+
+
+<br><code><span id="TYPEerror"><span class="keyword">type</span> <code class="type"></code>error</span> = </code><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Not_a_bytecode_file</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Inconsistent_import</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Unavailable_unit</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Unsafe_file</span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Linking_error</span> <span class="keyword">of</span> <code class="type">string * <a href="Dynlink.html#TYPElinking_error">linking_error</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Corrupted_interface</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">File_not_found</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Cannot_open_dll</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span class="constructor">Inconsistent_implementation</span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr></table>
+
+
+<pre><span id="EXCEPTIONError"><span class="keyword">exception</span> Error</span> <span class="keyword">of</span> <code class="type"><a href="Dynlink.html#TYPEerror">error</a></code></pre>
+<div class="info">
+動的リンク中のエラーはエラーの説明文字列を引数として <code class="code"><span class="constructor">Error</span></code> 例外を発生させることにより報告されます。<br>
+</div>
+<pre><span id="VALerror_message"><span class="keyword">val</span> error_message</span> : <code class="type"><a href="Dynlink.html#TYPEerror">error</a> -> string</code></pre><div class="info">
+エラーの説明を表示可能な文字列に変換します。<br>
+</div>
+</body></html>

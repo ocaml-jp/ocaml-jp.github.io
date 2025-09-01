@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Printexc.html">
+<link rel="next" href="Queue.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Arg" rel="Chapter" href="Arg.html">
+<link title="Arith_status" rel="Chapter" href="Arith_status.html">
+<link title="Array" rel="Chapter" href="Array.html">
+<link title="ArrayLabels" rel="Chapter" href="ArrayLabels.html">
+<link title="Big_int" rel="Chapter" href="Big_int.html">
+<link title="Bigarray" rel="Chapter" href="Bigarray.html">
+<link title="Buffer" rel="Chapter" href="Buffer.html">
+<link title="Callback" rel="Chapter" href="Callback.html">
+<link title="CamlinternalLazy" rel="Chapter" href="CamlinternalLazy.html">
+<link title="CamlinternalMod" rel="Chapter" href="CamlinternalMod.html">
+<link title="CamlinternalOO" rel="Chapter" href="CamlinternalOO.html">
+<link title="Char" rel="Chapter" href="Char.html">
+<link title="Complex" rel="Chapter" href="Complex.html">
+<link title="Condition" rel="Chapter" href="Condition.html">
+<link title="Dbm" rel="Chapter" href="Dbm.html">
+<link title="Digest" rel="Chapter" href="Digest.html">
+<link title="Dynlink" rel="Chapter" href="Dynlink.html">
+<link title="Event" rel="Chapter" href="Event.html">
+<link title="Filename" rel="Chapter" href="Filename.html">
+<link title="Format" rel="Chapter" href="Format.html">
+<link title="Gc" rel="Chapter" href="Gc.html">
+<link title="Genlex" rel="Chapter" href="Genlex.html">
+<link title="Graphics" rel="Chapter" href="Graphics.html">
+<link title="GraphicsX11" rel="Chapter" href="GraphicsX11.html">
+<link title="Hashtbl" rel="Chapter" href="Hashtbl.html">
+<link title="Int32" rel="Chapter" href="Int32.html">
+<link title="Int64" rel="Chapter" href="Int64.html">
+<link title="Lazy" rel="Chapter" href="Lazy.html">
+<link title="Lexing" rel="Chapter" href="Lexing.html">
+<link title="List" rel="Chapter" href="List.html">
+<link title="ListLabels" rel="Chapter" href="ListLabels.html">
+<link title="Map" rel="Chapter" href="Map.html">
+<link title="Marshal" rel="Chapter" href="Marshal.html">
+<link title="MoreLabels" rel="Chapter" href="MoreLabels.html">
+<link title="Mutex" rel="Chapter" href="Mutex.html">
+<link title="Nativeint" rel="Chapter" href="Nativeint.html">
+<link title="Num" rel="Chapter" href="Num.html">
+<link title="Obj" rel="Chapter" href="Obj.html">
+<link title="Oo" rel="Chapter" href="Oo.html">
+<link title="Parsing" rel="Chapter" href="Parsing.html">
+<link title="Pervasives" rel="Chapter" href="Pervasives.html">
+<link title="Printexc" rel="Chapter" href="Printexc.html">
+<link title="Printf" rel="Chapter" href="Printf.html">
+<link title="Queue" rel="Chapter" href="Queue.html">
+<link title="Random" rel="Chapter" href="Random.html">
+<link title="Scanf" rel="Chapter" href="Scanf.html">
+<link title="Set" rel="Chapter" href="Set.html">
+<link title="Sort" rel="Chapter" href="Sort.html">
+<link title="Stack" rel="Chapter" href="Stack.html">
+<link title="StdLabels" rel="Chapter" href="StdLabels.html">
+<link title="Str" rel="Chapter" href="Str.html">
+<link title="Stream" rel="Chapter" href="Stream.html">
+<link title="String" rel="Chapter" href="String.html">
+<link title="StringLabels" rel="Chapter" href="StringLabels.html">
+<link title="Sys" rel="Chapter" href="Sys.html">
+<link title="Thread" rel="Chapter" href="Thread.html">
+<link title="ThreadUnix" rel="Chapter" href="ThreadUnix.html">
+<link title="Tk" rel="Chapter" href="Tk.html">
+<link title="Unix" rel="Chapter" href="Unix.html">
+<link title="UnixLabels" rel="Chapter" href="UnixLabels.html">
+<link title="Weak" rel="Chapter" href="Weak.html"><title>Printf</title>
+</head>
+<body>
+<div class="navbar"><a href="Printexc.html">Previous</a>
+&nbsp;<a href="index.html">Up</a>
+&nbsp;<a href="Queue.html">Next</a>
+</div>
+<center><h1>Module <a href="type_Printf.html">Printf</a></h1></center>
+<br>
+<pre><span class="keyword">module</span> Printf: <code class="code"><span class="keyword">sig</span></code> <a href="Printf.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>整形出力関数<br>
+<hr width="100%">
+<pre><span id="VALfprintf"><span class="keyword">val</span> fprintf</span> : <code class="type"><a href="Pervasives.html#TYPEout_channel">out_channel</a> -><br>       ('a, <a href="Pervasives.html#TYPEout_channel">out_channel</a>, unit) <a href="Pervasives.html#TYPEformat">format</a> -> 'a</code></pre><div class="info">
+<code class="code">fprintf outchan format arg1 ... argN</code> は引数 <code class="code">arg1</code> から <code class="code">argN</code>
+    を書式指定文字列 <code class="code">format</code> にしたがって整形し、結果の文字列をチャネル <code class="code">outchan</code>
+    に出力します。
+<p>
+
+    <code class="code">format</code> は通常の文字か変換指定子の並びから成る文字列です。
+    通常の文字は単純に出力チャネルにコピーされ、変換指定子は引数を変換して出力します。
+<p>
+
+    変換指定子は次のような形式です。
+<p>
+
+    <code class="code">% [flags] [width] [.precision] <span class="keyword">type</span></code>
+<p>
+
+    変換指定子は <code class="code">%</code> で始まり、次に省略可能な修飾子、そして引数の種類と出力形式を表すひとつないしはふたつの文字が続きます。出力形式とその意味は次のようになります。
+<p>
+<ul>
+<li><code class="code">d</code>、 <code class="code">i</code>、 <code class="code">n</code>、 <code class="code">l</code>、 <code class="code"><span class="constructor">L</span></code>、 <code class="code"><span class="constructor">N</span></code>: 引数の整数を符号付き十進数に変換します。</li>
+<li><code class="code">u</code>: 引数の整数を符号なし十進数に変換します。</li>
+<li><code class="code">x</code>: 引数の整数を小文字の符号なし十六進数に変換します。</li>
+<li><code class="code"><span class="constructor">X</span></code>: 引数の整数を大文字の符号なし十六進数に変換します。</li>
+<li><code class="code">o</code>: 引数の整数を符号なし八進数に変換します。</li>
+<li><code class="code">s</code>: 引数文字列を挿入します。</li>
+<li><code class="code"><span class="constructor">S</span></code>: 引数文字列を Caml 構文で（二重引用符でくくり、エスケープして）挿入します。</li>
+<li><code class="code">c</code>: 引数文字を挿入します。</li>
+<li><code class="code"><span class="constructor">C</span></code>: 引数文字を Caml 構文で（単引用符でくくり、エスケープして）挿入します。</li>
+<li><code class="code">f</code>: 浮動小数点数引数を <code class="code">dddd.ddd</code> 形式の十進表記に変換します。</li>
+<li><code class="code"><span class="constructor">F</span></code>: 浮動小数点数引数を <code class="code">dddd.</code> か <code class="code">dddd.ddd</code> か <code class="code">d.ddd e+-dd</code> 形式の Caml 構文に変換します。</li>
+<li><code class="code">e</code>、 <code class="code"><span class="constructor">E</span></code>: 浮動小数点数引数を <code class="code">d.ddd e+-dd</code> （仮数部と指数部）形式の十進表記に変換します。</li>
+<li><code class="code">g</code>、 <code class="code"><span class="constructor">G</span></code>: 浮動小数点数引数を <code class="code">f</code>、 <code class="code">e</code>、 <code class="code"><span class="constructor">E</span></code> の形式のうち最も短かくなる形式に変換します。</li>
+<li><code class="code"><span class="constructor">B</span></code>: 真偽値の引数を文字列 <code class="code"><span class="keyword">true</span></code> か <code class="code"><span class="keyword">false</span></code> に変換します。</li>
+<li><code class="code">b</code>: 真偽値の引数を変換します（後方互換性のために残されています。新しいプログラムでは使わないでください）。</li>
+<li><code class="code">ld</code>、 <code class="code">li</code>、 <code class="code">lu</code>、 <code class="code">lx</code>、 <code class="code">lX</code>、 <code class="code">lo</code>: <code class="code">int32</code> の引数を二文字目で表される形式（十進、十六進、……）に変換します。</li>
+<li><code class="code">nd</code>、 <code class="code">ni</code>、 <code class="code">nu</code>、 <code class="code">nx</code>、 <code class="code">nX</code>、 <code class="code">no</code>: <code class="code">nativeint</code> の引数を二文字目で表される形式に変換します。</li>
+<li><code class="code"><span class="constructor">Ld</span></code>、 <code class="code"><span class="constructor">Li</span></code>、 <code class="code"><span class="constructor">Lu</span></code>、 <code class="code"><span class="constructor">Lx</span></code>、 <code class="code"><span class="constructor">LX</span></code>、 <code class="code"><span class="constructor">Lo</span></code>: <code class="code">int64</code> の引数を二文字目で表される形式に変換します</li>
+<li><code class="code">a</code>: ユーザー定義の表示器。書式指定としてはふたつの引数をとり、その第一引数に
+      <code class="code">outchan</code> （現在の出力チャネル）と第二引数を適用します。
+      第一引数はしたがって <code class="code">out_channel <span class="keywordsign">-&gt;</span> <span class="keywordsign">'</span>b <span class="keywordsign">-&gt;</span> unit</code> 型で、第二引数は <code class="code"><span class="keywordsign">'</span>b</code>
+      型でなければなりません。第一引数の出力が <code class="code">fprintf</code> の現在の出力位置に挿入されます。</li>
+<li><code class="code">t</code>: <code class="code">%a</code> と同じですが、引数として <code class="code">out_channel <span class="keywordsign">-&gt;</span> unit</code> 型の引数だけを取り、それに <code class="code">outchan</code> を適用します。</li>
+<li><code class="code">{ fmt %}</code>: 書式指定文字列の変換。引数は <code class="code">fmt</code> と同じ型を取る書式指定でなければなりません。</li>
+<li><code class="code">( fmt %)</code>: 書式指定文字列の置き換え。書式指定文字列を引数として受け取り、
+      <code class="code">fmt</code> をそれで置き換えた上で残りの引数を出力します。引数は <code class="code">fmt</code> と同じ型を取る書式指定でなければなりません。</li>
+<li><code class="code">!</code>: 引数を取らず、出力をフラッシュします。</li>
+<li><code class="code">%</code>: 引数を取らず、 <code class="code">%</code> を出力します。</li>
+<li><code class="code">,</code>: 変換指定子を区切るためだけに使い、何も出力しません。</li>
+</ul>
+
+    省略可能な <code class="code">flags</code> には次のものを指定できます。
+<p>
+<ul>
+<li><code class="code">-</code>: 出力を左寄せにします（デフォルトは右寄せです）。</li>
+<li><code class="code">0</code>: 数値変換で、スペースの代わりに 0 で隙間を埋めます。</li>
+<li><code class="code">+</code>: 数値変換で、正の数の前に <code class="code">+</code> を出力します。</li>
+<li>スペース: 数値変換で、正の数の前にスペースを出力します。</li>
+<li><code class="code"><span class="keywordsign">#</span></code>: 数値出力の際に代わりのスタイルで出力します（訳注: man printf(3) などを参照）</li>
+</ul>
+
+    省略可能な <code class="code">width</code> には出力結果の最小幅を表す整数を指定します。例えば
+    <code class="code">%6d</code> なら、最低でも 6 文字幅になるように空白を前置して整数を出力します。
+<p>
+
+    省略可能な <code class="code">precision</code> には、 <code class="code">.</code> に続けて、 <code class="code">%f</code>、 <code class="code">%e</code>、 <code class="code">%<span class="constructor">E</span></code> で小数点以下に表示する数字の桁数を表す整数を指定します。例えば、 <code class="code">%.4f</code> であれば <code class="code">float</code> を小数点以下 4 桁まで表示します。<br>
+</div>
+<pre><span id="VALprintf"><span class="keyword">val</span> printf</span> : <code class="type">('a, <a href="Pervasives.html#TYPEout_channel">out_channel</a>, unit) <a href="Pervasives.html#TYPEformat">format</a> -> 'a</code></pre><div class="info">
+<a href="Printf.html#VALfprintf"><code class="code"><span class="constructor">Printf</span>.fprintf</code></a> と同じですが、 <code class="code">stdout</code> に出力します<br>
+</div>
+<pre><span id="VALeprintf"><span class="keyword">val</span> eprintf</span> : <code class="type">('a, <a href="Pervasives.html#TYPEout_channel">out_channel</a>, unit) <a href="Pervasives.html#TYPEformat">format</a> -> 'a</code></pre><div class="info">
+<a href="Printf.html#VALfprintf"><code class="code"><span class="constructor">Printf</span>.fprintf</code></a> と同じですが、 <code class="code">stderr</code> に出力します<br>
+</div>
+<pre><span id="VALifprintf"><span class="keyword">val</span> ifprintf</span> : <code class="type">'a -> ('b, 'a, unit) <a href="Pervasives.html#TYPEformat">format</a> -> 'b</code></pre><div class="info">
+<a href="Printf.html#VALfprintf"><code class="code"><span class="constructor">Printf</span>.fprintf</code></a> と同じですが、何も出力しません。
+    条件付きで出力する場合に一部を無視するのに便利です。<br>
+<b>Since</b> 3.10.0<br>
+</div>
+<pre><span id="VALsprintf"><span class="keyword">val</span> sprintf</span> : <code class="type">('a, unit, string) <a href="Pervasives.html#TYPEformat">format</a> -> 'a</code></pre><div class="info">
+<a href="Printf.html#VALfprintf"><code class="code"><span class="constructor">Printf</span>.fprintf</code></a> と同じですが、出力チャネルに表示する代わりに、引数を整形した結果を文字列として返します。<br>
+</div>
+<pre><span id="VALbprintf"><span class="keyword">val</span> bprintf</span> : <code class="type"><a href="Buffer.html#TYPEt">Buffer.t</a> -> ('a, <a href="Buffer.html#TYPEt">Buffer.t</a>, unit) <a href="Pervasives.html#TYPEformat">format</a> -> 'a</code></pre><div class="info">
+<a href="Printf.html#VALfprintf"><code class="code"><span class="constructor">Printf</span>.fprintf</code></a> と同じですが、出力チャネルに表示する代わりに、引数を整形した結果をバッファに追加します（<a href="Buffer.html"><code class="code"><span class="constructor">Buffer</span></code></a> モジュールを参照してください）。<br>
+</div>
+<br>
+継続を伴った整形出力関数<br>
+<pre><span id="VALkfprintf"><span class="keyword">val</span> kfprintf</span> : <code class="type">(<a href="Pervasives.html#TYPEout_channel">out_channel</a> -> 'a) -><br>       <a href="Pervasives.html#TYPEout_channel">out_channel</a> -><br>       ('b, <a href="Pervasives.html#TYPEout_channel">out_channel</a>, unit, 'a) <a href="Pervasives.html#TYPEformat4">format4</a> -> 'b</code></pre><div class="info">
+<code class="code">fprintf</code> と同じですが、表示が終わった際に直ちに戻らずに、出力チャネルを第一引数の関数に渡します。<br>
+<b>Since</b> 3.09.0<br>
+</div>
+<pre><span id="VALksprintf"><span class="keyword">val</span> ksprintf</span> : <code class="type">(string -> 'a) -> ('b, unit, string, 'a) <a href="Pervasives.html#TYPEformat4">format4</a> -> 'b</code></pre><div class="info">
+上の <code class="code">sprintf</code> と同じですが、文字列を返す代わりに、それを第一引数の関数に渡します。<br>
+<b>Since</b> 3.09.0<br>
+</div>
+<pre><span id="VALkbprintf"><span class="keyword">val</span> kbprintf</span> : <code class="type">(<a href="Buffer.html#TYPEt">Buffer.t</a> -> 'a) -><br>       <a href="Buffer.html#TYPEt">Buffer.t</a> -> ('b, <a href="Buffer.html#TYPEt">Buffer.t</a>, unit, 'a) <a href="Pervasives.html#TYPEformat4">format4</a> -> 'b</code></pre><div class="info">
+<code class="code">bprintf</code> と同じですが、出力が終わった際に直ちに戻らずに、第一引数の関数にバッファを引き渡します。<br>
+<b>Since</b> 3.10.0<br>
+</div>
+<pre><span id="VALkprintf"><span class="keyword">val</span> kprintf</span> : <code class="type">(string -> 'a) -> ('b, unit, string, 'a) <a href="Pervasives.html#TYPEformat4">format4</a> -> 'b</code></pre><div class="info">
+<code class="code">ksprintf</code> の非推奨の別名です。<br>
+</div>
+</body></html>

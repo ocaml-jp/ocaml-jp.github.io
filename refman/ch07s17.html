@@ -1,0 +1,39 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>7.17&nbsp;クラス定義中でのオーバーライドの明示</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch07.html" title="7.&nbsp;Language extensions"><link rel="prev" href="ch07s16.html" title="7.16&nbsp;シグネチャ内での代入"><link rel="next" href="pt03.html" title="パート&nbsp;III.&nbsp;The Objective Caml tools"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7.17&nbsp;クラス定義中でのオーバーライドの明示</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch07s16.html">前のページ</a>&nbsp;</td><th width="60%" align="center">7.&nbsp;Language extensions</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="pt03.html">次のページ</a></td></tr></table><hr></div><div class="section" title="7.17&nbsp;クラス定義中でのオーバーライドの明示"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="sec:Explicit overriding in class definitions"></a>7.17&nbsp;クラス定義中でのオーバーライドの明示</h2></div></div></div>
+    
+    <p>（OCaml 3.12 〜）</p>
+    <div class="syntax">
+      <table id="d4e9396">
+        <tbody>
+          <tr>
+            <td rowspan="5" valign="baseline"><a class="bnf-non-terminal" href="ch06s09.html#bnf--class-field">class-field</a></td>
+            <td><span class="meta">::=</span></td>
+            <td><span class="meta">...</span></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>inherit! <a class="bnf-non-terminal" href="ch06s09.html#bnf--class-expr">class-expr</a> <span class="meta">[</span> as <a class="bnf-non-terminal" href="ch06s03.html#bnf--value-name">value-name</a> <span class="meta">]</span></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>val! <span class="meta">[</span> mutable <span class="meta">]</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--inst-var-name">inst-var-name</a> <span class="meta">[</span> : <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> <span class="meta">]</span> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>method! <span class="meta">[</span> private <span class="meta">]</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--method-name">method-name</a> <span class="meta">{</span> <a class="bnf-non-terminal" href="ch06s07.html#bnf--parameter">parameter</a> <span class="meta">}</span> <span class="meta">[</span> <a class="bnf-non-terminal" href="ch06s04.html#bnf--typexpr">typexpr</a> <span class="meta">]</span> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+          </tr>
+          <tr>
+            <td><span class="meta">|</span></td>
+            <td>method! <span class="meta">[</span> private <span class="meta">]</span> <a class="bnf-non-terminal" href="ch06s03.html#bnf--method-name">method-name</a> : <a class="bnf-non-terminal" href="ch06s04.html#bnf--poly-typexpr">poly-typexpr</a> = <a class="bnf-non-terminal" href="ch06s07.html#bnf--expr">expr</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      <code class="code">inherit!</code>、 <code class="code">val!</code>、 <code class="code">method!</code> の意味は <code class="code">inherit</code>、 <code class="code">val</code>、 <code class="code">method</code> と同じですが、それにより導入される定義がオーバライドであることを要求します。すなわち、 <code class="code">method!</code> は<a class="bnf-non-terminal" href="ch06s03.html#bnf--method-name">method-name</a> がクラス内で既に定義されていることを要求し、 <code class="code">val!</code> は <a class="bnf-non-terminal" href="ch06s03.html#bnf--inst-var-name">inst-var-name</a> が既に定義されていることを要求し、 <code class="code">inherit!</code> は <a class="bnf-non-terminal" href="ch06s09.html#bnf--class-expr">class-expr</a> で何らかの定義をオーバーライドすることを要求します。そのようなオーバーライドがなければエラーが通知されます。
+    </p>
+    <p>
+      これらの予約語は、副作用として、「メソッドのオーバーライド」と「インスタンス変数のオーバーライド」に対する警告を避けるために使うことができます。 Objective Caml 3.12 以降では後方互換性のために「メソッドのオーバーライド」に関する警告を手動で有効にしなければなりません。
+    </p>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch07s16.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch07.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="pt03.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">7.16&nbsp;シグネチャ内での代入&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;パート&nbsp;III.&nbsp;The Objective Caml tools</td></tr></table></div></body></html>

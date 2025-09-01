@@ -1,0 +1,83 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>16.4&nbsp;Executing a program</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"><link rel="home" href="index.html" title="The Objective Caml system release 3.12"><link rel="up" href="ch16.html" title="16.&nbsp;デバッガ（ocamldebug）"><link rel="prev" href="ch16s03.html" title="16.3&nbsp;Commands"><link rel="next" href="ch16s05.html" title="16.5&nbsp;Breakpoints"></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">16.4&nbsp;Executing a program</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch16s03.html">前のページ</a>&nbsp;</td><th width="60%" align="center">16.&nbsp;デバッガ（<span class="command"><strong>ocamldebug</strong></span>）</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch16s05.html">次のページ</a></td></tr></table><hr></div><div class="section" title="16.4&nbsp;Executing a program"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d4e12789"></a>16.4&nbsp;Executing a program</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch16s04.html#d4e12791">16.4.1. Events</a></span></dt><dt><span class="section"><a href="ch16s04.html#d4e12810">16.4.2. Starting the debugged program</a></span></dt><dt><span class="section"><a href="ch16s04.html#d4e12827">16.4.3. Running the program</a></span></dt><dt><span class="section"><a href="ch16s04.html#d4e12863">16.4.4. Time travel</a></span></dt><dt><span class="section"><a href="ch16s04.html#d4e12880">16.4.5. Killing the program</a></span></dt></dl></div>
+    
+    <div class="section" title="16.4.1&nbsp;Events"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12791"></a>16.4.1&nbsp;Events</h3></div></div></div>
+      
+      <p>
+        Events are "interesting" locations in the source code, corresponding to the beginning or end of evaluation of "interesting" sub-expressions. Events are the unit of single-stepping (stepping goes to the next or previous event encountered in the program execution). Also, breakpoints can only be set at events. Thus, events play the role of line numbers in debuggers for conventional languages.
+      </p>
+      <p>
+        During program execution, a counter is incremented at each event encountered. The value of this counter is referred as the current time. Thanks to reverse execution, it is possible to jump back and forth to any time of the execution.
+      </p>
+      <p>
+        Here is where the debugger events (written §§) are located in the source code: 
+      </p>
+      <div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">Following a function application: 
+          <pre class="programlisting">
+            (f arg)§§
+          </pre>
+        </li><li class="listitem">On entrance to a function: 
+          <pre class="programlisting">
+            fun x y z -&gt; §§ ...
+          </pre>
+        </li><li class="listitem">On each case of a pattern-matching definition (function, match...with construct, try...with construct): 
+          <pre class="programlisting">
+            function pat1 -&gt; §§ expr1
+            | ...
+            | patN -&gt; §§ exprN
+          </pre>
+        </li><li class="listitem">Between subexpressions of a sequence: 
+          <pre class="programlisting">
+            expr1; §§ expr2; §§ ...; §§ exprN
+          </pre>
+        </li><li class="listitem">In the two branches of a conditional expression: 
+          <pre class="programlisting">
+            if cond then §§ expr1 else §§ expr2
+          </pre>
+        </li><li class="listitem">At the beginning of each iteration of a loop: 
+          <pre class="programlisting">
+            while cond do §§ body done
+            for i = a to b do §§ body done
+          </pre>
+        </li></ul></div>
+      <p>
+        Exceptions: A function application followed by a function return is replaced by the compiler by a jump (tail-call optimization). In this case, no event is put after the function application. 
+      </p>
+    </div>
+    <div class="section" title="16.4.2&nbsp;Starting the debugged program"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12810"></a>16.4.2&nbsp;Starting the debugged program</h3></div></div></div>
+      
+      <p>
+        The debugger starts executing the debugged program only when needed. This allows setting breapoints or assigning debugger variables before execution starts. There are several ways to start execution: 
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> run </span></dt><dd><p> Run the program until a breakpoint is hit, or the program terminates. </p></dd><dt><span class="term"> step 0 </span></dt><dd><p> Load the program and stop on the first event. </p></dd><dt><span class="term"> goto time </span></dt><dd>
+            <p>
+              Load the program and execute it until the given time. Useful when you already know approximately at what time the problem appears. Also useful to set breakpoints on function values that have not been computed at time 0 (see section 16.5).
+            </p>
+          </dd></dl></div>
+      <p>
+        The execution of a program is affected by certain information it receives when the debugger starts it, such as the command-line arguments to the program and its working directory. The debugger provides commands to specify this information (set arguments and cd). These commands must be used before program execution starts. If you try to change the arguments or the working directory after starting your program, the debugger will kill the program (after asking for confirmation).
+      </p>
+    </div>
+    <div class="section" title="16.4.3&nbsp;Running the program"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12827"></a>16.4.3&nbsp;Running the program</h3></div></div></div>
+      
+      <p>
+        The following commands execute the program forward or backward, starting at the current time. The execution will stop either when specified by the command or when a breakpoint is encountered.
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> run </span></dt><dd><p> Execute the program forward from current time. Stops at next breakpoint or when the program terminates. </p></dd><dt><span class="term"> reverse </span></dt><dd><p> Execute the program backward from current time. Mostly useful to go to the last breakpoint encountered before the current time. </p></dd><dt><span class="term"> step [count] </span></dt><dd><p> Run the program and stop at the next event. With an argument, do it count times. </p></dd><dt><span class="term"> backstep [count] </span></dt><dd><p> Run the program backward and stop at the previous event. With an argument, do it count times. </p></dd><dt><span class="term"> next [count] </span></dt><dd><p> Run the program and stop at the next event, skipping over function calls. With an argument, do it count times. </p></dd><dt><span class="term"> previous [count] </span></dt><dd><p> Run the program backward and stop at the previous event, skipping over function calls. With an argument, do it count times. </p></dd><dt><span class="term"> finish </span></dt><dd><p> Run the program until the current function returns. </p></dd><dt><span class="term"> start </span></dt><dd><p> Run the program backward and stop at the first event before the current function invocation. </p></dd></dl></div>
+    </div>
+    <div class="section" title="16.4.4&nbsp;Time travel"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12863"></a>16.4.4&nbsp;Time travel</h3></div></div></div>
+      
+      <p>
+        You can jump directly to a given time, without stopping on breakpoints, using the goto command.
+      </p>
+      <p>
+        As you move through the program, the debugger maintains an history of the successive times you stop at. The last command can be used to revisit these times: each last command moves one step back through the history. That is useful mainly to undo commands such as step and next.
+      </p>
+      <div class="variablelist"><dl><dt><span class="term"> goto time </span></dt><dd><p> Jump to the given time. </p></dd><dt><span class="term"> last [count] </span></dt><dd><p> Go back to the latest time recorded in the execution history. With an argument, do it count times. </p></dd><dt><span class="term"> set history size </span></dt><dd><p> Set the size of the execution history. </p></dd></dl></div>
+    </div>
+    <div class="section" title="16.4.5&nbsp;Killing the program"><div class="titlepage"><div><div><h3 class="title"><a name="d4e12880"></a>16.4.5&nbsp;Killing the program</h3></div></div></div>
+      
+      <div class="variablelist"><dl><dt><span class="term"> kill </span></dt><dd><p> Kill the program being executed. This command is mainly useful if you wish to recompile the program without leaving the debugger. </p></dd></dl></div>
+    </div>
+  </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch16s03.html">前のページ</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="ch16.html">上に戻る</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="ch16s05.html">次のページ</a></td></tr><tr><td width="40%" align="left" valign="top">16.3&nbsp;Commands&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">ホーム</a></td><td width="40%" align="right" valign="top">&nbsp;16.5&nbsp;Breakpoints</td></tr></table></div></body></html>
