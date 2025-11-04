@@ -21,4 +21,8 @@
     yocaml_jingoo
     yocaml_yaml
     yocaml_syndication
+    (ocamlformat
+      (and
+        (= 0.27.0)
+        :with-dev-setup))
     ))

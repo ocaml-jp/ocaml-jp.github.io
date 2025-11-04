@@ -2,9 +2,9 @@
  (public_name ocaml-jp-site)
  (name main)
  (libraries
-   yocaml 
-   yocaml_unix 
-   yocaml_jingoo 
-   yocaml_yaml 
-   yocaml_omd 
-   yocaml_syndication))
+  yocaml
+  yocaml_unix
+  yocaml_jingoo
+  yocaml_yaml
+  yocaml_omd
+  yocaml_syndication))
