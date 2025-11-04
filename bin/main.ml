@@ -37,9 +37,17 @@ let process () =
   >>= Action.store_cache cache
 ;;
 
-let _serve =
-  let port = 8000 in
-  Yocaml_unix.serve ~level:`Info ~target:into ~port
+let () =
+  let level = `Debug in
+  let target = into in
+  let port = 8080 in
+  match Sys.argv with
+  | [| _ |] | [| _; "build" |] -> Yocaml_unix.run ~level process
+  | [| _; "serve" |] -> Yocaml_unix.serve ~level ~target ~port process
+  | _ ->
+    let open Printf in
+    eprintf "Usage: %s [build|serve]\n" Sys.argv.(0);
+    eprintf "  build  Generate static site (default)\n";
+    eprintf "  serve  Start development server on port 8000\n";
+    exit 1
 ;;
-
-let () = Yocaml_unix.run process
