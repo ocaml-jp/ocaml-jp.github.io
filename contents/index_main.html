@@ -1,0 +1,88 @@
+<section class="hero-section">
+  <div class="container mx-auto px-6 md:px-10 pt-32 pb-24 md:pt-48 md:pb-32 text-center">
+    <h2 class="hero-title text-4xl md:text-5xl mb-6">
+      <span class="text-orange-gradient">OCaml</span> の世界へようこそ
+    </h2>
+    <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-10">
+      ここは日本のOCamlコミュニティのための情報ハブです。
+    </p>
+    <a href="#getting-started" class="btn-primary">さあ、始めよう</a>
+  </div>
+</section>
+
+<div class="container mx-auto px-6 md:px-10 py-20">
+  <!-- About -->
+  <section id="about" class="mb-20">
+    <h3 class="section-title text-center">OCamlとは</h3>
+    <div class="max-w-3xl mx-auto bg-white p-8 md:p-10 rounded-2xl shadow-lg border border-gray-100">
+      <p class="text-lg text-gray-700 leading-relaxed">
+        OCamlは、<span class="highlight-underline">表現力豊かな構文</span>と<span class="highlight-underline">静的型付けによる安全性</span>を兼ね備えた、産業界での利用実績も豊富な関数型プログラミング言語です。<br>
+        学術的な研究から大規模な商用アプリケーションまで、幅広い分野でその力を発揮します。
+      </p>
+    </div>
+  </section>
+
+  <!-- Getting Started -->
+  <section id="getting-started" class="mb-20">
+    <h3 class="section-title text-center">Getting Started</h3>
+    <div class="max-w-3xl mx-auto bg-white p-8 md:p-10 rounded-2xl shadow-lg border border-gray-100">
+      <p class="text-lg text-gray-600 mb-6">
+        OCamlの環境構築は <code class="font-mono text-sm bg-orange-50 text-orange-700 px-2 py-1 rounded">opam</code> パッケージマネージャを使うのが最も簡単です。<br>
+        ターミナルを開いて、以下のコマンドを実行しましょう。
+      </p>
+      <div class="bg-gray-900 text-gray-200 rounded-lg p-5 font-mono text-sm">
+        <p class="mb-2"><span class="text-green-400">$</span> opam init</p>
+        <p><span class="text-green-400">$</span> eval $(opam env)</p>
+      </div>
+      <p class="mt-6 text-lg text-gray-600">
+        準備はこれだけです！早速、最初のコードを書いてみましょう。<br>
+        <a href="https://ocaml.org/docs/tour-of-ocaml" target="_blank" rel="noopener noreferrer" class="font-bold hover:underline">
+          <span class="text-gray-500 font-bold mt-4 inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
+          OCamlのチュートリアルを始める
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <!-- コミュニティ & リンク -->
+  <section id="community">
+    <h3 class="section-title text-center">Community & Links</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <a href="https://ocaml.org" target="_blank" rel="noopener noreferrer" class="group block bg-orange-50 p-8 rounded-2xl transition-all hover:bg-orange-100">
+        <h4 class="font-bold text-xl text-orange-900 mb-1">Official Site</h4>
+        <p class="text-orange-800/80">ドキュメントとチュートリアル</p>
+        <span class="text-orange-500 font-bold mt-4 inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
+      </a>
+      <a href="https://discuss.ocaml.org/" target="_blank" rel="noopener noreferrer" class="group block bg-gray-100 p-8 rounded-2xl transition-all hover:bg-gray-200">
+        <h4 class="font-bold text-xl text-gray-800 mb-1">Discuss Forum</h4>
+        <p class="text-gray-600">グローバルなコミュニティフォーラム</p>
+        <span class="text-gray-500 font-bold mt-4 inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
+      </a>
+      <a href="https://ocaml.org/books?language=japanese&difficulty=All&pricing=All" target="_blank" rel="noopener noreferrer" class="group block bg-gray-100 p-8 rounded-2xl transition-all hover:bg-gray-200">
+        <h4 class="font-bold text-xl text-gray-800 mb-1">日本語の OCaml 本</h4>
+        <p class="text-gray-600">日本語で学べる貴重なリソース</p>
+        <span class="text-gray-500 font-bold mt-4 inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
+      </a>
+      <a href="https://join.slack.com/t/ocaml-jp/shared_invite/zt-ftpuqxiu-jk82cAJU~QKsCO9RUtZ3mw" target="_blank" rel="noopener noreferrer" class="group block bg-gray-100 p-8 rounded-2xl transition-all hover:bg-gray-200">
+        <h4 class="font-bold text-xl text-gray-800 mb-1">OCaml.jp slack</h4>
+        <p class="text-gray-600">OCaml 日本語コミュニティ</p>
+        <span class="text-gray-500 font-bold mt-4 inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
+      </a>
+    </div>
+  </section>
+</div>
+
+<!-- メンテナ募集 -->
+<section id="maintainers">
+  <div class="max-w-4xl mx-auto text-center bg-white p-8 md:p-12 rounded-2xl shadow-lg border border-gray-100">
+    <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+      <span class="text-orange-500">僕たちと一緒に</span>型推論しませんか？
+    </h3>
+    <p class="text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
+      ocaml.jp は、日本のOCamlコミュニティを盛り上げるために有志によって運営されています。このサイトの改善や、コンテンツの拡充に協力してくれるメンテナを募集しています。OCamlが好き、Web技術に興味がある、コミュニティに貢献したい、という方をお待ちしています！
+    </p>
+    <a href="https://github.com/ocaml-jp/ocaml-jp.github.io" class="btn-primary">
+      貢献に興味がある方はこちら
+    </a>
+  </div>
+</section>
