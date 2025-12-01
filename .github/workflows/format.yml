@@ -1,0 +1,26 @@
+name: Check formatting
+
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: 5.3.0
+
+      - run: opam install ocamlformat.0.27.0
+      - run: opam exec -- dune build @fmt
