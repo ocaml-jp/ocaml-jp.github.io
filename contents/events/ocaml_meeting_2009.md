@@ -4,7 +4,7 @@ page_title: OCaml Meeting 2009 in Tokyo (平成廿一年東都大駱駝会)
 
 このイベントは盛況のうちに終了致しました。ご参加頂いた皆様、ありがとうございました。発表資料や動画が置いてありますので、ご参照ください。
 
-![around](http://ocaml.jp/?plugin=ref&page=Users%20Meeting&src=camels-400.jpg)
+![around](/temporary/attach/um2009/camels-400.jpg)
 
 関数型言語 OCaml。1994年に大元となる CAML が実装されて以来、長らく研究者用の「おもちゃ」に留まっていた OCaml ですが、そのプログラムの安全性を保証する強力な静的型システム、高速なコードを生成するコンパイラ、オブジェクト指向プログラミングのサポートなどの実用的特徴、また OCaml を元にした .NET 対応関数型言語 F# の登場もあり、現在急速に注目を集めています。
 この動きに対応して OCaml コンパイラ開発のお膝元フランスでは、 OCaml Meeting Paris 2008, OCaml Meeting Grenoble 2009 とヨーロッパを中心とした OCaml ユーザーの会議が開かれ、大学研究者だけでなく産業界からの参加者も集まり活発な議論が行われました。アメリカでも東海岸で OCaml に関するミーティングが行われたそうです。
@@ -28,8 +28,8 @@ page_title: OCaml Meeting 2009 in Tokyo (平成廿一年東都大駱駝会)
 10:00 OCamlはじめの一歩 / First step to OCaml
 小笠原 啓 Satoshi OGASAWARA (有限会社ITプランニング)
 
-* [発表資料(ppt)](http://ocaml.jp/?plugin=attach&refer=Users%20Meeting&openfile=omt2009%28ogasawara%29.ppt)
-* [発表資料(pdf)](http://ocaml.jp/?plugin=attach&refer=Users%20Meeting&openfile=omt2009%28ogasawara%29.pdf)
+* [発表資料(ppt)](/temporary/attach/um2009/omt2009(ogasawara).ppt)
+* [発表資料(pdf)](/temporary/attach/um2009/omt2009(ogasawara).pdf)
 * [ustreamビデオ](http://www.ustream.tv/recorded/2071721)
 
 10:30 Break
@@ -37,13 +37,13 @@ page_title: OCaml Meeting 2009 in Tokyo (平成廿一年東都大駱駝会)
 10:40 OCaml Golf の話 / OCaml Golf
 中野 圭介 Keisuke NAKANO (電気通信大学)
 
-* [発表資料(pdf)](http://ocaml.jp/?plugin=attach&refer=Users%20Meeting&openfile=20090830golf.pdf)
+* [発表資料(pdf)](/temporary/attach/um2009/20090830golf.pdf)
 * [ustreamビデオ](http://www.ustream.tv/recorded/2072032)
 
 11:15 Sexplib と `bin_prot` を使った OCaml マルチプロセスプログラミング / Multi-process OCaml programming using `sexplib` and `bin_prot`
 Eric STOKES (Jane Street)
 
-* [発表資料(pdf)](http://ocaml.jp/?plugin=attach&refer=Users%20Meeting&openfile=bin-prot-talk.pdf)
+* [発表資料(pdf)](/temporary/attach/um2009/bin-prot-talk.pdf)
 * [ustreamビデオ](http://www.ustream.tv/recorded/2072332)
 
 11:45 Lunch break
@@ -52,7 +52,7 @@ Eric STOKES (Jane Street)
 13:15 ML型推論の光と影 /
 五十嵐 淳 Atsushi IGARASHI (京都大学)
 
-* [発表資料(pdf)](http://ocaml.jp/?plugin=attach&refer=Users%20Meeting&openfile=OCaml-meeting0908-revised.pdf)
+* [発表資料(pdf)](/temporary/attach/um2009/OCaml-meeting0908-revised.pdf)
 * [ustreamビデオ](http://www.ustream.tv/recorded/2072840)
 
 (* 13:50 CamomileでUnicode / Camomile and Unicode *)
@@ -61,14 +61,14 @@ Eric STOKES (Jane Street)
 Ocsigen による 型安全 Web プログラミング
 by Keigo IMAI (名古屋大学)
 
-* [発表資料(pdf)](http://ocaml.jp/?plugin=attach&refer=Users%20Meeting&openfile=ocsigen-omt2009-black.pdf)
+* [発表資料(pdf)](/temporary/attach/um2009/ocsigen-omt2009-black.pdf)
 * [ustreamビデオ](http://www.ustream.tv/recorded/2073004)
 
 14:20 大駱駝解軆變造概説 / Ride your own OCaml: Quick OCaml Mod How-to
 古瀬　淳 Jun FURUSE (Jane Street)
 
-* [発表資料(pdf)](http://ocaml.jp/?plugin=attach&refer=Users%20Meeting&openfile=camlmod.pdf)
-* [改造パッチ](http://ocaml.jp/?plugin=attach&refer=Users%20Meeting&openfile=OCM-patch2.txt)
+* [発表資料(pdf)](/temporary/attach/um2009/camlmod.pdf)
+* [改造パッチ](/temporary/attach/um2009/OCM-patch2.txt)
 * [ustreamビデオ](http://www.ustream.tv/recorded/2073121)
 * [パッチ解説ページ](http://d.hatena.ne.jp/camlspotter/20090902/1251895098)
 
@@ -77,10 +77,10 @@ by Keigo IMAI (名古屋大学)
 15:15 Lightning Sessions
 
 * OCamlを使ったモバイルコンテンツ変換（製品名 Magical Convert) 大和田浩司 荒裕之 (グローバルバリュー株式会社)
-    * [発表資料(pdf)](http://ocaml.jp/?plugin=attach&refer=Users%20Meeting&openfile=owada-ocm2009_LT.pdf)
+    * [発表資料(pdf)](/temporary/attach/um2009/owada-ocm2009_LT.pdf)
 * オレと型推論と少年オッカムル by hamatz
-    * [発表資料(pptx)](http://ocaml.jp/?plugin=attach&refer=Users%20Meeting&openfile=occaml.pptx)
-    * [発表資料(pdf)](http://ocaml.jp/?plugin=attach&refer=Users%20Meeting&openfile=occaml.pdf)
+    * [発表資料(pptx)](/temporary/attach/um2009/occaml.pptx)
+    * [発表資料(pdf)](/temporary/attach/um2009/occaml.pdf)
 * Pretty printerについて by 中野 圭介 Keisuke NAKANO (電気通信大学)
     * [Pretty printers for tuples, variants, records, Sets and Maps](http://d.hatena.ne.jp/KeisukeNakano/20081011/1223736599)
 

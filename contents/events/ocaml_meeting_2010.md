@@ -2,7 +2,7 @@
 page_title: OCaml Meeting 2010 in Nagoya
 ---
 
-![around](http://ocaml.jp/?plugin=ref&page=um2010&src=a4.png)
+![around](/temporary/attach/um2010/a4.png)
 
 ↑special thanks to camlspotter!
 
