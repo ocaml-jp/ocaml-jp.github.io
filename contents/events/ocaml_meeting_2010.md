@@ -1,5 +1,7 @@
 ---
 page_title: OCaml Meeting 2010 in Nagoya
+title: OCaml Meeting 2010 in Nagoya
+date: 2010-08-28
 ---
 
 ![around](/temporary/attach/um2010/a4.png)

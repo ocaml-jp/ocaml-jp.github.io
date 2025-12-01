@@ -1,0 +1,24 @@
+{% if has_articles %}
+<section class="events-list">
+  <h2 class="text-3xl font-bold mb-8">過去のイベント</h2>
+  <div class="space-y-6">
+    {% for article in articles %}
+    <article class="event-item bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
+      <h3 class="text-2xl font-bold">
+        <a href="{{ article.url }}" class="text-gray-900 hover:text-orange-500 no-underline">
+          {{ article.title }}
+        </a>
+        <p class="text-gray-500 text-sm">{{ article.date.year }}/{{ article.date.month }}/{{ article.date.day }}</p>
+      </h3>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% else %}
+<section class="events-list">
+  <p class="text-gray-500 text-center py-12">
+    現在、イベント情報はありません。
+  </p>
+</section>
+{% endif %}
+

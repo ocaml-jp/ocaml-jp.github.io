@@ -1,5 +1,7 @@
 ---
 page_title: OCaml Meeting 2013 in Nagoya
+title: OCaml Meeting 2013 in Nagoya
+date: 2013-08-24
 ---
 
 OCamlミーティングは、OCamlユーザーによる技術交流会です。
