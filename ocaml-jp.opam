@@ -9,13 +9,14 @@ license: "MIT"
 depends: [
   "ocaml"
   "dune" {>= "3.20"}
-  "ocamlformat" {= "0.27.0" & with-dev-setup}
   "yocaml"
   "yocaml_unix"
   "yocaml_omd"
   "yocaml_jingoo"
   "yocaml_yaml"
+  "yocaml_markdown"
   "yocaml_syndication"
+  "ocamlformat" {= "0.27.0" & with-dev-setup}
   "odoc" {with-doc}
 ]
 build: [

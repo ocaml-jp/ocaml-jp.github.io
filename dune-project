@@ -20,6 +20,7 @@
     yocaml_omd
     yocaml_jingoo
     yocaml_yaml
+    yocaml_markdown
     yocaml_syndication
     (ocamlformat
       (and
