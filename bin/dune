@@ -7,4 +7,5 @@
   yocaml_jingoo
   yocaml_yaml
   yocaml_omd
+  yocaml_markdown
   yocaml_syndication))

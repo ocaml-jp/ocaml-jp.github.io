@@ -27,6 +27,33 @@ let create_index =
       template (module Archetype.Page) ~metadata content)
 ;;
 
+let write_markdown source ~into =
+  let page_path = source |> Path.move ~into |> Path.change_extension "html" in
+  let pipeline =
+    let open Task in
+    let+ () = track_binary
+    and+ apply_templates =
+      Yocaml_jingoo.read_templates
+        Path.[ assets / "templates" / "page.html"; assets / "templates" / "layout.html" ]
+    and+ metadata, content =
+      Yocaml_yaml.Pipeline.read_file_with_metadata (module Archetype.Page) source
+    in
+    Yocaml_markdown.from_string_to_html content
+    |> apply_templates (module Archetype.Page) ~metadata
+  in
+  Action.Static.write_file page_path pipeline
+;;
+
+let with_ext exts file = List.exists (fun ext -> Path.has_extension ext file) exts
+
+let create_events =
+  let where = with_ext [ "md" ] in
+  Batch.iter_files
+    ~where
+    (Path.rel [ "contents"; "events" ])
+    (write_markdown ~into:(Path.rel [ "www"; "events" ]))
+;;
+
 let process () =
   let open Eff in
   let cache = Path.(into / ".cache") in
@@ -34,6 +61,7 @@ let process () =
   >>= copy_favicon
   >>= create_css
   >>= create_index
+  >>= create_events
   >>= Action.store_cache cache
 ;;
 
