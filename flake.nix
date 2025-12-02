@@ -31,14 +31,23 @@
         query = devPackagesQuery // localPackagesQuery;
 
         localPackages =
-          on.buildOpamProject'
-          {
-            inherit pkgs;
-            resolveArgs = { with-test = false; with-doc = false; };
-            pinDepends = true;
-          }
-          src
-          query;
+          (on.buildOpamProject'
+            {
+              inherit pkgs;
+              resolveArgs = {
+                with-test = false;
+                with-doc = false;
+                depopts = true;
+              };
+              pinDepends = true;
+            }
+            src
+            query
+          ).overrideScope (final: prev: {
+            hilite = prev.hilite.overrideAttrs (old: {
+              buildInputs = old.buildInputs ++ [ final.cmarkit ];
+            });
+          });
 
         devPackages = builtins.attrValues
           (pkgs.lib.getAttrs (builtins.attrNames devPackagesQuery) localPackages);
