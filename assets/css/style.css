@@ -290,6 +290,7 @@ body {
 @media (max-width: 768px) {
   .page {
     padding: 1.5rem 1rem;
+    padding-top: 100px; /* Keep header offset on mobile */
   }
 
   .page h1 {
