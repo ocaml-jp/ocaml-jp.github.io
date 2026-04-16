@@ -2,7 +2,7 @@ open Yocaml
 
 let into = Path.rel [ "www" ]
 let assets = Path.rel [ "assets" ]
-let copy_favicon = Action.copy_file ~into Path.(assets / "favicon.ico")
+let copy_file_to_www f = Action.copy_file ~into Path.(assets / f)
 
 let create_css =
   let css = Path.(assets / "css") in
@@ -104,7 +104,10 @@ let process () =
   let open Eff in
   let cache = Path.(into / ".cache") in
   Action.restore_cache cache
-  >>= copy_favicon
+  >>= copy_file_to_www "favicon.ico"
+  >>= copy_file_to_www "favicon-16x16.ico"
+  >>= copy_file_to_www "favicon.svg"
+  >>= copy_file_to_www "apple-touch-icon.png"
   >>= create_css
   >>= create_index
   >>= create_events
