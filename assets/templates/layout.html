@@ -31,13 +31,40 @@
         <h1 class="text-2xl font-bold text-gray-900">
           <a href="/">OCaml<span class="text-orange-500">.</span>jp</a>
         </h1>
-        <nav class="flex gap-6">
-          <a href="/events/" class="font-semibold text-gray-600 hover:text-orange-500 transition-colors">
-            イベント一覧
-          </a>
-          <a href="https://ocaml.org" target="_blank" rel="noopener noreferrer" class="font-semibold text-gray-600 hover:text-orange-500 transition-colors">
-            Official Site &rarr;
-          </a>
+        <nav class="relative">
+          <button type="button" id="menu-toggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="menu-panel" class="p-2 -mr-2 text-gray-700 hover:text-orange-500 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <!--
+            TODO: these links are duplicated in contents/index_main.html (Content and
+            Community & Links sections). Consider driving both from a single source
+            of truth (e.g. a JSON/YAML list of links) to keep them in sync.
+          -->
+          <div id="menu-panel" hidden class="absolute right-0 top-full mt-3 w-72 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+            <div class="p-5 space-y-5">
+              <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2 px-2">Content</h4>
+                <ul>
+                  <li><a href="/events/" class="block py-2 px-2 rounded-lg font-semibold text-gray-700 hover:bg-orange-50 hover:text-orange-700 transition-colors">イベント一覧</a></li>
+                  <li><a href="https://ocaml.jp/cwn-ja/" target="_blank" rel="noopener noreferrer" class="block py-2 px-2 rounded-lg font-semibold text-gray-700 hover:bg-orange-50 hover:text-orange-700 transition-colors">CWN 日本語訳</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2 px-2">Community &amp; Links</h4>
+                <ul>
+                  <li><a href="https://ocaml.org" target="_blank" rel="noopener noreferrer" class="block py-2 px-2 rounded-lg font-semibold text-gray-700 hover:bg-orange-50 hover:text-orange-700 transition-colors">Official Site</a></li>
+                  <li><a href="https://discuss.ocaml.org/" target="_blank" rel="noopener noreferrer" class="block py-2 px-2 rounded-lg font-semibold text-gray-700 hover:bg-orange-50 hover:text-orange-700 transition-colors">Discuss Forum</a></li>
+                  <li><a href="https://ocaml.org/books?language=japanese&amp;difficulty=All&amp;pricing=All" target="_blank" rel="noopener noreferrer" class="block py-2 px-2 rounded-lg font-semibold text-gray-700 hover:bg-orange-50 hover:text-orange-700 transition-colors">日本語の OCaml 本</a></li>
+                  <li><a href="https://join.slack.com/t/ocaml-jp/shared_invite/zt-ftpuqxiu-jk82cAJU~QKsCO9RUtZ3mw" target="_blank" rel="noopener noreferrer" class="block py-2 px-2 rounded-lg font-semibold text-gray-700 hover:bg-orange-50 hover:text-orange-700 transition-colors">OCaml.jp Slack</a></li>
+                  <li><a href="https://discord.gg/qQTbny8KF4" target="_blank" rel="noopener noreferrer" class="block py-2 px-2 rounded-lg font-semibold text-gray-700 hover:bg-orange-50 hover:text-orange-700 transition-colors">OCaml.jp Discord</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </nav>
       </div>
     </header>
@@ -45,6 +72,33 @@
     <main>
       {{safe (yocaml_body) }}
     </main>
+
+    <script>
+      (function () {
+        var toggle = document.getElementById('menu-toggle');
+        var panel = document.getElementById('menu-panel');
+        if (!toggle || !panel) return;
+        function setOpen(open) {
+          panel.hidden = !open;
+          toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        }
+        toggle.addEventListener('click', function (e) {
+          e.stopPropagation();
+          setOpen(panel.hidden);
+        });
+        document.addEventListener('click', function (e) {
+          if (!panel.hidden && !panel.contains(e.target) && !toggle.contains(e.target)) {
+            setOpen(false);
+          }
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && !panel.hidden) {
+            setOpen(false);
+            toggle.focus();
+          }
+        });
+      })();
+    </script>
 
     <footer class="text-center py-10 mt-10">
       <div>
