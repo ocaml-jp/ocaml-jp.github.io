@@ -115,13 +115,12 @@ module Events = struct
       events
       ~compare:
         (Comparable.lift
-           (fun a b -> Archetype.Datetime.compare b a)
+           (Comparable.reverse Archetype.Datetime.compare)
            ~f:(fun (_, (e : Event.t)) -> e.date))
   ;;
 
   let normalize_event (path, event) =
-    Data.record
-      (("url", Data.string @@ Path.to_string path) :: Event.normalize event)
+    Data.record (("url", Data.string @@ Path.to_string path) :: Event.normalize event)
   ;;
 
   let normalize { page; events } =
@@ -146,16 +145,12 @@ let fetch_events =
     ~where
     ~on:`Source
     (fun file ->
-      let open Eff in
-      let url = compute_event_link file in
-      let+ metadata, _content =
-        Eff.read_file_with_metadata
-          (module Yocaml_yaml)
-          (module Event)
-          ~on:`Source
-          file
-      in
-      url, metadata)
+       let open Eff in
+       let url = compute_event_link file in
+       let+ metadata, _content =
+         Eff.read_file_with_metadata (module Yocaml_yaml) (module Event) ~on:`Source file
+       in
+       url, metadata)
     (Path.rel [ "contents"; "events" ])
   >>| Events.sort_by_date
 ;;
