@@ -9,6 +9,8 @@ license: "MIT"
 depends: [
   "ocaml"
   "dune" {>= "3.20"}
+  "core"
+  "core_unix"
   "yocaml"
   "yocaml_unix"
   "yocaml_omd"

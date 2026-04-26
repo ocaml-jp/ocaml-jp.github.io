@@ -2,6 +2,8 @@
  (public_name ocaml-jp-site)
  (name main)
  (libraries
+  core
+  core_unix.sys_unix
   yocaml
   yocaml_unix
   yocaml_jingoo

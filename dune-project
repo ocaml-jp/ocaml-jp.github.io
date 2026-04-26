@@ -15,6 +15,8 @@
   (depends
     ocaml
     dune
+    core
+    core_unix
     yocaml
     yocaml_unix
     yocaml_omd
