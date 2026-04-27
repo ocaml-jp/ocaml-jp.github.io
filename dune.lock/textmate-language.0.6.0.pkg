@@ -1,0 +1,19 @@
+(version 0.6.0)
+
+(build
+ (all_platforms
+  ((action
+    (progn
+     (when %{pkg-self:dev} (run dune subst))
+     (run dune build -p %{pkg-self:name} -j %{jobs} @install))))))
+
+(depends
+ (all_platforms
+  (dune oniguruma ocaml)))
+
+(source
+ (fetch
+  (url
+   https://github.com/alan-j-hu/ocaml-textmate-language/releases/download/0.6.0/textmate-language-0.6.0.tbz)
+  (checksum
+   sha256=b6f10288af44dadd2f7c7a24070b4a69362740aa4673e967f574b4d8c44bfb02)))

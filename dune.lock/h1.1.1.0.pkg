@@ -1,0 +1,19 @@
+(version 1.1.0)
+
+(build
+ (all_platforms
+  ((action
+    (progn
+     (when %{pkg-self:dev} (run dune subst))
+     (run dune build -p %{pkg-self:name} -j %{jobs}))))))
+
+(depends
+ (all_platforms
+  (ocaml dune base64 bstr angstrom faraday httpun-types)))
+
+(source
+ (fetch
+  (url
+   https://github.com/robur-coop/ocaml-h1/releases/download/v1.1.0/h1-1.1.0.tbz)
+  (checksum
+   sha256=2d3067ed380163920149fbe9149d5bda630b4f45e3c10be793beea06a07c6d3c)))

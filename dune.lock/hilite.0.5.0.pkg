@@ -1,0 +1,19 @@
+(version 0.5.0)
+
+(build
+ (all_platforms
+  ((action
+    (progn
+     (when %{pkg-self:dev} (run dune subst))
+     (run dune build -p %{pkg-self:name} -j %{jobs} @install))))))
+
+(depends
+ (all_platforms
+  (dune textmate-language cmarkit)))
+
+(source
+ (fetch
+  (url
+   https://github.com/patricoferris/hilite/releases/download/v0.5.0/hilite-0.5.0.tbz)
+  (checksum
+   sha256=550c01abe4a95808553693499dcb75ef87bd86127db8f3db1f94a81689e13a15)))
