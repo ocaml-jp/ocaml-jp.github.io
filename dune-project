@@ -24,8 +24,4 @@
     yocaml_yaml
     yocaml_markdown
     yocaml_syndication
-    (ocamlformat
-      (and
-        (= 0.27.0)
-        :with-dev-setup))
     ))

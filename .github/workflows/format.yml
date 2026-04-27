@@ -11,16 +11,14 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
+  format:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Setup OCaml
-        uses: ocaml/setup-ocaml@v3
-        with:
-          ocaml-compiler: 5.3.0
+      - name: Set up dune
+        uses: ocaml-dune/setup-dune@v2
 
-      - run: opam install ocamlformat.0.27.0
-      - run: opam exec -- dune build @fmt
+      - run: dune tool install ocamlformat
+      - run: dune fmt
