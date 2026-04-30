@@ -1,0 +1,19 @@
+(version 2.1.0)
+
+(build
+ (all_platforms
+  ((action
+    (progn
+     (when %{pkg-self:dev} (run dune subst))
+     (run dune build -p %{pkg-self:name} -j %{jobs}))))))
+
+(depends
+ (all_platforms
+  (ocaml dune dune-configurator eqaf)))
+
+(source
+ (fetch
+  (url
+   https://github.com/mirage/mirage-crypto/releases/download/v2.1.0/mirage-crypto-2.1.0.tbz)
+  (checksum
+   sha256=fbeda89a3d7bfa9992fdbef3ebbfc7280fcefdd425a0405e33305125cd409815)))

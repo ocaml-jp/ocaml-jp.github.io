@@ -23,23 +23,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Setup OCaml
-        uses: ocaml/setup-ocaml@v3
+      - name: Set up dune
+        uses: ocaml-dune/setup-dune@v2
         with:
-          ocaml-compiler: 5.3.0
+          steps: install-dune enable-pkg lazy-update-depexts install-gpatch install-depexts build-deps
 
-      - run: opam install . --deps-only
-      - run: opam exec -- dune build
-      - run: opam exec -- dune exec ocaml-jp-site
+      - run: dune build
+      - run: dune exec ocaml-jp-site
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: 'www'
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

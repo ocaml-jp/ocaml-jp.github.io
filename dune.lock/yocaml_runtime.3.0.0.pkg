@@ -1,0 +1,19 @@
+(version 3.0.0)
+
+(build
+ (all_platforms
+  ((action
+    (progn
+     (when %{pkg-self:dev} (run dune subst))
+     (run dune build -p %{pkg-self:name} -j %{jobs} @install))))))
+
+(depends
+ (all_platforms
+  (dune ocaml ppx_expect yocaml cohttp magic-mime logs fmt digestif)))
+
+(source
+ (fetch
+  (url
+   https://github.com/xhtmlboi/yocaml/releases/download/v3.0.0/yocaml-3.0.0.tbz)
+  (checksum
+   sha256=c5237c5f345f76c829fd9f4ec5fcd05051e6f4372b24ecf798a48c2649ce9a0e)))

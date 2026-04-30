@@ -18,7 +18,6 @@ depends: [
   "yocaml_yaml"
   "yocaml_markdown"
   "yocaml_syndication"
-  "ocamlformat" {= "0.27.0" & with-dev-setup}
   "odoc" {with-doc}
 ]
 build: [

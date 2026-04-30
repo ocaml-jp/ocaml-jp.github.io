@@ -1,0 +1,38 @@
+(version 0.4.0)
+
+(build
+ (all_platforms
+  ((action
+    (progn
+     (run
+      ocaml
+      pkg/pkg.ml
+      build
+      --dev-pkg
+      %{pkg-self:dev}
+      --with-cmdliner
+      %{pkg:cmdliner:installed})
+     (when
+      %{pkg:cmdliner:installed}
+      (run
+       cmdliner
+       install
+       tool-support
+       --update-opam-install=%{pkg-self:name}.install
+       (when
+        (catch_undefined_var %{pkg:ocaml:native} false)
+        _build/src/tool/cmarkit_main.native:cmarkit)
+       (when
+        (catch_undefined_var (not %{pkg:ocaml:native}) false)
+        _build/src/tool/cmarkit_main.byte:cmarkit)
+       _build/cmdliner-install)))))))
+
+(depends
+ (all_platforms
+  (ocaml ocamlfind ocamlbuild topkg cmdliner)))
+
+(source
+ (fetch
+  (url https://erratique.ch/software/cmarkit/releases/cmarkit-0.4.0.tbz)
+  (checksum
+   sha512=4f0be18c1a16265710d20b85e48b3f8d8632dd708f413264f2a3b7653a860fd80440b81dc40f5ec63d63411705ae389bb07bdb74365e277bec24895b44ba8a0a)))
