@@ -1,7 +1,14 @@
+(library
+ (name ocaml_jp_charts)
+ (modules chart charts)
+ (libraries core yocaml))
+
 (executable
  (public_name ocaml-jp-site)
  (name main)
+ (modules main)
  (libraries
+  ocaml_jp_charts
   core
   core_unix.sys_unix
   yocaml

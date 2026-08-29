@@ -1,5 +1,7 @@
-open Core
+open! Core
 open Yocaml
+module Charts = Ocaml_jp_charts.Charts
+module Chart = Ocaml_jp_charts.Chart
 
 let into = Path.rel [ "www" ]
 let assets = Path.rel [ "assets" ]
@@ -30,6 +32,33 @@ let create_index =
       template (module Archetype.Page) ~metadata content)
 ;;
 
+module Page_with_charts = struct
+  type t =
+    { page : Archetype.Page.t
+    ; charts : Charts.t option
+    }
+
+  let create ~page ~charts = { page; charts }
+
+  let normalize { page; charts } =
+    let normalized_charts =
+      Data.option (fun charts -> Data.record (Charts.normalize charts)) charts
+    in
+    Archetype.Page.normalize page
+    @ Data.[ "has_charts", bool (Option.is_some charts); "charts", normalized_charts ]
+  ;;
+end
+
+let read_charts source =
+  let charts_source = Path.change_extension "yaml" source in
+  Task.when_
+    (Pipeline.file_exists charts_source)
+    (Task.map
+       Option.some
+       (Yocaml_yaml.Pipeline.read_file_as_metadata (module Charts) charts_source))
+    (Task.pure None)
+;;
+
 let write_markdown source ~into =
   let page_path = source |> Path.move ~into |> Path.change_extension "html" in
   let pipeline =
@@ -37,12 +66,31 @@ let write_markdown source ~into =
     let+ () = track_binary
     and+ apply_templates =
       Yocaml_jingoo.read_templates
-        Path.[ assets / "templates" / "page.html"; assets / "templates" / "layout.html" ]
-    and+ metadata, content =
+        Path.
+          [ assets / "templates" / "charts.html"
+          ; assets / "templates" / "page.html"
+          ; assets / "templates" / "layout.html"
+          ]
+    and+ render_chart =
+      Yocaml_jingoo.read_template Path.(assets / "templates" / "chart.html")
+    and+ render_stats_template =
+      Yocaml_jingoo.read_template Path.(assets / "templates" / "stats.html")
+    and+ page, content =
       Yocaml_yaml.Pipeline.read_file_with_metadata (module Archetype.Page) source
+    and+ charts = read_charts source in
+    let metadata = Page_with_charts.create ~page ~charts in
+    let content =
+      Charts.protect_markers charts ~content |> Yocaml_markdown.from_string_to_html
     in
-    Yocaml_markdown.from_string_to_html content
-    |> apply_templates (module Archetype.Page) ~metadata
+    let content =
+      Charts.render_markers
+        charts
+        ~content
+        ~render_chart:(fun chart -> render_chart (module Chart) ~metadata:chart "")
+        ~render_stats:(fun charts ->
+          render_stats_template (module Charts.Stats) ~metadata:charts "")
+    in
+    apply_templates (module Page_with_charts) ~metadata content
   in
   Action.Static.write_file page_path pipeline
 ;;
@@ -206,6 +254,6 @@ let () =
     let open Printf in
     eprintf "Usage: %s [build|serve]\n" (Sys.get_argv ()).(0);
     eprintf "  build  Generate static site (default)\n";
-    eprintf "  serve  Start development server on port 8000\n";
+    eprintf "  serve  Start development server on port 8080\n";
     exit 1
 ;;

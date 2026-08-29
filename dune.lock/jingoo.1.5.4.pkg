@@ -1,0 +1,14 @@
+(version 1.5.4)
+
+(build
+ (all_platforms ((action (run dune build -p %{pkg-self:name} -j %{jobs})))))
+
+(depends
+ (all_platforms
+  (ocaml dune menhir ppx_deriving re uutf uucp)))
+
+(source
+ (fetch
+  (url https://github.com/tategakibunko/jingoo/archive/1.5.4.tar.gz)
+  (checksum
+   sha256=42336014cbde8b0d73a0230f5b70b127782874134ab8ea7c8c1c586afa909a0b)))

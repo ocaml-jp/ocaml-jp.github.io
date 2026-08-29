@@ -1,0 +1,19 @@
+(version 3.0.1)
+
+(build
+ (all_platforms
+  ((action
+    (progn
+     (when %{pkg-self:dev} (run dune subst))
+     (run dune build -p %{pkg-self:name} -j %{jobs} @install))))))
+
+(depends
+ (all_platforms
+  (dune ocaml ppx_expect yocaml yaml)))
+
+(source
+ (fetch
+  (url
+   https://github.com/xhtmlboi/yocaml/releases/download/v3.0.1/yocaml-3.0.1.tbz)
+  (checksum
+   sha512=22231c3852a8345b6a6947c367e7cc311b57ccf2869a5d7c681384e7c0c18f0a17217ebc04ae9523833941ac71f136185cdc75090fe0849fa42a4f8a01d5e203)))

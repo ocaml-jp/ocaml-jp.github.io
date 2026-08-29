@@ -25,6 +25,10 @@ setup.log
 # Dune generated files
 *.install
 
+# Dune package lock files are committed.
+!dune.lock/
+!dune.lock/**
+
 # Local OPAM switch
 _opam/
 

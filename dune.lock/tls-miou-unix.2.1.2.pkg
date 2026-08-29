@@ -1,0 +1,19 @@
+(version 2.1.2)
+
+(build
+ (all_platforms
+  ((action
+    (progn
+     (when %{pkg-self:dev} (run dune subst))
+     (run dune build -p %{pkg-self:name} -j %{jobs}))))))
+
+(depends
+ (all_platforms
+  (ocaml dune tls x509 miou)))
+
+(source
+ (fetch
+  (url
+   https://github.com/mirleft/ocaml-tls/releases/download/v2.1.2/tls-2.1.2.tbz)
+  (checksum
+   sha512=9d9e9ebc9bd4aa7a87bd438c5fbf38e3529cbd916c2995a25473a1f6d8443ae1ab99b89ba9d074272e00631aafa47bfcf4e23466fa28f1f10bb83167402b7268)))

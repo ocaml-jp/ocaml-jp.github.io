@@ -16,4 +16,4 @@
   (url
    https://github.com/anmonteiro/ocaml-h2/releases/download/0.13.0/h2-0.13.0.tbz)
   (checksum
-   sha256=0d89b6f178175294e7a207223be81d5b83fc31b97549bec34f0432a3b2a8070f)))
+   sha512=a442cb80f40fd179211e9ab7b4b748a4d2f7ad6ece75301d74a5363c08cd05a70b94ae90ff6fc6b95e8284c57c14cc17cbe7ade5dbf19b21b56207c6f984faf4)))

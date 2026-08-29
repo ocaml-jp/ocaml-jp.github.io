@@ -1,0 +1,15 @@
+(version 0.8.0)
+
+(build
+ (all_platforms ((action (run dune build -p %{pkg-self:name} -j %{jobs})))))
+
+(depends
+ (all_platforms
+  (ocaml dune dune-configurator)))
+
+(source
+ (fetch
+  (url
+   https://github.com/robur-coop/miou/releases/download/v0.8.0/miou-0.8.0.tbz)
+  (checksum
+   sha512=61bc945b1c8c15e65b927cae6837d18988d296f5797012acae5d245cc86be41c6fc3cf88ebe82670181acaaa1ed3f3b0648af63f8c768952bf4d834e5fa92bc2)))

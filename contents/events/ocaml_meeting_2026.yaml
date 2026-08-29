@@ -1,0 +1,346 @@
+title: 開催報告
+lead: 本イベントは終了しました。ご参加いただいた皆様、ありがとうございました。参加状況とアンケート結果をご報告します。
+
+stats:
+  - id: attendance
+    label: 参加状況
+    items:
+      - label: 参加者
+        value: 61
+        unit: 名
+        note: キャンセル20名、補欠1名
+      - label: 出席
+        value: 58
+        unit: 名
+        note: 出席率95%
+  - id: survey-responses
+    label: アンケート回答数
+    items:
+      - label: 事前アンケート
+        value: 25
+        unit: 件
+      - label: 参加後アンケート
+        value: 20
+        unit: 件
+
+charts:
+  # 事前アンケート
+  - title: OCaml歴
+    id: pre-ocaml-history
+    kind: pie
+    responses: 25
+    items:
+      - label: 未経験
+        count: 3
+      - label: 1年未満
+        count: 7
+      - label: 1〜3年
+        count: 7
+      - label: 3〜10年
+        count: 5
+      - label: 10年以上
+        count: 3
+
+  - title: OCamlを使う場面
+    id: pre-use-contexts
+    kind: bars
+    responses: 25
+    multiple: true
+    items:
+      - label: 趣味・個人プロジェクト
+        count: 18
+      - label: 業務
+        count: 7
+      - label: 研究
+        count: 8
+      - label: 教育・授業
+        count: 5
+      - label: まだ使っていない
+        count: 4
+
+  - title: 自身のOCamlレベル
+    id: pre-self-level
+    kind: pie
+    responses: 25
+    items:
+      - label: 未経験
+        count: 3
+      - label: 小さなプログラムを書ける
+        count: 6
+      - label: 一通りのプログラムを書ける
+        count: 9
+      - label: 中〜大規模プロジェクトを設計・開発できる
+        count: 2
+      - label: OSSへ貢献している
+        count: 5
+
+  - title: 関数型プログラミング概念の理解度
+    id: pre-fp-concepts
+    kind: grouped-bars
+    responses: 25
+    series:
+      - label: 知らない
+      - label: 聞いたことはある
+      - label: 使える
+      - label: 人に説明できる
+    groups:
+      - label: 代数的データ型・パターンマッチ
+        values: [0, 3, 7, 15]
+      - label: 高階関数
+        values: [0, 2, 6, 17]
+      - label: モジュール・ファンクター
+        values: [0, 8, 4, 13]
+      - label: モナド
+        values: [0, 7, 6, 12]
+      - label: GADT
+        values: [4, 6, 6, 9]
+      - label: エフェクトハンドラ（OCaml 5）
+        values: [4, 13, 3, 5]
+
+  - title: 使用経験のある他の関数型言語
+    id: pre-other-languages
+    kind: bars
+    responses: 23
+    multiple: true
+    items:
+      - label: Haskell
+        count: 19
+      - label: F#
+        count: 8
+      - label: Scala
+        count: 9
+      - label: Standard ML
+        count: 6
+      - label: Erlang / Elixir
+        count: 7
+      - label: Lisp / Scheme / Clojure
+        count: 11
+      - label: Elm / PureScript
+        count: 8
+      - label: Rust
+        count: 19
+      - label: Flix
+        count: 1
+
+  - title: 聞きたい発表レベル
+    id: pre-talk-levels
+    kind: bars
+    responses: 25
+    multiple: true
+    items:
+      - label: 入門者向け
+        count: 11
+      - label: 中級者向け（実践的な内容）
+        count: 22
+      - label: 上級者向け（型・処理系の深い話）
+        count: 20
+
+  - title: 居住地域
+    id: pre-home-region
+    kind: pie
+    responses: 25
+    items:
+      - label: 北海道
+        count: 0
+      - label: 東北
+        count: 0
+      - label: 関東
+        count: 18
+      - label: 中部（北陸・甲信越・東海）
+        count: 0
+      - label: 近畿
+        count: 6
+      - label: 中国
+        count: 0
+      - label: 四国
+        count: 0
+      - label: 九州・沖縄
+        count: 1
+      - label: 海外
+        count: 0
+
+  - title: 今後参加可能な地域
+    id: pre-future-regions
+    kind: bars
+    responses: 25
+    multiple: true
+    items:
+      - label: 北海道
+        count: 2
+      - label: 東北
+        count: 3
+      - label: 関東
+        count: 21
+      - label: 中部（北陸・甲信越・東海）
+        count: 8
+      - label: 近畿
+        count: 10
+      - label: 中国
+        count: 4
+      - label: 四国
+        count: 5
+      - label: 九州・沖縄
+        count: 2
+      - label: 海外でも参加したい
+        count: 2
+      - label: 日本国内ならどこでも
+        count: 7
+      - label: オンラインのみ
+        count: 3
+
+  - title: 希望する開催形式
+    id: pre-format
+    kind: pie
+    responses: 25
+    items:
+      - label: 対面
+        count: 13
+      - label: オンライン
+        count: 0
+      - label: ハイブリッド
+        count: 8
+      - label: こだわらない
+        count: 4
+
+  # 参加後アンケート
+  - title: 全体的な満足度
+    id: post-satisfaction
+    kind: columns
+    responses: 20
+    items:
+      - label: "1"
+        count: 0
+      - label: "2"
+        count: 0
+      - label: "3"
+        count: 0
+      - label: "4"
+        count: 5
+      - label: "5"
+        count: 15
+
+  - title: 特に良かったセッション
+    id: post-sessions
+    kind: bars
+    responses: 20
+    multiple: true
+    items:
+      - label: mt_caret — インクリメンタル計算と仮想DOM
+        count: 15
+      - label: Sora Morimoto — OCamlでコロナ禍の学びを止めない
+        count: 9
+      - label: Oleg Kiselyov — Parallel Fun with Monoids
+        count: 9
+      - label: "Frédéric Bour — From Batch to Live"
+        count: 10
+      - label: bd_gfngfn — Sesterl
+        count: 11
+      - label: Oleg Kiselyov — Highest-performance Stream Processing
+        count: 3
+      - label: kioyumioys — Rocq to Java
+        count: 1
+      - label: おーみー — modular explicits
+        count: 6
+      - label: masterq — Programming language and OS using OCaml
+        count: 6
+      - label: ajfAfg — miseでOCamlを管理する
+        count: 8
+      - label: fetburner — 全てのものは関数って本当？
+        count: 5
+      - label: Masaki Haga — モジュールシステムで組み立てるCloud Run
+        count: 6
+
+  - title: 発表内容のレベル
+    id: post-talk-level
+    kind: pie
+    responses: 20
+    items:
+      - label: 易しすぎた
+        count: 0
+      - label: やや易しかった
+        count: 2
+      - label: ちょうど良かった
+        count: 9
+      - label: やや難しかった
+        count: 9
+      - label: 難しすぎた
+        count: 0
+
+  - title: 懇親会への参加
+    id: post-after-party-attendance
+    kind: pie
+    responses: 20
+    items:
+      - label: 参加した
+        count: 19
+      - label: 参加しなかった
+        count: 1
+
+  - title: 懇親会の評価
+    id: post-after-party-rating
+    kind: grouped-bars
+    responses: 19
+    series:
+      - label: 満足
+      - label: やや満足
+      - label: やや不満
+      - label: 不満
+    groups:
+      - label: 料理・飲み物の量
+        values: [6, 5, 7, 1]
+      - label: 料理・飲み物の質
+        values: [12, 6, 1, 0]
+      - label: 交流のしやすさ
+        values: [13, 6, 0, 0]
+
+  - title: 会場の評価
+    id: post-venue-rating
+    kind: grouped-bars
+    responses: 20
+    series:
+      - label: 満足
+      - label: やや満足
+      - label: やや不満
+      - label: 不満
+    groups:
+      - label: 広さ
+        values: [15, 4, 1, 0]
+      - label: アクセス・行きやすさ
+        values: [16, 3, 1, 0]
+      - label: 設備
+        values: [16, 4, 0, 0]
+
+  - title: 次回の参加意向
+    id: post-future-attendance
+    kind: pie
+    responses: 20
+    items:
+      - label: ぜひ参加したい
+        count: 11
+      - label: 内容や開催地次第
+        count: 9
+      - label: わからない
+        count: 0
+      - label: 参加しないと思う
+        count: 0
+
+  - title: イベントを知った経路
+    id: post-discovery
+    kind: bars
+    responses: 20
+    multiple: true
+    items:
+      - label: connpass
+        count: 4
+      - label: X（Twitter）
+        count: 7
+      - label: OCaml.jp Discord
+        count: 4
+      - label: 友人・知人からの紹介
+        count: 15
+      - label: 職場・学校
+        count: 1
+      - label: OCaml.jp ウェブサイト
+        count: 0
+      - label: 関数型まつりの登壇
+        count: 1

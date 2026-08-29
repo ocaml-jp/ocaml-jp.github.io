@@ -26,4 +26,4 @@
   (url
    https://github.com/robur-coop/happy-eyeballs/releases/download/v2.0.1/happy-eyeballs-2.0.1.tbz)
   (checksum
-   sha256=b2554588302931ba85e18861e610a3ada7823496d4d49a195e953556c351d269)))
+   sha512=947f78b27b0e16328b2db8e894f4dfeeae5183297d1860bb8ab214dad8a4c1a7243fecd8db538a8f7d9979ca5c8f22a5a21012907258a4ae6b0e975758bb61b3)))

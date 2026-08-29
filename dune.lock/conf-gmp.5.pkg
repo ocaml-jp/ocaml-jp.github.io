@@ -37,9 +37,7 @@
  ((gmp-devel gmp)
   (= %{os_distribution} centos))
  ((gmp-devel gmp)
-  (or_absorb_undefined_var
-   (= %{os_family} fedora)
-   (= %{os_family} fedora)))
+  (= %{os_family} fedora))
  ((gmp-devel gmp)
   (= %{os_distribution} ol))
  ((gmp)
