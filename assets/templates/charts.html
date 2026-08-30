@@ -1,0 +1,13 @@
+{% if has_charts %}
+<section class="charts" aria-labelledby="charts-title">
+  <header class="charts__header">
+    <h2 id="charts-title">{{ charts.title }}</h2>
+    {% if charts.has_lead %}
+    <p>{{ charts.lead }}</p>
+    {% endif %}
+  </header>
+
+</section>
+{% endif %}
+
+{{safe (yocaml_body) }}

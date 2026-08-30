@@ -1,0 +1,92 @@
+<figure class="chart chart--{{ kind }}" id="chart-{{ id }}">
+  <figcaption class="chart__caption">
+    <span>{{ title }}</span>
+    <span class="chart__response-count">{{ response_context }}</span>
+  </figcaption>
+
+  {% if kind == "pie" %}
+  <div class="chart__pie-layout">
+    <div
+      class="chart__pie"
+      role="img"
+      aria-label="{{ aria_label }}"
+      style="{{ pie_style }}"
+    ></div>
+    <div class="chart__legend" aria-hidden="true">
+      {% for item in items %}
+      <div class="chart__legend-item">
+        <span class="chart__swatch chart__series--{{ item.series_index }}"></span>
+        <span>{{ item.label }}</span>
+        <span class="chart__value">{{ item.count }}（{{ item.percentage_label }}）</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if kind == "bars" %}
+  <div class="chart__bars" role="img" aria-label="{{ aria_label }}">
+    {% for item in items %}
+    <div class="chart__bar-row">
+      <span class="chart__bar-label">{{ item.label }}</span>
+      <div class="chart__bar-track" aria-hidden="true">
+        <span
+          class="chart__bar-fill"
+          style="--chart-percentage: {{ item.percentage_css }}"
+        ></span>
+      </div>
+      <span class="chart__value">{{ item.count }}（{{ item.percentage_label }}）</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if kind == "columns" %}
+  <div class="chart__columns" role="img" aria-label="{{ aria_label }}">
+    {% for item in items %}
+    <div class="chart__column">
+      <span class="chart__value">{{ item.count }}（{{ item.percentage_label }}）</span>
+      <span class="chart__column-slot" aria-hidden="true">
+        <span
+          class="chart__column-fill"
+          style="--chart-relative: {{ item.relative_css }}"
+        ></span>
+      </span>
+      <span>{{ item.label }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if kind == "grouped-bars" %}
+  <div class="chart__series" aria-hidden="true">
+    {% for entry in series %}
+    <span class="chart__series-item">
+      <span class="chart__swatch chart__series--{{ entry.series_index }}"></span>
+      <span>{{ entry.label }}</span>
+    </span>
+    {% endfor %}
+  </div>
+
+  <div class="chart__grouped" role="img" aria-label="{{ aria_label }}">
+    {% for group in groups %}
+    <div class="chart__group">
+      <div class="chart__group-bars" aria-hidden="true">
+        {% for value in group.values %}
+        <span class="chart__group-column">
+          <span class="chart__value">{{ value.count }}</span>
+          <span class="chart__group-slot">
+            <span
+              class="chart__group-fill chart__series--{{ value.series_index }}"
+              style="--chart-relative: {{ value.relative_css }}"
+            ></span>
+          </span>
+        </span>
+        {% endfor %}
+      </div>
+      <span class="chart__group-label">{{ group.label }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</figure>

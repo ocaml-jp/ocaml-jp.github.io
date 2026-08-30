@@ -1,4 +1,16 @@
 (version 5.4.1)
 
 (depends
- (all_platforms (ocaml-compiler)))
+ (choice
+  ((((arch x86_64)
+     (os macos))
+    ((arch arm64)
+     (os macos)))
+   (ocaml-compiler))))
+
+(enabled_on_platforms
+ (only
+  ((arch x86_64)
+   (os macos))
+  ((arch arm64)
+   (os macos))))

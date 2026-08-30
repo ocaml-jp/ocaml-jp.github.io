@@ -28,4 +28,4 @@
   (url
    https://github.com/mirage/ocaml-dns/releases/download/v10.2.5/dns-10.2.5.tbz)
   (checksum
-   sha256=23af091a6e4c13322b7f9094577e6d72dfcd5e23c4ec00fa3520edb4ff9f5fef)))
+   sha512=36b2e4eef2fd9f27bdafba10a86b078cb37e4cd461b363a57b71ca9bd7493ec2388cd9e44c374f1c2a65b73e0dd16c959aed7bd0f91151b3027737b44d4c9332)))

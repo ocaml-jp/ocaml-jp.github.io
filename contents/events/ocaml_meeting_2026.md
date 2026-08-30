@@ -4,21 +4,7 @@ title: OCaml Meeting 2026 in Tokyo
 date: 2026-08-22
 ---
 
-**本イベントは終了しました。ご参加いただいた皆様、ありがとうございました。**
-
-### 開催報告（運営より）
-
-* 参加者：61 名／補欠：1 名／キャンセル：20 名
-* 出席：58 名（出席率 約 95%）
-* 事前アンケート：24 名から回答をいただきました。
-    * OCaml 歴：「1 年未満」「1〜3 年」がそれぞれ約 3 割、「3〜10 年」「10 年以上」「未経験」が続く結果に
-    * ご自身のレベル：「ライブラリを使って一通りのプログラムが書ける」が最多（約 4 割）、次いで「チュートリアルや小さなプログラムを書いたことがある」
-    * 聞きたい発表レベル（複数回答）：中級者向けが約 9 割、上級者向けが約 8 割と、実践的・発展的な内容への関心が高い結果に
-    * お住まいの地域：関東が約 8 割、近畿が約 2 割
-    * 今後の開催形式の希望：対面が半数、ハイブリッドが約 3 割
-* 事後アンケート：今後実施予定です。結果は後日このページで更新します。
-
----
+{{ stats:attendance }}
 
 OCaml Meeting は、OCaml ユーザーによる技術交流会です。[2013 年の名古屋開催](/events/ocaml_meeting_2013.html)以来 13 年ぶりの開催となります。OCaml や関数型プログラミングに興味のある方であれば、初心者からエキスパートまでどなたでも歓迎です。
 
@@ -46,3 +32,45 @@ OCaml Meeting は、OCaml ユーザーによる技術交流会です。[2013 年
 ### お問い合わせ
 
 発表・LT に関するご相談などは [OCaml.jp Discord](https://discord.gg/qQTbny8KF4) の `#ocaml-meeting-2026-in-tokyo` チャンネルまでお寄せください。
+
+---
+
+{{ stats:survey-responses }}
+
+### 事前アンケート
+
+{{ chart:pre-ocaml-history }}
+
+{{ chart:pre-use-contexts }}
+
+{{ chart:pre-self-level }}
+
+{{ chart:pre-fp-concepts }}
+
+{{ chart:pre-other-languages }}
+
+{{ chart:pre-talk-levels }}
+
+{{ chart:pre-home-region }}
+
+{{ chart:pre-future-regions }}
+
+{{ chart:pre-format }}
+
+### 参加後アンケート
+
+{{ chart:post-satisfaction }}
+
+{{ chart:post-sessions }}
+
+{{ chart:post-talk-level }}
+
+{{ chart:post-after-party-attendance }}
+
+{{ chart:post-after-party-rating }}
+
+{{ chart:post-venue-rating }}
+
+{{ chart:post-future-attendance }}
+
+{{ chart:post-discovery }}

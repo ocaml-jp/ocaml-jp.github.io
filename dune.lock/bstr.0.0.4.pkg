@@ -12,4 +12,4 @@
   (url
    https://github.com/robur-coop/bstr/releases/download/v0.0.4/bstr-0.0.4.tbz)
   (checksum
-   sha256=640836f15b2d555bdf2366f6d7783926e11598ad7e94557b167c785b255f4856)))
+   sha512=1954727f1a386c9909996cdabc1a3b150c23361a96e5632280b0f6e6faf8f0ab6a7ca974352378e757c5136375eb5a53235f95caa69e982f48d3a49907948ddd)))

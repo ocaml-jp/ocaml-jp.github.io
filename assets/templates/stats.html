@@ -1,0 +1,14 @@
+<dl class="charts__stats" id="stats-{{ id }}" aria-label="{{ label }}">
+  {% for stat in items %}
+  <div class="charts__stat">
+    <dt>{{ stat.label }}</dt>
+    <dd>
+      <span class="charts__stat-value">{{ stat.value }}</span>
+      <span class="charts__stat-unit">{{ stat.unit }}</span>
+    </dd>
+    {% if stat.has_note %}
+    <p>{{ stat.note }}</p>
+    {% endif %}
+  </div>
+  {% endfor %}
+</dl>
